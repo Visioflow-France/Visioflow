@@ -88,7 +88,10 @@ export default function Dashboard() {
   const [toast, setToast]           = useState('')
   const [detail, setDetail]         = useState(null)
   const [loading, setLoading]       = useState(true)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [live, setLive]             = useState(false)
   const dbRef = useRef(null)
+  const unsubRef = useRef([])
 
   useEffect(() => {
     if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('vf_admin') === 'ok') {
@@ -108,28 +111,36 @@ export default function Dashboard() {
       } catch (e) { console.error('Firebase dashboard:', e) }
     }
     tryInit()
+    return () => { unsubRef.current.forEach(fn => fn()); unsubRef.current = [] }
   }, [authed])
 
   useEffect(() => {
-    if (dbReady) loadAll()
-  }, [dbReady])
-
-  async function loadAll() {
+    if (!dbReady) return
     const db = dbRef.current
     if (!db) return
-    try {
-      const [s1, s2, cfgDoc] = await Promise.all([
-        db.collection('submissions').orderBy('timestamp', 'desc').limit(200).get(),
-        db.collection('form_submissions').orderBy('timestamp', 'desc').limit(200).get(),
-        db.collection('site_config').doc('main').get()
-      ])
-      const subsArr = []; s1.forEach(d => subsArr.push({ id: d.id, ...d.data() }))
-      const formsArr = []; s2.forEach(d => formsArr.push({ id: d.id, ...d.data() }))
-      setSubs(subsArr)
-      setForms(formsArr)
-      if (cfgDoc.exists) setCfg(deepMerge(DEFAULT_CFG, cfgDoc.data()))
-    } catch (e) { console.error('loadAll:', e) }
-  }
+
+    // Config : lecture unique
+    db.collection('site_config').doc('main').get()
+      .then(doc => { if (doc.exists) setCfg(deepMerge(DEFAULT_CFG, doc.data())) })
+      .catch(e => console.error('config:', e))
+
+    // Submissions : listener temps réel
+    const u1 = db.collection('submissions').orderBy('timestamp', 'desc').limit(200)
+      .onSnapshot(snap => {
+        const arr = []; snap.forEach(d => arr.push({ id: d.id, ...d.data() }))
+        setSubs(arr); setLive(true)
+      }, e => { console.error('subs:', e); setLive(false) })
+
+    // Formulaires : listener temps réel
+    const u2 = db.collection('form_submissions').orderBy('timestamp', 'desc').limit(200)
+      .onSnapshot(snap => {
+        const arr = []; snap.forEach(d => arr.push({ id: d.id, ...d.data() }))
+        setForms(arr); setLive(true)
+      }, e => { console.error('forms:', e); setLive(false) })
+
+    unsubRef.current = [u1, u2]
+    return () => { u1(); u2(); unsubRef.current = [] }
+  }, [dbReady])
 
   function login(e) {
     e.preventDefault()
@@ -241,14 +252,26 @@ export default function Dashboard() {
       )}
 
       {!loading && authed && <div className="db">
-        <aside className="db-side">
+        <div className={'db-overlay' + (mobileOpen ? ' open' : '')} onClick={() => setMobileOpen(false)} />
+
+        <div className="db-topbar">
+          <button className="db-hamburger" onClick={() => setMobileOpen(v => !v)} aria-label="Menu">
+            <span /><span /><span />
+          </button>
+          <span className="db-topbar-logo">Visio<span className="db-logo-blue">Flow</span></span>
+          <span className="db-logo-tag" style={{ marginLeft: 6 }}>Admin</span>
+          <span className={'db-live-dot' + (live ? ' on' : '')} title={live ? 'Connecté en temps réel' : 'Connexion…'} style={{ marginLeft: 'auto' }} />
+          {newCount > 0 && <span className="db-nav-badge">{newCount}</span>}
+        </div>
+
+        <aside className={'db-side' + (mobileOpen ? ' open' : '')}>
           <div className="db-logo">
             <span className="db-logo-text">Visio<span className="db-logo-blue">Flow</span></span>
             <span className="db-logo-tag">Admin</span>
           </div>
           <nav className="db-nav">
             {TABS.map(t => (
-              <button key={t.id} onClick={() => { setTab(t.id); setDetail(null) }}
+              <button key={t.id} onClick={() => { setTab(t.id); setDetail(null); setMobileOpen(false) }}
                 className={'db-nav-btn' + (tab === t.id ? ' active' : '')}>
                 <span className="db-nav-icon">{t.icon}</span>
                 <span>{t.label}</span>
@@ -257,7 +280,11 @@ export default function Dashboard() {
             ))}
           </nav>
           <div className="db-side-foot">
-            <a href="/" target="_blank" rel="noreferrer" className="db-nav-btn db-nav-link">
+            <div style={{ padding: '6px 12px 10px', display: 'flex', alignItems: 'center', gap: 7, fontSize: 11, color: live ? '#34d399' : '#fbbf24' }}>
+              <span className={'db-live-dot' + (live ? ' on' : '')} />
+              {live ? 'Données en direct' : 'Connexion…'}
+            </div>
+            <a href="/" target="_blank" rel="noreferrer" className="db-nav-btn db-nav-link" onClick={() => setMobileOpen(false)}>
               <span className="db-nav-icon">🌐</span>Voir le site
             </a>
             <button onClick={logout} className="db-nav-btn db-nav-logout">
@@ -267,7 +294,7 @@ export default function Dashboard() {
         </aside>
 
         <main className="db-main">
-          {tab === 'overview' && <OverviewTab subs={subs} forms={forms} allCount={allCount} newCount={newCount} revenue={revenue} onGoClients={() => { setTab('clients'); setDetail(null) }} />}
+          {tab === 'overview' && <OverviewTab subs={subs} forms={forms} allCount={allCount} newCount={newCount} revenue={revenue} live={live} onGoClients={() => { setTab('clients'); setDetail(null) }} />}
           {tab === 'clients'  && <ClientsTab subs={subs} forms={forms} detail={detail} setDetail={setDetail} onStatus={updateStatus} onDelete={deleteEntry} />}
           {tab === 'ai'       && <AiTab subs={subs} forms={forms} cfg={cfg} />}
           {tab === 'edit'     && <EditTab cfg={cfg} update={updateCfg} save={saveCfg} dirty={dirty} saving={saving} />}
@@ -327,7 +354,7 @@ function LoginPage({ email, setEmail, pass, setPass, err, onSubmit }) {
 /* ════════════════════════════════════════════════════════════════
    VUE D'ENSEMBLE
    ════════════════════════════════════════════════════════════════ */
-function OverviewTab({ subs, forms, allCount, newCount, revenue, onGoClients }) {
+function OverviewTab({ subs, forms, allCount, newCount, revenue, live, onGoClients }) {
   const packCounts = {}
   ;[...subs, ...forms].forEach(s => { if (s.pack) packCounts[s.pack] = (packCounts[s.pack] || 0) + 1 })
   const topPack = Object.entries(packCounts).sort((a, b) => b[1] - a[1])[0]
@@ -337,9 +364,15 @@ function OverviewTab({ subs, forms, allCount, newCount, revenue, onGoClients }) 
 
   return (
     <div>
-      <div className="db-page-header">
-        <h1 className="db-h1">Vue d'ensemble</h1>
-        <p className="db-sub">Résumé de l'activité Visioflow</p>
+      <div className="db-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 10 }}>
+        <div>
+          <h1 className="db-h1">Vue d'ensemble</h1>
+          <p className="db-sub">Résumé de l'activité Visioflow</p>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '5px 12px', borderRadius: 980, fontSize: 11, fontWeight: 700, background: live ? 'rgba(52,211,153,.1)' : 'rgba(251,191,36,.1)', color: live ? '#34d399' : '#fbbf24', border: '.5px solid ' + (live ? 'rgba(52,211,153,.25)' : 'rgba(251,191,36,.25)') }}>
+          <span className={'db-live-dot' + (live ? ' on' : '')} />
+          {live ? 'Temps réel actif' : 'Connexion…'}
+        </div>
       </div>
 
       <div className="db-stats">
@@ -378,22 +411,24 @@ function OverviewTab({ subs, forms, allCount, newCount, revenue, onGoClients }) 
             Les configurations et formulaires apparaîtront ici dès qu'un client interagit avec le site.
           </div>
         ) : (
-          <table className="db-table">
-            <thead>
-              <tr><th>Type</th><th>Pack</th><th>Restaurant / Cuisine</th><th>Date</th><th>Statut</th></tr>
-            </thead>
-            <tbody>
-              {recent.map(r => (
-                <tr key={r.id} onClick={onGoClients} style={{ cursor: 'pointer' }}>
-                  <td><span className={'db-type-badge db-type-' + r._type}>{r._type === 'config' ? 'Configuration' : 'Formulaire'}</span></td>
-                  <td><span style={{ color: PACK_COLOR[r.pack] || '#6b7280', fontWeight: 600, fontSize: 12 }}>{PACK_LABEL[r.pack] || r.pack || '—'}</span></td>
-                  <td>{r.restaurantName || r.cities?.[0]?.name || r.cuisine || '—'}</td>
-                  <td style={{ color: '#9ca3af', fontSize: 12 }}>{fmtDate(r.timestamp)}</td>
-                  <td><StatusBadge status={r.status || 'new'} /></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="db-table-wrap">
+            <table className="db-table">
+              <thead>
+                <tr><th>Type</th><th>Pack</th><th>Restaurant / Cuisine</th><th>Date</th><th>Statut</th></tr>
+              </thead>
+              <tbody>
+                {recent.map(r => (
+                  <tr key={r.id} onClick={onGoClients} style={{ cursor: 'pointer' }}>
+                    <td><span className={'db-type-badge db-type-' + r._type}>{r._type === 'config' ? 'Configuration' : 'Formulaire'}</span></td>
+                    <td><span style={{ color: PACK_COLOR[r.pack] || '#6b7280', fontWeight: 600, fontSize: 12 }}>{PACK_LABEL[r.pack] || r.pack || '—'}</span></td>
+                    <td>{r.restaurantName || r.cities?.[0]?.name || r.cuisine || '—'}</td>
+                    <td style={{ color: '#9ca3af', fontSize: 12 }}>{fmtDate(r.timestamp)}</td>
+                    <td><StatusBadge status={r.status || 'new'} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>
@@ -437,24 +472,26 @@ function ClientsTab({ subs, forms, detail, setDetail, onStatus, onDelete }) {
         {filtered.length === 0 ? (
           <div className="db-empty">Aucune entrée pour ce filtre.</div>
         ) : (
-          <table className="db-table">
-            <thead>
-              <tr><th>Type</th><th>Pack</th><th>Restaurant / Cuisine</th><th>Email</th><th>Date</th><th>Statut</th><th></th></tr>
-            </thead>
-            <tbody>
-              {filtered.map(item => (
-                <tr key={item.id}>
-                  <td><span className={'db-type-badge db-type-' + item._type}>{item._type === 'config' ? 'Config' : 'Formulaire'}</span></td>
-                  <td><span style={{ color: PACK_COLOR[item.pack] || '#6b7280', fontWeight: 700, fontSize: 12 }}>{PACK_LABEL[item.pack] || item.pack || '—'}</span></td>
-                  <td>{item.restaurantName || item.cities?.[0]?.name || item.cuisine || '—'}</td>
-                  <td style={{ color: '#6b7280', fontSize: 12 }}>{item.email || item.cities?.[0]?.email || '—'}</td>
-                  <td style={{ color: '#9ca3af', fontSize: 11 }}>{fmtDate(item.timestamp)}</td>
-                  <td><StatusBadge status={item.status || 'new'} /></td>
-                  <td><button className="db-btn-ghost" onClick={() => setDetail(item)}>Voir →</button></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="db-table-wrap">
+            <table className="db-table">
+              <thead>
+                <tr><th>Type</th><th>Pack</th><th>Restaurant / Cuisine</th><th>Email</th><th>Date</th><th>Statut</th><th></th></tr>
+              </thead>
+              <tbody>
+                {filtered.map(item => (
+                  <tr key={item.id}>
+                    <td><span className={'db-type-badge db-type-' + item._type}>{item._type === 'config' ? 'Config' : 'Formulaire'}</span></td>
+                    <td><span style={{ color: PACK_COLOR[item.pack] || '#6b7280', fontWeight: 700, fontSize: 12 }}>{PACK_LABEL[item.pack] || item.pack || '—'}</span></td>
+                    <td>{item.restaurantName || item.cities?.[0]?.name || item.cuisine || '—'}</td>
+                    <td style={{ color: '#6b7280', fontSize: 12 }}>{item.email || item.cities?.[0]?.email || '—'}</td>
+                    <td style={{ color: '#9ca3af', fontSize: 11 }}>{fmtDate(item.timestamp)}</td>
+                    <td><StatusBadge status={item.status || 'new'} /></td>
+                    <td><button className="db-btn-ghost" onClick={() => setDetail(item)}>Voir →</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>
@@ -841,7 +878,7 @@ function AiTab({ subs, forms, cfg }) {
         <p className="db-sub">Sélectionnez un client pour générer le brief complet à envoyer à Claude.</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: selected ? '340px 1fr' : '1fr', gap: 20, alignItems: 'start' }}>
+      <div className="db-ai-layout" style={{ gridTemplateColumns: selected ? '340px 1fr' : '1fr' }}>
         <div className="db-card">
           <div className="db-card-head">Clients regroupés ({list.length})</div>
           {list.length === 0 ? (
@@ -915,7 +952,7 @@ const DASHBOARD_CSS = `
 .db { display: flex; min-height: 100vh; background: #f8fafc; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 14px; color: #111827; -webkit-font-smoothing: antialiased; }
 
 /* ── SIDEBAR ── */
-.db-side { width: 240px; min-height: 100vh; background: #0f172a; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; overflow-y: auto; }
+.db-side { width: 240px; min-height: 100vh; background: #0f172a; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 200; overflow-y: auto; transition: transform .25s cubic-bezier(.4,0,.2,1); }
 .db-logo { padding: 20px 18px 16px; border-bottom: 1px solid rgba(255,255,255,.07); display: flex; align-items: baseline; gap: 6px; flex-shrink: 0; }
 .db-logo-text { font-size: 20px; font-weight: 800; color: #fff; font-family: 'Outfit', sans-serif; }
 .db-logo-blue { color: #60a5fa; }
@@ -930,6 +967,14 @@ const DASHBOARD_CSS = `
 .db-nav-logout { color: rgba(255,255,255,.3) !important; font-size: 13px; }
 .db-nav-logout:hover { color: #f87171 !important; background: rgba(239,68,68,.1) !important; }
 .db-side-foot { padding: 8px 10px 20px; border-top: 1px solid rgba(255,255,255,.07); flex-shrink: 0; }
+
+/* ── OVERLAY & TOPBAR (mobile) ── */
+.db-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 150; }
+.db-overlay.open { display: block; }
+.db-topbar { display: none; }
+.db-topbar-logo { font-size: 18px; font-weight: 800; color: #fff; font-family: 'Outfit', sans-serif; }
+.db-hamburger { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: none; border: none; cursor: pointer; padding: 6px; flex-shrink: 0; }
+.db-hamburger span { display: block; height: 2px; width: 100%; background: #fff; border-radius: 2px; transition: all .2s; }
 
 /* ── MAIN ── */
 .db-main { margin-left: 240px; flex: 1; padding: 36px 40px; min-height: 100vh; }
@@ -952,9 +997,10 @@ const DASHBOARD_CSS = `
 .db-card-head { font-size: 15px; font-weight: 700; color: #111827; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #f1f5f9; }
 
 /* ── TABLE ── */
-.db-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.db-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.db-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 520px; }
 .db-table th { text-align: left; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #9ca3af; padding: 0 14px 10px 0; white-space: nowrap; }
-.db-table td { padding: 12px 14px 12px 0; border-bottom: 1px solid #f9fafb; vertical-align: middle; }
+.db-table td { padding: 12px 14px 12px 0; border-bottom: 1px solid #f9fafb; vertical-align: middle; white-space: nowrap; }
 .db-table tr:last-child td { border-bottom: none; }
 .db-table tbody tr:hover td { background: rgba(248,250,252,.7); }
 
@@ -977,7 +1023,7 @@ const DASHBOARD_CSS = `
 .db-kv > span:last-child, .db-kv a { text-align: right; word-break: break-all; }
 
 /* ── EDIT NAV ── */
-.db-edit-nav { display: flex; gap: 4px; margin-bottom: 20px; background: #f1f5f9; padding: 4px; border-radius: 12px; overflow-x: auto; }
+.db-edit-nav { display: flex; gap: 4px; margin-bottom: 20px; background: #f1f5f9; padding: 4px; border-radius: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .db-edit-tab { flex: 1; padding: 8px 14px; border-radius: 9px; border: none; background: none; color: #6b7280; font-size: 13px; font-weight: 500; cursor: pointer; transition: all .15s; font-family: inherit; white-space: nowrap; }
 .db-edit-tab.active { background: #fff; color: #111827; font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,30,.1); }
 
@@ -1005,8 +1051,16 @@ const DASHBOARD_CSS = `
 /* ── CODE BLOCK ── */
 .db-code-block { background: #0f172a; color: #94a3b8; padding: 18px 20px; border-radius: 12px; font-size: 12px; line-height: 1.9; overflow-x: auto; font-family: 'Courier New', monospace; white-space: pre; }
 
+/* ── AI LAYOUT ── */
+.db-ai-layout { display: grid; gap: 20px; align-items: start; }
+
+/* ── LIVE DOT ── */
+.db-live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #fbbf24; flex-shrink: 0; }
+.db-live-dot.on { background: #34d399; animation: dbPulse 2s infinite; }
+@keyframes dbPulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+
 /* ── LOGIN ── */
-.db-login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0f172a 0%, #1a3557 100%); font-family: 'Inter', sans-serif; }
+.db-login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0f172a 0%, #1a3557 100%); font-family: 'Inter', sans-serif; padding: 16px; }
 .db-login-box { background: #fff; border-radius: 20px; padding: 40px 40px 36px; width: 100%; max-width: 400px; box-shadow: 0 32px 80px rgba(0,0,0,.3); }
 .db-login-logo { font-size: 28px; font-weight: 800; color: #111827; font-family: 'Outfit', sans-serif; text-align: center; margin-bottom: 6px; }
 .db-login-sub { font-size: 13px; color: #9ca3af; text-align: center; margin-bottom: 30px; }
@@ -1022,12 +1076,80 @@ code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-family: '
 
 @keyframes dbSlideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+/* ── TABLETTE (≤960px) ── */
 @media (max-width: 960px) {
-  .db-side  { width: 200px; }
-  .db-main  { margin-left: 200px; padding: 24px 20px; }
-  .db-stats { grid-template-columns: repeat(2, 1fr); }
+  .db-side  { width: 220px; }
+  .db-main  { margin-left: 220px; padding: 28px 22px; }
+  .db-stats { grid-template-columns: repeat(3, 1fr); }
   .db-detail-grid { grid-template-columns: 1fr; }
   .db-edit-nav { gap: 2px; }
   .db-edit-tab { font-size: 12px; padding: 7px 10px; }
+}
+
+/* ── MOBILE (≤768px) ── */
+@media (max-width: 768px) {
+  /* Sidebar devient un panel slide-in */
+  .db-side { width: 260px; transform: translateX(-100%); top: 0; }
+  .db-side.open { transform: translateX(0); box-shadow: 8px 0 32px rgba(0,0,0,.3); }
+
+  /* Topbar fixe en haut */
+  .db-topbar {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 54px;
+    background: #0f172a;
+    z-index: 100;
+    padding: 0 14px;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+
+  /* Main s'ajuste sous la topbar */
+  .db-main { margin-left: 0; padding: 72px 14px 32px; }
+
+  /* Stats en 2 colonnes */
+  .db-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .db-stat { padding: 14px 14px 12px; }
+  .db-stat-val { font-size: 22px; }
+
+  /* Cards */
+  .db-card { padding: 16px 14px; border-radius: 12px; }
+  .db-card-head { font-size: 14px; margin-bottom: 14px; padding-bottom: 10px; }
+
+  /* H1 */
+  .db-h1 { font-size: 20px; }
+
+  /* Page header avec bouton : empile verticalement */
+  .db-page-header { margin-bottom: 18px; }
+
+  /* Detail grid 1 col */
+  .db-detail-grid { grid-template-columns: 1fr; }
+
+  /* Edit tabs plus petits */
+  .db-edit-tab { font-size: 11.5px; padding: 7px 8px; }
+
+  /* Field row passe en colonne */
+  .db-field-row { flex-direction: column; gap: 0; }
+
+  /* AI layout : 1 colonne */
+  .db-ai-layout { grid-template-columns: 1fr !important; }
+
+  /* Toast en bas, pleine largeur sur mobile */
+  .db-toast { bottom: 16px; right: 14px; left: 14px; text-align: center; font-size: 13px; }
+
+  /* Login */
+  .db-login-box { padding: 28px 20px; border-radius: 16px; }
+  .db-login-logo { font-size: 24px; }
+}
+
+/* ── TRÈS PETIT (≤400px) ── */
+@media (max-width: 400px) {
+  .db-stats { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .db-stat-val { font-size: 20px; }
+  .db-stat-lbl { font-size: 11px; }
+  .db-filter-btn { font-size: 11.5px; padding: 5px 10px; }
+  .db-main { padding: 66px 10px 24px; }
 }
 `
