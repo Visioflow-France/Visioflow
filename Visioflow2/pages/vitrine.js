@@ -686,7 +686,7 @@ export default function Vitrine() {
           <div className="order-modal-card">
             <button className="order-modal-x" onClick={() => window.closeOrderModal()}>×</button>
             <div className="order-modal-title">Commander</div>
-            <p className="order-modal-sub">Renseignez vos coordonnées, nous vous rappelons sous 5 minutes.</p>
+            <p className="order-modal-sub">Renseignez vos coordonnées, nous vous rappellerons sous 5 minutes.</p>
             <div className="om-field"><label className="om-label">Votre nom</label><input className="om-input" placeholder="Jean Dupont" /></div>
             <div className="om-field"><label className="om-label">Téléphone</label><input className="om-input" type="tel" placeholder="06 12 34 56 78" /></div>
             <div className="om-field"><label className="om-label">Adresse de livraison</label><input className="om-input" placeholder="12 Rue de la Paix, Paris" /></div>

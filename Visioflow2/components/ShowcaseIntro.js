@@ -180,21 +180,21 @@ export default function ShowcaseIntro({ onComplete }) {
 
       /* Phase 8 — Exit  (4.55s) */
       tl.to(".si-brand-wrap", {
-          scale: 1.07, filter: "blur(20px)", autoAlpha: 0,
-          duration: 0.48, ease: "power2.in",
+          scale: 1.05, filter: "blur(16px)", autoAlpha: 0,
+          duration: 0.42, ease: "power2.inOut",
         }, "4.55")
-        .to(".si-tagline", { autoAlpha: 0, y: -20, duration: 0.38, ease: "power2.in" }, "4.55")
-        .to(".si-deco",    { autoAlpha: 0, duration: 0.28 }, "4.55")
-        .to(".si-badge",   { autoAlpha: 0, scale: 0.9, duration: 0.3 }, "4.55")
-        .to(".si-progress-fill", { scaleX: 1, duration: 0.38, ease: "none" }, "4.55");
+        .to(".si-tagline", { autoAlpha: 0, y: -12, duration: 0.35, ease: "power2.inOut" }, "4.55")
+        .to(".si-deco",    { autoAlpha: 0, duration: 0.25 }, "4.55")
+        .to(".si-badge",   { autoAlpha: 0, scale: 0.95, duration: 0.28, ease: "power2.inOut" }, "4.55")
+        .to(".si-progress-fill", { scaleX: 1, duration: 0.35, ease: "power1.out" }, "4.55");
 
-      /* Phase 9 — Black curtain  (4.82s) */
+      /* Phase 9 — Black curtain  (4.90s) */
       tl.to(curtainRef.current, {
           yPercent: 0,
-          duration: 0.62,
-          ease: "power4.inOut",
+          duration: 0.55,
+          ease: "power3.inOut",
           onComplete: complete,
-        }, "4.82");
+        }, "4.90");
 
     }, rootRef);
 
@@ -456,7 +456,7 @@ export default function ShowcaseIntro({ onComplete }) {
             margin: 0, lineHeight: 1.5,
           }}
         >
-          Votre site restaurant, en seulement{" "}
+          Votre site de restaurant en seulement{" "}
           <span style={{ color: "rgba(255,255,255,0.76)", fontWeight: 600 }}>
             5 jours.
           </span>

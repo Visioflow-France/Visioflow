@@ -182,7 +182,7 @@ const INJECTED_STYLES = `
 
 export function CinematicHero({
   brandName = "Visioflow",
-  tagline1 = "Votre site restaurant,",
+  tagline1 = "Votre site de restaurant,",
   tagline2 = "en 5 jours maximum.",
   cardHeading = "Le digital, réinventé.",
   cardDescription = (

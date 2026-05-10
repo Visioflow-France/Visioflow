@@ -1,8 +1,6 @@
 ﻿import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
 
-/* Login géré par Firebase Authentication — plus de mot de passe en clair */
-
 const FB_CONFIG = {
   apiKey:            'AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY',
   authDomain: 'visioflow-cb6eb-9d051.firebaseapp.com',
@@ -69,10 +67,6 @@ function StatusBadge({ status }) {
    DASHBOARD PRINCIPAL
    ════════════════════════════════════════════════════════════════ */
 export default function Dashboard() {
-  const [authed, setAuthed]         = useState(false)
-  const [loginEmail, setLoginEmail] = useState('')
-  const [loginPass, setLoginPass]   = useState('')
-  const [loginErr, setLoginErr]     = useState('')
   const [dbReady, setDbReady]       = useState(false)
   const [tab, setTab]               = useState('overview')
   const [subs, setSubs]             = useState([])
@@ -89,23 +83,17 @@ export default function Dashboard() {
   const unsubRef = useRef([])
 
   useEffect(() => {
-    let authUnsub = null
     const tryInit = () => {
       if (typeof window === 'undefined' || !window.firebase) { setTimeout(tryInit, 300); return }
       try {
         if (!window.firebase.apps?.length) window.firebase.initializeApp(FB_CONFIG)
         dbRef.current = window.firebase.firestore()
-        // Firebase Auth — écoute l'état de connexion
-        authUnsub = window.firebase.auth().onAuthStateChanged(user => {
-          if (user) { setAuthed(true); setDbReady(true) }
-          else       { setAuthed(false); setDbReady(false) }
-          setLoading(false)
-        })
+        setDbReady(true)
+        setLoading(false)
       } catch (e) { console.error('Firebase dashboard:', e); setLoading(false) }
     }
     tryInit()
     return () => {
-      if (authUnsub) authUnsub()
       unsubRef.current.forEach(fn => fn())
       unsubRef.current = []
     }
@@ -139,33 +127,7 @@ export default function Dashboard() {
     return () => { u1(); u2(); unsubRef.current = [] }
   }, [dbReady])
 
-  async function login(e) {
-    e.preventDefault()
-    setLoginErr('')
-    try {
-      await window.firebase.auth().signInWithEmailAndPassword(loginEmail.trim(), loginPass.trim())
-      // onAuthStateChanged gère automatiquement la suite
-    } catch (err) {
-      const msgs = {
-        'auth/user-not-found':    'Aucun compte avec cet email.',
-        'auth/wrong-password':    'Mot de passe incorrect.',
-        'auth/invalid-email':     'Email invalide.',
-        'auth/invalid-credential':'Email ou mot de passe incorrect.',
-        'auth/too-many-requests': 'Trop de tentatives. Réessayez dans quelques minutes.',
-      }
-      setLoginErr(msgs[err.code] || 'Erreur : ' + err.message)
-    }
-  }
-
-  async function logout() {
-    try { await window.firebase.auth().signOut() } catch(e) {}
-    setAuthed(false)
-    setDbReady(false)
-    dbRef.current = null
-    unsubRef.current.forEach(fn => fn())
-    unsubRef.current = []
-  }
-
+  
   function showToast(msg) {
     setToast(msg)
     setTimeout(() => setToast(''), 3000)
@@ -253,11 +215,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {!loading && !authed && (
-        <LoginPage email={loginEmail} setEmail={setLoginEmail} pass={loginPass} setPass={setLoginPass} err={loginErr} onSubmit={login} />
-      )}
-
-      {!loading && authed && <div className="db">
+      {!loading && <div className="db">
         <div className={'db-overlay' + (mobileOpen ? ' open' : '')} onClick={() => setMobileOpen(false)} />
 
         <div className="db-topbar">
@@ -290,12 +248,9 @@ export default function Dashboard() {
               <span className={'db-live-dot' + (live ? ' on' : '')} />
               {live ? 'Données en direct' : 'Connexion…'}
             </div>
-            <a href="/" target="_blank" rel="noreferrer" className="db-nav-btn db-nav-link" onClick={() => setMobileOpen(false)}>
+            <a href="/" target="_blank" rel="noreferrer" className="db-nav-btn" onClick={() => setMobileOpen(false)} style={{ color: 'rgba(255,255,255,.35)', fontSize: 13 }}>
               <span className="db-nav-icon">🌐</span>Voir le site
             </a>
-            <button onClick={logout} className="db-nav-btn db-nav-logout">
-              <span className="db-nav-icon">🚪</span>Déconnexion
-            </button>
           </div>
         </aside>
 
@@ -311,49 +266,6 @@ export default function Dashboard() {
       </div>}
 
     </>
-  )
-}
-
-/* ════════════════════════════════════════════════════════════════
-   LOGIN
-   ════════════════════════════════════════════════════════════════ */
-function LoginPage({ email, setEmail, pass, setPass, err, onSubmit }) {
-  const [showPass, setShowPass] = useState(false)
-  return (
-    <div className="db-login-wrap">
-      <div className="db-login-box">
-        <div className="db-login-logo">Visio<span style={{ color: '#0071E3' }}>Flow</span></div>
-        <p className="db-login-sub">Tableau de bord administrateur</p>
-        <form onSubmit={onSubmit}>
-          <div className="db-field">
-            <label>Email</label>
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-              placeholder="admin@visioflow.fr" required autoFocus />
-          </div>
-          <div className="db-field">
-            <label>Mot de passe</label>
-            <div style={{ position: 'relative', width: '100%' }}>
-              <input type={showPass ? 'text' : 'password'} value={pass} onChange={e => setPass(e.target.value)}
-                placeholder="••••••••" required style={{ width: '100%', boxSizing: 'border-box', paddingRight: 44 }} />
-              <button
-                type="button"
-                onClick={() => setShowPass(v => !v)}
-                style={{
-                  position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
-                  background: 'none', border: 'none', cursor: 'pointer', padding: 4,
-                  color: '#6b7280', fontSize: 18, lineHeight: 1, zIndex: 2
-                }}
-                title={showPass ? 'Masquer' : 'Afficher'}
-              >
-                {showPass ? '🙈' : '👁️'}
-              </button>
-            </div>
-          </div>
-          {err && <p className="db-login-err">{err}</p>}
-          <button type="submit" className="db-btn-primary db-btn-block">Se connecter →</button>
-        </form>
-      </div>
-    </div>
   )
 }
 
@@ -1149,9 +1061,6 @@ const DASHBOARD_CSS = `
 .db-nav-btn.active { background: rgba(0,113,227,.2); color: #60a5fa; border-left: 3px solid #3b82f6; padding-left: 9px; }
 .db-nav-icon { font-size: 16px; flex-shrink: 0; }
 .db-nav-badge { margin-left: auto; background: #ef4444; color: #fff; font-size: 10px; font-weight: 800; padding: 1px 6px; border-radius: 980px; min-width: 18px; text-align: center; }
-.db-nav-link { color: rgba(255,255,255,.35) !important; font-size: 13px; }
-.db-nav-logout { color: rgba(255,255,255,.3) !important; font-size: 13px; }
-.db-nav-logout:hover { color: #f87171 !important; background: rgba(239,68,68,.1) !important; }
 .db-side-foot { padding: 8px 10px 20px; border-top: 1px solid rgba(255,255,255,.07); flex-shrink: 0; }
 
 /* ── OVERLAY & TOPBAR (mobile) ── */
@@ -1245,13 +1154,6 @@ const DASHBOARD_CSS = `
 .db-live-dot.on { background: #34d399; animation: dbPulse 2s infinite; }
 @keyframes dbPulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
 
-/* ── LOGIN ── */
-.db-login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0f172a 0%, #1a3557 100%); font-family: 'Inter', sans-serif; padding: 16px; }
-.db-login-box { background: #fff; border-radius: 20px; padding: 40px 40px 36px; width: 100%; max-width: 400px; box-shadow: 0 32px 80px rgba(0,0,0,.3); }
-.db-login-logo { font-size: 28px; font-weight: 800; color: #111827; font-family: 'Outfit', sans-serif; text-align: center; margin-bottom: 6px; }
-.db-login-sub { font-size: 13px; color: #9ca3af; text-align: center; margin-bottom: 30px; }
-.db-login-err { font-size: 12.5px; color: #dc2626; background: #fef2f2; border: .5px solid #fecaca; padding: 10px 14px; border-radius: 8px; margin-bottom: 14px; }
-
 /* ── TOAST ── */
 .db-toast { position: fixed; bottom: 28px; right: 28px; background: #0f172a; color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 13.5px; font-weight: 500; box-shadow: 0 8px 32px rgba(0,0,0,.2); z-index: 9999; animation: dbSlideUp .2s ease; }
 
@@ -1324,10 +1226,6 @@ code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-family: '
 
   /* Toast en bas, pleine largeur sur mobile */
   .db-toast { bottom: 16px; right: 14px; left: 14px; text-align: center; font-size: 13px; }
-
-  /* Login */
-  .db-login-box { padding: 28px 20px; border-radius: 16px; }
-  .db-login-logo { font-size: 24px; }
 }
 
 /* ── TRÈS PETIT (≤400px) ── */
