@@ -11,6 +11,7 @@ export default function Document() {
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"/>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"/>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"/>
+        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"/>
       </Head>
       <body>
         <Main />

@@ -1,17 +1,12 @@
 ﻿import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
 
-/* ================================================================
-   IDENTIFIANTS ADMINISTRATEUR — MODIFIEZ CES DEUX LIGNES
-   ================================================================ */
-const ADMIN_EMAIL    = 'visioflow77@gmail.com'
-const ADMIN_PASSWORD = 'Visioflow2024!'
-/* ================================================================ */
+/* Login géré par Firebase Authentication — plus de mot de passe en clair */
 
 const FB_CONFIG = {
   apiKey:            'AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY',
-  authDomain:        'visioflow-cb6eb.firebaseapp.com',
-  projectId:         'visioflow-cb6eb',
+  authDomain: 'visioflow-cb6eb-9d051.firebaseapp.com',
+  projectId: 'visioflow-cb6eb-9d051',
   storageBucket:     'visioflow-cb6eb.firebasestorage.app',
   messagingSenderId: '208625257783',
   appId:             '1:208625257783:web:903429389d81159833deb2'
@@ -94,25 +89,27 @@ export default function Dashboard() {
   const unsubRef = useRef([])
 
   useEffect(() => {
-    if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('vf_admin') === 'ok') {
-      setAuthed(true)
-    }
-    setLoading(false)
-  }, [])
-
-  useEffect(() => {
-    if (!authed) return
+    let authUnsub = null
     const tryInit = () => {
       if (typeof window === 'undefined' || !window.firebase) { setTimeout(tryInit, 300); return }
       try {
         if (!window.firebase.apps?.length) window.firebase.initializeApp(FB_CONFIG)
         dbRef.current = window.firebase.firestore()
-        setDbReady(true)
-      } catch (e) { console.error('Firebase dashboard:', e) }
+        // Firebase Auth — écoute l'état de connexion
+        authUnsub = window.firebase.auth().onAuthStateChanged(user => {
+          if (user) { setAuthed(true); setDbReady(true) }
+          else       { setAuthed(false); setDbReady(false) }
+          setLoading(false)
+        })
+      } catch (e) { console.error('Firebase dashboard:', e); setLoading(false) }
     }
     tryInit()
-    return () => { unsubRef.current.forEach(fn => fn()); unsubRef.current = [] }
-  }, [authed])
+    return () => {
+      if (authUnsub) authUnsub()
+      unsubRef.current.forEach(fn => fn())
+      unsubRef.current = []
+    }
+  }, [])
 
   useEffect(() => {
     if (!dbReady) return
@@ -142,22 +139,31 @@ export default function Dashboard() {
     return () => { u1(); u2(); unsubRef.current = [] }
   }, [dbReady])
 
-  function login(e) {
+  async function login(e) {
     e.preventDefault()
-    if (loginEmail.trim() === ADMIN_EMAIL && loginPass.trim() === ADMIN_PASSWORD) {
-      sessionStorage.setItem('vf_admin', 'ok')
-      setAuthed(true)
-      setLoginErr('')
-    } else {
-      setLoginErr('Email ou mot de passe incorrect.')
+    setLoginErr('')
+    try {
+      await window.firebase.auth().signInWithEmailAndPassword(loginEmail.trim(), loginPass.trim())
+      // onAuthStateChanged gère automatiquement la suite
+    } catch (err) {
+      const msgs = {
+        'auth/user-not-found':    'Aucun compte avec cet email.',
+        'auth/wrong-password':    'Mot de passe incorrect.',
+        'auth/invalid-email':     'Email invalide.',
+        'auth/invalid-credential':'Email ou mot de passe incorrect.',
+        'auth/too-many-requests': 'Trop de tentatives. Réessayez dans quelques minutes.',
+      }
+      setLoginErr(msgs[err.code] || 'Erreur : ' + err.message)
     }
   }
 
-  function logout() {
-    sessionStorage.removeItem('vf_admin')
+  async function logout() {
+    try { await window.firebase.auth().signOut() } catch(e) {}
     setAuthed(false)
     setDbReady(false)
     dbRef.current = null
+    unsubRef.current.forEach(fn => fn())
+    unsubRef.current = []
   }
 
   function showToast(msg) {
@@ -644,7 +650,11 @@ function EditTab({ cfg, update, save, dirty, saving }) {
                 <span style={{ color: PACK_COLOR[pack], fontWeight: 700 }}>{PACK_LABEL[pack]}</span> — URL de démo
               </label>
               <div style={{ display: 'flex', gap: 8 }}>
-                <input type="url" value={cfg.exampleUrls?.[pack] || ''} onChange={e => update('exampleUrls.' + pack, e.target.value)}
+                <input type="url" value={cfg.exampleUrls?.[pack] || ''} onChange={e => {
+                    let v = e.target.value.trim()
+                    if (v && !/^https?:\/\//i.test(v)) v = 'https://' + v
+                    update('exampleUrls.' + pack, v)
+                  }}
                   placeholder={'https://demo-' + pack + '.visioflow.fr'} style={{ flex: 1 }} />
                 {cfg.exampleUrls?.[pack] && (
                   <a href={cfg.exampleUrls[pack]} target="_blank" rel="noreferrer" className="db-btn-ghost" style={{ whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}>Tester →</a>
@@ -705,18 +715,16 @@ function EditTab({ cfg, update, save, dirty, saving }) {
 
       {section === 'payment' && (
         <div className="db-card">
-          <div className="db-card-head">Liens de paiement Stripe & PayPal</div>
-          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 20 }}>Mettez à jour vos liens de paiement pour chaque pack. Ces liens sont utilisés lors du passage à la caisse.</p>
+          <div className="db-card-head">Liens de paiement Stripe</div>
+          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 20 }}>Le prix affiché ici se met à jour automatiquement depuis l'onglet "Tarifs & packs".</p>
           {['essentiel', 'premium'].map(pack => (
             <div key={pack} style={{ marginBottom: 24, paddingBottom: 20, borderBottom: '1px solid #f1f5f9' }}>
-              <h3 style={{ fontSize: 13, fontWeight: 700, color: PACK_COLOR[pack], marginBottom: 12 }}>{PACK_LABEL[pack]} — {PACK_PRICE[pack]} €</h3>
+              <h3 style={{ fontSize: 13, fontWeight: 700, color: PACK_COLOR[pack], marginBottom: 12 }}>
+                {PACK_LABEL[pack]} — {cfg.packs?.[pack]?.price || (PACK_PRICE[pack] + ' €')}
+              </h3>
               <div className="db-field">
                 <label>🔵 Lien Stripe</label>
                 <input type="url" value={cfg.payment?.[pack]?.stripe || ''} onChange={e => update('payment.' + pack + '.stripe', e.target.value)} placeholder="https://buy.stripe.com/..." />
-              </div>
-              <div className="db-field">
-                <label>🟡 Lien PayPal</label>
-                <input type="url" value={cfg.payment?.[pack]?.paypal || ''} onChange={e => update('payment.' + pack + '.paypal', e.target.value)} placeholder="https://paypal.me/..." />
               </div>
             </div>
           ))}
@@ -745,7 +753,7 @@ function SettingsTab({ onExport, subsCount, formsCount }) {
         <pre className="db-code-block">{`/* ================================================================
    IDENTIFIANTS ADMINISTRATEUR — MODIFIEZ CES DEUX LIGNES
    ================================================================ */
-const ADMIN_EMAIL    = 'admin@visioflow.fr'
+const ADMIN_EMAIL    = 'visioflow77@gmail.com'
 const ADMIN_PASSWORD = 'Visioflow2024!'`}</pre>
       </div>
 
@@ -762,7 +770,7 @@ const ADMIN_PASSWORD = 'Visioflow2024!'`}</pre>
         <div className="db-kv"><span>Projet</span><span style={{ fontWeight: 600 }}>visioflow-cb6eb</span></div>
         <div className="db-kv"><span>Collections utilisées</span><span style={{ textAlign: 'right', fontSize: 12 }}>submissions · form_submissions · site_config</span></div>
         <div className="db-kv"><span>SDK</span><span>v10.12.0 (CDN compat)</span></div>
-        <div className="db-kv"><span>URL du dashboard</span><a href="/dashboard" style={{ color: '#0071E3', fontSize: 12 }}>/dashboard</a></div>
+        <div className="db-kv"><span>Console Firebase</span><a href="https://console.firebase.google.com/project/visioflow-cb6eb" target="_blank" rel="noreferrer" style={{ color: '#0071E3', fontSize: 12 }}>Ouvrir Firebase →</a></div>
         <div className="db-info-box" style={{ marginTop: 14 }}>
           🔒 Le dashboard n'est jamais indexé par les moteurs de recherche (<code>noindex, nofollow</code>).
         </div>
@@ -777,68 +785,233 @@ const ADMIN_PASSWORD = 'Visioflow2024!'`}</pre>
 function buildAIPrompt(group, cfg) {
   const { builder, form } = group
   const pack = builder?.pack || form?.pack || 'essentiel'
-  const lines = []
+  const isPremium = pack === 'premium'
+  const city = form?.cities?.[0] || {}
+  const restaurantName = city.name || builder?.restaurantName || 'Le Restaurant'
+  const cuisine = form?.cuisine || builder?.cuisine || ''
+  const color = builder?.color || '#0071E3'
+  const layout = builder?.layout || 'liste'
+  const logoUrl = form?.logoUrl || ''
+  const menuCardPhotoUrl = form?.menuCardPhotoUrl || ''
 
-  lines.push(`# BRIEF CLIENT — CRÉATION SITE RESTAURANT`)
-  lines.push(`Pack : ${PACK_LABEL[pack] || pack} (${PACK_PRICE[pack] || '?'}€)`)
-  lines.push(`Généré le : ${new Date().toLocaleDateString('fr-FR')}`)
-  lines.push('')
+  // Livraison (Premium)
+  const deliveryMode = city.deliveryMode || 'internal'
+  const ubereatsUrl  = city.ubereatsUrl  || ''
+  const deliverooUrl = city.deliverooUrl || ''
+  const justEatUrl   = city.justEatUrl   || ''
+  const otherUrl     = city.otherDeliveryUrl || ''
+  const deliveryEta  = city.deliveryEta  || '30-45 min'
+  const hasPlateforms = ubereatsUrl || deliverooUrl || justEatUrl || otherUrl
 
-  if (form?.cities?.length > 0) {
-    const c = form.cities[0]
-    lines.push('## INFORMATIONS RESTAURANT')
-    if (c.name)     lines.push(`- Nom du restaurant : ${c.name}`)
-    if (c.address)  lines.push(`- Adresse : ${c.address}`)
-    if (c.tel)      lines.push(`- Téléphone : ${c.tel}`)
-    if (c.email)    lines.push(`- Email contact : ${c.email}`)
-    if (c.horaires) lines.push(`- Horaires : ${c.horaires}`)
-    if (form.cuisine) lines.push(`- Type de cuisine : ${form.cuisine}`)
-    lines.push('')
+  // Photos menu avec contexte
+  const photosMenu = []
+  if (form?.menuItems) {
+    Object.entries(form.menuItems).forEach(([cat, items]) => {
+      if (Array.isArray(items)) {
+        items.forEach(it => {
+          if (it.photoUrl && it.name) {
+            photosMenu.push({ name: it.name, cat, url: it.photoUrl })
+          }
+        })
+      }
+    })
   }
 
+  const lines = []
+  let s = 1 // numéro de section
+
+  // ── EN-TÊTE ──────────────────────────────────────────────────
+  lines.push(`Tu es un développeur web expert. Crée le site web COMPLET et FONCTIONNEL à 100% pour ce restaurant en un seul fichier HTML (HTML + CSS + JS tout inline). Utilise EXACTEMENT les vraies informations et photos fournies ci-dessous.`)
+  lines.push('')
+  lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
+  lines.push(`BRIEF CLIENT — ${restaurantName.toUpperCase()}`)
+  lines.push(`Pack : ${PACK_LABEL[pack] || pack} (${PACK_PRICE[pack] || '?'}€) | ${new Date().toLocaleDateString('fr-FR')}`)
+  lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
+  lines.push('')
+
+  // ── SECTION 1 : INFOS ────────────────────────────────────────
+  lines.push(`## ${s++}. INFORMATIONS DU RESTAURANT`)
+  lines.push(`- Nom : ${restaurantName}`)
+  if (cuisine)       lines.push(`- Type de cuisine : ${cuisine}`)
+  if (city.address)  lines.push(`- Adresse : ${city.address}`)
+  if (city.tel)      lines.push(`- Téléphone : ${city.tel}`)
+  if (city.email)    lines.push(`- Email : ${city.email}`)
+  if (city.horaires) lines.push(`- Horaires : ${city.horaires}`)
+  lines.push('')
+
+  // ── SECTION 2 : DESIGN & PHOTOS ──────────────────────────────
+  lines.push(`## ${s++}. IDENTITÉ VISUELLE & PHOTOS`)
+  lines.push(`- Couleur principale (brand) : **${color}** — utiliser partout (boutons, prix, accents, hover)`)
+  lines.push(`- Police : Playfair Display (titres, logo) + Inter (corps de texte)`)
+  lines.push(`- Ambiance : moderne, premium, épurée, digne d'un vrai restaurant gastronomique`)
+  lines.push(`- Layout menu : ${layout === 'grille' ? 'grille de cartes avec photos' : 'liste élégante avec séparateurs'}`)
+  lines.push('')
+
+  if (logoUrl) {
+    lines.push(`### LOGO DU RESTAURANT`)
+    lines.push(`URL : ${logoUrl}`)
+    lines.push(`→ Intègre ce logo en tant que <img> dans la NAVIGATION (height: 40px) et dans le FOOTER`)
+    lines.push(`→ Ne crée PAS de logo texte, utilise cette image`)
+  } else {
+    lines.push(`### LOGO`)
+    lines.push(`→ Pas de logo fourni. Crée un logo texte stylé "**${restaurantName}**" en Playfair Display dans la nav et footer`)
+  }
+  lines.push('')
+
+  if (photosMenu.length > 0) {
+    lines.push(`### PHOTOS DES PLATS`)
+    lines.push(`IMPORTANT : chaque URL ci-dessous correspond EXACTEMENT au plat mentionné. Utilise-la uniquement pour ce plat dans sa carte menu.`)
+    lines.push('')
+    photosMenu.forEach(p => {
+      lines.push(`- Plat : **"${p.name}"** (${p.cat})`)
+      lines.push(`  → Photo : ${p.url}`)
+      lines.push(`  → À utiliser UNIQUEMENT dans la carte du plat "${p.name}", nulle part ailleurs`)
+    })
+    const platsWithoutPhoto = []
+    if (form?.menuItems) {
+      Object.entries(form.menuItems).forEach(([cat, items]) => {
+        if (Array.isArray(items)) items.forEach(it => {
+          if (it.name && !it.photoUrl) platsWithoutPhoto.push(`"${it.name}"`)
+        })
+      })
+    }
+    if (platsWithoutPhoto.length > 0) {
+      lines.push('')
+      lines.push(`- Plats SANS photo (${platsWithoutPhoto.join(', ')}) : utilise un dégradé CSS de la couleur brand comme placeholder`)
+    }
+  } else {
+    lines.push(`### PHOTOS`)
+    lines.push(`→ Pas de photos fournies. Utilise des dégradés CSS brand comme placeholders pour les cartes menu`)
+  }
+  lines.push('')
+
+  // ── SECTION 3 : ÉTABLISSEMENTS ───────────────────────────────
   if (form?.cities?.length > 1) {
-    lines.push('## ÉTABLISSEMENTS MULTIPLES')
+    lines.push(`## ${s++}. ÉTABLISSEMENTS (${form.cities.length} adresses)`)
     form.cities.forEach((c, i) => {
-      lines.push(`### Établissement ${i + 1}`)
-      if (c.name)    lines.push(`- Nom : ${c.name}`)
-      if (c.address) lines.push(`- Adresse : ${c.address}`)
-      if (c.tel)     lines.push(`- Tél : ${c.tel}`)
-      if (c.email)   lines.push(`- Email : ${c.email}`)
+      lines.push(`### Établissement ${i + 1}${c.name ? ' — ' + c.name : ''}`)
+      if (c.address)  lines.push(`  - Adresse : ${c.address}`)
+      if (c.tel)      lines.push(`  - Tél : ${c.tel}`)
+      if (c.email)    lines.push(`  - Email : ${c.email}`)
+      if (c.horaires) lines.push(`  - Horaires : ${c.horaires}`)
     })
     lines.push('')
   }
 
-  if (builder) {
-    lines.push('## PRÉFÉRENCES DESIGN (Builder)')
-    if (builder.cuisine)       lines.push(`- Type de cuisine : ${builder.cuisine}`)
-    if (builder.color)         lines.push(`- Couleur principale : ${builder.color}`)
-    if (builder.layout)        lines.push(`- Mise en page : ${builder.layout}`)
-    if (builder.paymentMethod) lines.push(`- Mode de paiement en ligne : ${builder.paymentMethod}`)
+  // ── SECTION 4 : MENU ─────────────────────────────────────────
+  // Photo de la carte entière (mode "photo de carte")
+  if (menuCardPhotoUrl) {
+    lines.push(`## ${s++}. PHOTO DE LA CARTE COMPLÈTE`)
+    lines.push(`Le client a uploadé une photo de sa carte entière. Lis cette image et extrais TOUS les plats, catégories, prix et descriptions visibles.`)
+    lines.push(`URL de la photo : ${menuCardPhotoUrl}`)
+    lines.push(`→ Utilise ces informations comme menu complet du site`)
     lines.push('')
-  }
-
-  if (form?.menuItems && Object.keys(form.menuItems).length > 0) {
-    lines.push('## MENU')
+  } else if (form?.menuItems && Object.keys(form.menuItems).length > 0) {
+    lines.push(`## ${s++}. CARTE / MENU COMPLET`)
+    lines.push(`Intègre ces plats exactement tels quels. Pour chaque plat avec une photo (voir section 2), utilise l'URL fournie.`)
+    lines.push('')
     Object.entries(form.menuItems).forEach(([cat, items]) => {
       if (Array.isArray(items) && items.length > 0) {
         lines.push(`### ${cat}`)
         items.forEach(it => {
-          if (it.name) lines.push(`- ${it.name}${it.price ? ' — ' + it.price : ''}${it.desc ? ' : ' + it.desc : ''}`)
+          if (it.name) {
+            lines.push(`- **${it.name}**${it.price ? ' — ' + it.price : ''}${it.photoUrl ? ' ✅ photo fournie' : ' (placeholder)'}`)
+            if (it.desc) lines.push(`  _${it.desc}_`)
+          }
         })
+        lines.push('')
       }
     })
+  } else if (!menuCardPhotoUrl) {
+    lines.push(`## ${s++}. MENU`)
+    lines.push(`Aucun menu fourni. Invente des plats cohérents avec le type de cuisine "${cuisine || 'restaurant'}". Indique clairement "(exemple)" sur chaque plat.`)
     lines.push('')
   }
 
-  lines.push('## TÂCHE')
-  lines.push('Crée un site web complet pour ce restaurant. Le site doit inclure :')
-  lines.push("- Page d'accueil : hero, présentation du restaurant, menu, contact")
-  if (pack === 'premium') lines.push('- Système de commandes en ligne avec panier')
-  lines.push('- Design moderne, responsive (mobile-first), couleurs selon les préférences')
-  lines.push('- Formulaire de contact ou réservation')
-  lines.push('- SEO de base (title, meta description, og:image)')
+  // ── SECTION 5 : LIVRAISON & COMMANDES (PREMIUM) ──────────────
+  if (isPremium) {
+    lines.push(`## ${s++}. SYSTÈME DE COMMANDE EN LIGNE (Pack Premium)`)
+    lines.push('')
+
+    lines.push(`### Mode de livraison : ${deliveryMode === 'internal' ? 'Livraison directe uniquement' : deliveryMode === 'platforms' ? 'Plateformes uniquement' : 'Livraison directe + Plateformes'}`)
+    lines.push('')
+
+    if (deliveryMode === 'internal' || deliveryMode === 'both') {
+      lines.push(`### Commande directe sur le site`)
+      lines.push(`- Bouton panier flottant bas-droite (🛒 + badge compteur)`)
+      lines.push(`- Chaque plat a un bouton "+" pour ajouter au panier`)
+      lines.push(`- Modal panier : liste articles avec +/−, total, formulaire livraison (Nom*, Tél*, Adresse*, Notes)`)
+      lines.push(`- Délai estimé affiché : "${deliveryEta}"`)
+      lines.push(`- Bouton "Confirmer la commande" → commande envoyée + message de confirmation`)
+      lines.push('')
+    }
+
+    if ((deliveryMode === 'platforms' || deliveryMode === 'both') && hasPlateforms) {
+      lines.push(`### Liens vers plateformes de livraison`)
+      lines.push(`Crée une section "Commander via" avec les boutons suivants (avec leur vrai logo/couleur) :`)
+      if (ubereatsUrl)  lines.push(`- **UberEats** → ${ubereatsUrl}`)
+      if (deliverooUrl) lines.push(`- **Deliveroo** → ${deliverooUrl}`)
+      if (justEatUrl)   lines.push(`- **Just Eat** → ${justEatUrl}`)
+      if (otherUrl)     lines.push(`- **Autre plateforme** → ${otherUrl}`)
+      lines.push(`Chaque bouton s'ouvre dans un nouvel onglet (target="_blank")`)
+      lines.push('')
+    }
+
+    lines.push(`### Panel admin restaurant (inclus dans le même fichier HTML)`)
+    lines.push(`- Bouton "⚙ Accès restaurant" discret dans le footer`)
+    lines.push(`- Login avec mot de passe (variable CFG.adminPassword = "admin2024" par défaut)`)
+    lines.push(`- Dashboard temps réel : liste des commandes avec statuts Nouvelle → En préparation → Prête → Livrée`)
+    lines.push(`- Stats du jour : nombre commandes, CA, en cours`)
+    lines.push('')
+
+    lines.push(`### Configuration Firebase (objet CFG en haut du script)`)
+    lines.push(`Créer const CFG = { restaurantName: "${restaurantName}", restaurantSlug: "${restaurantName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')}", adminPassword: "admin2024", firebase: { apiKey: "AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY", authDomain: "visioflow-cb6eb.firebaseapp.com", projectId: "visioflow-cb6eb-9d051", storageBucket: "visioflow-cb6eb.firebasestorage.app", messagingSenderId: "208625257783", appId: "1:208625257783:web:903429389d81159833deb2" } }`)
+    lines.push(`Commandes stockées dans collection Firebase "orders" avec champ restaurantSlug`)
+    lines.push('')
+  }
+
+  // ── SECTION : STRUCTURE SITE ─────────────────────────────────
+  lines.push(`## ${s++}. STRUCTURE DU SITE (sections obligatoires dans l'ordre)`)
   lines.push('')
-  lines.push('Stack recommandée : Next.js + Tailwind CSS')
+  lines.push(`**1. Navigation fixe** — logo${logoUrl ? ' (image fournie section 2)' : ' texte'}, liens sections, ${isPremium ? 'bouton "Commander →"' : 'bouton "Réserver →"'}`)
+  lines.push(`**2. Hero** — fond sombre avec overlay, nom du restaurant en grand (Playfair Display), tagline, CTA "Voir la carte" + ${isPremium ? '"Commander"' : '"Réserver une table"'}`)
+  lines.push(`**3. Menu** — onglets par catégorie, ${layout === 'grille' ? 'grille de cartes avec photos (vraies ou placeholder)' : 'liste élégante'}, ${isPremium ? 'bouton "+" sur chaque plat' : 'prix en couleur brand'}`)
+  if (isPremium) {
+    lines.push(`**4. Commande / Livraison** — ${deliveryMode !== 'internal' && hasPlateforms ? 'boutons plateformes ' + [ubereatsUrl && 'UberEats', deliverooUrl && 'Deliveroo', justEatUrl && 'Just Eat'].filter(Boolean).join(', ') : ''}${deliveryMode !== 'platforms' ? ' + formulaire commande directe' : ''}`)
+    lines.push(`**5. À propos** — histoire du restaurant, stats, ambiance`)
+    lines.push(`**6. Infos pratiques** — horaires tableau, adresse cliquable Google Maps, tél cliquable, email cliquable`)
+    lines.push(`**7. Réservation** — formulaire (Nom, Email, Tél, Date, Couverts, Message)`)
+    lines.push(`**8. Footer** — logo, liens, réseaux sociaux, copyright, bouton admin discret`)
+  } else {
+    lines.push(`**4. À propos** — histoire du restaurant, stats, ambiance`)
+    lines.push(`**5. Infos pratiques** — horaires tableau, adresse cliquable, tél, email`)
+    lines.push(`**6. Réservation** — formulaire (Nom, Email, Tél, Date, Couverts, Message)`)
+    lines.push(`**7. Footer** — logo, liens, réseaux sociaux, copyright`)
+  }
+  lines.push('')
+
+  // ── SECTION : TECHNIQUE ──────────────────────────────────────
+  lines.push(`## ${s++}. EXIGENCES TECHNIQUES`)
+  lines.push(`- 1 seul fichier HTML, tout inline (CSS dans <style>, JS dans <script>)`)
+  lines.push(`- CSS variables : --brand: ${color}; --brand-dark; --text; --bg; --bg-alt`)
+  lines.push(`- Responsive : mobile 320px+, tablette 768px+, desktop 1200px+`)
+  lines.push(`- Navigation fixe avec backdrop-filter: blur`)
+  lines.push(`- Smooth scroll natif`)
+  lines.push(`- Animations CSS subtiles au scroll (opacity + translateY)`)
+  lines.push(`- SEO : <title>${restaurantName}${cuisine ? ' — ' + cuisine : ''} | Restaurant</title>, meta description, Schema.org Restaurant JSON-LD`)
+  lines.push(`- Pas de framework JS externe (vanilla uniquement)`)
+  lines.push(`- Google Fonts CDN : Playfair Display + Inter`)
+  lines.push('')
+
+  // ── INSTRUCTION FINALE ────────────────────────────────────────
+  lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
+  lines.push(`INSTRUCTION FINALE`)
+  lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
+  lines.push(`Livre le code en UN SEUL BLOC HTML complet, prêt à enregistrer en index.html et ouvrir dans un navigateur.`)
+  lines.push(`Utilise les VRAIES informations fournies. Les photos doivent être placées exactement aux bons endroits.`)
+  lines.push(`Le site doit être visuellement impressionnant et refléter l'identité de ${restaurantName}.`)
+  if (isPremium) lines.push(`Pack Premium : le système de commande ET le panel admin doivent être pleinement fonctionnels.`)
+  lines.push(`COMMENCE DIRECTEMENT PAR <!DOCTYPE html> — aucun texte avant ou après le code.`)
 
   return lines.join('\n')
 }
@@ -920,20 +1093,33 @@ function AiTab({ subs, forms, cfg }) {
           <div className="db-card">
             <div className="db-card-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>Brief complet pour Claude</span>
-              <button onClick={copyPrompt} className="db-btn-primary" style={{ fontSize: 12, padding: '6px 16px' }}>
-                {copied ? '✓ Copié !' : 'Copier le prompt'}
-              </button>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <span style={{ fontSize: 11, color: '#6b7280', alignSelf: 'center' }}>{prompt.length} caractères</span>
+                <button onClick={copyPrompt} className="db-btn-primary" style={{ fontSize: 12, padding: '6px 16px' }}>
+                  {copied ? '✓ Copié !' : 'Copier le prompt'}
+                </button>
+              </div>
+            </div>
+            <div style={{ marginTop: 12, padding: '12px 16px', background: 'linear-gradient(135deg,#0071E322,#5b5ef422)', border: '1px solid #bfdbfe', borderRadius: 10, fontSize: 12.5, color: '#1e40af', lineHeight: 1.7 }}>
+              <strong>Comment utiliser :</strong> Copie le prompt ci-dessous → ouvre{' '}
+              <a href="https://claude.ai" target="_blank" rel="noreferrer" style={{ color: '#0071E3', fontWeight: 700 }}>claude.ai</a>
+              {' '}→ colle le prompt → Claude crée le site HTML complet en une seule réponse, prêt à livrer.
             </div>
             <textarea readOnly value={prompt}
               style={{
-                width: '100%', minHeight: 480, fontFamily: 'monospace', fontSize: 12,
-                border: '1.5px solid #e5e7eb', borderRadius: 8, padding: 12,
-                resize: 'vertical', color: '#111827', background: '#f9fafb', lineHeight: 1.65,
+                width: '100%', minHeight: 520, fontFamily: 'monospace', fontSize: 11.5,
+                border: '1.5px solid #e5e7eb', borderRadius: 8, padding: 14,
+                resize: 'vertical', color: '#111827', background: '#f9fafb', lineHeight: 1.7,
                 boxSizing: 'border-box', marginTop: 12
               }}
             />
-            <div style={{ marginTop: 10, padding: '10px 14px', background: '#eff6ff', borderRadius: 8, fontSize: 12, color: '#1d4ed8', lineHeight: 1.5 }}>
-              💡 Copiez ce prompt → ouvrez Claude AI → collez-le. Claude génèrera le site complet du client automatiquement.
+            <div style={{ marginTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <button onClick={copyPrompt} className="db-btn-primary" style={{ flex: 1, justifyContent: 'center' }}>
+                {copied ? '✓ Prompt copié !' : 'Copier le prompt complet'}
+              </button>
+              <a href="https://claude.ai" target="_blank" rel="noreferrer" className="db-btn-ghost" style={{ flex: 1, justifyContent: 'center', textAlign: 'center' }}>
+                Ouvrir Claude AI →
+              </a>
             </div>
           </div>
         )}
