@@ -11,7 +11,7 @@ const SHAPES = [
   { delay: 0.5, width: 680, height: 155, rotate: 12, gradient: "from-indigo-500/[0.22]", style: { left: "-10%", top: "17%" } },
   { delay: 0.7, width: 560, height: 130, rotate: -14, gradient: "from-rose-500/[0.22]",   style: { right: "-6%", bottom: "20%" } },
   { delay: 0.6, width: 340, height: 88,  rotate: -7,  gradient: "from-violet-500/[0.17]", style: { left: "7%",  bottom: "13%" } },
-  { delay: 0.9, width: 240, height: 68,  rotate: 22, gradient: "from-amber-500/[0.17]", style: { right: "17%", top: "9%" } },
+  { delay: 0.9, width: 240, height: 68, rotate: 22, gradient: "from-amber-500/[0.17]", style: { right: "17%", top: "9%" } },
   { delay: 1.0, width: 170, height: 48, rotate: -28, gradient: "from-cyan-500/[0.14]",   style: { left: "23%", top: "7%" } },
   { delay: 0.8, width: 290, height: 78, rotate: 8,   gradient: "from-blue-500/[0.15]",   style: { right: "6%", top: "42%" } },
 ];
@@ -85,6 +85,21 @@ export default function ShowcaseIntro({ onComplete }) {
     onComplete && onComplete();
   }, [onComplete]);
 
+  /* ── Skip handler ─────────────────────────────────────────── */
+  const handleSkip = useCallback(() => {
+    gsap.killTweensOf(".si-scan, .si-count-wrap, .si-brand-wrap, .si-tagline, .si-deco, .si-progress-fill");
+    if (curtainRef.current) {
+      gsap.to(curtainRef.current, {
+        yPercent: 0,
+        duration: 0.4,
+        ease: "power3.inOut",
+        onComplete: complete,
+      });
+    } else {
+      complete();
+    }
+  }, [complete]);
+
   /* ── Main GSAP timeline ───────────────────────────────────── */
   useEffect(() => {
     /* Skip on repeat session visit */
@@ -118,70 +133,68 @@ export default function ShowcaseIntro({ onComplete }) {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
       /* Phase 1 — Scan line & counter setup (0.0 → 0.6s) */
-      tl.to(".si-scan", { autoAlpha: 1, duration: 0.4, ease: "power2.out" })
-        .to(".si-scan-bar", { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, "<")
-        .to(".si-count-wrap", { autoAlpha: 1, scale: 1, duration: 0.3 }, "<")
-        .to(".si-count-sub", { autoAlpha: 1, y: 0, duration: 0.2 }, "<")
-        .to(".si-progress-fill", { scaleX: 0.12, duration: 0.6, ease: "none" }, "<");
+      tl.to(".si-scan-bar", { scaleX: 1, duration: 0.6 })
+        .to(".si-count-wrap", { autoAlpha: 1, scale: 1, duration: 0.5 }, "<0.1")
+        .to(".si-count-sub", { autoAlpha: 1, y: 0, duration: 0.4 }, "<0.15")
+        .to(".si-progress-fill", { scaleX: 0.16, duration: 0.5 }, "<");
 
-      /* Phase 2 — Counter animation (0.6 → 2.1s) */
+      /* Phase 2 — Counter animation (0.6 → 2.0s) */
       tl.to(".si-count-num", {
-          innerHTML: 5, snap: { innerHTML: 4 },
-          duration: 0.7, ease: "expo.out"
-        }, "<")
-        .to(".si-count-num", {
-          innerHTML: 4, snap: { innerHTML: 3 },
-          duration: 0.7, ease: "expo.out"
-        }, "<")
-        .to(".si-count-num", {
-          innerHTML: 3, snap: { innerHTML: 2 },
-          duration: 0.7, ease: "expo.out"
-        }, "<")
-        .to(".si-count-num", {
-          innerHTML: 2, snap: { innerHTML: 1 },
-          duration: 0.7, ease: "expo.out"
-        }, "<")
-        .to(".si-progress-fill", { scaleX: 0.25, duration: 0.6, ease: "none" }, "<")
-        .to(".si-count-sub", { autoAlpha: 1, y: 0, duration: 0.25 }, "<");
+        innerHTML: 1, snap: { innerHTML: 1 },
+        duration: 1.4, ease: "power2.out"
+      });
 
-      /* Phase 3 — Reveal brand (2.1 → 2.7s) */
-      tl.to(".si-brand-wrap", { autoAlpha: 1, duration: 0.01 }, "<")
-        .to(".si-letter", {
-            autoAlpha: 1, y: 0, rotationX: 0, filter: "blur(0px)",
-            stagger: 0.04, duration: 0.5, ease: "expo.out"
-          }, "<")
-        .to(".si-tagline", { autoAlpha: 1, y: 0, filter: "blur(0px)" }, "<")
-        .to(".si-progress-fill", { scaleX: 0.25, duration: 0.5, ease: "none" }, "<");
+      /* Phase 3 — Reveal brand (2.0 → 3.1s) */
+      tl.fromTo(".si-letter", {
+        autoAlpha: 0, y: 88, rotationX: -68, filter: "blur(14px)"
+      }, {
+        autoAlpha: 1, y: 0, rotationX: 0, filter: "blur(0px)",
+        stagger: 0.052, duration: 0.62, ease: "expo.out"
+      });
 
-      /* Phase 4 — Decorative lines & badge (2.7 → 3.3s) */
-      tl.to(".si-deco", { autoAlpha: 1, duration: 0.01 }, "<")
-        .to(".si-deco-l", { scaleX: 1, duration: 0.5, ease: "expo.out" }, "<")
-        .to(".si-deco-r", { scaleX: 1, duration: 0.5, ease: "expo.out" }, "<")
-        .to(".si-badge", {
-            autoAlpha: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)",
-          }, "<")
-        .to(".si-progress-fill", { scaleX: 0.25, duration: 0.5, ease: "none" }, "<");
+      /* Phase 4 — Decorative lines & tagline (2.6s) */
+      tl.to(".si-deco", { autoAlpha: 1, duration: 0.3 }, "<0.15")
+        .to(".si-deco-l", { scaleX: 1, duration: 0.4, ease: "power2.out" }, "<")
+        .fromTo(".si-tagline", {
+          autoAlpha: 0, y: 30, filter: "blur(10px)"
+        }, {
+          autoAlpha: 1, y: 0, filter: "blur(0px)",
+          duration: 0.5, ease: "power2.out"
+        }, "<0.1");
 
-      /* Phase 5 — Hold complete (3.3 → 4.0s) */
-      tl.to({}, { duration: 0.7 }, "<");
+      /* Phase 5 — Badge reveal (3.1s) */
+      tl.fromTo(".si-badge", {
+        autoAlpha: 0, y: 20, scale: 0.88
+      }, {
+        autoAlpha: 1, y: 0, scale: 1,
+        duration: 0.4, ease: "back.out(1.7)"
+      });
 
-      /* Phase 6 — Elegant exit (4.0 → 5.0s) */
+      /* Phase 6 — Hold complete (3.5 → 4.5s) */
+      tl.to({}, { duration: 1.0 });
+
+      /* Phase 7 — Exit (4.5 → 5.5s) */
       tl.to(".si-brand-wrap", {
-          scale: 1.05, filter: "blur(16px)", autoAlpha: 0,
-          duration: 0.5, ease: "power2.inOut",
-        }, "<")
-        .to(".si-tagline", { autoAlpha: 0, y: -10, duration: 0.3, ease: "power2.inOut" }, "<")
+        scale: 1.05, filter: "blur(16px)", autoAlpha: 0,
+        duration: 0.5, ease: "power2.inOut"
+      })
+        .to(".si-tagline", {
+          autoAlpha: 0, y: -10,
+          duration: 0.35, ease: "power2.inOut"
+        }, "<0.1")
         .to(".si-deco", { autoAlpha: 0, duration: 0.2 }, "<")
-        .to(".si-badge", { autoAlpha: 0, scale: 0.95, duration: 0.2 }, "<")
-        .to(".si-progress-fill", { scaleX: 1, duration: 0.3, ease: "power1.out" }, "<");
-
-      /* Phase 7 — Black curtain (5.0 → 5.6s) */
-      tl.to(curtainRef.current, {
-          yPercent: 0,
-          duration: 0.5,
-          ease: "power3.inOut",
-          onComplete: complete,
+        .to(".si-badge", {
+          autoAlpha: 0, scale: 0.88,
+          duration: 0.3, ease: "power2.inOut"
         }, "<");
+
+      /* Phase 8 — Black curtain (5.5 → 6.0s) */
+      tl.to(curtainRef.current, {
+        yPercent: 0,
+        duration: 0.5,
+        ease: "power3.inOut",
+        onComplete: complete
+      });
 
     }, rootRef);
 
@@ -244,10 +257,11 @@ export default function ShowcaseIntro({ onComplete }) {
           className="si-scan-bar"
           style={{
             height: "1px",
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.5) 15%, rgba(0,113,227,0.95) 50%, rgba(255,255,255,0.5) 85%, transparent)",
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.45) 15%, rgba(0,113,227,0.95) 50%, rgba(255,255,255,0.5) 85%, transparent)",
             boxShadow: "0 0 28px rgba(0,113,227,0.55), 0 0 70px rgba(0,113,227,0.18)",
           }}
         />
+
         {/* Scan glow dot */}
         <div style={{
           position: "absolute", right: "clamp(24px, 6vw, 80px)", top: "50%",
@@ -294,7 +308,7 @@ export default function ShowcaseIntro({ onComplete }) {
               background: "linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.52) 100%)",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
               backgroundClip: "text",
-              filter: "drop-shadow(0 2px 22px rgba(0,113,227,0.38))",
+              filter: "drop-shadow(0 0 40px rgba(0,113,227,0.38))",
               userSelect: "none", position: "relative",
             }}
           >0</div>
@@ -370,20 +384,10 @@ export default function ShowcaseIntro({ onComplete }) {
           />
           <div style={{ display: "flex", gap: "7px", alignItems: "center" }}>
             <div style={{ width: "3px", height: "3px", borderRadius: "50%", background: "rgba(255,255,255,0.28)" }} />
-            <div style={{
-              width: "7px", height: "7px", borderRadius: "50%",
-              background: "rgba(255,255,255,0.75)",
+            <div style={{ width: "3px", height: "3px", borderRadius: "50%", background: "rgba(255,255,255,0.75)",
               boxShadow: "0 0 18px rgba(0,113,227,0.95), 0 0 40px rgba(0,113,227,0.35)",
             }} />
-            <div style={{ width: "3px", height: "3px", borderRadius: "50%", background: "rgba(255,255,255,0.28)" }} />
           </div>
-          <div
-            className="si-deco-r"
-            style={{
-              flex: 1, height: "1px",
-              background: "linear-gradient(to right, rgba(255,255,255,0.42) 0%, transparent 100%)",
-            }}
-          />
         </div>
 
         {/* Tagline */}
@@ -422,7 +426,8 @@ export default function ShowcaseIntro({ onComplete }) {
             width: "7px", height: "7px", borderRadius: "50%",
             background: "#22c55e",
             boxShadow: "0 0 8px rgba(34,197,94,0.7)",
-          }} />
+          }}
+          />
           <span style={{
             fontFamily: "'Inter', sans-serif",
             fontSize: "11px", fontWeight: 600,
