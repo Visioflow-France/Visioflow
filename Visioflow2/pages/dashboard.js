@@ -18,7 +18,7 @@ const DEFAULT_CFG = {
   exampleUrls: { essentiel: '', premium: '' },
   packs: {
     essentiel: { price: '150€', desc: 'Site vitrine + gestion autonome' },
-    premium:   { price: '490€', desc: 'Commandes en ligne & livraison' },
+    premium:   { price: '490€', desc: 'Commandes en ligne & livréison' },
   },
   hero: {
     title:    'Votre restaurant en ligne en 5 jours',
@@ -845,21 +845,21 @@ function buildAIPrompt(group, cfg) {
     lines.push(`## ${s++}. SYSTÈME DE COMMANDE EN LIGNE (Pack Premium)`)
     lines.push('')
 
-    lines.push(`### Mode de livraison : ${deliveryMode === 'internal' ? 'Livraison directe uniquement' : deliveryMode === 'platforms' ? 'Plateformes uniquement' : 'Livraison directe + Plateformes'}`)
+    lines.push(`### Mode de livréison : ${deliveryMode === 'internal' ? 'Livraison directe uniquement' : deliveryMode === 'platforms' ? 'Plateformes uniquement' : 'Livraison directe + Plateformes'}`)
     lines.push('')
 
     if (deliveryMode === 'internal' || deliveryMode === 'both') {
       lines.push(`### Commande directe sur le site`)
       lines.push(`- Bouton panier flottant bas-droite (🛒 + badge compteur)`)
       lines.push(`- Chaque plat a un bouton "+" pour ajouter au panier`)
-      lines.push(`- Modal panier : liste articles avec +/−, total, formulaire livraison (Nom*, Tél*, Adresse*, Notes)`)
+      lines.push(`- Modal panier : liste articles avec +/−, total, formulaire livréison (Nom*, Tél*, Adresse*, Notes)`)
       lines.push(`- Délai estimé affiché : "${deliveryEta}"`)
       lines.push(`- Bouton "Confirmer la commande" → commande envoyée + message de confirmation`)
       lines.push('')
     }
 
     if ((deliveryMode === 'platforms' || deliveryMode === 'both') && hasPlateforms) {
-      lines.push(`### Liens vers plateformes de livraison`)
+      lines.push(`### Liens vers plateformes de livréison`)
       lines.push(`Crée une section "Commander via" avec les boutons suivants (avec leur vrai logo/couleur) :`)
       if (ubereatsUrl)  lines.push(`- **UberEats** → ${ubereatsUrl}`)
       if (deliverooUrl) lines.push(`- **Deliveroo** → ${deliverooUrl}`)
@@ -1015,7 +1015,7 @@ function AiTab({ subs, forms, cfg }) {
             <div style={{ marginTop: 12, padding: '12px 16px', background: 'linear-gradient(135deg,#0071E322,#5b5ef422)', border: '1px solid #bfdbfe', borderRadius: 10, fontSize: 12.5, color: '#1e40af', lineHeight: 1.7 }}>
               <strong>Comment utiliser :</strong> Copie le prompt ci-dessous → ouvre{' '}
               <a href="https://claude.ai" target="_blank" rel="noreferrer" style={{ color: '#0071E3', fontWeight: 700 }}>claude.ai</a>
-              {' '}→ colle le prompt → Claude crée le site HTML complet en une seule réponse, prêt à livrer.
+              {' '}→ colle le prompt → Claude crée le site HTML complet en une seule réponse, prêt à livrér.
             </div>
             <textarea readOnly value={prompt}
               style={{

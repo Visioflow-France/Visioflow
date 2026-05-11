@@ -8,7 +8,7 @@ export default function LandingPage() {
         <title>Visioflow — Votre site restaurant en 48h</title>
         <meta
           name="description"
-          content="Visioflow crée votre site de restaurant professionnel avec commande en ligne en seulement 48 heures."
+          content="Visioflow crée votre site de restaurant professionnel avec commandes en ligne en seulement 48 heures."
         />
       </Head>
       <div className="overflow-x-hidden w-full min-h-screen">
