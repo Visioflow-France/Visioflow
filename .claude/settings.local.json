@@ -28,7 +28,10 @@
       "Bash(pkill -f \"next dev\")",
       "PowerShell(Select-String -Path \"C:\\\\Users\\\\clayt\\\\OneDrive\\\\Desktop\\\\Visioflow-Projet\\\\Visioflow2\\\\pages\\\\index.js\" -Pattern \"handleRestaurant|f-photos\" | Select-Object LineNumber, @{N='Text';E={$_.Line.Substring\\([Math]::Max\\(0,$_.Line.Length-200\\)\\)}})",
       "Bash(python *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(Remove-Item \"C:/Users/clayt/OneDrive/Desktop/Visioflow-Projet/rebuild_av.py\" -ErrorAction SilentlyContinue)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\clayt\\\\OneDrive\\\\Desktop\\\\Visioflow-Projet\\\\Visioflow2\" -Recurse -Directory)",
+      "Bash(Select-Object -First 30 FullName)"
     ]
   }
 }

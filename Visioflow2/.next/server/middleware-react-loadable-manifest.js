@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{\"pages\\\\index.js -> ../components/ShowcaseIntro\":{\"id\":\"pages\\\\index.js -> ../components/ShowcaseIntro\",\"files\":[]}}"
+self.__REACT_LOADABLE_MANIFEST="{\"pages\\\\_app.js -> @/components/FloatingBackground\":{\"id\":\"pages\\\\_app.js -> @/components/FloatingBackground\",\"files\":[\"static/chunks/components_FloatingBackground_js.js\"]},\"pages\\\\_app.js -> @/components/ShowcaseIntro\":{\"id\":\"pages\\\\_app.js -> @/components/ShowcaseIntro\",\"files\":[\"static/chunks/components_ShowcaseIntro_js.js\"]}}"

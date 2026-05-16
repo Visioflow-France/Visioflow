@@ -21,13 +21,13 @@ const DEFAULT_CFG = {
     premium:   { price: '490€', desc: 'Commandes en ligne & livréison' },
   },
   hero: {
-    title:    'Votre restaurant en ligne en 5 jours',
-    subtitle: 'Site vitrine ou commandes en ligne — livré clé en main, zéro abonnement.',
-    ctaText:  'Créer mon site →'
+    title:    '',
+    subtitle: '',
+    ctaText:  ''
   },
   payment: {
-    essentiel: { stripe: 'https://buy.stripe.com/8x228kbpzaHz8CHajjdUY07', paypal: 'https://paypal.me/AdelinaLallinaj/150EUR' },
-    premium:   { stripe: 'https://buy.stripe.com/7sYbIUfFPdTL1afdvvdUY06', paypal: 'https://paypal.me/AdelinaLallinaj/490EUR' },
+    essentiel: { stripe: 'https://buy.stripe.com/8x228kbpzaHz8CHajjdUY07' },
+    premium:   { stripe: 'https://buy.stripe.com/7sYbIUfFPdTL1afdvvdUY06' },
   }
 }
 
@@ -526,7 +526,6 @@ function EditTab({ cfg, update, save, dirty, saving }) {
   const sections = [
     { id: 'urls',    label: '🔗 URLs d\'exemple' },
     { id: 'packs',   label: '💰 Tarifs & packs' },
-    { id: 'hero',    label: '🏠 Page d\'accueil' },
     { id: 'payment', label: '💳 Liens de paiement' },
   ]
 
@@ -627,19 +626,22 @@ function EditTab({ cfg, update, save, dirty, saving }) {
 
       {section === 'payment' && (
         <div className="db-card">
-          <div className="db-card-head">Liens de paiement Stripe</div>
-          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 20 }}>Le prix affiché ici se met à jour automatiquement depuis l'onglet "Tarifs & packs".</p>
+          <div className="db-card-head">Liens de paiement</div>
+          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 20 }}>Les modifications s'appliquent immédiatement sur le site (temps réel). Le prix affiché se met à jour depuis l'onglet "Tarifs & packs".</p>
           {['essentiel', 'premium'].map(pack => (
-            <div key={pack} style={{ marginBottom: 24, paddingBottom: 20, borderBottom: '1px solid #f1f5f9' }}>
+            <div key={pack} style={{ marginBottom: 28, paddingBottom: 24, borderBottom: '1px solid #f1f5f9' }}>
               <h3 style={{ fontSize: 13, fontWeight: 700, color: PACK_COLOR[pack], marginBottom: 12 }}>
                 {PACK_LABEL[pack]} — {cfg.packs?.[pack]?.price || (PACK_PRICE[pack] + ' €')}
               </h3>
               <div className="db-field">
-                <label>🔵 Lien Stripe</label>
+                <label>Lien Stripe</label>
                 <input type="url" value={cfg.payment?.[pack]?.stripe || ''} onChange={e => update('payment.' + pack + '.stripe', e.target.value)} placeholder="https://buy.stripe.com/..." />
               </div>
             </div>
           ))}
+          <div className="db-info-box">
+            💡 Les liens Stripe et PayPal sont utilisés automatiquement lors du paiement selon le choix du client.
+          </div>
         </div>
       )}
     </div>
@@ -706,14 +708,29 @@ function buildAIPrompt(group, cfg) {
   const logoUrl = form?.logoUrl || ''
   const menuCardPhotoUrl = form?.menuCardPhotoUrl || ''
 
-  // Livraison (Premium)
+  // Livraison (Premium + Essentiel pour les plateformes)
   const deliveryMode = city.deliveryMode || 'internal'
-  const ubereatsUrl  = city.ubereatsUrl  || ''
-  const deliverooUrl = city.deliverooUrl || ''
-  const justEatUrl   = city.justEatUrl   || ''
-  const otherUrl     = city.otherDeliveryUrl || ''
+  const ubereatsUrl  = city.ubereatsUrl  || form?.ubereatsUrl  || ''
+  const deliverooUrl = city.deliverooUrl || form?.deliverooUrl || ''
+  const justEatUrl   = city.justEatUrl   || form?.justEatUrl   || ''
+  const otherUrl     = city.otherDeliveryUrl || form?.otherDeliveryUrl || ''
   const deliveryEta  = city.deliveryEta  || '30-45 min'
   const hasPlateforms = ubereatsUrl || deliverooUrl || justEatUrl || otherUrl
+
+  // Réseaux sociaux & contact
+  const instagram = form?.instagram || builder?.instagram || ''
+  const facebook  = form?.facebook  || builder?.facebook  || ''
+  const tiktok    = form?.tiktok    || builder?.tiktok    || ''
+  const website   = form?.website   || ''
+  const phone     = form?.phone     || city?.tel          || ''
+  const address   = form?.address   || city?.address      || ''
+  const email     = form?.email     || city?.email        || ''
+  const horaires  = form?.horaires  || city?.horaires     || ''
+  const slogan    = form?.slogan    || ''
+  const remarks   = form?.remarks   || ''
+
+  // Photos galerie restaurant
+  const restaurantPhotos = form?.restaurantPhotos || []
 
   // Photos menu avec contexte
   const photosMenu = []
@@ -743,12 +760,18 @@ function buildAIPrompt(group, cfg) {
 
   // ── SECTION 1 : INFOS ────────────────────────────────────────
   lines.push(`## ${s++}. INFORMATIONS DU RESTAURANT`)
-  lines.push(`- Nom : ${restaurantName}`)
-  if (cuisine)       lines.push(`- Type de cuisine : ${cuisine}`)
-  if (city.address)  lines.push(`- Adresse : ${city.address}`)
-  if (city.tel)      lines.push(`- Téléphone : ${city.tel}`)
-  if (city.email)    lines.push(`- Email : ${city.email}`)
-  if (city.horaires) lines.push(`- Horaires : ${city.horaires}`)
+  lines.push(`- Nom : **${restaurantName}**`)
+  if (cuisine)   lines.push(`- Type de cuisine : ${cuisine}`)
+  if (slogan)    lines.push(`- Slogan / accroche : "${slogan}"`)
+  if (address)   lines.push(`- Adresse : ${address}`)
+  if (phone)     lines.push(`- Téléphone : ${phone}`)
+  if (email)     lines.push(`- Email : ${email}`)
+  if (horaires)  lines.push(`- Horaires : ${horaires}`)
+  if (website)   lines.push(`- Site existant : ${website}`)
+  if (instagram) lines.push(`- Instagram : ${instagram}`)
+  if (facebook)  lines.push(`- Facebook : ${facebook}`)
+  if (tiktok)    lines.push(`- TikTok : ${tiktok}`)
+  if (remarks)   lines.push(`\n### Remarques du client\n${remarks}`)
   lines.push('')
 
   // ── SECTION 2 : DESIGN & PHOTOS ──────────────────────────────
@@ -769,6 +792,17 @@ function buildAIPrompt(group, cfg) {
     lines.push(`→ Pas de logo fourni. Crée un logo texte stylé "**${restaurantName}**" en Playfair Display dans la nav et footer`)
   }
   lines.push('')
+
+  if (restaurantPhotos.length > 0) {
+    lines.push(`### PHOTOS DU RESTAURANT (galerie)`)
+    lines.push(`Utilise ces photos dans la galerie, la section hero et la section "À propos". Chaque URL est une vraie photo du restaurant.`)
+    restaurantPhotos.forEach((url, i) => {
+      lines.push(`- Photo ${i+1} : ${url}`)
+    })
+    lines.push(`→ Photo 1 : utiliser en arrière-plan du hero (avec overlay sombre)`)
+    if (restaurantPhotos.length > 1) lines.push(`→ Photos suivantes : galerie / section ambiance`)
+    lines.push('')
+  }
 
   if (photosMenu.length > 0) {
     lines.push(`### PHOTOS DES PLATS`)
@@ -840,45 +874,134 @@ function buildAIPrompt(group, cfg) {
     lines.push('')
   }
 
-  // ── SECTION 5 : LIVRAISON & COMMANDES (PREMIUM) ──────────────
+  // ── SECTION 5 : PLATEFORMES DE LIVRAISON (ESSENTIEL) ─────────
+  if (!isPremium && hasPlateforms) {
+    lines.push(`## ${s++}. PLATEFORMES DE LIVRAISON`)
+    lines.push(`Crée une section visuellement soignée "Commander via" placée juste après la carte menu.`)
+    lines.push(`Affiche les boutons suivants avec le **vrai logo officiel** et la **couleur de marque** de chaque plateforme :`)
+    lines.push('')
+    if (ubereatsUrl)  lines.push(`- **Uber Eats** (fond noir #000, logo blanc) → ${ubereatsUrl}`)
+    if (deliverooUrl) lines.push(`- **Deliveroo** (fond #00CCBC, logo blanc) → ${deliverooUrl}`)
+    if (justEatUrl)   lines.push(`- **Just Eat** (fond #FF8000, logo blanc) → ${justEatUrl}`)
+    if (otherUrl)     lines.push(`- **Autre plateforme** → ${otherUrl}`)
+    lines.push(`Chaque bouton : padding 14px 28px, border-radius 12px, font-weight 700, ouvre dans un nouvel onglet (target="_blank").`)
+    lines.push(`Pas de panier ni de commande directe pour ce pack.`)
+    lines.push('')
+  }
+
+  // ── SECTION 5 : LIVRAISON & COMMANDES STRIPE CONNECT + FIREBASE (PREMIUM) ──
   if (isPremium) {
-    lines.push(`## ${s++}. SYSTÈME DE COMMANDE EN LIGNE (Pack Premium)`)
+    const slug = restaurantName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')
+    lines.push(`## ${s++}. PACK PREMIUM — Commandes en ligne + Dashboard admin`)
+    lines.push('')
+    lines.push(`### Architecture globale`)
+    lines.push(`Ce site est généré par VisioFlow. Il s'intègre dans l'infrastructure suivante :`)
+    lines.push(`- **Firebase partagé** : projet visioflow-cb6eb-9d051 (toutes données isolées sous restaurants/${slug}/)`)
+    lines.push(`- **Stripe Connect** : VisioFlow est la plateforme, ce restaurant est un compte connecté (stripeAccountId fourni à la livraison)`)
+    lines.push(`- **Emails** : via Resend (API VisioFlow)`)
+    lines.push(`- **API routes** : hébergées sur le projet Next.js VisioFlow (visioflow.fr/api/...)`)
+    lines.push('')
+    lines.push(`### Configuration (objet CFG dans le script)`)
+    lines.push(`\`\`\`js`)
+    lines.push(`const CFG = {`)
+    lines.push(`  restaurantId:   "${slug}",`)
+    lines.push(`  restaurantName: "${restaurantName}",`)
+    lines.push(`  stripeAccountId: "acct_XXXXXXXX", // compte Stripe Connect du restaurant — fourni à la livraison`)
+    lines.push(`  firebase: {`)
+    lines.push(`    apiKey:            "AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY",`)
+    lines.push(`    authDomain:        "visioflow-cb6eb.firebaseapp.com",`)
+    lines.push(`    projectId:         "visioflow-cb6eb-9d051",`)
+    lines.push(`    storageBucket:     "visioflow-cb6eb.firebasestorage.app",`)
+    lines.push(`    messagingSenderId: "208625257783",`)
+    lines.push(`    appId:             "1:208625257783:web:903429389d81159833deb2"`)
+    lines.push(`  },`)
+    lines.push(`  apiBase: "https://visioflow.fr/api"`)
+    lines.push(`}`)
+    lines.push(`\`\`\``)
     lines.push('')
 
-    lines.push(`### Mode de livréison : ${deliveryMode === 'internal' ? 'Livraison directe uniquement' : deliveryMode === 'platforms' ? 'Plateformes uniquement' : 'Livraison directe + Plateformes'}`)
+    lines.push(`### Structure Firebase`)
+    lines.push(`\`\`\``)
+    lines.push(`restaurants/${slug}/`)
+    lines.push(`  config/          → infos, horaires, couleurs`)
+    lines.push(`  menu/            → plats (nom, prix, description, photo, catégorie, actif)`)
+    lines.push(`  commandes/       → une commande par document :`)
+    lines.push(`    {`)
+    lines.push(`      plats: [{ nom, quantite, prix }],`)
+    lines.push(`      total: number,`)
+    lines.push(`      statut: "en_attente" | "confirme" | "livre" | "annule",`)
+    lines.push(`      clientNom, clientEmail, clientAdresse: string,`)
+    lines.push(`      stripeSessionId: string,`)
+    lines.push(`      createdAt: timestamp`)
+    lines.push(`    }`)
+    lines.push(`\`\`\``)
     lines.push('')
 
     if (deliveryMode === 'internal' || deliveryMode === 'both') {
-      lines.push(`### Commande directe sur le site`)
-      lines.push(`- Bouton panier flottant bas-droite (🛒 + badge compteur)`)
-      lines.push(`- Chaque plat a un bouton "+" pour ajouter au panier`)
-      lines.push(`- Modal panier : liste articles avec +/−, total, formulaire livréison (Nom*, Tél*, Adresse*, Notes)`)
-      lines.push(`- Délai estimé affiché : "${deliveryEta}"`)
-      lines.push(`- Bouton "Confirmer la commande" → commande envoyée + message de confirmation`)
+      lines.push(`### Flux de commande (Stripe Connect)`)
+      lines.push(`**Étape 1 — Panier**`)
+      lines.push(`- Bouton panier flottant bas-droite (icône + badge compteur)`)
+      lines.push(`- Chaque plat : bouton "+" pour ajouter`)
+      lines.push(`- Panier latéral : articles, quantités +/−, sous-total, bouton "Commander →"`)
+      lines.push('')
+      lines.push(`**Étape 2 — Infos client**`)
+      lines.push(`- Nom complet*, Email*, Téléphone*, Adresse de livraison*`)
+      lines.push(`- Délai estimé : "${deliveryEta}"`)
+      lines.push('')
+      lines.push(`**Étape 3 — Paiement via Stripe Connect**`)
+      lines.push(`- Appel POST \`${CFG?.apiBase ?? 'https://visioflow.fr/api'}/commandes/checkout\` avec :`)
+      lines.push(`  { restaurantId, items, customer, stripeAccountId }`)
+      lines.push(`- Le backend VisioFlow crée une Checkout Session Stripe sur le compte connecté du restaurant`)
+      lines.push(`- Redirect vers la page Stripe hébergée (stripe.redirectToCheckout)`)
+      lines.push(`- L'argent va directement sur le compte Stripe du restaurant`)
+      lines.push(`- VisioFlow peut prélever une commission automatique (application_fee_amount)`)
+      lines.push('')
+      lines.push(`**Étape 4 — Webhook Stripe → Firebase + Emails**`)
+      lines.push(`- L'événement checkout.session.completed déclenche POST \`/api/webhooks/stripe\``)
+      lines.push(`- Le backend VisioFlow :`)
+      lines.push(`  1. Crée la commande dans Firebase (restaurants/${slug}/commandes/)`)
+      lines.push(`  2. Envoie un email au restaurateur (via Resend) : plats, total, adresse client`)
+      lines.push(`  3. Envoie un email de confirmation au client : récap commande, montant, délai`)
+      lines.push(`- Page de confirmation affichée au client`)
       lines.push('')
     }
 
     if ((deliveryMode === 'platforms' || deliveryMode === 'both') && hasPlateforms) {
-      lines.push(`### Liens vers plateformes de livréison`)
-      lines.push(`Crée une section "Commander via" avec les boutons suivants (avec leur vrai logo/couleur) :`)
-      if (ubereatsUrl)  lines.push(`- **UberEats** → ${ubereatsUrl}`)
+      lines.push(`### Plateformes de livraison partenaires`)
+      if (ubereatsUrl)  lines.push(`- **Uber Eats** → ${ubereatsUrl}`)
       if (deliverooUrl) lines.push(`- **Deliveroo** → ${deliverooUrl}`)
       if (justEatUrl)   lines.push(`- **Just Eat** → ${justEatUrl}`)
-      if (otherUrl)     lines.push(`- **Autre plateforme** → ${otherUrl}`)
-      lines.push(`Chaque bouton s'ouvre dans un nouvel onglet (target="_blank")`)
+      if (otherUrl)     lines.push(`- **Autre** → ${otherUrl}`)
+      lines.push(`Chaque bouton ouvre dans un nouvel onglet (target="_blank").`)
       lines.push('')
     }
 
-    lines.push(`### Panel admin restaurant (inclus dans le même fichier HTML)`)
-    lines.push(`- Bouton "⚙ Accès restaurant" discret dans le footer`)
-    lines.push(`- Login avec mot de passe (variable CFG.adminPassword = "admin2024" par défaut)`)
-    lines.push(`- Dashboard temps réel : liste des commandes avec statuts Nouvelle → En préparation → Prête → Livrée`)
-    lines.push(`- Stats du jour : nombre commandes, CA, en cours`)
+    lines.push(`### Page /admin — Dashboard restaurateur`)
+    lines.push(`Accessible via bouton "⚙" discret dans le footer. Login Firebase Auth (email + mot de passe).`)
+    lines.push(`Le restaurateur ne voit que ses propres données (restaurantId = ${slug}).`)
     lines.push('')
-
-    lines.push(`### Configuration Firebase (objet CFG en haut du script)`)
-    lines.push(`Créer const CFG = { restaurantName: "${restaurantName}", restaurantSlug: "${restaurantName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')}", adminPassword: "admin2024", firebase: { apiKey: "AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY", authDomain: "visioflow-cb6eb.firebaseapp.com", projectId: "visioflow-cb6eb-9d051", storageBucket: "visioflow-cb6eb.firebasestorage.app", messagingSenderId: "208625257783", appId: "1:208625257783:web:903429389d81159833deb2" } }`)
-    lines.push(`Commandes stockées dans collection Firebase "orders" avec champ restaurantSlug`)
+    lines.push(`**Onglet Commandes** :`)
+    lines.push(`- Commandes en temps réel via onSnapshot(restaurants/${slug}/commandes)`)
+    lines.push(`- Notification sonore à chaque nouvelle commande`)
+    lines.push(`- Afficher : plats, quantités, total, adresse client, heure`)
+    lines.push(`- Boutons "Confirmer" / "Annuler" → met à jour statut dans Firebase → email au client`)
+    lines.push(`- Stats du jour : nb commandes, CA, commandes en attente`)
+    lines.push('')
+    lines.push(`**Onglet Menu** :`)
+    lines.push(`- Ajouter / modifier / supprimer des plats`)
+    lines.push(`- Upload photo via Firebase Storage`)
+    lines.push(`- Activer / désactiver un plat (rupture de stock)`)
+    lines.push(`- Changements instantanément visibles sur le site public (onSnapshot)`)
+    lines.push('')
+    lines.push(`**Onglet Horaires** :`)
+    lines.push(`- Modifier les horaires jour par jour`)
+    lines.push(`- Toggle "Fermé aujourd'hui"`)
+    lines.push('')
+    lines.push(`**Onglet Infos** :`)
+    lines.push(`- Modifier adresse, téléphone, email, réseaux sociaux, slogan`)
+    lines.push('')
+    lines.push(`**Onglet Photos** :`)
+    lines.push(`- Ajouter / supprimer des photos de la galerie via Firebase Storage`)
     lines.push('')
   }
 
@@ -892,13 +1015,38 @@ function buildAIPrompt(group, cfg) {
     lines.push(`**4. Commande / Livraison** — ${deliveryMode !== 'internal' && hasPlateforms ? 'boutons plateformes ' + [ubereatsUrl && 'UberEats', deliverooUrl && 'Deliveroo', justEatUrl && 'Just Eat'].filter(Boolean).join(', ') : ''}${deliveryMode !== 'platforms' ? ' + formulaire commande directe' : ''}`)
     lines.push(`**5. À propos** — histoire du restaurant, stats, ambiance`)
     lines.push(`**6. Infos pratiques** — horaires tableau, adresse cliquable Google Maps, tél cliquable, email cliquable`)
-    lines.push(`**7. Réservation** — formulaire (Nom, Email, Tél, Date, Couverts, Message)`)
-    lines.push(`**8. Footer** — logo, liens, réseaux sociaux, copyright, bouton admin discret`)
+    lines.push(`**7. Réservation** — section épurée avec uniquement le numéro de téléphone du restaurant (${phone || 'numéro fourni'}), grand et cliquable (tel:). Texte : "Pour réserver une table, appelez-nous". Pas de formulaire.`)
+    lines.push(`**8. Réseaux sociaux** — section dédiée avec icônes et liens vers ${[instagram && 'Instagram', facebook && 'Facebook', tiktok && 'TikTok'].filter(Boolean).join(', ') || 'les réseaux du restaurant'}. Grandes icônes rondes colorées, effet hover. Si aucun réseau fourni, ne pas afficher la section.`)
+    lines.push(`**9. Footer** — logo, liens, réseaux sociaux, copyright, bouton admin discret`)
   } else {
-    lines.push(`**4. À propos** — histoire du restaurant, stats, ambiance`)
-    lines.push(`**5. Infos pratiques** — horaires tableau, adresse cliquable, tél, email`)
-    lines.push(`**6. Réservation** — formulaire (Nom, Email, Tél, Date, Couverts, Message)`)
-    lines.push(`**7. Footer** — logo, liens, réseaux sociaux, copyright`)
+    lines.push(`**4. ${hasPlateforms ? 'Plateformes de livraison' : 'À propos'}** — ${hasPlateforms ? 'boutons Uber Eats / Deliveroo / Just Eat avec vrais logos' : 'histoire du restaurant, stats, ambiance'}`)
+    if (hasPlateforms) lines.push(`**5. À propos** — histoire du restaurant, stats, ambiance`)
+    const n = hasPlateforms ? 6 : 5
+    lines.push(`**${n}. Infos pratiques** — horaires tableau, adresse cliquable, tél, email`)
+    lines.push(`**${n+1}. Réservation** — section épurée avec uniquement le numéro de téléphone du restaurant (${phone || 'numéro fourni'}), grand et cliquable (tel:). Texte : "Pour réserver une table, appelez-nous". Pas de formulaire.`)
+    lines.push(`**${n+2}. Réseaux sociaux** — section dédiée avec icônes et liens vers ${[instagram && 'Instagram', facebook && 'Facebook', tiktok && 'TikTok'].filter(Boolean).join(', ') || 'les réseaux du restaurant'}. Grandes icônes rondes colorées, effet hover. Si aucun réseau fourni, ne pas afficher la section.`)
+    lines.push(`**${n+3}. Footer** — logo, liens, réseaux sociaux, copyright, bouton admin discret "⚙"`)
+    lines.push('')
+    lines.push(`### Dashboard admin — Gestion en autonomie (Essentiel)`)
+    lines.push(`Le restaurateur doit pouvoir gérer son site entièrement seul, sans contacter VisioFlow.`)
+    lines.push(`- Bouton "⚙ Espace admin" discret dans le footer → login avec mot de passe (CFG.adminPassword)`)
+    lines.push(`- Interface claire avec onglets :`)
+    lines.push(`  **Onglet Menu** :`)
+    lines.push(`  - Ajouter / modifier / supprimer des plats (nom, description, prix, photo, catégorie)`)
+    lines.push(`  - Activer / désactiver un plat (rupture de stock)`)
+    lines.push(`  - Réordonner les catégories`)
+    lines.push(`  **Onglet Horaires** :`)
+    lines.push(`  - Modifier les horaires jour par jour`)
+    lines.push(`  - Fermeture exceptionnelle (toggle "Fermé aujourd'hui")`)
+    lines.push(`  **Onglet Infos** :`)
+    lines.push(`  - Modifier adresse, téléphone, email, réseaux sociaux`)
+    lines.push(`  - Modifier le slogan / texte de présentation`)
+    lines.push(`  **Onglet Photos** :`)
+    lines.push(`  - Ajouter / supprimer des photos de la galerie`)
+    lines.push(`- Chaque modification écrit dans Firebase (collection restaurants/${restaurantName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')}/config)`)
+    lines.push(`- Le site public lit Firebase en temps réel (onSnapshot) → les changements sont instantanés`)
+    lines.push(`- Pas de rechargement de page nécessaire`)
+    lines.push(`- Architecture Firebase partagée : même projet VisioFlow, données isolées par restaurant`)
   }
   lines.push('')
 
@@ -922,7 +1070,11 @@ function buildAIPrompt(group, cfg) {
   lines.push(`Livre le code en UN SEUL BLOC HTML complet, prêt à enregistrer en index.html et ouvrir dans un navigateur.`)
   lines.push(`Utilise les VRAIES informations fournies. Les photos doivent être placées exactement aux bons endroits.`)
   lines.push(`Le site doit être visuellement impressionnant et refléter l'identité de ${restaurantName}.`)
-  if (isPremium) lines.push(`Pack Premium : le système de commande ET le panel admin doivent être pleinement fonctionnels.`)
+  if (isPremium) {
+    lines.push(`Pack Premium : le système de commande (panier → livraison → paiement Stripe → Firebase) ET le panel admin doivent être 100% fonctionnels.`)
+    lines.push(`Stripe : utilise stripe.confirmCardPayment() avec un PaymentIntent. Si pas de backend, utilise stripe.redirectToCheckout() en mode client-only avec un price_id Stripe.`)
+  }
+  if (!isPremium && hasPlateforms) lines.push(`Pack Essentiel : les boutons de livraison (Uber Eats / Deliveroo / Just Eat) doivent être bien visibles et fonctionnels. Aucun système de panier ni de commande directe.`)
   lines.push(`COMMENCE DIRECTEMENT PAR <!DOCTYPE html> — aucun texte avant ou après le code.`)
 
   return lines.join('\n')
@@ -1235,5 +1387,52 @@ code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-family: '
   .db-stat-lbl { font-size: 11px; }
   .db-filter-btn { font-size: 11.5px; padding: 5px 10px; }
   .db-main { padding: 66px 10px 24px; }
+}
+
+/* ── CORRECTIONS MOBILE COMPLÈTES ── */
+@media (max-width: 768px) {
+  /* Page headers : empiler titre + bouton */
+  .db-page-header { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+
+  /* Boutons dans les headers */
+  .db-btn-primary, .db-btn-ghost { white-space: normal; }
+
+  /* Champs URL avec bouton : empiler */
+  .db-field-row { flex-direction: column; gap: 8px; }
+  .db-field-row .db-field { flex: none !important; width: 100%; }
+  .db-field-row .db-btn-primary,
+  .db-field-row .db-btn-ghost { width: 100%; justify-content: center; }
+
+  /* Filters : scroll horizontal */
+  .db-filters { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .db-filters::-webkit-scrollbar { display: none; }
+  .db-filter-btn { flex-shrink: 0; }
+
+  /* Edit tabs : scroll horizontal */
+  .db-edit-nav { flex-wrap: nowrap; overflow-x: auto; }
+  .db-edit-tab { flex-shrink: 0; flex: none; }
+
+  /* AI layout : toujours 1 col */
+  .db-ai-layout { grid-template-columns: 1fr !important; }
+
+  /* Empêcher zoom iOS sur les inputs */
+  .db-field input, .db-field textarea, .db-field select { font-size: 16px; }
+
+  /* Carte avec flex en-tête : wrap */
+  .db-card-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+  /* Boutons action côte à côte → pleine largeur */
+  .db-btn-primary.db-btn-block { width: 100%; }
+
+  /* Toast : centré */
+  .db-toast { left: 12px; right: 12px; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .db-stats { grid-template-columns: 1fr; }
+  .db-h1 { font-size: 18px; }
+  .db-card { padding: 14px 12px; }
+  .db-table { min-width: 400px; }
+  .db-table th, .db-table td { font-size: 11px; padding: 9px 8px 9px 0; }
 }
 `

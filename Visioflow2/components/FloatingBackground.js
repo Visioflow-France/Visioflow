@@ -1,9 +1,3 @@
-/*
- * Formes elliptiques qui tombent doucement en boucle infinie.
- * Deux divs imbriquées : outer = rotation fixe, inner = chute CSS.
- * z-index 3 → visible par-dessus le contenu des pages (pointer-events:none).
- */
-
 const SHAPES = [
   { id:  0, w: 560, h: 138, left:  -5, delay:  0, dur: 38, rot:  13, rgb: "99,91,255"  },
   { id:  1, w: 400, h:  98, left:  68, delay:  7, dur: 44, rot: -11, rgb: "244,63,94"  },
@@ -22,60 +16,29 @@ const SHAPES = [
   { id: 14, w: 420, h: 105, left:  40, delay: 19, dur: 56, rot:  -3, rgb: "6,182,212"  },
 ]
 
-/* CSS injecté une seule fois */
-const CSS = `
-@keyframes vf-fall {
-  0%   { transform: translateY(-200px); opacity: 0;    }
-  7%   { opacity: 1;                                   }
-  88%  { opacity: 0.55;                                }
-  100% { transform: translateY(calc(100vh + 240px)); opacity: 0; }
-}
-.vfbg-inner {
-  animation-name: vf-fall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  border-radius: 9999px;
-  position: relative;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-`
-
-let injected = false
-
 export default function FloatingBackground() {
-  /* Inject styles once into <head> */
-  if (typeof document !== 'undefined' && !injected) {
-    injected = true
-    const s = document.createElement('style')
-    s.textContent = CSS
-    document.head.appendChild(s)
-  }
-
   return (
     <>
       {SHAPES.map(s => (
-        /* Outer div: handles rotation (never animated) */
         <div
           key={s.id}
           style={{
-            position:      'fixed',
-            top:           0,
-            left:          `${s.left}%`,
-            transform:     `rotate(${s.rot}deg)`,
+            position:        'fixed',
+            top:             0,
+            left:            `${s.left}%`,
+            transform:       `rotate(${s.rot}deg)`,
             transformOrigin: 'center top',
-            zIndex:        3,           /* above page content (z-index 1) */
-            pointerEvents: 'none',
+            zIndex:          3,
+            pointerEvents:   'none',
           }}
         >
-          {/* Inner div: falls via CSS animation */}
           <div
             className="vfbg-inner"
             style={{
               width:             s.w,
               height:            s.h,
               animationDuration: `${s.dur}s`,
-              animationDelay:    `-${s.delay}s`,  /* start mid-cycle */
+              animationDelay:    `-${s.delay}s`,
               background:        `linear-gradient(135deg, rgba(${s.rgb},0.10) 0%, rgba(${s.rgb},0.03) 60%, transparent 100%)`,
               border:            `1px solid rgba(${s.rgb},0.13)`,
               boxShadow:         `inset 0 0 28px rgba(${s.rgb},0.04)`,

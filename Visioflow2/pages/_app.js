@@ -1,143 +1,99 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback, useState } from 'react'
+import { useRouter } from 'next/router'
 import '../styles/globals.css'
-import ShowcaseIntro     from '@/components/ShowcaseIntro'
-import FloatingBackground from '@/components/FloatingBackground'
-import { gsap }          from 'gsap'
+import dynamic from 'next/dynamic'
+import { gsap } from 'gsap'
 
-/* ─────────────────────────────────────────────────────────────────────
-   RevealCurtain — liaison visuelle entre l'intro et la première page.
-   Un voile noir qui couvre la page au montage puis remonte et disparaît,
-   en continuité avec le rideau montant de ShowcaseIntro.
-───────────────────────────────────────────────────────────────────────*/
-function RevealCurtain() {
-  const ref = useRef(null)
+/* ── Composants client uniquement ── */
+const FloatingBackground = dynamic(() => import('@/components/FloatingBackground'), { ssr: false })
+const ShowcaseIntro      = dynamic(() => import('@/components/ShowcaseIntro'),      { ssr: false })
 
-  useEffect(() => {
-    if (!ref.current) return
-    gsap.fromTo(ref.current,
-      { yPercent: 0 },                          /* start: covers full screen  */
-      {
-        yPercent: -100,                          /* end: swept off screen upward */
-        duration: 0.9,
-        ease: 'power3.inOut',
-        delay: 0.05,
-        onComplete: () => {
-          if (ref.current) ref.current.style.display = 'none'
-        },
-      }
-    )
-  }, [])
-
-  return (
-    <div
-      ref={ref}
-      aria-hidden="true"
-      style={{
-        position:      'fixed',
-        inset:         0,
-        background:    '#000',
-        zIndex:        8999,   /* above page, below ShowcaseIntro (9000) */
-        pointerEvents: 'none',
-      }}
-    />
-  )
-}
-
-/* ─────────────────────────────────────────────────────────────────────
-   Scroll animations — IntersectionObserver global
-───────────────────────────────────────────────────────────────────────*/
+/* ── Scroll observer ── */
 const SCROLL_SEL = [
-  'h2', 'h3',
-  '.sh', '.stl', '.sd',
-  '.tc', '.fc',
-  '.pcard',
-  '.ps', '.sc',
-  '.pp-card', '.sec-cell',
-  '.info-card', '.menu-card',
-  '.vt-section-header',
-  '.band h2', '.offres-cta h2', '.av-cta h2',
-  '.form-section',
+  'h2', 'h3', '.sh', '.stl', '.sd', '.tc', '.fc',
+  '.pcard', '.ps', '.sc', '.pp-card', '.sec-cell',
+  '.info-card', '.menu-card', '.vt-section-header',
+  '.band h2', '.offres-cta h2', '.av-cta h2', '.form-section',
 ].join(',')
 
 function attachScrollObserver(io) {
   try {
     document.querySelectorAll(SCROLL_SEL).forEach((el) => {
-      /* Skip already-wired elements */
       if ('scrollWired' in el.dataset) return
-      /* Skip elements currently in the viewport */
       const r = el.getBoundingClientRect()
       if (r.top < window.innerHeight - 40 && r.bottom > 0) return
-      /* Stagger siblings (1–4) */
       const siblings = Array.from(el.parentElement?.children ?? [])
-      const idx = siblings.indexOf(el) % 4
-      el.dataset.scroll  = ''
-      el.dataset.sd      = idx + 1
+      el.dataset.scroll      = ''
+      el.dataset.sd          = (siblings.indexOf(el) % 4) + 1
       el.dataset.scrollWired = ''
       io.observe(el)
     })
   } catch (_) {}
 }
 
-/* ─────────────────────────────────────────────────────────────────────
-   App
-───────────────────────────────────────────────────────────────────────*/
-export default function App({ Component, pageProps }) {
-  const [ready, setReady] = useState(false)
+/* ── Extras client (FloatingBG + Intro + ScrollObserver) ── */
+function ClientExtras() {
+  const [gone, setGone] = useState(false)
+  const introRef        = useRef(null)
 
-  const handleComplete = useCallback(() => setReady(true), [])
+  const handleComplete = useCallback(() => {
+    if (introRef.current) {
+      gsap.to(introRef.current, {
+        opacity: 0, duration: 0.35, ease: 'power2.inOut', delay: 0.05,
+        onComplete: () => setGone(true),
+      })
+    } else {
+      setGone(true)
+    }
+  }, [])
 
-  /* Set up scroll observer after page mounts */
   useEffect(() => {
-    if (!ready) return
-
     const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('vf-in')
-            io.unobserve(e.target)
-          }
-        })
-      },
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('vf-in'); io.unobserve(e.target) }
+      }),
       { threshold: 0.10, rootMargin: '0px 0px -30px 0px' }
     )
-
-    /* Initial pass after short delay (page must render first) */
-    const t1 = setTimeout(() => attachScrollObserver(io), 400)
-    /* Second pass for dangerouslySetInnerHTML content */
-    const t2 = setTimeout(() => attachScrollObserver(io), 1200)
-
-    /* Watch for dynamically injected HTML (index.js SPA) */
+    const t1 = setTimeout(() => attachScrollObserver(io), 600)
+    const t2 = setTimeout(() => attachScrollObserver(io), 1400)
     const mo = new MutationObserver(() => attachScrollObserver(io))
     mo.observe(document.body, { childList: true, subtree: true })
-
-    return () => {
-      clearTimeout(t1)
-      clearTimeout(t2)
-      io.disconnect()
-      mo.disconnect()
-    }
-  }, [ready])
+    return () => { clearTimeout(t1); clearTimeout(t2); io.disconnect(); mo.disconnect() }
+  }, [])
 
   return (
-    /* Black base → matches intro curtain color, zero flash */
-    <div style={{ background: '#000', minHeight: '100vh' }}>
-
-      {/* ── Floating background (always on, z-index 3) ───────────── */}
+    <>
       <FloatingBackground />
-
-      {/* ── Showcase intro ───────────────────────────────────────── */}
-      {!ready && <ShowcaseIntro onComplete={handleComplete} />}
-
-      {/* ── Main page ────────────────────────────────────────────── */}
-      {ready && (
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          {/* Liaison: black curtain that sweeps off screen upward */}
-          <RevealCurtain />
-          <Component {...pageProps} />
+      {!gone && (
+        <div
+          ref={introRef}
+          style={{ position: 'fixed', inset: 0, zIndex: 9000, pointerEvents: 'auto' }}
+        >
+          <ShowcaseIntro onComplete={handleComplete} />
         </div>
       )}
+    </>
+  )
+}
 
-    </div>
+/* ClientExtras ne tourne jamais côté serveur */
+const ClientExtrasNoSSR = dynamic(() => Promise.resolve(ClientExtras), { ssr: false })
+
+/* ── App ── */
+const SKIP_PAGES = ['/dashboard', '/preview', '/paiement', '/vitrine', '/landing']
+
+export default function App({ Component, pageProps }) {
+  const router   = useRouter()
+  const skipWrap = SKIP_PAGES.includes(router.pathname)
+
+  if (skipWrap) return <Component {...pageProps} />
+
+  /* Le serveur rend UNIQUEMENT <Component> — pas d'extras.
+     Le client ajoute ClientExtrasNoSSR après hydratation sans mismatch. */
+  return (
+    <>
+      <Component {...pageProps} />
+      <ClientExtrasNoSSR />
+    </>
   )
 }

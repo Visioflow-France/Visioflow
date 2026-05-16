@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function Document() {
   return (
-    <Html lang="fr">
+    <Html lang="fr" suppressHydrationWarning>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
         <meta name="theme-color" content="#ffffff"/>
@@ -13,7 +13,7 @@ export default function Document() {
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"/>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"/>
       </Head>
-      <body>
+      <body suppressHydrationWarning>
         <Main />
         <NextScript />
       </body>

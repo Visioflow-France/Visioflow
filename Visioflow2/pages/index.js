@@ -2,9 +2,8 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 
 import dynamic from 'next/dynamic'
-const ShowcaseIntro = dynamic(() => import('../components/ShowcaseIntro'), { ssr: false })
 
-const PAGE_HTML = "<!-- ====== MODAL 1 — ACHAT RESTOFLOW (3 méthodes, sans Swile) ====== -->\n<div class=\"pay-overlay\" id=\"buyOverlay\" onclick=\"if(event.target===this)closeBuy()\">\n  <div class=\"pay-modal\">\n    <div class=\"pay-header\">\n      <div>\n        <div class=\"pay-badge\">\n          <svg width=\"10\" height=\"10\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0110 0v4\"/></svg>\n          Achat s&eacute;curis&eacute; &middot; SSL 256-bit\n        </div>\n        <div class=\"pay-title\" id=\"mTitle\">Pack Essentiel</div>\n        <div class=\"pay-sub\" id=\"mSub\">Site vitrine pour votre restaurant</div>\n      </div>\n      <button class=\"pay-close\" onclick=\"closeBuy()\">&times;</button>\n    </div>\n    <div style=\"padding:16px 24px 0\">\n      <div class=\"pay-summ\">\n        <div class=\"pr\"><span class=\"prl\">Offre</span><span class=\"prr\" id=\"mPack\">Essentiel</span></div>\n        <div class=\"pr\"><span class=\"prl\">Type de restaurant</span><span class=\"prr\" id=\"mCuisine\">&mdash;</span></div>\n        <div class=\"pr\"><span class=\"prl\">Style configur&eacute;</span><span class=\"prr\" id=\"mStyle\">Liste</span></div>\n        <div class=\"pr\"><span class=\"prl\">H&eacute;bergement 1&egrave;re ann&eacute;e</span><span class=\"prr\" style=\"color:#34C759\">Inclus &#10003;</span></div>\n        <div class=\"pr tot\"><span class=\"prl\">Total paiement unique</span><span class=\"prr\" id=\"mPrice\">150&euro;</span></div>\n      </div>\n    </div>\n    <div style=\"padding:18px 24px 0\">\n      <div class=\"pm-label\">Mode de paiement</div>\n      <div class=\"pm-grid3\">\n        <button class=\"pm-btn on\" data-m=\"stripe\" onclick=\"selMethod('stripe')\">\n          <div class=\"pm-ico\" style=\"background:#635BFF\"><svg width=\"12\" height=\"16\" viewBox=\"0 0 14 18\" fill=\"none\"><path d=\"M6.2 6.8C6.2 5.9 6.9 5.5 8 5.5c1.5 0 3 .5 4 1.2V2.3C10.8 1.5 9.4 1 8 1 4.7 1 2.5 2.7 2.5 5.2c0 4.2 5.8 3.5 5.8 5.3 0 1-.8 1.4-2 1.4-1.7 0-3.3-.7-4.4-1.6v4.5c1.2.5 2.7.8 4.4.8 3.4 0 5.7-1.7 5.7-4.2-.1-4.5-5.8-3.6-5.8-4.6z\" fill=\"white\"/></svg></div>\n          <div class=\"pm-name\">Carte</div>\n        </button>\n        <button class=\"pm-btn\" data-m=\"apple\" onclick=\"selMethod('apple')\">\n          <div class=\"pm-ico\" style=\"background:#000;border:.5px solid rgba(255,255,255,.15)\"><svg width=\"12\" height=\"15\" viewBox=\"0 0 14 17\" fill=\"white\"><path d=\"M11.8 8.9c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.6-1.3-.1-2.5.7-3.1.7-.6 0-1.6-.7-2.7-.7C3 4.1 1.2 5.1.4 6.7c-1.6 2.8-.4 7 1.1 9.3.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 2.9-.7 1.3 0 1.7.7 2.9.7 1.2 0 2-1.1 2.8-2.2.9-1.2 1.2-2.4 1.2-2.5-.1 0-2.4-.9-2.4-3.7zM9.7 2.3C10.4 1.4 10.9.2 10.7-.1 9.5 0 8.1.8 7.4 1.7c-.6.8-1.2 2-1 3.1 1.3.1 2.6-.7 3.3-2.5z\"/></svg></div>\n          <div class=\"pm-name\">Apple Pay</div>\n        </button>\n        <button class=\"pm-btn\" data-m=\"paypal\" onclick=\"selMethod('paypal')\">\n          <div class=\"pm-ico\" style=\"background:#003087\"><svg width=\"12\" height=\"15\" viewBox=\"0 0 14 16\" fill=\"none\"><path d=\"M11.5 2.3C10.8 1.5 9.5 1 7.8 1H3.2c-.4 0-.7.3-.8.6L.6 13.4c0 .3.2.5.5.5h2.8l.7-4.3v.1c.1-.4.4-.6.8-.6h1.7c3.2 0 5.7-1.3 6.4-5 .1-.3.1-.6.1-.9-.2-1-.6-1.6-1.1-1.9z\" fill=\"#009cde\"/><path d=\"M5.8 5.4c.1-.4.3-.6.7-.6h4.4c.5 0 1 .1 1.4.2.4.1.8.4 1 .7.1-.3.1-.6.1-.9C13.8 3.8 12.3 3 10.3 3H5.7c-.4 0-.7.3-.8.6L3.1 14.5c0 .3.2.5.5.5h2.5l1.7-9.6z\" fill=\"#012169\"/></svg></div>\n          <div class=\"pm-name\">PayPal</div>\n        </button>\n      </div>\n    </div>\n    <div class=\"pay-form-s\">\n      <label class=\"pay-lbl\">Votre email (confirmation de commande)</label>\n      <input class=\"pay-inp\" type=\"email\" id=\"mEmail\" placeholder=\"votre@email.com\" oninput=\"valEmail()\"/>\n      <button class=\"pay-go b-stripe\" id=\"payGoBtn\" onclick=\"doPay()\" disabled>\n        <span id=\"payGoTxt\">Entrez votre email</span>\n        <div class=\"spinner\" id=\"paySpin\"></div>\n      </button>\n      <div class=\"pay-sec-note\" id=\"paySecNote\">\n        <svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0110 0v4\"/></svg>\n        Paiement s&eacute;curis&eacute; par Stripe &middot; SSL 256-bit &middot; PCI-DSS\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- ====== MODAL 2 — COMMANDE RESTAURANT (avec Swile) ====== -->\n<div class=\"rp-overlay\" id=\"restoOverlay\" onclick=\"if(event.target===this)closeResto()\">\n  <div class=\"rp-modal\" id=\"restoModal\">\n    <div class=\"rp-handle\"></div>\n    <div class=\"rp-header\">\n      <div class=\"rp-title\" id=\"rpTitle\">Votre commande</div>\n      <div class=\"rp-sub\" id=\"rpSub\">Livraison 25&ndash;35 min</div>\n    </div>\n    <div class=\"rp-items\" id=\"rpItems\"></div>\n    <div class=\"rp-total\">\n      <span class=\"rp-total-l\">Total</span>\n      <span class=\"rp-total-r\" id=\"rpTotal\">0.00&euro;</span>\n    </div>\n    <div class=\"rp-methods\">\n      <div class=\"rp-methods-label\">Payer avec</div>\n      <div class=\"rp-grid\">\n        <button class=\"rp-btn on\" data-rm=\"stripe\" onclick=\"selRMethod('stripe')\"><div class=\"rp-btn-ico\" style=\"background:#635BFF\"><svg width=\"10\" height=\"14\" viewBox=\"0 0 14 18\" fill=\"none\"><path d=\"M6.2 6.8C6.2 5.9 6.9 5.5 8 5.5c1.5 0 3 .5 4 1.2V2.3C10.8 1.5 9.4 1 8 1 4.7 1 2.5 2.7 2.5 5.2c0 4.2 5.8 3.5 5.8 5.3 0 1-.8 1.4-2 1.4-1.7 0-3.3-.7-4.4-1.6v4.5c1.2.5 2.7.8 4.4.8 3.4 0 5.7-1.7 5.7-4.2-.1-4.5-5.8-3.6-5.8-4.6z\" fill=\"white\"/></svg></div><div class=\"rp-btn-name\">CB</div></button>\n        <button class=\"rp-btn\" data-rm=\"apple\" onclick=\"selRMethod('apple')\"><div class=\"rp-btn-ico\" style=\"background:#000;border:.5px solid rgba(255,255,255,.15)\"><svg width=\"10\" height=\"13\" viewBox=\"0 0 14 17\" fill=\"white\"><path d=\"M11.8 8.9c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.6-1.3-.1-2.5.7-3.1.7-.6 0-1.6-.7-2.7-.7C3 4.1 1.2 5.1.4 6.7c-1.6 2.8-.4 7 1.1 9.3.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 2.9-.7 1.3 0 1.7.7 2.9.7 1.2 0 2-1.1 2.8-2.2.9-1.2 1.2-2.4 1.2-2.5-.1 0-2.4-.9-2.4-3.7zM9.7 2.3C10.4 1.4 10.9.2 10.7-.1 9.5 0 8.1.8 7.4 1.7c-.6.8-1.2 2-1 3.1 1.3.1 2.6-.7 3.3-2.5z\"/></svg></div><div class=\"rp-btn-name\"> Pay</div></button>\n        <button class=\"rp-btn\" data-rm=\"paypal\" onclick=\"selRMethod('paypal')\"><div class=\"rp-btn-ico\" style=\"background:#003087\"><svg width=\"10\" height=\"13\" viewBox=\"0 0 14 16\" fill=\"none\"><path d=\"M11.5 2.3C10.8 1.5 9.5 1 7.8 1H3.2c-.4 0-.7.3-.8.6L.6 13.4c0 .3.2.5.5.5h2.8l.7-4.3v.1c.1-.4.4-.6.8-.6h1.7c3.2 0 5.7-1.3 6.4-5 .1-.3.1-.6.1-.9-.2-1-.6-1.6-1.1-1.9z\" fill=\"#009cde\"/><path d=\"M5.8 5.4c.1-.4.3-.6.7-.6h4.4c.5 0 1 .1 1.4.2.4.1.8.4 1 .7.1-.3.1-.6.1-.9C13.8 3.8 12.3 3 10.3 3H5.7c-.4 0-.7.3-.8.6L3.1 14.5c0 .3.2.5.5.5h2.5l1.7-9.6z\" fill=\"#012169\"/></svg></div><div class=\"rp-btn-name\">PayPal</div></button>\n        <button class=\"rp-btn\" data-rm=\"swile\" onclick=\"selRMethod('swile')\"><div class=\"rp-btn-ico\" style=\"background:#5F2EEA\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\"><rect width=\"16\" height=\"16\" rx=\"4\" fill=\"#5F2EEA\"/><circle cx=\"7.5\" cy=\"8.5\" r=\"2.5\" fill=\"white\"/><circle cx=\"11.5\" cy=\"4.5\" r=\"1.5\" fill=\"#FF6B6B\"/></svg></div><div class=\"rp-btn-name\">Swile</div></button>\n      </div>\n    </div>\n    <div class=\"rp-confirm\">\n      <button class=\"rp-confirm-btn\" id=\"rpConfirmBtn\" style=\"background:var(--blue)\" onclick=\"confirmRestoOrder()\">Confirmer &amp; Payer</button>\n    </div>\n  </div>\n</div>\n<!-- ====== NAV ====== -->\n<nav class=\"nav\" id=\"mainNav\">\n  <span class=\"nav-logo\" style=\"font-family:Outfit;font-weight:800\" onclick=\"showPage('accueil')\">Visio<span style=\"color:var(--blue)\">Flow</span></span>\n  <button class=\"nl\" id=\"nl-avantages\" onclick=\"showPage('avantages')\">Avantages</button>\n  <button class=\"nl\" id=\"nl-paiements\" onclick=\"showPage('paiements')\">Paiements</button>\n  <button class=\"nav-cta\"              onclick=\"showPage('form')\">Configurer mon site &rarr;</button>\n</nav>\n<!-- ====== PAGE 1 — ACCUEIL ====== -->\n<div class=\"page active\" id=\"page-accueil\">\n  <div class=\"hero\">\n    <div class=\"hero-overlay\"></div>\n    <div class=\"h-eyebrow\"><span class=\"h-dot\"></span>350+ restaurants &eacute;quip&eacute;s &bull; Livr&eacute; en max 5 jours</div>\n    <h1 id=\"hero-title\">Votre restaurant,<br/><span class=\"gr\">en ligne en max 5 jours.</span></h1>\n    <p class=\"hero-sub\" id=\"hero-subtitle\">Sites web premium pour restaurateurs. Menu digital, commandes en ligne, paiements int&eacute;gr&eacute;s &mdash; tout ce qu'il faut pour digitaliser votre &eacute;tablissement.</p>\n    <div class=\"hero-actions\">\n      <button id=\"hero-cta\" class=\"ba\" onclick=\"showPage('form')\">Configurer mon site &rarr;</button>\n    </div>\n    <div class=\"hero-stats\">\n      <div class=\"hs\"><div class=\"hsv\">350+</div><div class=\"hsl\">Restaurants &eacute;quip&eacute;s</div></div>\n      <div class=\"hs\"><div class=\"hsv\">98%</div><div class=\"hsl\">Satisfaction client</div></div>\n      <div class=\"hs\"><div class=\"hsv\">max 5 jours</div><div class=\"hsl\">Mise en ligne</div></div>\n      <div class=\"hs\"><div class=\"hsv\">0&euro;</div><div class=\"hsl\">Abonnement mensuel</div></div>\n    </div>\n  </div>\n\n  <!-- Trust badges -->\n  <div class=\"trust-row\">\n    <div class=\"tbadge\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#22c55e\" stroke-width=\"2.5\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0110 0v4\"/></svg>SSL 256-bit</div>\n    <div class=\"tbadge\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg>PCI-DSS Certifi&eacute;</div>\n    <div class=\"tbadge\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"/></svg>4.9/5 &mdash; 350+ avis</div>\n    <div class=\"tbadge\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#22c55e\" stroke-width=\"2.5\"><polyline points=\"20 6 9 17 4 12\"/></svg>Z&eacute;ro abonnement</div>\n    <div class=\"tbadge\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#8b5cf6\" stroke-width=\"2.5\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>Livr&eacute; en max 5 jours</div>\n    <div class=\"tbadge\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\"><rect x=\"1\" y=\"4\" width=\"22\" height=\"16\" rx=\"2\"/><line x1=\"1\" y1=\"10\" x2=\"23\" y2=\"10\"/></svg>Stripe Partenaire</div>\n  </div>\n\n  <div class=\"teaser-sec\">\n    <div class=\"teaser-bg\"></div>\n    <div class=\"tgrid\">\n      <div class=\"tc\" data-glow><div class=\"tc-ico\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"/></svg></div><h3>Ultra rapide</h3><p>Score Lighthouse 95+. Chargement en moins de 2 secondes sur tous les appareils.</p></div>\n      <div class=\"tc\" data-glow><div class=\"tc-ico\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"5\" y=\"2\" width=\"14\" height=\"20\" rx=\"2\"/><line x1=\"12\" y1=\"18\" x2=\"12.01\" y2=\"18\"/></svg></div><h3>100% Responsive</h3><p>Parfait sur iPhone, Android, tablette et desktop. 78% commandent sur mobile.</p></div>\n      <div class=\"tc\" data-glow><div class=\"tc-ico\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/></svg></div><h3>SEO Google</h3><p>R&eacute;f&eacute;rencement naturel optimis&eacute; d&egrave;s le lancement.</p></div>\n      <div class=\"tc\" data-glow><div class=\"tc-ico\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"1\" y=\"4\" width=\"22\" height=\"16\" rx=\"2\"/><line x1=\"1\" y1=\"10\" x2=\"23\" y2=\"10\"/></svg></div><h3>Paiements int&eacute;gr&eacute;s</h3><p>Stripe, Apple Pay, PayPal, Swile &mdash; tous les modes.</p></div>\n      <div class=\"tc\" data-glow><div class=\"tc-ico\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"18\" y1=\"20\" x2=\"18\" y2=\"10\"/><line x1=\"12\" y1=\"20\" x2=\"12\" y2=\"4\"/><line x1=\"6\" y1=\"20\" x2=\"6\" y2=\"14\"/></svg></div><h3>Dashboard admin</h3><p>Commandes et statistiques en temps r&eacute;el.</p></div>\n      <div class=\"tc\" data-glow><div class=\"tc-ico\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg></div><h3>SSL &amp; S&eacute;curit&eacute;</h3><p>Certificat SSL A+, sauvegardes quotidiennes, protection DDoS.</p></div>\n    </div>\n  </div>\n\n  <div class=\"band\">\n    <div class=\"band-overlay\"></div>\n    <h2>Pr&ecirc;t &agrave; vous lancer&nbsp;?</h2>\n    <p>Configurez votre site dans le Builder, choisissez votre offre, et &ecirc;tes en ligne en max 5 jours.</p>\n    <div style=\"display:flex;gap:14px;justify-content:center;flex-wrap:wrap\">\n      <button class=\"ba\" onclick=\"showPage('form')\">Configurer mon site &rarr;</button>\n    </div>\n  </div>\n\n  <footer class=\"foot\">\n    <div class=\"foot-l\">\n      <button onclick=\"showPage('form')\">Offres</button>\n      <button onclick=\"showPage('form')\">Offres</button>\n      <button onclick=\"showPage('avantages')\">Avantages</button>\n      <button onclick=\"showPage('paiements')\">Paiements</button>\n    </div>\n    <p>&copy; 2026 VisioFlow &mdash; Tous droits r&eacute;serv&eacute;s.</p>\n  </footer>\n</div>\n<!-- ====== PAGE 2 — TARIFS ====== -->\n<div class=\"page\" id=\"page-builder\">\n  <div class=\"offres-wrap\">\n    <div class=\"sh\" style=\"padding-top:36px\">\n      <div class=\"st\">Choisissez votre formule</div>\n      <div class=\"stl\">Votre site livr&eacute; en max 5 jours,<br/>cl&eacute; en main.</div>\n      <div class=\"sd\">Paiement unique &bull; Z&eacute;ro abonnement &bull; H&eacute;bergement premi&egrave;re ann&eacute;e inclus &mdash; un lien, un formulaire, et c&rsquo;est parti.</div>\n    </div>\n    <div class=\"pgrid\">\n      <div class=\"pcard\">\n        <div class=\"pcard-n\">Essentiel</div><div class=\"pcard-t\" id=\"desc-b-essentiel\">Site vitrine + gestion autonome</div>\n        <div class=\"pcard-p\" id=\"price-b-essentiel\">150&euro; <span>/ unique</span></div>\n        <div class=\"pcard-o\">&#10003; Z&eacute;ro abonnement</div>\n        <ul class=\"pf\">\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Menu digital interactif</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Google Maps + t&eacute;l&eacute;phone</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Horaires + adresse</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Design responsive mobile</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>SSL + h&eacute;bergement 1 an</li>\n        </ul>\n        <a class=\"pcard-demo\" id=\"demo-b-essentiel\" href=\"#\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n          Voir un exemple de site complet\n        </a>\n        <button class=\"pbtn-builder\" onclick=\"showPage('form')\">\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z\"/></svg>\n          Remplir le formulaire &rarr;\n        </button>\n      </div>\n      <div class=\"pcard pop\">\n        <div class=\"pcard-b\">Le + populaire</div>\n        <div class=\"pcard-n\">Premium</div><div class=\"pcard-t\" id=\"desc-b-premium\">Commandes en ligne &amp; livraison</div>\n        <div class=\"pcard-p\" id=\"price-b-premium\">490&euro; <span>/ unique</span></div>\n        <div class=\"pcard-o\">&#10003; Z&eacute;ro abonnement</div>\n        <ul class=\"pf\">\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Tout Essentiel inclus</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Panier &amp; commande en ligne</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Stripe &bull; Apple Pay &bull; PayPal</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Dashboard administrateur</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>SEO optimis&eacute; + Analytics</li>\n        </ul>\n        <a class=\"pcard-demo\" id=\"demo-b-premium\" href=\"#\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n          Voir un exemple de site complet\n        </a>\n        <button class=\"pbtn-builder pr\" onclick=\"showPage('form')\">\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z\"/></svg>\n          Remplir le formulaire &rarr;\n        </button>\n      </div>\n      \n    </div>\n  </div>\n  <footer class=\"foot\">\n    <div class=\"foot-l\">\n      <button onclick=\"showPage('accueil')\">Accueil</button>\n      <button onclick=\"showPage('form')\">Offres</button>\n      <button onclick=\"showPage('avantages')\">Avantages</button>\n    </div>\n    <p>&copy; 2026 VisioFlow &mdash; Tous droits r&eacute;serv&eacute;s.</p>\n  </footer>\n</div>\n<!-- ====== PAGE 4 — AVANTAGES ====== -->\n<div class=\"page\" id=\"page-avantages\">\n  <div class=\"av-wrap av-bg-section\">\n    <div class=\"sh\" style=\"padding-top:36px\">\n      <div class=\"st\">Avantages</div>\n      <div class=\"stl\">Tout est inclus<br/>d&egrave;s le premier jour.</div>\n      <div class=\"sd\">Chaque fonctionnalit&eacute; est pens&eacute;e pour maximiser vos commandes et votre visibilit&eacute;.</div>\n    </div>\n    <div class=\"fgrid\">\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#eff6ff\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"/></svg></div><h3>Ultra rapide</h3><p>Score Lighthouse 95+. Moins de 2 secondes sur mobile et desktop.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#f0fdf4\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#16a34a\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"5\" y=\"2\" width=\"14\" height=\"20\" rx=\"2\"/><line x1=\"12\" y1=\"18\" x2=\"12.01\" y2=\"18\"/></svg></div><h3>100% Responsive</h3><p>Parfait sur iPhone, Android, tablette et desktop.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#fefce8\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#ca8a04\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/></svg></div><h3>SEO Google</h3><p>R&eacute;f&eacute;rencement naturel optimis&eacute; d&egrave;s le lancement.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#faf5ff\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"1\" y=\"4\" width=\"22\" height=\"16\" rx=\"2\"/><line x1=\"1\" y1=\"10\" x2=\"23\" y2=\"10\"/></svg></div><h3>Paiements int&eacute;gr&eacute;s</h3><p>Stripe, Apple Pay, PayPal, Swile &mdash; tous les modes.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#fff1f2\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#e11d48\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"18\" y1=\"20\" x2=\"18\" y2=\"10\"/><line x1=\"12\" y1=\"20\" x2=\"12\" y2=\"4\"/><line x1=\"6\" y1=\"20\" x2=\"6\" y2=\"14\"/></svg></div><h3>Dashboard admin</h3><p>Commandes, chiffre d&apos;affaires et stats en temps r&eacute;el.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#f0f9ff\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0369a1\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg></div><h3>SSL &amp; S&eacute;curit&eacute;</h3><p>Certificat SSL A+, sauvegardes quotidiennes, DDoS.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#f0fdf4\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#16a34a\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg></div><h3>Google Maps</h3><p>Carte interactive avec itin&eacute;raire en un clic.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#fefce8\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#ca8a04\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/></svg></div><h3>Galerie photos</h3><p>Photos optimis&eacute;es web pour vos plats.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#eff6ff\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"23 4 23 10 17 10\"/><path d=\"M20.49 15a9 9 0 1 1-2.12-9.36L23 10\"/></svg></div><h3>Mises &agrave; jour</h3><p>Menu, prix et horaires modifiables en autonomie.</p></div>\n    </div>\n  </div>\n\n  <div style=\"padding:60px 24px;background:var(--bg-alt)\">\n    <div class=\"sgrid\" style=\"margin-bottom:60px\">\n      <div class=\"sc\"><div class=\"sv\">350+</div><div class=\"sl\">Restaurants &eacute;quip&eacute;s</div></div>\n      <div class=\"sc\"><div class=\"sv\">98%</div><div class=\"sl\">Satisfaction client</div></div>\n      <div class=\"sc\"><div class=\"sv\">max 5 jours</div><div class=\"sl\">D&eacute;lai de livraison</div></div>\n      <div class=\"sc\"><div class=\"sv\">+34%</div><div class=\"sl\">Commandes en moyenne</div></div>\n    </div>\n    <div style=\"text-align:center;margin-bottom:32px\">\n      <div class=\"st\">Processus</div>\n      <div class=\"stl\" style=\"font-size:clamp(24px,3vw,38px)\">Votre site en 4 &eacute;tapes</div>\n    </div>\n    <div class=\"psteps\" style=\"max-width:900px;margin:0 auto\">\n      <div class=\"ps\"><div class=\"ps-n\">01</div><h4>Vous configurez</h4><p>Choisissez cuisine, couleur et offre dans le Builder.</p></div>\n      <div class=\"ps\"><div class=\"ps-n\">02</div><h4>Vous commandez</h4><p>Paiement s&eacute;curis&eacute; en quelques minutes.</p></div>\n      <div class=\"ps\"><div class=\"ps-n\">03</div><h4>On cr&eacute;e votre site</h4><p>Notre &eacute;quipe d&eacute;veloppe et int&egrave;gre tout en max 5 jours.</p></div>\n      <div class=\"ps\"><div class=\"ps-n\">04</div><h4>Vous &ecirc;tes en ligne</h4><p>Validation, mise en ligne et remise des acc&egrave;s.</p></div>\n    </div>\n  </div>\n\n  <div class=\"av-cta\">\n    <div class=\"av-cta-ov\"></div>\n    <h2>Pr&ecirc;t &agrave; digitaliser<br/>votre restaurant&nbsp;?</h2>\n    <p>Rejoignez 350+ restaurateurs qui ont transform&eacute; leur activit&eacute;.</p>\n    <div style=\"display:flex;gap:14px;justify-content:center;flex-wrap:wrap\">\n      <button class=\"ba\" onclick=\"showPage('form')\">Configurer mon site &rarr;</button>\n    </div>\n  </div>\n  <footer class=\"foot\"><p>&copy; 2026 VisioFlow &mdash; Tous droits r&eacute;serv&eacute;s.</p></footer>\n</div>\n<!-- ====== PAGE 5 — PAIEMENTS ====== -->\n<div class=\"page\" id=\"page-paiements\">\n  <div class=\"pp-wrap\">\n    <div class=\"sh\" style=\"padding-top:36px\">\n      <div class=\"st\">Paiements</div>\n      <div class=\"stl\">Tous les modes<br/>de paiement.</div>\n      <div class=\"sd\">Vos clients paient avec leur m&eacute;thode pr&eacute;f&eacute;r&eacute;e. Int&eacute;gration Stripe s&eacute;curis&eacute;e.</div>\n    </div>\n    <div id=\"pay-orbital-container\"></div>\n    <div class=\"pp-grid\">\n      <div class=\"pp-card\">\n        <div class=\"pp-head\"><div class=\"pp-logo\" style=\"background:#635BFF\"><svg width=\"18\" height=\"24\" viewBox=\"0 0 14 18\" fill=\"none\"><path d=\"M6.2 6.8C6.2 5.9 6.9 5.5 8 5.5c1.5 0 3 .5 4 1.2V2.3C10.8 1.5 9.4 1 8 1 4.7 1 2.5 2.7 2.5 5.2c0 4.2 5.8 3.5 5.8 5.3 0 1-.8 1.4-2 1.4-1.7 0-3.3-.7-4.4-1.6v4.5c1.2.5 2.7.8 4.4.8 3.4 0 5.7-1.7 5.7-4.2-.1-4.5-5.8-3.6-5.8-4.6z\" fill=\"white\"/></svg></div><div><div class=\"pp-name\">Stripe</div><div class=\"pp-sub\">Carte bancaire en ligne</div></div></div>\n        <div class=\"pp-desc\">Le leader mondial du paiement. Acceptez toutes les cartes Visa, Mastercard, CB, American Express. Virements automatiques sur votre compte.</div>\n        <div class=\"pp-tags\"><span class=\"pp-tag\">Visa</span><span class=\"pp-tag\">Mastercard</span><span class=\"pp-tag\">CB</span><span class=\"pp-tag\">3D Secure</span></div>\n      </div>\n      <div class=\"pp-card\">\n        <div class=\"pp-head\"><div class=\"pp-logo\" style=\"background:#000;border:1px solid #333\"><svg width=\"18\" height=\"22\" viewBox=\"0 0 14 17\" fill=\"white\"><path d=\"M11.8 8.9c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.6-1.3-.1-2.5.7-3.1.7-.6 0-1.6-.7-2.7-.7C3 4.1 1.2 5.1.4 6.7c-1.6 2.8-.4 7 1.1 9.3.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 2.9-.7 1.3 0 1.7.7 2.9.7 1.2 0 2-1.1 2.8-2.2.9-1.2 1.2-2.4 1.2-2.5-.1 0-2.4-.9-2.4-3.7zM9.7 2.3C10.4 1.4 10.9.2 10.7-.1 9.5 0 8.1.8 7.4 1.7c-.6.8-1.2 2-1 3.1 1.3.1 2.6-.7 3.3-2.5z\"/></svg></div><div><div class=\"pp-name\">Apple Pay</div><div class=\"pp-sub\">Paiement biom&eacute;trique</div></div></div>\n        <div class=\"pp-desc\">Un tap, Touch ID ou Face ID &mdash; c&apos;est pay&eacute;. R&eacute;duit l&apos;abandon panier de 40% sur mobile. Z&eacute;ro saisie requise.</div>\n        <div class=\"pp-tags\"><span class=\"pp-tag\">Face ID</span><span class=\"pp-tag\">Touch ID</span><span class=\"pp-tag\">Z&eacute;ro saisie</span></div>\n      </div>\n      <div class=\"pp-card\">\n        <div class=\"pp-head\"><div class=\"pp-logo\" style=\"background:#003087\"><svg width=\"18\" height=\"22\" viewBox=\"0 0 14 16\" fill=\"none\"><path d=\"M11.5 2.3C10.8 1.5 9.5 1 7.8 1H3.2c-.4 0-.7.3-.8.6L.6 13.4c0 .3.2.5.5.5h2.8l.7-4.3v.1c.1-.4.4-.6.8-.6h1.7c3.2 0 5.7-1.3 6.4-5 .1-.3.1-.6.1-.9-.2-1-.6-1.6-1.1-1.9z\" fill=\"#009cde\"/><path d=\"M5.8 5.4c.1-.4.3-.6.7-.6h4.4c.5 0 1 .1 1.4.2.4.1.8.4 1 .7.1-.3.1-.6.1-.9C13.8 3.8 12.3 3 10.3 3H5.7c-.4 0-.7.3-.8.6L3.1 14.5c0 .3.2.5.5.5h2.5l1.7-9.6z\" fill=\"#012169\"/></svg></div><div><div class=\"pp-name\">PayPal</div><div class=\"pp-sub\">435M+ utilisateurs</div></div></div>\n        <div class=\"pp-desc\">La m&eacute;thode la plus connue. Compte PayPal ou carte directement. Protection acheteur incluse. 200+ pays.</div>\n        <div class=\"pp-tags\"><span class=\"pp-tag\">Compte PayPal</span><span class=\"pp-tag\">Protection</span><span class=\"pp-tag\">200 pays</span></div>\n      </div>\n      <div class=\"pp-card\">\n        <div class=\"pp-head\"><div class=\"pp-logo\" style=\"background:#5F2EEA\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 16 16\"><rect width=\"16\" height=\"16\" rx=\"4\" fill=\"#5F2EEA\"/><circle cx=\"7.5\" cy=\"8.5\" r=\"2.5\" fill=\"white\"/><circle cx=\"11.5\" cy=\"4.5\" r=\"1.5\" fill=\"#FF6B6B\"/></svg></div><div><div class=\"pp-name\">Swile</div><div class=\"pp-sub\">Titres restaurant digitaux</div></div></div>\n        <div class=\"pp-desc\">Vos clients paient avec leur carte Swile. Id&eacute;al pour les zones d&apos;activit&eacute; et livraisons de bureau. <strong>Sur les sites restaurants uniquement.</strong></div>\n        <div class=\"pp-tags\"><span class=\"pp-tag\">Titre restaurant</span><span class=\"pp-tag\">Carte Swile</span><span class=\"pp-tag\">Pro</span></div>\n        <div class=\"swile-note\">\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#1d4ed8\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\"/></svg>\n          Swile est activ&eacute; sur vos sites restaurants. Non disponible pour l&apos;achat d&apos;une prestation VisioFlow.\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"pp-showcase\">\n    <div class=\"pp-showcase-label\">Paiements s\u00e9curis\u00e9s</div>\n    <div class=\"pp-card-stage\" id=\"pp-card-3d\">\n      <div class=\"pp-card-inner\"><img src=\"/velocity-card.png\" class=\"pp-amex-img\" alt=\"Carte bancaire s\u00e9curis\u00e9e\"/></div>\n    </div>\n  </div>\n    <div class=\"swile-note\" style=\"margin-top:28px;max-width:920px;margin-left:auto;margin-right:auto;padding:18px 22px\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#1d4ed8\" stroke-width=\"2\" style=\"flex-shrink:0;margin-top:2px\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\"/></svg>\n      <div><strong>Important &mdash; Vos propres comptes :</strong> Les moyens de paiement (Stripe, Apple Pay, PayPal, Swile) sont connect&eacute;s &agrave; VOS propres comptes. Vous les configurez vous-m&ecirc;me, comme pour Uber Eats ou Deliveroo : il suffit de remplacer les liens URL dans le code de votre site. <strong>Si c'est trop compliqu&eacute;, on vous aide par appel t&eacute;l&eacute;phonique</strong> gratuitement.</div>\n    </div>\n<div class=\"sec-dark\">\n    <div class=\"sec-dark-ov\"></div>\n    <div class=\"sec-inner\">\n      <div class=\"st\" style=\"color:rgba(255,255,255,.45)\">S&eacute;curit&eacute;</div>\n      <div class=\"stl\" style=\"color:#fff\">Vos transactions<br/>100% s&eacute;curis&eacute;es.</div>\n      <div class=\"sec-grid\">\n        <div class=\"sec-cell\"><div class=\"sec-ico\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"rgba(255,255,255,.7)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0110 0v4\"/></svg></div><h4>SSL 256-bit</h4><p>Donn&eacute;es chiffr&eacute;es de bout en bout entre vos clients et les serveurs.</p></div>\n        <div class=\"sec-cell\"><div class=\"sec-ico\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"rgba(255,255,255,.7)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg></div><h4>PCI-DSS Niveau 1</h4><p>Stripe est certifi&eacute; PCI-DSS niveau 1, la plus haute certification bancaire.</p></div>\n        <div class=\"sec-cell\"><div class=\"sec-ico\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"rgba(255,255,255,.7)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"/></svg></div><h4>3D Secure 2.0</h4><p>Authentification forte automatique pour chaque transaction (DSP2).</p></div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"pay-cta\">\n    <div class=\"st\">Prochaine &eacute;tape</div>\n    <h2>Pr&ecirc;t &agrave; encaisser<br/>vos premi&egrave;res commandes&nbsp;?</h2>\n    <p>Configurez votre site et acceptez tous les paiements en max 5 jours.</p>\n    <div style=\"display:flex;gap:14px;justify-content:center;flex-wrap:wrap\">\n      <button class=\"ba\" onclick=\"showPage('form')\">Configurer mon site &rarr;</button>\n    </div>\n  </div>\n  <div class=\"pay-page-foot\"><p>&copy; 2026 VisioFlow &mdash; Tous droits r&eacute;serv&eacute;s.</p></div>\n</div>\n\n<!-- PAGE 6 ADMIN VISIOFLOW (pour toi Yanis) -->\n<div class=\"page\" id=\"page-admin\">\n  <div class=\"vf-admin\">\n    <div class=\"vf-topbar\">\n      <h1>Visio<span>Flow</span> Admin</h1>\n      <div class=\"vf-topbar-right\">\n        <button class=\"vf-btn-sm vf-btn-ghost\" onclick=\"showPage('form')\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:4px\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><polyline points=\"14 2 14 8 20 8\"/></svg>Voir le formulaire</button>\n        <button class=\"vf-btn-sm vf-btn-blue\" onclick=\"showPage('builder')\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:4px\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z\"/></svg>Builder</button>\n      </div>\n    </div>\n    <div class=\"vf-stat-row\">\n      <div class=\"vf-scard\">\n        <div class=\"vf-scard-label\">Revenus totaux</div>\n        <div class=\"vf-scard-value\" id=\"vfa-revenue\">4 610&euro;</div>\n        <div class=\"vf-scard-trend up\">&uarr; +34% ce mois</div>\n      </div>\n      <div class=\"vf-scard\">\n        <div class=\"vf-scard-label\">Commandes re&ccedil;ues</div>\n        <div class=\"vf-scard-value\" id=\"vfa-orders\">7</div>\n        <div class=\"vf-scard-trend up\">&uarr; 3 cette semaine</div>\n      </div>\n      <div class=\"vf-scard\">\n        <div class=\"vf-scard-label\">Sites en ligne</div>\n        <div class=\"vf-scard-value\" id=\"vfa-live\">4</div>\n        <div class=\"vf-scard-trend up\">2 en construction</div>\n      </div>\n      <div class=\"vf-scard\">\n        <div class=\"vf-scard-label\">Formulaires re&ccedil;us</div>\n        <div class=\"vf-scard-value\" id=\"vfa-forms\">5</div>\n        <div class=\"vf-scard-trend up\">&uarr; 2 &agrave; traiter</div>\n      </div>\n    </div>\n\n    <div class=\"vf-tabs\">\n      <button class=\"vf-tab a\" onclick=\"vfaTab(this,'clients')\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:5px\"><path d=\"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M23 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg>Clients</button>\n      <button class=\"vf-tab\" onclick=\"vfaTab(this,'commandes')\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:5px\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"/></svg>Commandes</button>\n      <button class=\"vf-tab\" onclick=\"vfaTab(this,'formulaires')\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:5px\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><polyline points=\"14 2 14 8 20 8\"/><line x1=\"16\" y1=\"13\" x2=\"8\" y2=\"13\"/><line x1=\"16\" y1=\"17\" x2=\"8\" y2=\"17\"/></svg>Formulaires</button>\n      <button class=\"vf-tab\" onclick=\"vfaTab(this,'revenus')\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:5px\"><line x1=\"12\" y1=\"1\" x2=\"12\" y2=\"23\"/><path d=\"M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6\"/></svg>Revenus</button>\n    </div>\n\n    <!-- Panel Clients -->\n    <div class=\"vf-panel\" id=\"vfa-p-clients\">\n      <div class=\"vf-panel-head\">\n        <div class=\"vf-panel-title\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:6px\"><path d=\"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M23 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg>Tous les clients</div>\n        <button class=\"vf-btn-sm vf-btn-blue\" onclick=\"vfaAddClient()\">+ Ajouter un client</button>\n      </div>\n      <div class=\"vf-panel-body\" style=\"padding:0;overflow-x:auto\">\n        <table class=\"vf-table\">\n          <thead><tr>\n            <th>Client</th><th>Pack</th><th>Cuisine</th><th>Statut</th><th>Date</th><th>Actions</th>\n          </tr></thead>\n          <tbody id=\"vfa-clients-body\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- Panel Commandes -->\n    <div class=\"vf-panel\" id=\"vfa-p-commandes\" style=\"display:none\">\n      <div class=\"vf-panel-head\">\n        <div class=\"vf-panel-title\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:6px\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"/></svg>Historique des commandes</div>\n        <div style=\"display:flex;gap:8px\">\n          <button class=\"vf-btn-sm vf-btn-ghost\">Exporter CSV</button>\n        </div>\n      </div>\n      <div class=\"vf-panel-body\" style=\"padding:0;overflow-x:auto\">\n        <table class=\"vf-table\">\n          <thead><tr>\n            <th>ID</th><th>Client</th><th>Pack</th><th>Montant</th><th>Paiement</th><th>Date</th>\n          </tr></thead>\n          <tbody id=\"vfa-orders-body\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- Panel Formulaires -->\n    <div class=\"vf-panel\" id=\"vfa-p-formulaires\" style=\"display:none\">\n      <div class=\"vf-panel-head\">\n        <div class=\"vf-panel-title\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:6px\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><polyline points=\"14 2 14 8 20 8\"/><line x1=\"16\" y1=\"13\" x2=\"8\" y2=\"13\"/><line x1=\"16\" y1=\"17\" x2=\"8\" y2=\"17\"/></svg>Formulaires post-achat re&ccedil;us</div>\n      </div>\n      <div class=\"vf-panel-body\" style=\"padding:0;overflow-x:auto\">\n        <table class=\"vf-table\">\n          <thead><tr>\n            <th>Client</th><th>Pack</th><th>Restaurant</th><th>Villes</th><th>Re&ccedil;u le</th><th>Actions</th>\n          </tr></thead>\n          <tbody id=\"vfa-forms-body\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- Panel Revenus -->\n    <div class=\"vf-panel\" id=\"vfa-p-revenus\" style=\"display:none\">\n      <div class=\"vf-panel-head\">\n        <div class=\"vf-panel-title\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:6px\"><line x1=\"12\" y1=\"1\" x2=\"12\" y2=\"23\"/><path d=\"M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6\"/></svg>R&eacute;capitulatif des revenus</div>\n      </div>\n      <div class=\"vf-panel-body\">\n        <div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px\">\n          <div style=\"background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.06);border-radius:12px;padding:16px;text-align:center\">\n            <div style=\"font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px\">Essentiel (150&euro;)</div>\n            <div style=\"font-family:'Outfit';font-size:24px;font-weight:800;color:#9ca3af\" id=\"vfa-rev-ess\">600&euro;</div>\n            <div style=\"font-size:11px;color:rgba(255,255,255,.3);margin-top:2px\">4 ventes</div>\n          </div>\n          <div style=\"background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.06);border-radius:12px;padding:16px;text-align:center\">\n            <div style=\"font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px\">Premium (490&euro;)</div>\n            <div style=\"font-family:'Outfit';font-size:24px;font-weight:800;color:#60a5fa\" id=\"vfa-rev-prem\">1 960&euro;</div>\n            <div style=\"font-size:11px;color:rgba(255,255,255,.3);margin-top:2px\">4 ventes</div>\n          </div>\n        </div>\n        <div style=\"font-size:12px;color:rgba(255,255,255,.3);text-align:center\">Les donn&eacute;es ci-dessus sont un exemple &mdash; connectez votre Stripe Dashboard pour les donn&eacute;es r&eacute;elles.</div>\n      </div>\n    </div>\n    <div class=\"vf-admin-foot\">&copy; 2026 VisioFlow Admin &mdash; Espace r&eacute;serv&eacute;</div>\n  </div>\n</div>\n\n<!-- PAGE 7 FORMULAIRE POST-ACHAT -->\n<div class=\"page\" id=\"page-form\">\n  <div class=\"form-wrap\">\n    <div class=\"sh\" style=\"padding-top:36px\">\n      <div class=\"st\">Configurez votre site</div>\n      <div class=\"stl\">Votre site restaurant,<br/>en max 5 jours.</div>\n      <div class=\"sd\">Choisissez votre offre, remplissez le formulaire, puis proc&eacute;dez au paiement.</div>\n    </div>\n\n    <!-- Pack info bar -->\n    <div class=\"form-pack-info\" id=\"form-pack-info\" style=\"display:none\">\n      <div class=\"form-pack-dot\" id=\"form-pack-dot\" style=\"background:var(--blue)\"></div>\n      <div>\n        <div class=\"form-pack-name\" id=\"form-pack-name\">Pack Premium</div>\n        <div style=\"font-size:11px;color:var(--text3)\">Formulaire adapt&eacute; &agrave; votre offre</div>\n      </div>\n      <div class=\"form-pack-price\" id=\"form-pack-price\">490&euro;</div>\n    </div>\n\n    <!-- STEP 0: Choix du plan -->\n    <div id=\"form-step-0\">\n      <div class=\"form-section\" style=\"background:none;border:none;padding:0\">\n        <div class=\"form-section-title\" style=\"margin-bottom:8px\">Choisissez votre offre</div>\n        <div class=\"form-section-sub\" style=\"margin-bottom:24px\">Paiement unique &bull; Z&eacute;ro abonnement &bull; H&eacute;bergement 1 an inclus</div>\n      </div>\n      <div class=\"pgrid\">\n      <div class=\"pcard\">\n        <div class=\"pcard-n\">Essentiel</div><div class=\"pcard-t\" id=\"desc-essentiel\">Site vitrine + gestion autonome</div>\n        <div class=\"pcard-p\" id=\"price-essentiel\">150&euro; <span>/ unique</span></div>\n        <div class=\"pcard-o\">&#10003; Z&eacute;ro abonnement</div>\n        <ul class=\"pf\">\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Menu digital interactif</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Google Maps + t&eacute;l&eacute;phone</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Horaires + adresse</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Design responsive mobile</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>SSL + h&eacute;bergement 1 an</li>\n        </ul>\n        <button class=\"pbtn-builder\" onclick=\"window.goToForm('essentiel')\">\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z\"/></svg>\n          Configurer ce plan →\n        </button>\n        <a class=\"pcard-demo\" id=\"demo-essentiel\" href=\"#\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n          Voir un exemple de site complet\n        </a>\n      </div>\n      <div class=\"pcard pop\">\n        <div class=\"pcard-b\">Le + populaire</div>\n        <div class=\"pcard-n\">Premium</div><div class=\"pcard-t\" id=\"desc-premium\">Commandes en ligne &amp; livraison</div>\n        <div class=\"pcard-p\" id=\"price-premium\">490&euro; <span>/ unique</span></div>\n        <div class=\"pcard-o\">&#10003; Z&eacute;ro abonnement</div>\n        <ul class=\"pf\">\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Tout Essentiel inclus</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Panier &amp; commande en ligne</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Stripe &bull; Apple Pay &bull; PayPal &bull; Swile</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Dashboard administrateur</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>SEO optimis&eacute; + Analytics</li>\n        </ul>\n        <button class=\"pbtn-builder pr\" onclick=\"window.goToForm('premium')\">\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z\"/></svg>\n          Configurer ce plan →\n        </button>\n        <a class=\"pcard-demo\" id=\"demo-premium\" href=\"#\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n          Voir un exemple de site complet\n        </a>\n      </div>\n      \n    </div>\n\n    </div>\n\n\n    <!-- STEP 1: Infos restaurant -->\n    <div id=\"form-step-1\" style=\"display:none\">\n      <div class=\"form-section\">\n        <div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\"/></svg>Informations g&eacute;n&eacute;rales</div>\n        <div class=\"form-section-sub\">Les informations de base de votre restaurant.</div>\n        <div class=\"form-group\">\n          <label class=\"form-label\">Nom du restaurant <span class=\"req\">*</span></label>\n          <input class=\"form-input\" type=\"text\" id=\"f-resto-name\" placeholder=\"Ex: Le Petit Bistrot\" oninput=\"window.syncRestoName&&window.syncRestoName(this.value)\"/>\n        </div>\n        <div class=\"form-row\">\n          <div class=\"form-group\">\n            <label class=\"form-label\">Type de restaurant <span class=\"req\">*</span></label>\n            <input class=\"form-input\" type=\"text\" id=\"f-cuisine-type\" placeholder=\"Ex: Pizzeria, Bistrot Français, Sushi, Burger...\"/>\n          </div>\n          <div class=\"form-group\">\n            <label class=\"form-label\">Couleur dominante souhait&eacute;e</label>\n            <input class=\"form-input\" type=\"text\" id=\"f-color\" placeholder=\"Ex: Rouge, #E85D04, etc.\"/>\n          </div>\n        </div>\n        <div class=\"form-group\">\n          <label class=\"form-label\">Slogan / phrase d&apos;accroche</label>\n          <input class=\"form-input\" type=\"text\" id=\"f-slogan\" placeholder=\"Ex: Le meilleur burger de Paris depuis 2018\"/>\n        </div>\n        <div class=\"form-group\">\n          <label class=\"form-label\">Logo du restaurant</label>\n          <div class=\"form-upload\" onclick=\"document.getElementById('f-logo-file').click()\">\n            <div class=\"form-upload-ico\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--text3)\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"17 8 12 3 7 8\"/><line x1=\"12\" y1=\"3\" x2=\"12\" y2=\"15\"/></svg></div>\n            <div class=\"form-upload-txt\">Cliquez pour uploader votre logo</div>\n            <div class=\"form-upload-hint\">PNG ou SVG recommand&eacute; &bull; Fond transparent id&eacute;al</div>\n            <input type=\"file\" id=\"f-logo-file\" accept=\"image/*\" style=\"display:none\" onchange=\"window.handleLogoUpload(this)\"/>\n            <div id=\"f-logo-preview\" style=\"margin-top:10px;display:flex;justify-content:center\"></div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"form-section\">\n        <div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.1a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 15z\"/></svg>Contact &amp; Localisation</div>\n        <div class=\"form-section-sub\" id=\"form-contact-sub\">Coordonn&eacute;es de votre &eacute;tablissement.</div>\n        <!-- Bloc unique pour Essentiel/Premium -->\n        <div id=\"form-single-location\">\n          <div class=\"form-row\">\n            <div class=\"form-group\">\n              <label class=\"form-label\">Adresse compl&egrave;te <span class=\"req\">*</span></label>\n              <input class=\"form-input\" type=\"text\" id=\"f-address\" placeholder=\"12 Rue de la Paix, 75001 Paris\"/>\n            </div>\n            <div class=\"form-group\">\n              <label class=\"form-label\">T&eacute;l&eacute;phone <span class=\"req\">*</span></label>\n              <input class=\"form-input\" type=\"tel\" id=\"f-tel\" placeholder=\"01 23 45 67 89\"/>\n            </div>\n          </div>\n          <div class=\"form-row\">\n            <div class=\"form-group\">\n              <label class=\"form-label\">Email du restaurant</label>\n              <input class=\"form-input\" type=\"email\" id=\"f-email\" placeholder=\"contact@monrestaurant.fr\"/>\n            </div>\n            <div class=\"form-group\">\n              <label class=\"form-label\">Site web actuel (si existant)</label>\n              <input class=\"form-input\" type=\"url\" placeholder=\"https://...\"/>\n            </div>\n          </div>\n          <div class=\"form-group\">\n            <label class=\"form-label\">Horaires d&apos;ouverture <span class=\"req\">*</span></label>\n            <textarea class=\"form-input\" id=\"f-horaires\" placeholder=\"Lun-Ven: 12h-14h30 / 19h-22h30&#10;Sam: 12h-23h&#10;Dim: Ferm&eacute;\"></textarea>\n          </div>\n        </div>\n\n        <div class=\"form-group\" style=\"margin-top:8px\">\n          <div class=\"form-section-title\" style=\"font-size:13px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #f1f5f9\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.7 5.3 4.3 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z\"/></svg>R&eacute;seaux sociaux <span style=\"font-size:11px;font-weight:400;color:#9ca3af\">(optionnel)</span></div>\n          <div class=\"form-row\">\n            <div class=\"form-group\">\n              <label class=\"form-label\">Instagram</label>\n              <input class=\"form-input\" type=\"url\" id=\"f-instagram\" placeholder=\"https://instagram.com/monrestaurant\"/>\n            </div>\n            <div class=\"form-group\">\n              <label class=\"form-label\">Facebook</label>\n              <input class=\"form-input\" type=\"url\" id=\"f-facebook\" placeholder=\"https://facebook.com/monrestaurant\"/>\n            </div>\n          </div>\n          <div class=\"form-row\">\n            <div class=\"form-group\">\n              <label class=\"form-label\">TikTok</label>\n              <input class=\"form-input\" id=\"f-tiktok\" placeholder=\"@monrestaurant\"/>\n            </div>\n            <div class=\"form-group\">\n              <label class=\"form-label\">Site web existant</label>\n              <input class=\"form-input\" type=\"url\" id=\"f-website\" placeholder=\"https://monrestaurant.fr\"/>\n            </div>\n          </div>\n        </div>\n\n        \n\n      </div>\n      <div class=\"form-nav-btns\">\n        <div></div>\n        <button class=\"form-btn-next\" onclick=\"window.formGoStep(2)\">Suivant : Menu &amp; Photos &rarr;</button>\n      </div>\n    </div>\n\n    <!-- STEP 2: Menu & Photos -->\n    <div id=\"form-step-2\" style=\"display:none\">\n      <div class=\"form-section\">\n        <div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2\"/><path d=\"M7 2v20\"/><path d=\"M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7\"/></svg>Votre menu</div>\n        <div class=\"form-section-sub\" id=\"form-menu-sub\">Listez vos plats par cat&eacute;gorie avec les prix. </div>\n\n        <!-- Menu toggle: plat par plat ou photo -->\n        <div style=\"display:flex;gap:8px;margin:12px 0 16px\">\n          <button id=\"menu-mode-items\" onclick=\"window.setMenuMode('items')\" style=\"flex:1;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--blue);background:var(--blue);color:#fff\">&#128203; Plat par plat</button>\n          <button id=\"menu-mode-photo\" onclick=\"window.setMenuMode('photo')\" style=\"flex:1;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid #e5e7eb;background:#fff;color:#6b7280\">&#128247; Photo du menu</button>\n        </div>\n        <div id=\"form-menu-photo-zone\" style=\"display:none\">\n          <div id=\"menu-photo-upload-area\" onclick=\"document.getElementById('f-menu-photo-file').click()\" class=\"form-upload\" style=\"min-height:120px\">\n            <div class=\"form-upload-ico\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--text3)\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/></svg></div>\n            <div class=\"form-upload-txt\">Cliquez pour uploader une photo de votre menu</div>\n            <div class=\"form-upload-hint\">JPG, PNG, PDF accept&eacute;s</div>\n            <input type=\"file\" id=\"f-menu-photo-file\" accept=\"image/*\" multiple style=\"display:none\" onchange=\"window.handleMenuPhotoUpload(this)\"/>\n          </div>\n        </div>\n\n        <!-- Menu pour Essentiel / Premium -->\n        <div id=\"form-menu-single\">\n          <div class=\"form-cat-title\">Entr&eacute;es</div>\n          <div id=\"form-menu-entrees\"></div>\n          <button class=\"form-add-item\" onclick=\"window.formAddMenuItem('entrees')\">+ Ajouter une entr&eacute;e</button>\n\n          <div class=\"form-cat-title\">Plats</div>\n          <div id=\"form-menu-plats\"></div>\n          <button class=\"form-add-item\" onclick=\"window.formAddMenuItem('plats')\">+ Ajouter un plat</button>\n\n          <div class=\"form-cat-title\">Desserts</div>\n          <div id=\"form-menu-desserts\"></div>\n          <button class=\"form-add-item\" onclick=\"window.formAddMenuItem('desserts')\">+ Ajouter un dessert</button>\n\n          <div class=\"form-cat-title\">Boissons</div>\n          <div id=\"form-menu-boissons\"></div>\n          <button class=\"form-add-item\" onclick=\"window.formAddMenuItem('boissons')\">+ Ajouter une boisson</button>\n        </div>\n\n        \n      </div>\n\n      <div class=\"form-section\">\n        <div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/></svg>Photos du restaurant</div>\n        <div class=\"form-section-sub\">Envoyez vos plus belles photos (salle, fa&ccedil;ade, plats). Minimum 3 recommand&eacute;.</div>\n        <div class=\"form-upload\" onclick=\"document.getElementById('f-photos-file').click()\" style=\"min-height:120px\">\n          <div class=\"form-upload-ico\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--text3)\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"17 8 12 3 7 8\"/><line x1=\"12\" y1=\"3\" x2=\"12\" y2=\"15\"/></svg></div>\n          <div class=\"form-upload-txt\">Cliquez pour uploader vos photos</div>\n          <div class=\"form-upload-hint\">JPG, PNG &bull; Plusieurs fichiers accept&eacute;s &bull; Haute r&eacute;solution recommand&eacute;e</div>\n          <input type=\"file\" id=\"f-photos-file\" accept=\"image/*\" multiple style=\"display:none\" onchange=\"window.handleRestaurantPhotos(this)\"/>\n          <div id=\"f-photos-preview\" style=\"display:flex;flex-wrap:wrap;gap:6px;margin-top:10px\"></div>\n        </div>\n        <div class=\"form-group\" style=\"margin-top:14px\">\n          <label class=\"form-label\">Lien Google Drive / Dropbox (alternative)</label>\n          <input class=\"form-input\" type=\"url\" placeholder=\"https://drive.google.com/... ou https://dropbox.com/...\"/>\n        </div>\n      </div>\n\n      <div class=\"form-nav-btns\">\n        <button class=\"form-btn-prev\" onclick=\"window.formGoStep(1)\">&larr; Retour</button>\n        <button class=\"form-btn-next\" onclick=\"window.formGoStep(3)\">Suivant : Configuration &rarr;</button>\n      </div>\n    </div>\n\n    <!-- STEP 3: Config technique -->\n    <div id=\"form-step-3\" style=\"display:none\">\n      \n      \n      \n      <div class=\"form-section\" id=\"form-delivery-section\"><div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"1\" y=\"3\" width=\"15\" height=\"13\"/><polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"/><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"/><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"/></svg>Plateformes de livraison</div><div class=\"form-section-sub\">Vos liens de commande en ligne (Pack Premium).</div><div class=\"form-row\"><div class=\"form-group\"><label class=\"form-label\">Lien Uber Eats</label><input class=\"form-input\" type=\"url\" id=\"f-ubereats\" placeholder=\"https://www.ubereats.com/store/...\"/></div><div class=\"form-group\"><label class=\"form-label\">Lien Deliveroo</label><input class=\"form-input\" type=\"url\" id=\"f-deliveroo\" placeholder=\"https://deliveroo.fr/menu/...\"/></div><div class=\"form-group\"><label class=\"form-label\">Lien Just Eat</label><input class=\"form-input\" type=\"url\" id=\"f-justeat\" placeholder=\"https://www.just-eat.fr/restaurants/...\"/></div></div></div>\n      <div class=\"form-section\">\n        <div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"/></svg>Remarques compl&eacute;mentaires</div>\n        <div class=\"form-section-sub\">Tout ce que vous souhaitez nous pr&eacute;ciser.</div>\n        <div class=\"form-group\">\n          <textarea class=\"form-input\" placeholder=\"Ex: Je voudrais un style sombre, mettre en avant nos pizzas au feu de bois, ajouter un lien vers notre page Instagram...\" style=\"min-height:100px\"></textarea>\n        </div>\n      </div>\n\n      <div class=\"form-nav-btns\">\n        <button class=\"form-btn-prev\" onclick=\"window.formGoStep(2)\">&larr; Retour</button>\n        <button class=\"form-btn-next\" onclick=\"window.formSubmit()\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:5px\"><polyline points=\"20 6 9 17 4 12\"/></svg>Envoyer le formulaire</button>\n      </div>\n    </div>\n\n    <!-- STEP SUCCESS -->\n    <div id=\"form-step-success\" style=\"display:none\">\n      <div class=\"form-success\">\n        <div class=\"form-success-ico\"><svg width=\"64\" height=\"64\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#22c55e\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"9 12 11 14 15 10\"/></svg></div>\n        <div class=\"stl\" style=\"font-size:32px;margin-bottom:8px\">Formulaire envoy&eacute; !</div>\n        <div class=\"sd\" style=\"margin-bottom:28px\">Merci ! Vous allez &ecirc;tre redirig&eacute; vers le paiement s&eacute;curis&eacute; dans quelques instants&hellip;</div>\n        \n        <button class=\"ba\" onclick=\"showPage('accueil')\">Retour &agrave; l&apos;accueil &rarr;</button>\n      </div>\n    </div>\n  </div>\n  <footer class=\"foot\">\n    <p>&copy; 2026 VisioFlow &mdash; Tous droits r&eacute;serv&eacute;s.</p>\n  </footer>\n</div>\n\n\n\n\n<!-- ====== SYSTÈME COMPTES CLIENTS VISIOFLOW ====== -->\n<!-- Coller ce bloc JUSTE AVANT le bloc auth admin (ou avant </body>) -->\n\n<!-- ====== FIREBASE ADMIN DASHBOARD VISIOFLOW ====== -->\n<!-- âš ï¸ REMPLACE le bloc page-admin existant ET colle ceci AVANT </body> -->\n\n<!-- Firebase SDK -->\n\n\n\n\n\n<!-- ====== SYSTÈME D'AUTHENTIFICATION ADMIN VISIOFLOW ====== -->\n<!-- Coller ce bloc JUSTE AVANT </body> dans votre fichier HTML -->\n\n\n<!-- ====== SYSTÈME AUTH FIREBASE + ESPACE CLIENT + TUNNEL PRÉ-PAIEMENT ====== -->"
+const PAGE_HTML = "<!-- ====== MODAL 1 — ACHAT RESTOFLOW (3 methodes, sans Swile) ====== -->\n<div class=\"pay-overlay\" id=\"buyOverlay\" onclick=\"if(event.target===this)closeBuy()\">\n  <div class=\"pay-modal\">\n    <div class=\"pay-header\">\n      <div>\n        <div class=\"pay-badge\">\n          <svg width=\"10\" height=\"10\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0110 0v4\"/></svg>\n          Achat s&eacute;curis&eacute; &middot; SSL 256-bit\n        </div>\n        <div class=\"pay-title\" id=\"mTitle\">Pack Essentiel</div>\n        <div class=\"pay-sub\" id=\"mSub\">Site vitrine pour votre restaurant</div>\n      </div>\n      <button class=\"pay-close\" onclick=\"closeBuy()\">&times;</button>\n    </div>\n    <div style=\"padding:16px 24px 0\">\n      <div class=\"pay-summ\">\n        <div class=\"pr\"><span class=\"prl\">Offre</span><span class=\"prr\" id=\"mPack\">Essentiel</span></div>\n        <div class=\"pr\"><span class=\"prl\">Type de restaurant</span><span class=\"prr\" id=\"mCuisine\">&mdash;</span></div>\n        <div class=\"pr\"><span class=\"prl\">Style configur&eacute;</span><span class=\"prr\" id=\"mStyle\">Liste</span></div>\n        <div class=\"pr\"><span class=\"prl\">H&eacute;bergement 1&egrave;re ann&eacute;e</span><span class=\"prr\" style=\"color:#34C759\">Inclus &#10003;</span></div>\n        <div class=\"pr tot\"><span class=\"prl\">Total paiement unique</span><span class=\"prr\" id=\"mPrice\">150&euro;</span></div>\n      </div>\n    </div>\n    <div style=\"padding:18px 24px 0\">\n      <div class=\"pm-label\">Mode de paiement</div>\n      <div class=\"pm-grid3\">\n        <button class=\"pm-btn on\" data-m=\"stripe\" onclick=\"selMethod('stripe')\">\n          <div class=\"pm-ico\" style=\"background:#635BFF\"><svg width=\"12\" height=\"16\" viewBox=\"0 0 14 18\" fill=\"none\"><path d=\"M6.2 6.8C6.2 5.9 6.9 5.5 8 5.5c1.5 0 3 .5 4 1.2V2.3C10.8 1.5 9.4 1 8 1 4.7 1 2.5 2.7 2.5 5.2c0 4.2 5.8 3.5 5.8 5.3 0 1-.8 1.4-2 1.4-1.7 0-3.3-.7-4.4-1.6v4.5c1.2.5 2.7.8 4.4.8 3.4 0 5.7-1.7 5.7-4.2-.1-4.5-5.8-3.6-5.8-4.6z\" fill=\"white\"/></svg></div>\n          <div class=\"pm-name\">Carte</div>\n        </button>\n        <button class=\"pm-btn\" data-m=\"apple\" onclick=\"selMethod('apple')\">\n          <div class=\"pm-ico\" style=\"background:#000;border:.5px solid rgba(255,255,255,.15)\"><svg width=\"12\" height=\"15\" viewBox=\"0 0 14 17\" fill=\"white\"><path d=\"M11.8 8.9c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.6-1.3-.1-2.5.7-3.1.7-.6 0-1.6-.7-2.7-.7C3 4.1 1.2 5.1.4 6.7c-1.6 2.8-.4 7 1.1 9.3.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 2.9-.7 1.3 0 1.7.7 2.9.7 1.2 0 2-1.1 2.8-2.2.9-1.2 1.2-2.4 1.2-2.5-.1 0-2.4-.9-2.4-3.7zM9.7 2.3C10.4 1.4 10.9.2 10.7-.1 9.5 0 8.1.8 7.4 1.7c-.6.8-1.2 2-1 3.1 1.3.1 2.6-.7 3.3-2.5z\"/></svg></div>\n          <div class=\"pm-name\">Apple Pay</div>\n        </button>\n        <button class=\"pm-btn\" data-m=\"paypal\" onclick=\"selMethod('paypal')\">\n          <div class=\"pm-ico\" style=\"background:#003087\"><svg width=\"12\" height=\"15\" viewBox=\"0 0 14 16\" fill=\"none\"><path d=\"M11.5 2.3C10.8 1.5 9.5 1 7.8 1H3.2c-.4 0-.7.3-.8.6L.6 13.4c0 .3.2.5.5.5h2.8l.7-4.3v.1c.1-.4.4-.6.8-.6h1.7c3.2 0 5.7-1.3 6.4-5 .1-.3.1-.6.1-.9-.2-1-.6-1.6-1.1-1.9z\" fill=\"#009cde\"/><path d=\"M5.8 5.4c.1-.4.3-.6.7-.6h4.4c.5 0 1 .1 1.4.2.4.1.8.4 1 .7.1-.3.1-.6.1-.9C13.8 3.8 12.3 3 10.3 3H5.7c-.4 0-.7.3-.8.6L3.1 14.5c0 .3.2.5.5.5h2.5l1.7-9.6z\" fill=\"#012169\"/></svg></div>\n          <div class=\"pm-name\">PayPal</div>\n        </button>\n      </div>\n    </div>\n    <div class=\"pay-form-s\">\n      <label class=\"pay-lbl\">Votre email (confirmation de commande)</label>\n      <input class=\"pay-inp\" type=\"email\" id=\"mEmail\" placeholder=\"votre@email.com\" oninput=\"valEmail()\"/>\n      <button class=\"pay-go b-stripe\" id=\"payGoBtn\" onclick=\"doPay()\" disabled>\n        <span id=\"payGoTxt\">Entrez votre email</span>\n        <div class=\"spinner\" id=\"paySpin\"></div>\n      </button>\n      <div class=\"pay-sec-note\" id=\"paySecNote\">\n        <svg width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0110 0v4\"/></svg>\n        Paiement s&eacute;curis&eacute; par Stripe &middot; SSL 256-bit &middot; PCI-DSS\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- ====== MODAL 2 — COMMANDE RESTAURANT (avec Swile) ====== -->\n<div class=\"rp-overlay\" id=\"restoOverlay\" onclick=\"if(event.target===this)closeResto()\">\n  <div class=\"rp-modal\" id=\"restoModal\">\n    <div class=\"rp-handle\"></div>\n    <div class=\"rp-header\">\n      <div class=\"rp-title\" id=\"rpTitle\">Votre commande</div>\n      <div class=\"rp-sub\" id=\"rpSub\">Livraison 25&ndash;35 min</div>\n    </div>\n    <div class=\"rp-items\" id=\"rpItems\"></div>\n    <div class=\"rp-total\">\n      <span class=\"rp-total-l\">Total</span>\n      <span class=\"rp-total-r\" id=\"rpTotal\">0.00&euro;</span>\n    </div>\n    <div class=\"rp-methods\">\n      <div class=\"rp-methods-label\">Payer avec</div>\n      <div class=\"rp-grid\">\n        <button class=\"rp-btn on\" data-rm=\"stripe\" onclick=\"selRMethod('stripe')\"><div class=\"rp-btn-ico\" style=\"background:#635BFF\"><svg width=\"10\" height=\"14\" viewBox=\"0 0 14 18\" fill=\"none\"><path d=\"M6.2 6.8C6.2 5.9 6.9 5.5 8 5.5c1.5 0 3 .5 4 1.2V2.3C10.8 1.5 9.4 1 8 1 4.7 1 2.5 2.7 2.5 5.2c0 4.2 5.8 3.5 5.8 5.3 0 1-.8 1.4-2 1.4-1.7 0-3.3-.7-4.4-1.6v4.5c1.2.5 2.7.8 4.4.8 3.4 0 5.7-1.7 5.7-4.2-.1-4.5-5.8-3.6-5.8-4.6z\" fill=\"white\"/></svg></div><div class=\"rp-btn-name\">CB</div></button>\n        <button class=\"rp-btn\" data-rm=\"apple\" onclick=\"selRMethod('apple')\"><div class=\"rp-btn-ico\" style=\"background:#000;border:.5px solid rgba(255,255,255,.15)\"><svg width=\"10\" height=\"13\" viewBox=\"0 0 14 17\" fill=\"white\"><path d=\"M11.8 8.9c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.6-1.3-.1-2.5.7-3.1.7-.6 0-1.6-.7-2.7-.7C3 4.1 1.2 5.1.4 6.7c-1.6 2.8-.4 7 1.1 9.3.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 2.9-.7 1.3 0 1.7.7 2.9.7 1.2 0 2-1.1 2.8-2.2.9-1.2 1.2-2.4 1.2-2.5-.1 0-2.4-.9-2.4-3.7zM9.7 2.3C10.4 1.4 10.9.2 10.7-.1 9.5 0 8.1.8 7.4 1.7c-.6.8-1.2 2-1 3.1 1.3.1 2.6-.7 3.3-2.5z\"/></svg></div><div class=\"rp-btn-name\"> Pay</div></button>\n        <button class=\"rp-btn\" data-rm=\"paypal\" onclick=\"selRMethod('paypal')\"><div class=\"rp-btn-ico\" style=\"background:#003087\"><svg width=\"10\" height=\"13\" viewBox=\"0 0 14 16\" fill=\"none\"><path d=\"M11.5 2.3C10.8 1.5 9.5 1 7.8 1H3.2c-.4 0-.7.3-.8.6L.6 13.4c0 .3.2.5.5.5h2.8l.7-4.3v.1c.1-.4.4-.6.8-.6h1.7c3.2 0 5.7-1.3 6.4-5 .1-.3.1-.6.1-.9-.2-1-.6-1.6-1.1-1.9z\" fill=\"#009cde\"/><path d=\"M5.8 5.4c.1-.4.3-.6.7-.6h4.4c.5 0 1 .1 1.4.2.4.1.8.4 1 .7.1-.3.1-.6.1-.9C13.8 3.8 12.3 3 10.3 3H5.7c-.4 0-.7.3-.8.6L3.1 14.5c0 .3.2.5.5.5h2.5l1.7-9.6z\" fill=\"#012169\"/></svg></div><div class=\"rp-btn-name\">PayPal</div></button>\n        <button class=\"rp-btn\" data-rm=\"swile\" onclick=\"selRMethod('swile')\"><div class=\"rp-btn-ico\" style=\"background:#5F2EEA\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\"><rect width=\"16\" height=\"16\" rx=\"4\" fill=\"#5F2EEA\"/><circle cx=\"7.5\" cy=\"8.5\" r=\"2.5\" fill=\"white\"/><circle cx=\"11.5\" cy=\"4.5\" r=\"1.5\" fill=\"#FF6B6B\"/></svg></div><div class=\"rp-btn-name\">Swile</div></button>\n      </div>\n    </div>\n    <div class=\"rp-confirm\">\n      <button class=\"rp-confirm-btn\" id=\"rpConfirmBtn\" style=\"background:var(--blue)\" onclick=\"confirmRestoOrder()\">Confirmer &amp; Payer</button>\n    </div>\n  </div>\n</div>\n<!-- ====== NAV ====== -->\n<nav class=\"nav\" id=\"mainNav\">\n  <span class=\"nav-logo\" style=\"font-family:Outfit;font-weight:800\" onclick=\"showPage('accueil')\">Visio<span style=\"color:var(--blue)\">Flow</span></span>\n  \n  <button id=\"vf-theme-btn\" class=\"vf-theme-btn\" onclick=\"window.toggleVfTheme()\" aria-label=\"Mode sombre/clair\">Mode sombre</button>\n</nav>\n<!-- SITE PREVIEW MODAL -->\n<div id=\"spm\" style=\"display:none;position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center\">\n  <div class=\"spm-ov\" onclick=\"closeSitePreview()\"></div>\n  <div class=\"spm-box\">\n    <div class=\"spm-head\">\n      <span class=\"spm-brand\">Visio<span style=\"color:var(--blue)\">Flow</span> &mdash; Aper&ccedil;u du site</span>\n      <div class=\"spm-acts\">\n\n        <button class=\"spm-close\" onclick=\"closeSitePreview()\">&#10005;</button>\n      </div>\n    </div>\n    <div class=\"spm-body\">\n      <iframe id=\"spm-iframe\" src=\"\" frameborder=\"0\" allow=\"fullscreen\" title=\"Aper&ccedil;u du site\"></iframe>\n      <div class=\"spm-blocked\" id=\"spm-blocked\" style=\"display:none\">\n        <div class=\"spm-blocked-ico\">&#128279;</div>\n        <p>Ce site ne peut pas s&apos;&ecirc;tre affich&eacute; ici.</p>\n        <a id=\"spm-blocked-link\" href=\"#\" target=\"_blank\" class=\"spm-ext-btn\">Ouvrir dans un onglet &rarr;</a>\n      </div>\n    </div>\n  </div>\n</div>\n<div id=\"vf-scroll-hint\"><span>D&eacute;filer</span><span class=\"scroll-chevron\"><svg width=\"14\" height=\"9\" viewBox=\"0 0 14 9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\"><path d=\"M1 1l6 6 6-6\"/></svg><svg width=\"14\" height=\"9\" viewBox=\"0 0 14 9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" style=\"opacity:.45\"><path d=\"M1 1l6 6 6-6\"/></svg></span></div>\n<!-- ====== PAGE 1 — ACCUEIL ====== -->\n<div class=\"page active\" id=\"page-accueil\">\n  <div class=\"hero\">\n    <div class=\"hero-overlay\"></div>\n    <div class=\"hero-main\">\n      <div class=\"hero-left\">\n        <div class=\"alt-tag\">Sites web pour restaurateurs</div>\n        <h1 class=\"hero-title-new\" id=\"hero-title\">\n          On s&rsquo;occupe de tout.\n          <span class=\"gr\">Vous de votre cuisine.</span>\n        </h1>\n        \n      </div>\n      <div class=\"hero-laptop-wrap\">\n        <div class=\"lp-notif\">\n          <div class=\"lp-notif-ico\">&#128276;</div>\n          <div>\n            <div class=\"lp-notif-title\">Nouvelle commande !</div>\n            <div class=\"lp-notif-sub\">Pizza &times;2 &mdash; 28&euro;</div>\n          </div>\n          <div class=\"lp-notif-dot\"></div>\n        </div>\n        <div class=\"lp-lid\">\n          <div class=\"lp-cam\"></div>\n          <div class=\"lp-screen\">\n            <div class=\"lp-browser\">\n              <div class=\"lp-bar\">\n                <span class=\"lp-dot r\"></span><span class=\"lp-dot y\"></span><span class=\"lp-dot g\"></span>\n                <div class=\"lp-url\">lepetitbistrot.fr</div>\n              </div>\n              <div class=\"lp-content\">\n                <div class=\"lp-site-nav\"><span>Le Petit Bistrot</span><span>Menu &bull; Horaires &bull; Nous contacter</span></div>\n                <div class=\"lp-site-hero\">\n                  <div class=\"lp-hero-text\">\n                    <div class=\"lp-hero-title\">Cuisine fran&ccedil;aise</div>\n                    <div class=\"lp-hero-sub\">Paris 11e &bull; Ouvert tous les jours</div>\n                    <div class=\"lp-hero-cta\">Voir la carte &rarr;</div>\n                  </div>\n                </div>\n                <div class=\"lp-cards\">\n                  <div class=\"lp-card\"><div class=\"lp-card-img lp-img1\"></div><div class=\"lp-card-name\">Boeuf Bourguignon</div><div class=\"lp-card-price\">18&euro;</div></div>\n                  <div class=\"lp-card\"><div class=\"lp-card-img lp-img2\"></div><div class=\"lp-card-name\">Entrecote grill&eacute;e</div><div class=\"lp-card-price\">24&euro;</div></div>\n                  <div class=\"lp-card\"><div class=\"lp-card-img lp-img3\"></div><div class=\"lp-card-name\">Tarte Tatin</div><div class=\"lp-card-price\">9&euro;</div></div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"lp-base\">\n          <div class=\"lp-keyboard\"></div>\n        </div>\n        <div class=\"lp-foot\"></div>\n      </div>\n    </div>\n  </div>\n\n  \n<!-- SECTION 1 -->\n<div class=\"alt-sec alt-dark\">\n  <div class=\"alt-inner\">\n    <div class=\"alt-text\">\n      <div class=\"alt-tag\">Notre processus</div>\n      <h2 class=\"alt-h2\">Votre site, livr&eacute; en <span class=\"alt-accent\">5&nbsp;jours.</span></h2>\n      <p class=\"alt-desc\">De votre formulaire au site en ligne &mdash; on g&egrave;re tout. Vous n&apos;avez rien &agrave; installer, rien &agrave; coder.</p>\n    </div>\n    <div class=\"alt-visual\">\n      <div class=\"steps-list\">\n        <div class=\"step-row\"><span class=\"step-n\">1</span><div><strong>Vous choisissez votre formule</strong><p>Essentiel ou Premium selon vos besoins.</p></div></div>\n        <div class=\"step-row\"><span class=\"step-n\">2</span><div><strong>Vous remplissez le formulaire</strong><p>Infos, menu, photos &mdash; quelques minutes.</p></div></div>\n        <div class=\"step-row\"><span class=\"step-n\">3</span><div><strong>Vous payez</strong><p>Via Stripe &mdash; s&eacute;curis&eacute;, des dizaines de moyens.</p></div></div>\n        <div class=\"step-row\"><span class=\"step-n\">4</span><div><strong>On cr&eacute;e votre site</strong><p>Livr&eacute; en maximum 5&nbsp;jours, cl&eacute; en main.</p></div></div>\n        <div class=\"step-row\"><span class=\"step-n\">5</span><div><strong>Vous &ecirc;tes en ligne</strong><p>On vous remet les acc&egrave;s. Vous g&eacute;rez en autonomie.</p></div></div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- SECTION 3 -->\n<div class=\"alt-sec alt-dark\">\n  <div class=\"alt-inner\">\n    <div class=\"alt-text\">\n      <div class=\"alt-tag\">Votre site, vos r&egrave;gles</div>\n      <h2 class=\"alt-h2\">Mettez &agrave; jour votre menu<br/><span class=\"alt-accent\">en 30 secondes.</span></h2>\n      <p class=\"alt-desc\">Modifiez vos plats, vos prix, vos horaires depuis votre t&eacute;l&eacute;phone <strong>ou votre ordinateur</strong>. Les changements s&apos;affichent instantan&eacute;ment sur votre site. Pas besoin d&apos;un d&eacute;veloppeur.</p>\n    </div>\n    <div class=\"alt-visual\">\n      <div class=\"autonomy-card\">\n        <div class=\"auto-row\"><span class=\"auto-dot green\"></span>Pizza Margherita &mdash; 12&euro; <span class=\"auto-live\">En ligne</span></div>\n        <div class=\"auto-row\"><span class=\"auto-dot green\"></span>Burger Classic &mdash; 15&euro; <span class=\"auto-live\">En ligne</span></div>\n        <div class=\"auto-row\"><span class=\"auto-dot amber\"></span>Salade C&eacute;sar &mdash; 11&euro; <span class=\"auto-upd\">Mise &agrave; jour...</span></div>\n        <div class=\"auto-row dim\"><span class=\"auto-dot grey\"></span>P&acirc;tes Carbonara &mdash; 14&euro;</div>\n        <div class=\"auto-footer\">\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polyline points=\"20 6 9 17 4 12\"/></svg>\n          Modifications enregistr&eacute;es automatiquement\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- TARIFS -->\n<div class=\"home-packs-sec\">\n  <div class=\"sh\" style=\"padding-top:72px\">\n    <div class=\"st\">Formules</div>\n    <div class=\"stl\">Un seul paiement. Z&eacute;ro abonnement.</div>\n    <div class=\"sd\">H&eacute;bergement gratuit &agrave; vie inclus dans les deux formules.</div>\n  </div>\n  <div class=\"pgrid\">\n    <div class=\"pcard\">\n      <div class=\"pcard-n\">Essentiel</div>\n      <div class=\"pcard-p\" id=\"price-essentiel\">150&euro; <span>/ unique</span></div>\n      <div class=\"pcard-o\">&#10003; Z&eacute;ro abonnement</div>\n      <ul class=\"pf\">\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Page d&rsquo;accueil personnalis&eacute;e</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Menu digital avec photos &amp; prix</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Galerie photos</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Horaires d&rsquo;ouverture</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Carte Google Maps + t&eacute;l&eacute;phone cliquable</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Liens Uber Eats &bull; Deliveroo &bull; Just Eat</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>100&nbsp;% responsive (mobile, tablette, PC)</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>SSL / HTTPS inclus</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>H&eacute;bergement gratuit &agrave; vie</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Modifications autonomes (menu, horaires, photos)</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Livraison en 5 jours</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>SEO optimis&eacute;</li>\n      </ul>\n      <button class=\"pbtn-builder\" onclick=\"goHomePack('essentiel')\">Choisir Essentiel &rarr;</button>\n      <a class=\"pcard-demo\" id=\"demo-home-ess\" href=\"#\" onclick=\"openSitePreview('ess');return false\"><span class=\"demo-ico\">&#128196;</span><span class=\"demo-text\"><span class=\"demo-label\">Voir un exemple de site</span><span class=\"demo-sub\">Ouvre dans un nouvel onglet</span></span><span class=\"demo-arrow\">&rarr;</span></a>\n    </div>\n    <div class=\"pcard pop\">\n      <div class=\"pcard-b\">Le + populaire</div>\n      <div class=\"pcard-n\">Premium</div>\n      <div class=\"pcard-p\" id=\"price-premium\">490&euro; <span>/ unique</span></div>\n      <div class=\"pcard-o\">&#10003; Z&eacute;ro abonnement</div>\n      <ul class=\"pf\">\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Tout ce qui est inclus dans Essentiel</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Syst&egrave;me de commande en ligne</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Paiement par carte sur votre site (Stripe)</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Tableau de bord commandes en temps r&eacute;el</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Notifications de nouvelles commandes</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Gestion des plats en autonomie</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Uber Eats &bull; Deliveroo &bull; Just Eat</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>100&nbsp;% responsive (mobile, tablette, PC)</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>SSL / HTTPS inclus</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>H&eacute;bergement gratuit &agrave; vie</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Livraison en 5 jours</li>\n        <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>SEO optimis&eacute;</li>\n      </ul>\n      <button class=\"pbtn-builder pr\" onclick=\"goHomePack('premium')\">Choisir Premium &rarr;</button>\n      <a class=\"pcard-demo\" id=\"demo-home-prem\" href=\"#\" onclick=\"openSitePreview('prem');return false\"><span class=\"demo-ico\">&#128196;</span><span class=\"demo-text\"><span class=\"demo-label\">Voir un exemple de site</span><span class=\"demo-sub\">Ouvre dans un nouvel onglet</span></span><span class=\"demo-arrow\">&rarr;</span></a>\n    </div>\n  </div>\n</div>\n\n<!-- FORM -->\n<div id=\"home-form\" style=\"display:none;width:100%\">\n  <div class=\"form-wrap\">\n    \n      \n    </div>\n\n    <!-- Pack info bar -->\n    <div class=\"form-pack-info\" id=\"form-pack-info\" style=\"display:none\">\n      <div class=\"form-pack-dot\" id=\"form-pack-dot\" style=\"background:var(--blue)\"></div>\n      <div>\n        <div class=\"form-pack-name\" id=\"form-pack-name\">Pack Premium</div>\n        <div style=\"font-size:11px;color:var(--text3)\">Formulaire adapt&eacute; &agrave; votre offre</div>\n      </div>\n      <div class=\"form-pack-price\" id=\"form-pack-price\">490&euro;</div>\n    </div>\n\n    <!-- STEP 0: Choix du plan -->\n    <div id=\"form-step-1\" style=\"display:none\">\n      <div class=\"form-section\">\n        <div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\"/></svg>Informations g&eacute;n&eacute;rales</div>\n        <div class=\"form-section-sub\">Les informations de base de votre restaurant.</div>\n        <div class=\"form-group\">\n          <label class=\"form-label\">Nom du restaurant <span class=\"req\">*</span></label>\n          <input class=\"form-input\" type=\"text\" id=\"f-resto-name\" placeholder=\"Ex: Le Petit Bistrot\" oninput=\"window.syncRestoName&&window.syncRestoName(this.value)\"/>\n        </div>\n        <div class=\"form-row\">\n          <div class=\"form-group\">\n            <label class=\"form-label\">Type de restaurant <span class=\"req\">*</span></label>\n            <input class=\"form-input\" type=\"text\" id=\"f-cuisine-type\" placeholder=\"Ex: Pizzeria, Bistrot Français, Sushi, Burger...\"/>\n          </div>\n          <div class=\"form-group\">\n            <label class=\"form-label\">Couleur dominante souhait&eacute;e</label>\n            <input class=\"form-input\" type=\"text\" id=\"f-color\" placeholder=\"Ex: Rouge, #E85D04, etc.\"/>\n          </div>\n        </div>\n        <div class=\"form-group\">\n          <label class=\"form-label\">Slogan / phrase d&apos;accroche</label>\n          <input class=\"form-input\" type=\"text\" id=\"f-slogan\" placeholder=\"Ex: Le meilleur burger de Paris depuis 2018\"/>\n        </div>\n        <div class=\"form-group\">\n          <label class=\"form-label\">Logo du restaurant</label>\n          <div class=\"form-upload\" onclick=\"document.getElementById('f-logo-file').click()\">\n            <div class=\"form-upload-ico\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--text3)\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"17 8 12 3 7 8\"/><line x1=\"12\" y1=\"3\" x2=\"12\" y2=\"15\"/></svg></div>\n            <div class=\"form-upload-txt\">Cliquez pour uploader votre logo</div>\n            <div class=\"form-upload-hint\">PNG ou SVG recommand&eacute; &bull; Fond transparent id&eacute;al</div>\n            <input type=\"file\" id=\"f-logo-file\" accept=\"image/*\" style=\"display:none\" onchange=\"window.handleLogoUpload(this)\"/>\n            <div id=\"f-logo-preview\" style=\"margin-top:10px;display:flex;justify-content:center\"></div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"form-section\">\n        <div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.1a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 15z\"/></svg>Contact &amp; Localisation</div>\n        <div class=\"form-section-sub\" id=\"form-contact-sub\">Coordonn&eacute;es de votre &eacute;tablissement.</div>\n        <!-- Bloc unique pour Essentiel/Premium -->\n        <div id=\"form-single-location\">\n          <div class=\"form-row\">\n            <div class=\"form-group\">\n              <label class=\"form-label\">Adresse compl&egrave;te <span class=\"req\">*</span></label>\n              <input class=\"form-input\" type=\"text\" id=\"f-address\" placeholder=\"12 Rue de la Paix, 75001 Paris\"/>\n            </div>\n            <div class=\"form-group\">\n              <label class=\"form-label\">T&eacute;l&eacute;phone <span class=\"req\">*</span></label>\n              <input class=\"form-input\" type=\"tel\" id=\"f-tel\" placeholder=\"01 23 45 67 89\"/>\n            </div>\n          </div>\n          <div class=\"form-row\">\n            <div class=\"form-group\">\n              <label class=\"form-label\">Email du restaurant</label>\n              <input class=\"form-input\" type=\"email\" id=\"f-email\" placeholder=\"contact@monrestaurant.fr\"/>\n            </div>\n            <div class=\"form-group\">\n              <label class=\"form-label\">Site web actuel (si existant)</label>\n              <input class=\"form-input\" type=\"url\" placeholder=\"https://...\"/>\n            </div>\n          </div>\n          <div class=\"form-group\">\n            <label class=\"form-label\">Horaires d&apos;ouverture <span class=\"req\">*</span></label>\n            <textarea class=\"form-input\" id=\"f-horaires\" placeholder=\"Lun-Ven: 12h-14h30 / 19h-22h30&#10;Sam: 12h-23h&#10;Dim: Ferm&eacute;\"></textarea>\n          </div>\n        </div>\n\n        <div class=\"form-group\" style=\"margin-top:8px\">\n          <div class=\"form-section-title\" style=\"font-size:13px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #f1f5f9\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.7 5.3 4.3 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z\"/></svg>R&eacute;seaux sociaux <span style=\"font-size:11px;font-weight:400;color:#9ca3af\">(optionnel)</span></div>\n          <div class=\"form-row\">\n            <div class=\"form-group\">\n              <label class=\"form-label\">Instagram</label>\n              <input class=\"form-input\" type=\"url\" id=\"f-instagram\" placeholder=\"https://instagram.com/monrestaurant\"/>\n            </div>\n            <div class=\"form-group\">\n              <label class=\"form-label\">Facebook</label>\n              <input class=\"form-input\" type=\"url\" id=\"f-facebook\" placeholder=\"https://facebook.com/monrestaurant\"/>\n            </div>\n          </div>\n          <div class=\"form-row\">\n            <div class=\"form-group\">\n              <label class=\"form-label\">TikTok</label>\n              <input class=\"form-input\" id=\"f-tiktok\" placeholder=\"@monrestaurant\"/>\n            </div>\n            <div class=\"form-group\">\n              <label class=\"form-label\">Site web existant</label>\n              <input class=\"form-input\" type=\"url\" id=\"f-website\" placeholder=\"https://monrestaurant.fr\"/>\n            </div>\n          </div>\n        </div>\n\n        \n\n      </div>\n      <div class=\"form-nav-btns\">\n        <div></div>\n        <button class=\"form-btn-next\" onclick=\"window.formGoStep(2)\">Suivant : Menu &amp; Photos &rarr;</button>\n      </div>\n    </div>\n\n    <!-- STEP 2: Menu & Photos -->\n    <div id=\"form-step-2\" style=\"display:none\">\n      <div class=\"form-section\">\n        <div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2\"/><path d=\"M7 2v20\"/><path d=\"M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7\"/></svg>Votre menu</div>\n        <div class=\"form-section-sub\" id=\"form-menu-sub\">Listez vos plats par cat&eacute;gorie avec les prix. </div>\n\n        <!-- Menu toggle: plat par plat ou photo -->\n        <div style=\"display:flex;gap:8px;margin:12px 0 16px\">\n          <button id=\"menu-mode-items\" onclick=\"window.setMenuMode('items')\" style=\"flex:1;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--blue);background:var(--blue);color:#fff\">&#128203; Plat par plat</button>\n          <button id=\"menu-mode-photo\" onclick=\"window.setMenuMode('photo')\" style=\"flex:1;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid #e5e7eb;background:#fff;color:#6b7280\">&#128247; Photo du menu</button>\n        </div>\n        <div id=\"form-menu-photo-zone\" style=\"display:none\">\n          <div id=\"menu-photo-upload-area\" onclick=\"document.getElementById('f-menu-photo-file').click()\" class=\"form-upload\" style=\"min-height:120px\">\n            <div class=\"form-upload-ico\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--text3)\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/></svg></div>\n            <div class=\"form-upload-txt\">Cliquez pour uploader une photo de votre menu</div>\n            <div class=\"form-upload-hint\">JPG, PNG, PDF accept&eacute;s</div>\n            <input type=\"file\" id=\"f-menu-photo-file\" accept=\"image/*\" multiple style=\"display:none\" onchange=\"window.handleMenuPhotoUpload(this)\"/>\n          </div>\n        </div>\n\n        <!-- Menu pour Essentiel / Premium -->\n        <div id=\"form-menu-single\">\n          <div class=\"form-cat-title\">Entr&eacute;es</div>\n          <div id=\"form-menu-entrees\"></div>\n          <button class=\"form-add-item\" onclick=\"window.formAddMenuItem('entrees')\">+ Ajouter une entr&eacute;e</button>\n\n          <div class=\"form-cat-title\">Plats</div>\n          <div id=\"form-menu-plats\"></div>\n          <button class=\"form-add-item\" onclick=\"window.formAddMenuItem('plats')\">+ Ajouter un plat</button>\n\n          <div class=\"form-cat-title\">Desserts</div>\n          <div id=\"form-menu-desserts\"></div>\n          <button class=\"form-add-item\" onclick=\"window.formAddMenuItem('desserts')\">+ Ajouter un dessert</button>\n\n          <div class=\"form-cat-title\">Boissons</div>\n          <div id=\"form-menu-boissons\"></div>\n          <button class=\"form-add-item\" onclick=\"window.formAddMenuItem('boissons')\">+ Ajouter une boisson</button>\n        </div>\n\n        \n      </div>\n\n      <div class=\"form-section\">\n        <div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/></svg>Photos du restaurant</div>\n        <div class=\"form-section-sub\">Envoyez vos plus belles photos (salle, fa&ccedil;ade, plats). Minimum 3 recommand&eacute;.</div>\n        <div class=\"form-upload\" onclick=\"document.getElementById('f-photos-file').click()\" style=\"min-height:120px\">\n          <div class=\"form-upload-ico\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--text3)\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"17 8 12 3 7 8\"/><line x1=\"12\" y1=\"3\" x2=\"12\" y2=\"15\"/></svg></div>\n          <div class=\"form-upload-txt\">Cliquez pour uploader vos photos</div>\n          <div class=\"form-upload-hint\">JPG, PNG &bull; Plusieurs fichiers accept&eacute;s &bull; Haute r&eacute;solution recommand&eacute;e</div>\n          <input type=\"file\" id=\"f-photos-file\" accept=\"image/*\" multiple style=\"display:none\" onchange=\"window.handleRestaurantPhotos(this)\"/>\n          <div id=\"f-photos-preview\" style=\"display:flex;flex-wrap:wrap;gap:6px;margin-top:10px\"></div>\n        </div>\n        <div class=\"form-group\" style=\"margin-top:14px\">\n          <label class=\"form-label\">Lien Google Drive / Dropbox (alternative)</label>\n          <input class=\"form-input\" type=\"url\" placeholder=\"https://drive.google.com/... ou https://dropbox.com/...\"/>\n        </div>\n      </div>\n\n      <div class=\"form-nav-btns\">\n        <button class=\"form-btn-prev\" onclick=\"window.formGoStep(1)\">&larr; Retour</button>\n        <button class=\"form-btn-next\" onclick=\"window.formGoStep(3)\">Suivant : Configuration &rarr;</button>\n      </div>\n    </div>\n\n    <!-- STEP 3: Config technique -->\n    <div id=\"form-step-3\" style=\"display:none\">\n      \n      \n      \n      <div class=\"form-section\" id=\"form-delivery-section\"><div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"1\" y=\"3\" width=\"15\" height=\"13\"/><polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"/><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"/><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"/></svg>Plateformes de livraison</div><div class=\"form-section-sub\">Vos liens de commande en ligne (Pack Premium).</div><div class=\"form-row\"><div class=\"form-group\"><label class=\"form-label\">Lien Uber Eats</label><input class=\"form-input\" type=\"url\" id=\"f-ubereats\" placeholder=\"https://www.ubereats.com/store/...\"/></div><div class=\"form-group\"><label class=\"form-label\">Lien Deliveroo</label><input class=\"form-input\" type=\"url\" id=\"f-deliveroo\" placeholder=\"https://deliveroo.fr/menu/...\"/></div><div class=\"form-group\"><label class=\"form-label\">Lien Just Eat</label><input class=\"form-input\" type=\"url\" id=\"f-justeat\" placeholder=\"https://www.just-eat.fr/restaurants/...\"/></div></div></div>\n      <div class=\"form-section\">\n        <div class=\"form-section-title\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--blue)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"/></svg>Remarques compl&eacute;mentaires</div>\n        <div class=\"form-section-sub\">Tout ce que vous souhaitez nous pr&eacute;ciser.</div>\n        <div class=\"form-group\">\n          <textarea class=\"form-input\" placeholder=\"Ex: Je voudrais un style sombre, mettre en avant nos pizzas au feu de bois, ajouter un lien vers notre page Instagram...\" style=\"min-height:100px\"></textarea>\n        </div>\n      </div>\n\n      <div class=\"form-nav-btns\">\n        <button class=\"form-btn-prev\" onclick=\"window.formGoStep(2)\">&larr; Retour</button>\n        <button class=\"form-btn-next\" onclick=\"window.formSubmit()\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:5px\"><polyline points=\"20 6 9 17 4 12\"/></svg>Envoyer le formulaire</button>\n      </div>\n    </div>\n\n    <!-- STEP SUCCESS -->\n    <div id=\"form-step-success\" style=\"display:none\">\n      <div class=\"form-success\">\n        <div class=\"form-success-ico\"><svg width=\"64\" height=\"64\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#22c55e\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"9 12 11 14 15 10\"/></svg></div>\n        <div class=\"stl\" style=\"font-size:32px;margin-bottom:8px\">Formulaire envoy&eacute; !</div>\n        <div class=\"sd\" style=\"margin-bottom:28px\">Merci ! Vous allez &ecirc;tre redirig&eacute; vers le paiement s&eacute;curis&eacute; dans quelques instants&hellip;</div>\n        \n        <button class=\"ba\" onclick=\"showPage('accueil')\">Retour &agrave; l&apos;accueil &rarr;</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n</div>\n<!-- ====== PAGE 2 — TARIFS ====== -->\n<div class=\"page\" id=\"page-builder\">\n  <div class=\"offres-wrap\">\n    <div class=\"sh\" style=\"padding-top:36px\">\n      <div class=\"st\">Choisissez votre formule</div>\n      <div class=\"stl\">Votre site livr&eacute; en max 5 jours,<br/>cl&eacute; en main.</div>\n      <div class=\"sd\">Paiement unique &bull; Z&eacute;ro abonnement &bull; H&eacute;bergement premi&egrave;re ann&eacute;e inclus &mdash; un lien, un formulaire, et c&rsquo;est parti.</div>\n    </div>\n    <div class=\"pgrid\">\n      <div class=\"pcard\">\n        <div class=\"pcard-n\">Essentiel</div><div class=\"pcard-t\" id=\"desc-b-essentiel\">Site vitrine + gestion autonome</div>\n        <div class=\"pcard-p\" id=\"price-b-essentiel\">150&euro; <span>/ unique</span></div>\n        <div class=\"pcard-o\">&#10003; Z&eacute;ro abonnement</div>\n        <ul class=\"pf\">\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Menu digital interactif</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Google Maps + t&eacute;l&eacute;phone</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Horaires + adresse</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Design responsive mobile</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#9ca3af\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>SSL + h&eacute;bergement 1 an</li>\n        </ul>\n        <a class=\"pcard-demo\" id=\"demo-b-essentiel\" href=\"#\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n          Voir un exemple de site complet\n        </a>\n        <button class=\"pbtn-builder\" onclick=\"goHomePack('essentiel')\">\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z\"/></svg>\n          Remplir le formulaire &rarr;\n        </button>\n      </div>\n      <div class=\"pcard pop\">\n        <div class=\"pcard-b\">Le + populaire</div>\n        <div class=\"pcard-n\">Premium</div><div class=\"pcard-t\" id=\"desc-b-premium\">Commandes en ligne &amp; livraison</div>\n        <div class=\"pcard-p\" id=\"price-b-premium\">490&euro; <span>/ unique</span></div>\n        <div class=\"pcard-o\">&#10003; Z&eacute;ro abonnement</div>\n        <ul class=\"pf\">\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Tout Essentiel inclus</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Panier &amp; commande en ligne</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Stripe &bull; Apple Pay &bull; PayPal</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>Dashboard administrateur</li>\n          <li><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg>SEO optimis&eacute; + Analytics</li>\n        </ul>\n        <a class=\"pcard-demo\" id=\"demo-b-premium\" href=\"#\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n          Voir un exemple de site complet\n        </a>\n        <button class=\"pbtn-builder pr\" onclick=\"goHomePack('essentiel')\">\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z\"/></svg>\n          Remplir le formulaire &rarr;\n        </button>\n      </div>\n      \n    </div>\n  </div>\n  <footer class=\"foot\">\n    <div class=\"foot-l\">\n      <button onclick=\"showPage('accueil')\">Accueil</button>\n      <button onclick=\"goHomePack('essentiel')\">Offres</button>\n      <button onclick=\"showPage('avantages')\">Avantages</button>\n    </div>\n    <p>&copy; 2026 VisioFlow &mdash; Tous droits r&eacute;serv&eacute;s.</p>\n  </footer>\n</div>\n<!-- ====== PAGE 4 — AVANTAGES ====== -->\n<div class=\"page\" id=\"page-avantages\">\n  <div class=\"av-wrap av-bg-section\">\n    <div class=\"sh\" style=\"padding-top:36px\">\n      <div class=\"st\">Avantages</div>\n      <div class=\"stl\">Tout est inclus<br/>d&egrave;s le premier jour.</div>\n      <div class=\"sd\">Chaque fonctionnalit&eacute; est pens&eacute;e pour maximiser vos commandes et votre visibilit&eacute;.</div>\n    </div>\n    <div class=\"fgrid\">\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#eff6ff\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"/></svg></div><h3>Ultra rapide</h3><p>Score Lighthouse 95+. Moins de 2 secondes sur mobile et desktop.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#f0fdf4\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#16a34a\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"5\" y=\"2\" width=\"14\" height=\"20\" rx=\"2\"/><line x1=\"12\" y1=\"18\" x2=\"12.01\" y2=\"18\"/></svg></div><h3>100% Responsive</h3><p>Parfait sur iPhone, Android, tablette et desktop.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#fefce8\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#ca8a04\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/></svg></div><h3>SEO Google</h3><p>R&eacute;f&eacute;rencement naturel optimis&eacute; d&egrave;s le lancement.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#faf5ff\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"1\" y=\"4\" width=\"22\" height=\"16\" rx=\"2\"/><line x1=\"1\" y1=\"10\" x2=\"23\" y2=\"10\"/></svg></div><h3>Paiements int&eacute;gr&eacute;s</h3><p>Stripe, Apple Pay, PayPal, Swile &mdash; tous les modes.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#fff1f2\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#e11d48\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"18\" y1=\"20\" x2=\"18\" y2=\"10\"/><line x1=\"12\" y1=\"20\" x2=\"12\" y2=\"4\"/><line x1=\"6\" y1=\"20\" x2=\"6\" y2=\"14\"/></svg></div><h3>Dashboard admin</h3><p>Commandes, chiffre d&apos;affaires et stats en temps r&eacute;el.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#f0f9ff\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0369a1\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg></div><h3>SSL &amp; S&eacute;curit&eacute;</h3><p>Certificat SSL A+, sauvegardes quotidiennes, DDoS.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#f0fdf4\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#16a34a\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg></div><h3>Google Maps</h3><p>Carte interactive avec itin&eacute;raire en un clic.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#fefce8\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#ca8a04\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/></svg></div><h3>Galerie photos</h3><p>Photos optimis&eacute;es web pour vos plats.</p></div>\n      <div class=\"fc\" data-glow><div class=\"fi\" style=\"background:#eff6ff\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0071E3\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"23 4 23 10 17 10\"/><path d=\"M20.49 15a9 9 0 1 1-2.12-9.36L23 10\"/></svg></div><h3>Mises &agrave; jour</h3><p>Menu, prix et horaires modifiables en autonomie.</p></div>\n    </div>\n  </div>\n\n  <div style=\"padding:60px 24px;background:var(--bg-alt)\">\n    <div class=\"sgrid\" style=\"margin-bottom:60px\">\n      <div class=\"sc\"><div class=\"sv\">350+</div><div class=\"sl\">Restaurants &eacute;quip&eacute;s</div></div>\n      <div class=\"sc\"><div class=\"sv\">98%</div><div class=\"sl\">Satisfaction client</div></div>\n      <div class=\"sc\"><div class=\"sv\">max 5 jours</div><div class=\"sl\">D&eacute;lai de livraison</div></div>\n      <div class=\"sc\"><div class=\"sv\">+34%</div><div class=\"sl\">Commandes en moyenne</div></div>\n    </div>\n    <div style=\"text-align:center;margin-bottom:32px\">\n      <div class=\"st\">Processus</div>\n      <div class=\"stl\" style=\"font-size:clamp(24px,3vw,38px)\">Votre site en 4 &eacute;tapes</div>\n    </div>\n    <div class=\"psteps\" style=\"max-width:900px;margin:0 auto\">\n      <div class=\"ps\"><div class=\"ps-n\">01</div><h4>Vous configurez</h4><p>Choisissez cuisine, couleur et offre dans le Builder.</p></div>\n      <div class=\"ps\"><div class=\"ps-n\">02</div><h4>Vous commandez</h4><p>Paiement s&eacute;curis&eacute; en quelques minutes.</p></div>\n      <div class=\"ps\"><div class=\"ps-n\">03</div><h4>On cr&eacute;e votre site</h4><p>Notre &eacute;quipe d&eacute;veloppe et int&egrave;gre tout en max 5 jours.</p></div>\n      <div class=\"ps\"><div class=\"ps-n\">04</div><h4>Vous &ecirc;tes en ligne</h4><p>Validation, mise en ligne et remise des acc&egrave;s.</p></div>\n    </div>\n  </div>\n\n  <div class=\"av-cta\">\n    <div class=\"av-cta-ov\"></div>\n    <h2>Pr&ecirc;t &agrave; digitaliser<br/>votre restaurant&nbsp;?</h2>\n    <p>Rejoignez 350+ restaurateurs qui ont transform&eacute; leur activit&eacute;.</p>\n    <div style=\"display:flex;gap:14px;justify-content:center;flex-wrap:wrap\">\n      <button class=\"ba\" onclick=\"goHomePack('essentiel')\">Configurer mon site &rarr;</button>\n    </div>\n  </div>\n  <footer class=\"foot\"><p>&copy; 2026 VisioFlow &mdash; Tous droits r&eacute;serv&eacute;s.</p></footer>\n</div>\n<!-- ====== PAGE 5 — PAIEMENTS ====== -->\n<div class=\"page\" id=\"page-paiements\">\n  <div class=\"pp-wrap\">\n    <div class=\"sh\" style=\"padding-top:36px\">\n      <div class=\"st\">Paiements</div>\n      <div class=\"stl\">Tous les modes<br/>de paiement.</div>\n      <div class=\"sd\">Vos clients paient avec leur m&eacute;thode pr&eacute;f&eacute;r&eacute;e. Int&eacute;gration Stripe s&eacute;curis&eacute;e.</div>\n    </div>\n    <div id=\"pay-orbital-container\"></div>\n    <div class=\"pp-grid\">\n      <div class=\"pp-card\">\n        <div class=\"pp-head\"><div class=\"pp-logo\" style=\"background:#635BFF\"><svg width=\"18\" height=\"24\" viewBox=\"0 0 14 18\" fill=\"none\"><path d=\"M6.2 6.8C6.2 5.9 6.9 5.5 8 5.5c1.5 0 3 .5 4 1.2V2.3C10.8 1.5 9.4 1 8 1 4.7 1 2.5 2.7 2.5 5.2c0 4.2 5.8 3.5 5.8 5.3 0 1-.8 1.4-2 1.4-1.7 0-3.3-.7-4.4-1.6v4.5c1.2.5 2.7.8 4.4.8 3.4 0 5.7-1.7 5.7-4.2-.1-4.5-5.8-3.6-5.8-4.6z\" fill=\"white\"/></svg></div><div><div class=\"pp-name\">Stripe</div><div class=\"pp-sub\">Carte bancaire en ligne</div></div></div>\n        <div class=\"pp-desc\">Le leader mondial du paiement. Acceptez toutes les cartes Visa, Mastercard, CB, American Express. Virements automatiques sur votre compte.</div>\n        <div class=\"pp-tags\"><span class=\"pp-tag\">Visa</span><span class=\"pp-tag\">Mastercard</span><span class=\"pp-tag\">CB</span><span class=\"pp-tag\">3D Secure</span></div>\n      </div>\n      <div class=\"pp-card\">\n        <div class=\"pp-head\"><div class=\"pp-logo\" style=\"background:#000;border:1px solid #333\"><svg width=\"18\" height=\"22\" viewBox=\"0 0 14 17\" fill=\"white\"><path d=\"M11.8 8.9c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.6-1.3-.1-2.5.7-3.1.7-.6 0-1.6-.7-2.7-.7C3 4.1 1.2 5.1.4 6.7c-1.6 2.8-.4 7 1.1 9.3.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 2.9-.7 1.3 0 1.7.7 2.9.7 1.2 0 2-1.1 2.8-2.2.9-1.2 1.2-2.4 1.2-2.5-.1 0-2.4-.9-2.4-3.7zM9.7 2.3C10.4 1.4 10.9.2 10.7-.1 9.5 0 8.1.8 7.4 1.7c-.6.8-1.2 2-1 3.1 1.3.1 2.6-.7 3.3-2.5z\"/></svg></div><div><div class=\"pp-name\">Apple Pay</div><div class=\"pp-sub\">Paiement biom&eacute;trique</div></div></div>\n        <div class=\"pp-desc\">Un tap, Touch ID ou Face ID &mdash; c&apos;est pay&eacute;. R&eacute;duit l&apos;abandon panier de 40% sur mobile. Z&eacute;ro saisie requise.</div>\n        <div class=\"pp-tags\"><span class=\"pp-tag\">Face ID</span><span class=\"pp-tag\">Touch ID</span><span class=\"pp-tag\">Z&eacute;ro saisie</span></div>\n      </div>\n      <div class=\"pp-card\">\n        <div class=\"pp-head\"><div class=\"pp-logo\" style=\"background:#003087\"><svg width=\"18\" height=\"22\" viewBox=\"0 0 14 16\" fill=\"none\"><path d=\"M11.5 2.3C10.8 1.5 9.5 1 7.8 1H3.2c-.4 0-.7.3-.8.6L.6 13.4c0 .3.2.5.5.5h2.8l.7-4.3v.1c.1-.4.4-.6.8-.6h1.7c3.2 0 5.7-1.3 6.4-5 .1-.3.1-.6.1-.9-.2-1-.6-1.6-1.1-1.9z\" fill=\"#009cde\"/><path d=\"M5.8 5.4c.1-.4.3-.6.7-.6h4.4c.5 0 1 .1 1.4.2.4.1.8.4 1 .7.1-.3.1-.6.1-.9C13.8 3.8 12.3 3 10.3 3H5.7c-.4 0-.7.3-.8.6L3.1 14.5c0 .3.2.5.5.5h2.5l1.7-9.6z\" fill=\"#012169\"/></svg></div><div><div class=\"pp-name\">PayPal</div><div class=\"pp-sub\">435M+ utilisateurs</div></div></div>\n        <div class=\"pp-desc\">La m&eacute;thode la plus connue. Compte PayPal ou carte directement. Protection acheteur incluse. 200+ pays.</div>\n        <div class=\"pp-tags\"><span class=\"pp-tag\">Compte PayPal</span><span class=\"pp-tag\">Protection</span><span class=\"pp-tag\">200 pays</span></div>\n      </div>\n      <div class=\"pp-card\">\n        <div class=\"pp-head\"><div class=\"pp-logo\" style=\"background:#5F2EEA\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 16 16\"><rect width=\"16\" height=\"16\" rx=\"4\" fill=\"#5F2EEA\"/><circle cx=\"7.5\" cy=\"8.5\" r=\"2.5\" fill=\"white\"/><circle cx=\"11.5\" cy=\"4.5\" r=\"1.5\" fill=\"#FF6B6B\"/></svg></div><div><div class=\"pp-name\">Swile</div><div class=\"pp-sub\">Titres restaurant digitaux</div></div></div>\n        <div class=\"pp-desc\">Vos clients paient avec leur carte Swile. Id&eacute;al pour les zones d&apos;activit&eacute; et livraisons de bureau. <strong>Sur les sites restaurants uniquement.</strong></div>\n        <div class=\"pp-tags\"><span class=\"pp-tag\">Titre restaurant</span><span class=\"pp-tag\">Carte Swile</span><span class=\"pp-tag\">Pro</span></div>\n        <div class=\"swile-note\">\n          <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#1d4ed8\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\"/></svg>\n          Swile est activ&eacute; sur vos sites restaurants. Non disponible pour l&apos;achat d&apos;une prestation VisioFlow.\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"pp-showcase\">\n    <div class=\"pp-showcase-label\">Paiements s\u00e9curis\u00e9s</div>\n    <div class=\"pp-card-stage\" id=\"pp-card-3d\">\n      <div class=\"pp-card-inner\"><img src=\"/velocity-card.png\" class=\"pp-amex-img\" alt=\"Carte bancaire s\u00e9curis\u00e9e\"/></div>\n    </div>\n  </div>\n    <div class=\"swile-note\" style=\"margin-top:28px;max-width:920px;margin-left:auto;margin-right:auto;padding:18px 22px\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#1d4ed8\" stroke-width=\"2\" style=\"flex-shrink:0;margin-top:2px\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\"/></svg>\n      <div><strong>Important &mdash; Vos propres comptes :</strong> Les moyens de paiement (Stripe, Apple Pay, PayPal, Swile) sont connect&eacute;s &agrave; VOS propres comptes. Vous les configurez vous-m&ecirc;me, comme pour Uber Eats ou Deliveroo : il suffit de remplacer les liens URL dans le code de votre site. <strong>Si c'est trop compliqu&eacute;, on vous aide par appel t&eacute;l&eacute;phonique</strong> gratuitement.</div>\n    </div>\n<div class=\"sec-dark\">\n    <div class=\"sec-dark-ov\"></div>\n    <div class=\"sec-inner\">\n      <div class=\"st\" style=\"color:rgba(255,255,255,.45)\">S&eacute;curit&eacute;</div>\n      <div class=\"stl\" style=\"color:#fff\">Vos transactions<br/>100% s&eacute;curis&eacute;es.</div>\n      <div class=\"sec-grid\">\n        <div class=\"sec-cell\"><div class=\"sec-ico\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"rgba(255,255,255,.7)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0110 0v4\"/></svg></div><h4>SSL 256-bit</h4><p>Donn&eacute;es chiffr&eacute;es de bout en bout entre vos clients et les serveurs.</p></div>\n        <div class=\"sec-cell\"><div class=\"sec-ico\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"rgba(255,255,255,.7)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg></div><h4>PCI-DSS Niveau 1</h4><p>Stripe est certifi&eacute; PCI-DSS niveau 1, la plus haute certification bancaire.</p></div>\n        <div class=\"sec-cell\"><div class=\"sec-ico\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"rgba(255,255,255,.7)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"/></svg></div><h4>3D Secure 2.0</h4><p>Authentification forte automatique pour chaque transaction (DSP2).</p></div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"pay-cta\">\n    <div class=\"st\">Prochaine &eacute;tape</div>\n    <h2>Pr&ecirc;t &agrave; encaisser<br/>vos premi&egrave;res commandes&nbsp;?</h2>\n    <p>Configurez votre site et acceptez tous les paiements en max 5 jours.</p>\n    <div style=\"display:flex;gap:14px;justify-content:center;flex-wrap:wrap\">\n      <button class=\"ba\" onclick=\"goHomePack('essentiel')\">Configurer mon site &rarr;</button>\n    </div>\n  </div>\n  <div class=\"pay-page-foot\"><p>&copy; 2026 VisioFlow &mdash; Tous droits r&eacute;serv&eacute;s.</p></div>\n</div>\n\n<!-- PAGE 6 ADMIN VISIOFLOW (pour toi Yanis) -->\n<div class=\"page\" id=\"page-admin\">\n  <div class=\"vf-admin\">\n    <div class=\"vf-topbar\">\n      <h1>Visio<span>Flow</span> Admin</h1>\n      <div class=\"vf-topbar-right\">\n        <button class=\"vf-btn-sm vf-btn-ghost\" onclick=\"goHomePack('essentiel')\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:4px\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><polyline points=\"14 2 14 8 20 8\"/></svg>Voir le formulaire</button>\n        <button class=\"vf-btn-sm vf-btn-blue\" onclick=\"showPage('builder')\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:4px\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z\"/></svg>Builder</button>\n      </div>\n    </div>\n    <div class=\"vf-stat-row\">\n      <div class=\"vf-scard\">\n        <div class=\"vf-scard-label\">Revenus totaux</div>\n        <div class=\"vf-scard-value\" id=\"vfa-revenue\">4 610&euro;</div>\n        <div class=\"vf-scard-trend up\">&uarr; +34% ce mois</div>\n      </div>\n      <div class=\"vf-scard\">\n        <div class=\"vf-scard-label\">Commandes re&ccedil;ues</div>\n        <div class=\"vf-scard-value\" id=\"vfa-orders\">7</div>\n        <div class=\"vf-scard-trend up\">&uarr; 3 cette semaine</div>\n      </div>\n      <div class=\"vf-scard\">\n        <div class=\"vf-scard-label\">Sites en ligne</div>\n        <div class=\"vf-scard-value\" id=\"vfa-live\">4</div>\n        <div class=\"vf-scard-trend up\">2 en construction</div>\n      </div>\n      <div class=\"vf-scard\">\n        <div class=\"vf-scard-label\">Formulaires re&ccedil;us</div>\n        <div class=\"vf-scard-value\" id=\"vfa-forms\">5</div>\n        <div class=\"vf-scard-trend up\">&uarr; 2 &agrave; traiter</div>\n      </div>\n    </div>\n\n    <div class=\"vf-tabs\">\n      <button class=\"vf-tab a\" onclick=\"vfaTab(this,'clients')\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:5px\"><path d=\"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M23 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg>Clients</button>\n      <button class=\"vf-tab\" onclick=\"vfaTab(this,'commandes')\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:5px\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"/></svg>Commandes</button>\n      <button class=\"vf-tab\" onclick=\"vfaTab(this,'formulaires')\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:5px\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><polyline points=\"14 2 14 8 20 8\"/><line x1=\"16\" y1=\"13\" x2=\"8\" y2=\"13\"/><line x1=\"16\" y1=\"17\" x2=\"8\" y2=\"17\"/></svg>Formulaires</button>\n      <button class=\"vf-tab\" onclick=\"vfaTab(this,'revenus')\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:5px\"><line x1=\"12\" y1=\"1\" x2=\"12\" y2=\"23\"/><path d=\"M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6\"/></svg>Revenus</button>\n    </div>\n\n    <!-- Panel Clients -->\n    <div class=\"vf-panel\" id=\"vfa-p-clients\">\n      <div class=\"vf-panel-head\">\n        <div class=\"vf-panel-title\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:6px\"><path d=\"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M23 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg>Tous les clients</div>\n        <button class=\"vf-btn-sm vf-btn-blue\" onclick=\"vfaAddClient()\">+ Ajouter un client</button>\n      </div>\n      <div class=\"vf-panel-body\" style=\"padding:0;overflow-x:auto\">\n        <table class=\"vf-table\">\n          <thead><tr>\n            <th>Client</th><th>Pack</th><th>Cuisine</th><th>Statut</th><th>Date</th><th>Actions</th>\n          </tr></thead>\n          <tbody id=\"vfa-clients-body\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- Panel Commandes -->\n    <div class=\"vf-panel\" id=\"vfa-p-commandes\" style=\"display:none\">\n      <div class=\"vf-panel-head\">\n        <div class=\"vf-panel-title\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:6px\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"/></svg>Historique des commandes</div>\n        <div style=\"display:flex;gap:8px\">\n          <button class=\"vf-btn-sm vf-btn-ghost\">Exporter CSV</button>\n        </div>\n      </div>\n      <div class=\"vf-panel-body\" style=\"padding:0;overflow-x:auto\">\n        <table class=\"vf-table\">\n          <thead><tr>\n            <th>ID</th><th>Client</th><th>Pack</th><th>Montant</th><th>Paiement</th><th>Date</th>\n          </tr></thead>\n          <tbody id=\"vfa-orders-body\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- Panel Formulaires -->\n    <div class=\"vf-panel\" id=\"vfa-p-formulaires\" style=\"display:none\">\n      <div class=\"vf-panel-head\">\n        <div class=\"vf-panel-title\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:6px\"><path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><polyline points=\"14 2 14 8 20 8\"/><line x1=\"16\" y1=\"13\" x2=\"8\" y2=\"13\"/><line x1=\"16\" y1=\"17\" x2=\"8\" y2=\"17\"/></svg>Formulaires post-achat re&ccedil;us</div>\n      </div>\n      <div class=\"vf-panel-body\" style=\"padding:0;overflow-x:auto\">\n        <table class=\"vf-table\">\n          <thead><tr>\n            <th>Client</th><th>Pack</th><th>Restaurant</th><th>Villes</th><th>Re&ccedil;u le</th><th>Actions</th>\n          </tr></thead>\n          <tbody id=\"vfa-forms-body\"></tbody>\n        </table>\n      </div>\n    </div>\n\n    <!-- Panel Revenus -->\n    <div class=\"vf-panel\" id=\"vfa-p-revenus\" style=\"display:none\">\n      <div class=\"vf-panel-head\">\n        <div class=\"vf-panel-title\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" style=\"vertical-align:-2px;margin-right:6px\"><line x1=\"12\" y1=\"1\" x2=\"12\" y2=\"23\"/><path d=\"M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6\"/></svg>R&eacute;capitulatif des revenus</div>\n      </div>\n      <div class=\"vf-panel-body\">\n        <div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px\">\n          <div style=\"background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.06);border-radius:12px;padding:16px;text-align:center\">\n            <div style=\"font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px\">Essentiel (150&euro;)</div>\n            <div style=\"font-family:'Outfit';font-size:24px;font-weight:800;color:#9ca3af\" id=\"vfa-rev-ess\">600&euro;</div>\n            <div style=\"font-size:11px;color:rgba(255,255,255,.3);margin-top:2px\">4 ventes</div>\n          </div>\n          <div style=\"background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.06);border-radius:12px;padding:16px;text-align:center\">\n            <div style=\"font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px\">Premium (490&euro;)</div>\n            <div style=\"font-family:'Outfit';font-size:24px;font-weight:800;color:#60a5fa\" id=\"vfa-rev-prem\">1 960&euro;</div>\n            <div style=\"font-size:11px;color:rgba(255,255,255,.3);margin-top:2px\">4 ventes</div>\n          </div>\n        </div>\n        <div style=\"font-size:12px;color:rgba(255,255,255,.3);text-align:center\">Les donn&eacute;es ci-dessus sont un exemple &mdash; connectez votre Stripe Dashboard pour les donn&eacute;es r&eacute;elles.</div>\n      </div>\n    </div>\n    <div class=\"vf-admin-foot\">&copy; 2026 VisioFlow Admin &mdash; Espace r&eacute;serv&eacute;</div>\n  </div>\n</div>\n\n<!-- PAGE 7 FORMULAIRE POST-ACHAT -->\n<!-- ====== SYSTÈME COMPTES CLIENTS VISIOFLOW ====== -->\n<!-- Coller ce bloc JUSTE AVANT le bloc auth admin (ou avant </body>) -->\n\n<!-- ====== FIREBASE ADMIN DASHBOARD VISIOFLOW ====== -->\n<!-- âš ï¸ REMPLACE le bloc page-admin existant ET colle ceci AVANT </body> -->\n\n<!-- Firebase SDK -->\n\n\n\n\n\n<!-- ====== SYSTÈME D'AUTHENTIFICATION ADMIN VISIOFLOW ====== -->\n<!-- Coller ce bloc JUSTE AVANT </body> dans votre fichier HTML -->\n\n\n<!-- ====== SYSTÈME AUTH FIREBASE + ESPACE CLIENT + TUNNEL PRÉ-PAIEMENT ====== -->"
 
 function parseFirestoreValue(v) {
   if (!v) return null
@@ -30,7 +29,7 @@ function applyConfigToHTML(html, config) {
     if (data?.price) {
       h = h.replace(new RegExp(`(id="price-${pack}">)[^<]+`),   `$1${data.price} `)
       h = h.replace(new RegExp(`(id="price-b-${pack}">)[^<]+`), `$1${data.price} `)
-      // Mettre à jour le prix dans la barre du formulaire (défaut : premium)
+      // Mettre a jour le prix dans la barre du formulaire (defaut : premium)
       if (pack === 'premium') {
         h = h.replace(/(id="form-pack-price"[^>]*>)[^<]+/, `$1${data.price}`)
         h = h.replace(/(id="mPrice"[^>]*>)[^<]+/, `$1${data.price}`)
@@ -45,8 +44,8 @@ function applyConfigToHTML(html, config) {
     }
   })
   const hero = config.hero || {}
-  if (hero.ctaText)  h = h.replace(/(id="hero-cta"[^>]*>)[^<]+/,      `$1${hero.ctaText}`)
-  if (hero.subtitle) h = h.replace(/(id="hero-subtitle"[^>]*>)[^<]+/,  `$1${hero.subtitle}`)
+  // hero.ctaText disabled
+  // hero.subtitle disabled
   const exampleUrls = config.exampleUrls || {}
   ;['essentiel', 'premium'].forEach(pack => {
     let url = (exampleUrls[pack] || '').trim()
@@ -81,7 +80,7 @@ function applyDemoUrls(exampleUrls) {
 }
 
 export default function Home({ siteConfig }) {
-  const [heroComplete, setHeroComplete] = useState(false)
+  const [heroComplete] = useState(true)
   const pageHTML = applyConfigToHTML(PAGE_HTML, siteConfig)
 
   useEffect(() => {
@@ -90,7 +89,7 @@ export default function Home({ siteConfig }) {
 
   useEffect(() => {
 
-/* Déclarés ici pour être accessibles à toutes les fonctions (formSubmit, doPay, etc.) */
+/* Declares ici pour être accessibles a toutes les fonctions (formSubmit, doPay, etc.) */
 let db;
 let firebaseReady = false;
 
@@ -106,7 +105,7 @@ const EXAMPLE_URLS={
   premium:   siteConfig?.exampleUrls?.premium   || '',
 };
 
-/* Fetch direct des URLs d'exemple depuis Firestore REST (indépendant de Firebase SDK) */
+/* Fetch direct des URLs d'exemple depuis Firestore REST (independant de Firebase SDK) */
 (function applyExampleUrlsDirect() {
   fetch('https://firestore.googleapis.com/v1/projects/visioflow-cb6eb-9d051/databases/(default)/documents/site_config/main?key=AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY')
     .then(function(r){ return r.ok ? r.json() : null; })
@@ -282,7 +281,7 @@ const MI={
     {name:'Wings BBQ x6',price:'7.90',img:'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=600&q=90',cat:'entrees',desc:'Ailes de poulet sauce barbecue maison, c\u00e9leri'},
     {name:'Smash Burger Classic',price:'9.90',img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=90',cat:'plats',desc:'Double steak, cheddar fondu, cornichons, sauce sp\u00e9ciale'},
     {name:'Bacon Cheeseburger',price:'12.90',img:'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=600&q=90',cat:'plats',desc:'Bacon croustillant, double cheddar, laitue iceberg'},
-    {name:'Chicken Avocado',price:'11.90',img:'https://images.unsplash.com/photo-1550317138-10000687a72b?w=600&q=90',cat:'plats',desc:'Blanc de poulet grill\u00e9, avocat crémeux, tomate s\u00e9ch\u00e9e'},
+    {name:'Chicken Avocado',price:'11.90',img:'https://images.unsplash.com/photo-1550317138-10000687a72b?w=600&q=90',cat:'plats',desc:'Blanc de poulet grill\u00e9, avocat cremeux, tomate s\u00e9ch\u00e9e'},
     {name:'Milkshake Vanille',price:'5.90',img:'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&q=90',cat:'desserts',desc:'Milk-shake ultra-\u00e9pais, glace vanille de Madagascar'},
     {name:'Frites Maison',price:'4.50',img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=90',cat:'boissons',desc:'Frites coup\u00e9es \u00e0 la main, sel de gu\u00e9rande'},
     {name:'Soda 33cl',price:'3.50',img:'https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=600&q=90',cat:'boissons',desc:'Cola, Citron, Orange au choix'},
@@ -309,7 +308,7 @@ const MI={
   ],
   thai:[
     {name:'Spring Rolls x4',price:'6.90',img:'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=90',cat:'entrees',desc:'Rouleaux de printemps fra\u00eeches, sauce nuoc-cham'},
-    {name:'Tom Yum Soup',price:'8.90',img:'https://images.unsplash.com/photo-1548943487-a2e4e43b4853?w=600&q=90',cat:'entrees',desc:'Bouillon \u00e9pic\u00e9, champignons, citronnelle, crevettes tigrées'},
+    {name:'Tom Yum Soup',price:'8.90',img:'https://images.unsplash.com/photo-1548943487-a2e4e43b4853?w=600&q=90',cat:'entrees',desc:'Bouillon \u00e9pic\u00e9, champignons, citronnelle, crevettes tigrees'},
     {name:'Pad Tha\u00ef Crevettes',price:'13.90',img:'https://images.unsplash.com/photo-1559314809-0d155014e29e?w=600&q=90',cat:'plats',desc:'Nouilles riz saut\u00e9es, oeufs, cacahu\u00e8tes torr\u00e9fi\u00e9es, citron vert'},
     {name:'Curry Vert Poulet',price:'12.90',img:'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&q=90',cat:'plats',desc:'Lait de coco, curry vert tha\u00ef, aubergines, kaffir'},
     {name:'Bao Buns x3',price:'8.50',img:'https://images.unsplash.com/photo-1508615039623-a25605d2b022?w=600&q=90',cat:'plats',desc:'Brioche vapeur, porc brais\u00e9 12h, concombre, sriracha'},
@@ -317,23 +316,23 @@ const MI={
     {name:'Th\u00e9 Tha\u00ef',price:'4.50',img:'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=90',cat:'boissons',desc:'Th\u00e9 \u00e9pic\u00e9, lait concentr\u00e9 sucr\u00e9, servi glac\u00e9'},
   ],
   bistrot:[
-    {name:'Soupe \u00e0 l\'Oignon',price:'8.50',img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=90',cat:'entrees',desc:'Gratinée au comté, cro\u00fbtons maison dorés'},
-    {name:'Oeuf Parfait',price:'9.90',img:'https://images.unsplash.com/photo-1608039829572-9b1234ef0d8f?w=600&q=90',cat:'entrees',desc:'63\u00b0C, cr\u00e8me de truffe noire, mouillettes grillées'},
+    {name:'Soupe \u00e0 l\'Oignon',price:'8.50',img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=90',cat:'entrees',desc:'Gratinee au comte, cro\u00fbtons maison dores'},
+    {name:'Oeuf Parfait',price:'9.90',img:'https://images.unsplash.com/photo-1608039829572-9b1234ef0d8f?w=600&q=90',cat:'entrees',desc:'63\u00b0C, cr\u00e8me de truffe noire, mouillettes grillees'},
     {name:'Steak Frites',price:'18.90',img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=90',cat:'plats',desc:'Entrecote matur\u00e9e 28 jours, frites maison, b\u00e9arnaise'},
     {name:'Confit de Canard',price:'17.90',img:'https://images.unsplash.com/photo-1432139509613-5c4255a1d277?w=600&q=90',cat:'plats',desc:'Cuisse confite 8h, pommes sarladaises, salade mesclun'},
-    {name:'Tartare de Boeuf',price:'16.90',img:'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=600&q=90',cat:'plats',desc:'Taillé au couteau, c\u00e2pres, \u00e9chalote, oeuf de caille'},
+    {name:'Tartare de Boeuf',price:'16.90',img:'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=600&q=90',cat:'plats',desc:'Taille au couteau, c\u00e2pres, \u00e9chalote, oeuf de caille'},
     {name:'Cr\u00e8me Br\u00fbl\u00e9e',price:'7.90',img:'https://images.unsplash.com/photo-1470324161839-ce2bb6fa6bc3?w=600&q=90',cat:'desserts',desc:'Vanille de Madagascar, sucre caram\u00e9lis\u00e9 \u00e0 la flamme'},
     {name:'Plateau Fromages',price:'12.90',img:'https://images.unsplash.com/photo-1452195100486-9cc805987862?w=600&q=90',cat:'desserts',desc:'S\u00e9lection affin\u00e9e de 5 fromages, pain aux noix'},
-    {name:'Pichet Bordeaux',price:'9.50',img:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=90',cat:'boissons',desc:'50cl, AOC Bordeaux contr\u00f4l\u00e9e, millésime 2022'},
+    {name:'Pichet Bordeaux',price:'9.50',img:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=90',cat:'boissons',desc:'50cl, AOC Bordeaux contr\u00f4l\u00e9e, millesime 2022'},
   ],
   cafe:[
-    {name:'Granola Bowl',price:'8.90',img:'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=600&q=90',cat:'entrees',desc:'Granola maison toasté, fruits de saison, yaourt grec'},
+    {name:'Granola Bowl',price:'8.90',img:'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=600&q=90',cat:'entrees',desc:'Granola maison toaste, fruits de saison, yaourt grec'},
     {name:'Açaï Bowl',price:'9.90',img:'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=600&q=90',cat:'entrees',desc:'Base açaï, banane, myrtilles, granola, miel'},
-    {name:'Avocado Toast',price:'11.90',img:'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=600&q=90',cat:'plats',desc:'Pain levain, avocat, oeuf poché, graines de sésame'},
-    {name:'Eggs Benedict',price:'13.90',img:'https://images.unsplash.com/photo-1608039829572-9b1234ef0d8f?w=600&q=90',cat:'plats',desc:'Muffins maison, oeuf poché parfait, hollandaise au beurre'},
+    {name:'Avocado Toast',price:'11.90',img:'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=600&q=90',cat:'plats',desc:'Pain levain, avocat, oeuf poche, graines de sesame'},
+    {name:'Eggs Benedict',price:'13.90',img:'https://images.unsplash.com/photo-1608039829572-9b1234ef0d8f?w=600&q=90',cat:'plats',desc:'Muffins maison, oeuf poche parfait, hollandaise au beurre'},
     {name:'Pancakes Stack',price:'9.90',img:'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=90',cat:'plats',desc:'Stack x5, sirop d\u2019\u00e9rable pur, beurre noisette, myrtilles'},
-    {name:'Carrot Cake',price:'6.50',img:'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=600&q=90',cat:'desserts',desc:'Glaçage cream cheese généreux, noix de p\u00e9can, caramel'},
-    {name:'Flat White',price:'4.90',img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=90',cat:'boissons',desc:'Double espresso, lait micro-texturé, art latte maison'},
+    {name:'Carrot Cake',price:'6.50',img:'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=600&q=90',cat:'desserts',desc:'Glaçage cream cheese genereux, noix de p\u00e9can, caramel'},
+    {name:'Flat White',price:'4.90',img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=90',cat:'boissons',desc:'Double espresso, lait micro-texture, art latte maison'},
     {name:'Smoothie Tropical',price:'6.90',img:'https://images.unsplash.com/photo-1638176066666-ffb2f013c7dd?w=600&q=90',cat:'boissons',desc:'Mangue, ananas, gingembre frais, lait de coco'},
   ],
   autre:[
@@ -373,7 +372,7 @@ const CITY_SPECIALS=[
     label:'Paris Centre',flag:'ðŸ—¼',
     badge:'Sp\u00e9cialit\u00e9 parisienne',
     entrees:[{name:'Tartine Montmartre',price:'8.50',img:'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=600&q=90',cat:'entrees',desc:'Pain Poil\u00e2ne, burrata, tomates s\u00e9ch\u00e9es, basilic frais'}],
-    plats:[{name:'Entrecôte Sauce Poivre',price:'21.90',img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=90',cat:'plats',desc:'Pi\u00e8ce paris-brest, poivre vert du Cambodge, frites maison'}],
+    plats:[{name:'Entrecote Sauce Poivre',price:'21.90',img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=90',cat:'plats',desc:'Pi\u00e8ce paris-brest, poivre vert du Cambodge, frites maison'}],
     desserts:[{name:'Op\u00e9ra Maison',price:'7.50',img:'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600&q=90',cat:'desserts',desc:'Biscuit joconde, ganache caf\u00e9, gla\u00e7age chocolat noir'}],
     boissons:[{name:'Kir Parisien',price:'5.50',img:'https://images.unsplash.com/photo-1622621746668-59fb299bc4d7?w=600&q=90',cat:'boissons',desc:'Vin blanc sec, cr\u00e8me de cassis de Bourgogne'}],
   },
@@ -381,27 +380,27 @@ const CITY_SPECIALS=[
   {
     label:'Lyon Part-Dieu',flag:'ðŸ¦',
     badge:'Sp\u00e9cialit\u00e9 lyonnaise',
-    entrees:[{name:'Salade Lyonnaise',price:'9.90',img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=90',cat:'entrees',desc:'F\u00e9e de lard, oeuf poché, croutons ail, vinaigrette moutarde'}],
-    plats:[{name:'Quenelles Sauce Nantua',price:'17.90',img:'https://images.unsplash.com/photo-1432139509613-5c4255a1d277?w=600&q=90',cat:'plats',desc:'Quenelles brochet maison, sauce écrevisse, gratin'}],
-    desserts:[{name:'Tarte aux Pralines Roses',price:'6.90',img:'https://images.unsplash.com/photo-1470324161839-ce2bb6fa6bc3?w=600&q=90',cat:'desserts',desc:'Pralines roses de Saint-Genix, cr\u00e8me fra\u00eeche épaisse'}],
-    boissons:[{name:'Beaujolais Villages',price:'6.00',img:'https://images.unsplash.com/photo-1622621746668-59fb299bc4d7?w=600&q=90',cat:'boissons',desc:'AOC Beaujolais Villages, millésime 2023'}],
+    entrees:[{name:'Salade Lyonnaise',price:'9.90',img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=90',cat:'entrees',desc:'F\u00e9e de lard, oeuf poche, croutons ail, vinaigrette moutarde'}],
+    plats:[{name:'Quenelles Sauce Nantua',price:'17.90',img:'https://images.unsplash.com/photo-1432139509613-5c4255a1d277?w=600&q=90',cat:'plats',desc:'Quenelles brochet maison, sauce ecrevisse, gratin'}],
+    desserts:[{name:'Tarte aux Pralines Roses',price:'6.90',img:'https://images.unsplash.com/photo-1470324161839-ce2bb6fa6bc3?w=600&q=90',cat:'desserts',desc:'Pralines roses de Saint-Genix, cr\u00e8me fra\u00eeche epaisse'}],
+    boissons:[{name:'Beaujolais Villages',price:'6.00',img:'https://images.unsplash.com/photo-1622621746668-59fb299bc4d7?w=600&q=90',cat:'boissons',desc:'AOC Beaujolais Villages, millesime 2023'}],
   },
   // 2 — Marseille Vieux-Port
   {
     label:'Marseille Vieux-Port',flag:'âš“',
     badge:'Sp\u00e9cialit\u00e9 marseillaise',
-    entrees:[{name:'Soupe de Poisson',price:'10.90',img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=90',cat:'entrees',desc:'Rouille maison, croutons frottés ail, gruyère râpé'}],
+    entrees:[{name:'Soupe de Poisson',price:'10.90',img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=90',cat:'entrees',desc:'Rouille maison, croutons frottes ail, gruyère râpe'}],
     plats:[{name:'Bouillabaisse du Chef',price:'24.90',img:'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=90',cat:'plats',desc:'Rascasse, vive, grondin, safran, fenouil &mdash; recette traditionnelle'}],
-    desserts:[{name:'Navettes de Marseille x4',price:'5.90',img:'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=600&q=90',cat:'desserts',desc:'Biscuits à la fleur d\'oranger, four artisanal depuis 1781'}],
-    boissons:[{name:'Pastis Maison 25cl',price:'4.50',img:'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=90',cat:'boissons',desc:'Pastis de Marseille, pichet d\'eau glacée'}],
+    desserts:[{name:'Navettes de Marseille x4',price:'5.90',img:'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=600&q=90',cat:'desserts',desc:'Biscuits a la fleur d\'oranger, four artisanal depuis 1781'}],
+    boissons:[{name:'Pastis Maison 25cl',price:'4.50',img:'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=90',cat:'boissons',desc:'Pastis de Marseille, pichet d\'eau glacee'}],
   },
   // 3 — Bordeaux St-Michel
   {
     label:'Bordeaux St-Michel',flag:'ðŸ·',
     badge:'Sp\u00e9cialit\u00e9 bordelaise',
     entrees:[{name:'Huîtres du Bassin x6',price:'14.90',img:'https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&q=90',cat:'entrees',desc:'Hu\u00eetres d\'Arcachon n°3, mignonette au vinaigre de Cabernet'}],
-    plats:[{name:'Entrecôte à la Bordelaise',price:'22.90',img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=90',cat:'plats',desc:'Sauce bordelaise au Saint-Émilion, os à moelle, pommes sarladaises'}],
-    desserts:[{name:'Canelés x4',price:'6.50',img:'https://images.unsplash.com/photo-1470324161839-ce2bb6fa6bc3?w=600&q=90',cat:'desserts',desc:'Canelés bordelais au rhum ambré et vanille de Madagascar'}],
+    plats:[{name:'Entrecote a la Bordelaise',price:'22.90',img:'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=90',cat:'plats',desc:'Sauce bordelaise au Saint-Émilion, os a moelle, pommes sarladaises'}],
+    desserts:[{name:'Caneles x4',price:'6.50',img:'https://images.unsplash.com/photo-1470324161839-ce2bb6fa6bc3?w=600&q=90',cat:'desserts',desc:'Caneles bordelais au rhum ambre et vanille de Madagascar'}],
     boissons:[{name:'Bordeaux Grand Cru',price:'9.00',img:'https://images.unsplash.com/photo-1622621746668-59fb299bc4d7?w=600&q=90',cat:'boissons',desc:'S\u00e9lection vigneron local, Merlot-Cabernet 2021'}],
   },
   // 4 — Lille Grand Place
@@ -409,9 +408,9 @@ const CITY_SPECIALS=[
     label:'Lille Grand Place',flag:'ðŸº',
     badge:'Sp\u00e9cialit\u00e9 ch\'ti',
     entrees:[{name:'Potjevleesch Maison',price:'9.50',img:'https://images.unsplash.com/photo-1542345812-d98b5cd6cf98?w=600&q=90',cat:'entrees',desc:'Terrine 4 viandes en gel\u00e9e, cornichons, pain de campagne'}],
-    plats:[{name:'Carbonade Flamande',price:'17.90',img:'https://images.unsplash.com/photo-1432139509613-5c4255a1d277?w=600&q=90',cat:'plats',desc:'Boeuf braisé 4h à la bière Ch\'ti, pain d\'épices, frites belges'}],
+    plats:[{name:'Carbonade Flamande',price:'17.90',img:'https://images.unsplash.com/photo-1432139509613-5c4255a1d277?w=600&q=90',cat:'plats',desc:'Boeuf braise 4h a la bière Ch\'ti, pain d\'epices, frites belges'}],
     desserts:[{name:'Gaufre de Liège x2',price:'5.50',img:'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=90',cat:'desserts',desc:'Gaufre perle-sucre, chantilly maison, coulis fruits rouges'}],
-    boissons:[{name:'Bière Ch\'ti Blonde 33cl',price:'4.50',img:'https://images.unsplash.com/photo-1622621746668-59fb299bc4d7?w=600&q=90',cat:'boissons',desc:'Brasserie Ch\'ti, houblon Alsace, ambrée dorée'}],
+    boissons:[{name:'Bière Ch\'ti Blonde 33cl',price:'4.50',img:'https://images.unsplash.com/photo-1622621746668-59fb299bc4d7?w=600&q=90',cat:'boissons',desc:'Brasserie Ch\'ti, houblon Alsace, ambree doree'}],
   },
 ];
 
@@ -436,7 +435,7 @@ function sPick(el,g){
 }
 function sConfirm(btn){
   btn.style.background='#22c55e';btn.style.cursor='default';btn.onclick=null;
-  btn.innerHTML='<div style="font-family:Outfit,sans-serif;font-size:14px;font-weight:700;color:#fff">âœ“ Réservation confirmée !</div><div style="font-size:9.5px;color:rgba(255,255,255,.8);margin-top:2px">SMS envoyé â€¢ Nous vous attendons !</div>';
+  btn.innerHTML='<div style="font-family:Outfit,sans-serif;font-size:14px;font-weight:700;color:#fff">âœ“ Reservation confirmee !</div><div style="font-size:9.5px;color:rgba(255,255,255,.8);margin-top:2px">SMS envoye â€¢ Nous vous attendons !</div>';
 }
 function sToast(msg){
   document.querySelectorAll('.sim-toast').forEach(e=>e.remove());
@@ -454,7 +453,7 @@ function selectPack(packId){
   ['essentiel','premium'].forEach(id=>{
     document.getElementById('ps-'+id).classNameL='pselbtn'+(id===packId?' a':'');
   });
-  renderSim();                            // preview se met à jour immédiatement
+  renderSim();                            // preview se met a jour immediatement
 }
 
 /* ===== CUISINE ===== */
@@ -477,7 +476,7 @@ const VFA_CLIENTS=[
   {name:'Pizza Roma',email:'roma@pizza.fr',pack:'premium',cuisine:'Pizzeria',status:'building',date:'01/04/2026',tel:'06 12 34 56 78'},
   {name:'Burger Factory',email:'hello@burgerfactory.fr',pack:'premium',cuisine:'Burger & Grill',status:'live',date:'15/03/2026',tel:'01 55 66 77 88'},
   {name:'Thai Garden',email:'thai@garden.fr',pack:'essentiel',cuisine:'Thai & Asiatique',status:'live',date:'10/03/2026',tel:'06 98 76 54 32'},
-  {name:'Le Comptoir Libanais',email:'comptoir@libanais.fr',pack:'premium',cuisine:'Libanais & Méd.',status:'building',date:'02/04/2026',tel:'01 44 55 66 77'},
+  {name:'Le Comptoir Libanais',email:'comptoir@libanais.fr',pack:'premium',cuisine:'Libanais & Med.',status:'building',date:'02/04/2026',tel:'01 44 55 66 77'},
   {name:'Chez Marcel',email:'marcel@brasserie.fr',pack:'premium',cuisine:'Brasserie & Mer',status:'paid',date:'03/04/2026',tel:'06 11 22 33 44'},
 ];
 
@@ -505,7 +504,7 @@ function vfaRenderClients(){
   tb.innerHTML=VFA_CLIENTS.map(c=>{
     const packCls=c.pack==='essentiel'?'vf-badge-ess':c.pack==='premium'?'vf-badge-prem':'vf-badge-fran';
     const statusCls=c.status==='live'?'vf-badge-live':c.status==='building'?'vf-badge-building':'vf-badge-paid';
-    const statusTxt=c.status==='live'?'En ligne':c.status==='building'?'En construction':'Payé';
+    const statusTxt=c.status==='live'?'En ligne':c.status==='building'?'En construction':'Paye';
     return '<tr><td><div style="font-weight:600">'+c.name+'</div><div style="font-size:11px;color:rgba(255,255,255,.35)">'+c.email+'</div></td>'
       +'<td><span class="vf-badge-sm '+packCls+'">'+c.pack.charAt(0).toUpperCase()+c.pack.slice(1)+'</span></td>'
       +'<td>'+c.cuisine+'</td>'
@@ -550,7 +549,7 @@ function vfaTab(btn,panel){
     if(el) el.style.display=p===panel?'':'none';
   });
 }
-function vfaAddClient(){alert('Fonctionnalité à connecter avec votre backend.');}
+function vfaAddClient(){alert('Fonctionnalite a connecter avec votre backend.');}
 function vfaInit(){vfaRenderClients();vfaRenderOrders();vfaRenderForms();}
 
 /* ===== FORMULAIRE POST-ACHAT ===== */
@@ -558,7 +557,7 @@ let formPack='premium';
 let formCities=[{name:'',address:'',tel:'',email:'',horaires:''}];
 let formMenuCityIdx=0;
 
-// Setters exposés à window pour les handlers inline HTML
+// Setters exposes a window pour les handlers inline HTML
 window.syncRestoName=function(val){
   if(formCities&&formCities[0]) formCities[0].name=val;
 };
@@ -621,7 +620,7 @@ function formValidateStep1(){
   if(!name){    formShowError('Le nom du restaurant est obligatoire.');  document.getElementById('f-resto-name')?.focus();  return false; }
   if(!cuisine){ formShowError('Le type de restaurant est obligatoire.'); document.getElementById('f-cuisine-type')?.focus(); return false; }
   if(!address){ formShowError('L\'adresse est obligatoire.');            document.getElementById('f-address')?.focus();     return false; }
-  if(!tel){     formShowError('Le téléphone est obligatoire.');          document.getElementById('f-tel')?.focus();         return false; }
+  if(!tel){     formShowError('Le telephone est obligatoire.');          document.getElementById('f-tel')?.focus();         return false; }
   if(!email){   formShowError('L\'email est obligatoire.');              document.getElementById('f-email')?.focus();       return false; }
   return true;
 }
@@ -665,12 +664,12 @@ function renderFormCities(){
       +'<div class="form-city-title">Établissement '+(i+1)+'</div>'
       +(i>0?'<button class="form-city-remove" onclick="window.formRemoveCity('+i+')">&times;</button>':'')
       +'</div>'
-      +'<div class="form-group"><label class="form-label">Nom de l\'établissement <span class="req">*</span></label>'
+      +'<div class="form-group"><label class="form-label">Nom de l\'etablissement <span class="req">*</span></label>'
       +'<input class="form-input" type="text" placeholder="Ex: Burger Factory Paris" value="'+c.name+'" oninput="window.setCity('+i+',\'name\',this.value)"/></div>'
       +'<div class="form-row">'
       +'<div class="form-group"><label class="form-label">Adresse <span class="req">*</span></label>'
       +'<input class="form-input" type="text" placeholder="12 Rue..., 75001 Paris" value="'+c.address+'" oninput="window.setCity('+i+',\'address\',this.value)"/></div>'
-      +'<div class="form-group"><label class="form-label">Téléphone <span class="req">*</span></label>'
+      +'<div class="form-group"><label class="form-label">Telephone <span class="req">*</span></label>'
       +'<input class="form-input" type="tel" placeholder="01 23 45 67 89" value="'+c.tel+'" oninput="window.setCity('+i+',\'tel\',this.value)"/></div>'
       +'</div>'
       +'<div class="form-row">'
@@ -777,7 +776,7 @@ window.handleLogoUpload=async function(input){
     if(prev){ prev.innerHTML='<img src="'+e.target.result+'" style="max-width:160px;max-height:100px;object-fit:contain;border-radius:8px"/>'; }
     const wrap=input.closest('.form-upload');
     const txt=wrap&&wrap.querySelector('.form-upload-txt');
-    if(txt) txt.textContent='Logo chargé ✓';
+    if(txt) txt.textContent='Logo charge ✓';
   };
   r.readAsDataURL(file);
   if(window.uploadToStorage){
@@ -835,7 +834,7 @@ function formSubmit(){
   if(!formValidateStep2()) return;
   formClearError();
   const restoName = formCities[0]&&formCities[0].name ? formCities[0].name : (document.getElementById('f-resto-name')&&document.getElementById('f-resto-name').value||'');
-  // Save form submission to Firebase + récupérer l'ID du document
+  // Save form submission to Firebase + recuperer l'ID du document
   async function saveAndRedirect(){
     // Nettoyer menuItems : supprimer les base64
     const cleanMenu = {};
@@ -846,19 +845,35 @@ function formSubmit(){
       });
     });
 
-    // Sauvegarder les données dans sessionStorage — Firebase uniquement APRÈS paiement
+    // Sauvegarder les donnees dans sessionStorage — Firebase uniquement APRÈS paiement
+    var g = function(id){ var el=document.getElementById(id); return el?el.value.trim():''; };
     const formData = {
       type: 'form_submission',
       pack: formPack,
       cities: formCities,
       menuItems: cleanMenu,
       restaurantName: restoName,
-      logoUrl: window._logoUrl || '',
+      logoUrl:          window._logoUrl || '',
       menuCardPhotoUrl: window._menuCardPhotoUrl || '',
+      restaurantPhotos: window._restaurantPhotos || [],
+      slogan:    g('f-slogan'),
+      cuisine:   g('f-cuisine-type'),
+      color:     g('f-color'),
+      instagram: g('f-instagram'),
+      facebook:  g('f-facebook'),
+      tiktok:    g('f-tiktok'),
+      website:   g('f-website'),
+      phone:     g('f-tel'),
+      address:   g('f-address'),
+      horaires:  g('f-horaires'),
+      ubereats:  g('f-ubereats'),
+      deliveroo: g('f-deliveroo'),
+      justeat:   g('f-justeat'),
+      remarks:   (document.querySelector('#form-step-3 textarea')||{}).value||'',
     };
     try {
       sessionStorage.setItem('vf_pending_form', JSON.stringify(formData));
-      console.log('✅ Données formulaire prêtes, en attente du paiement');
+      console.log('✅ Donnees formulaire prêtes, en attente du paiement');
     } catch(e) {
       console.warn('sessionStorage indisponible:', e.message);
     }
@@ -945,10 +960,10 @@ window.adminTab=function(el){const all=el.closest('.adm-nav').querySelectorAll('
 
 /* Commandes fictives par ville */
 const CITY_ORDERS=[
-  [{id:'#2314',client:'Sophie M.',items:'Tartine Montmartre, Kir Parisien',total:'14.00',status:'new'},{id:'#2313',client:'Thomas D.',items:'Entrecôte x2',total:'43.80',status:'enc'},{id:'#2312',client:'Léa V.',items:'Opéra Maison, Kir',total:'13.00',status:'done'},{id:'#2311',client:'Marc L.',items:'Tartine x2, Entrecôte',total:'57.30',status:'done'}],
+  [{id:'#2314',client:'Sophie M.',items:'Tartine Montmartre, Kir Parisien',total:'14.00',status:'new'},{id:'#2313',client:'Thomas D.',items:'Entrecote x2',total:'43.80',status:'enc'},{id:'#2312',client:'Lea V.',items:'Opera Maison, Kir',total:'13.00',status:'done'},{id:'#2311',client:'Marc L.',items:'Tartine x2, Entrecote',total:'57.30',status:'done'}],
   [{id:'#1087',client:'Pierre B.',items:'Quenelles x2',total:'35.80',status:'new'},{id:'#1086',client:'Isabelle R.',items:'Salade Lyonnaise, Beaujolais',total:'15.90',status:'new'},{id:'#1085',client:'Julien F.',items:'Tarte Pralines x3',total:'20.70',status:'enc'},{id:'#1084',client:'Nathalie C.',items:'Quenelles + Tarte',total:'24.80',status:'done'}],
-  [{id:'#0756',client:'Karim A.',items:'Bouillabaisse x2',total:'49.80',status:'new'},{id:'#0755',client:'Fatima H.',items:'Soupe, Pastis x2',total:'19.90',status:'enc'},{id:'#0754',client:'Xavier P.',items:'Navettes x4, Pastis',total:'10.40',status:'enc'},{id:'#0753',client:'Céline T.',items:'Bouillabaisse + Soupe',total:'35.80',status:'done'}],
-  [{id:'#0432',client:'Guillaume S.',items:'Huîtres x6, Bordeaux',total:'23.90',status:'new'},{id:'#0431',client:'Amélie R.',items:'Entrecôte x2',total:'45.80',status:'enc'},{id:'#0430',client:'Paul M.',items:'Canelés x4, Bordeaux',total:'15.50',status:'done'},{id:'#0429',client:'Claire D.',items:'Huîtres + Entrecôte',total:'44.30',status:'done'}],
+  [{id:'#0756',client:'Karim A.',items:'Bouillabaisse x2',total:'49.80',status:'new'},{id:'#0755',client:'Fatima H.',items:'Soupe, Pastis x2',total:'19.90',status:'enc'},{id:'#0754',client:'Xavier P.',items:'Navettes x4, Pastis',total:'10.40',status:'enc'},{id:'#0753',client:'Celine T.',items:'Bouillabaisse + Soupe',total:'35.80',status:'done'}],
+  [{id:'#0432',client:'Guillaume S.',items:'Huîtres x6, Bordeaux',total:'23.90',status:'new'},{id:'#0431',client:'Amelie R.',items:'Entrecote x2',total:'45.80',status:'enc'},{id:'#0430',client:'Paul M.',items:'Caneles x4, Bordeaux',total:'15.50',status:'done'},{id:'#0429',client:'Claire D.',items:'Huîtres + Entrecote',total:'44.30',status:'done'}],
   [{id:'#0198',client:'Kevin L.',items:"Carbonade x2, Bière Ch'ti",total:'40.30',status:'new'},{id:'#0197',client:'Marie-Jo B.',items:'Potjevleesch, Gaufre x2',total:'20.50',status:'enc'},{id:'#0196',client:'Romain V.',items:"Bière x3, Gaufres x2",total:'24.50',status:'enc'},{id:'#0195',client:'Sylvie G.',items:'Carbonade + Potjevleesch',total:'27.40',status:'done'}],
 ];
 const CITY_STATS=[
@@ -1097,7 +1112,7 @@ function buildSimHTML(){
     +'<span style="font-size:9px;font-weight:700;color:'+pc.col+'">'+pc.title+'</span>'
     +'<span style="font-size:8px;color:rgba(255,255,255,.2);margin-left:auto">'+(hasCart?'Panier actif':'Menu digital')+'</span></div>';
 
-  // Sélecteur de ville
+  // Selecteur de ville
   const citySpec=CITY_SPECIALS[bState.cityIdx]||CITY_SPECIALS[0];
   const cityBar=hasMulti
     ?'<div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(131,56,236,.12);border-bottom:.5px solid rgba(131,56,236,.22)">'
@@ -1108,7 +1123,7 @@ function buildSimHTML(){
       +'<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="rgba(200,180,255,.4)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>'
     :'';
 
-  // Items par catégorie
+  // Items par categorie
   const cats=['entrees','plats','desserts','boissons'];
   const catItems={};
   cats.forEach(cat=>{
@@ -1143,7 +1158,7 @@ function buildSimHTML(){
     +'<span style="font-size:11px;font-weight:700;color:#fff">4.8</span>'
     +'<span style="font-size:10px;color:rgba(255,255,255,.45)">(124 avis)</span>'
     +'<span style="color:rgba(255,255,255,.2);font-size:9px;margin:0 1px">·</span>'
-    +(hasCart?'<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span style="font-size:10px;color:rgba(255,255,255,.5)">25â€“35 min</span>':'<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12A19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.1a16 16 0 0 0 6 6z"/></svg><span style="font-size:10px;color:rgba(255,255,255,.5)">Réservation</span>')
+    +(hasCart?'<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span style="font-size:10px;color:rgba(255,255,255,.5)">25â€“35 min</span>':'<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12A19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.1a16 16 0 0 0 6 6z"/></svg><span style="font-size:10px;color:rgba(255,255,255,.5)">Reservation</span>')
     +'</div>'
     +'</div>'
     // Badge ouvert
@@ -1158,7 +1173,7 @@ function buildSimHTML(){
     +'</div>'
     +'</div>';
 
-  // Navigation catégories
+  // Navigation categories
   const navHtml='<div style="display:flex;padding:0 2px;border-bottom:.5px solid rgba(255,255,255,.07);overflow-x:auto;position:sticky;top:0;background:#0d0d0d;z-index:5;scrollbar-width:none">'
     +cats.filter(cat=>catItems[cat].length>0).map((cat,i)=>{
       const active=i===0;
@@ -1202,7 +1217,7 @@ function buildSimHTML(){
         // Texte
         menuHtml+='<div style="flex:1;min-width:0">';
         menuHtml+='<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+item.name+'</div>';
-        if(isLocal) menuHtml+='<div style="display:inline-flex;align-items:center;gap:3px;padding:1px 5px;border-radius:50px;background:rgba(131,56,236,.2);border:.5px solid rgba(131,56,236,.4);font-size:7.5px;font-weight:700;color:#c084fc;margin-bottom:2px">'+citySpec.flag+' Spécialité locale</div>';
+        if(isLocal) menuHtml+='<div style="display:inline-flex;align-items:center;gap:3px;padding:1px 5px;border-radius:50px;background:rgba(131,56,236,.2);border:.5px solid rgba(131,56,236,.4);font-size:7.5px;font-weight:700;color:#c084fc;margin-bottom:2px">'+citySpec.flag+' Specialite locale</div>';
         menuHtml+='<div style="font-size:9.5px;color:rgba(255,255,255,.33);line-height:1.4;margin-bottom:4px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">'+item.desc+'</div>';
         menuHtml+='<div style="font-size:12px;font-weight:800;color:'+color+'">'+item.price+'\u20ac</div>';
         menuHtml+='</div>';
@@ -1226,7 +1241,7 @@ function buildSimHTML(){
     +'<div style="border-radius:14px;background:#141414;border:.5px solid rgba(255,255,255,.07);overflow:hidden">'
     +'<div style="padding:12px 14px;display:flex;flex-direction:column;gap:8px">'
     +'<div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.1em">Informations</div>'
-    // Téléphone
+    // Telephone
     +'<div style="display:flex;align-items:center;gap:10px">'
     +'<div style="width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;flex-shrink:0">'
     +'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12A19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.1a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 15z"/></svg>'
@@ -1376,7 +1391,7 @@ function buildSimHTML(){
       )).join('')
       +'</div>';
 
-  // â”€â”€ Page: Réservation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â”€â”€ Page: Reservation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   } else if(page==='reserver'){
     const td=new Date();
     const DNS=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
@@ -1392,7 +1407,7 @@ function buildSimHTML(){
     pageHTML=
       '<div style="padding:0 0 20px">'
       +'<div style="padding:16px 14px 12px">'
-      +'<div style="font-size:16px;font-weight:800;font-family:Outfit,sans-serif;color:#fff;letter-spacing:-.3px;margin-bottom:2px">Réserver une table</div>'
+      +'<div style="font-size:16px;font-weight:800;font-family:Outfit,sans-serif;color:#fff;letter-spacing:-.3px;margin-bottom:2px">Reserver une table</div>'
       +'<div style="font-size:11px;color:rgba(255,255,255,.4)">'+label+'</div></div>'
       +'<div style="padding:0 14px;margin-bottom:14px">'
       +'<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Date</div>'
@@ -1410,11 +1425,11 @@ function buildSimHTML(){
       +'<div style="padding:0 14px;margin-bottom:16px">'
       +'<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Note (optionnel)</div>'
       +'<div style="height:56px;border-radius:12px;background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);padding:10px 12px">'
-      +'<div style="font-size:10px;color:rgba(255,255,255,.25)">Allergies, occasion spéciale…</div></div></div>'
+      +'<div style="font-size:10px;color:rgba(255,255,255,.25)">Allergies, occasion speciale…</div></div></div>'
       +'<div style="padding:0 14px">'
       +'<div onclick="sConfirm(this)" style="padding:13px;border-radius:14px;background:'+color+';text-align:center;cursor:pointer">'
-      +'<div style="font-family:Outfit,sans-serif;font-size:14px;font-weight:700;color:#fff">Confirmer la réservation</div>'
-      +'<div style="font-size:9.5px;color:rgba(255,255,255,.7);margin-top:2px">Confirmation immédiate par SMS</div>'
+      +'<div style="font-family:Outfit,sans-serif;font-size:14px;font-weight:700;color:#fff">Confirmer la reservation</div>'
+      +'<div style="font-size:9.5px;color:rgba(255,255,255,.7);margin-top:2px">Confirmation immediate par SMS</div>'
       +'</div></div></div>';
 
   // â”€â”€ Page: Infos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -1429,7 +1444,7 @@ function buildSimHTML(){
       +'<div style="padding:16px 14px 12px">'
       +'<div style="font-size:16px;font-weight:800;font-family:\'Outfit\',sans-serif;color:#fff;letter-spacing:-.3px;margin-bottom:2px">Infos &amp; Contact</div>'
       +'<div style="font-size:11px;color:rgba(255,255,255,.4)">'+label+'</div></div>'
-      // Carte stylisée
+      // Carte stylisee
       +'<div style="margin:0 14px 14px;height:120px;border-radius:16px;overflow:hidden;background:#0f1a2b;border:.5px solid rgba(255,255,255,.08);position:relative">'
       +'<div style="position:absolute;inset:0;opacity:.2">'+mLines+mCols+'</div>'
       +'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px">'
@@ -1461,7 +1476,7 @@ function buildSimHTML(){
       +[['Lun\u2013Jeu','12h\u201314h30 / 19h\u201322h'],['Vendredi','12h\u201314h30 / 19h\u201323h'],['Samedi','12h\u201323h00'],['Dimanche','Ferm\u00e9']].map(([j,h])=>'<div style="font-size:8.5px;color:rgba(255,255,255,.4)">'+j+'</div><div style="font-size:8.5px;color:rgba(255,255,255,.6)">'+h+'</div>').join('')
       +'</div></div></div>'
       +'</div></div>'
-      // Réseaux sociaux
+      // Reseaux sociaux
       +'<div style="margin:0 14px 12px">'
       +'<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Nous suivre</div>'
       +'<div style="display:flex;gap:8px">'
@@ -1534,14 +1549,17 @@ window.formAddMenuItem        = typeof formAddMenuItem        !== 'undefined' ? 
 window.setFormPack            = typeof setFormPack            !== 'undefined' ? setFormPack            : window.setFormPack;
 window.setMenuMode            = typeof setMenuMode            !== 'undefined' ? setMenuMode            : window.setMenuMode;
 window.handleMenuPhotoUpload  = typeof handleMenuPhotoUpload  !== 'undefined' ? handleMenuPhotoUpload  : window.handleMenuPhotoUpload;
+window.goHomePack = function(pack){
+  var hf = document.getElementById('home-form');
+  if(hf){
+    hf.style.display = 'block';
+    setTimeout(function(){ hf.scrollIntoView({behavior:'smooth',block:'start'}); }, 80);
+  }
+  if(window.goToForm) window.goToForm(pack);
+};
 window.goToForm = function(pack){
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  var pg=document.getElementById('page-form');
-  if(pg) pg.classList.add('active');
-  document.querySelectorAll('.nl').forEach(function(b){b.classList.remove('on');});
   var nav=document.getElementById('mainNav');
   if(nav) nav.classList.remove('light-nav');
-  window.scrollTo({top:0,behavior:'smooth'});
   var info={
     essentiel:{name:'Pack Essentiel',price:(typeof PACKS!=='undefined'&&PACKS.essentiel&&PACKS.essentiel.price)||'150€',col:'#6B7280'},
     premium:  {name:'Pack Premium',  price:(typeof PACKS!=='undefined'&&PACKS.premium&&PACKS.premium.price)||'490€',    col:'#0071E3'}
@@ -1562,7 +1580,8 @@ window.goToForm = function(pack){
 window.formGoStep = function(s){
   [0,1,2,3].forEach(function(n){var e=document.getElementById('form-step-'+n);if(e)e.style.display=n===s?'':'none';});
   var pi=document.getElementById('form-pack-info');if(pi)pi.style.display=s===0?'none':'';
-  window.scrollTo({top:0,behavior:'smooth'});
+  var step=document.getElementById('form-step-'+s);
+  if(step){setTimeout(function(){step.scrollIntoView({behavior:'smooth',block:'start'});},50);}
 };
 window.formSubmit = window.formSubmit || function(){
   var pack=window._vfPack||'essentiel';
@@ -2103,10 +2122,10 @@ updateClientUI();
    â•‘  1. CRÉE UN PROJET FIREBASE (gratuit) :                    â•‘
    â•‘     → https://console.firebase.google.com                  â•‘
    â•‘     → Clique "Ajouter un projet" → donne un nom            â•‘
-   â•‘     → Désactive Google Analytics (pas besoin)               â•‘
-   â•‘     → Dans le projet : Créer > Firestore Database           â•‘
+   â•‘     → Desactive Google Analytics (pas besoin)               â•‘
+   â•‘     → Dans le projet : Creer > Firestore Database           â•‘
    â•‘       → Choisir "Mode test" pour commencer                  â•‘
-   â•‘     → Paramètres projet > Ajouter une appli Web (icône </>)â•‘
+   â•‘     → Paramètres projet > Ajouter une appli Web (icone </>)â•‘
    â•‘     → Copie les valeurs ci-dessous                          â•‘
    â• â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•£
    â•‘  2. REMPLACE LES VALEURS CI-DESSOUS PAR LES TIENNES :      â•‘
@@ -2130,10 +2149,10 @@ try {
   }
   db = firebase.firestore();
   firebaseReady = true;
-  console.log('âœ… Firebase connecté : ' + firebaseConfig.projectId);
+  console.log('âœ… Firebase connecte : ' + firebaseConfig.projectId);
   loadSiteConfig();
 } catch(e){
-  console.warn('âš ï¸ Firebase non connecté :', e.message);
+  console.warn('âš ï¸ Firebase non connecte :', e.message);
 }
 
 /* ===== FIREBASE STORAGE UPLOAD HELPER ===== */
@@ -2180,11 +2199,11 @@ async function loadSiteConfig(){
             const el=document.getElementById(id);
             if(el) el.innerHTML=data.price+' <span>/ unique</span>';
           });
-          // Mettre à jour les objets JS utilisés par les formulaires et la modal de paiement
+          // Mettre a jour les objets JS utilises par les formulaires et la modal de paiement
           if(PACKS[pack]) PACKS[pack].price = data.price;
           if(typeof BPACKS!=='undefined' && BPACKS[pack]!==undefined)
             BPACKS[pack] = String(parseFloat(data.price)||'');
-          // Mettre à jour l'affichage du prix dans le vieux formulaire si affiché
+          // Mettre a jour l'affichage du prix dans le vieux formulaire si affiche
           const prEl = document.getElementById('form-pack-price');
           if(prEl && window._vfPack === pack) prEl.textContent = data.price;
         }
@@ -2199,15 +2218,15 @@ async function loadSiteConfig(){
     }
     // Apply hero texts
     if(config.hero){
-      if(config.hero.title){
+      if(false && config.hero.title){
         const el=document.getElementById('hero-title');
         if(el) el.innerHTML=config.hero.title;
       }
-      if(config.hero.subtitle){
+      if(false && config.hero.subtitle){
         const el=document.getElementById('hero-subtitle');
         if(el) el.textContent=config.hero.subtitle;
       }
-      if(config.hero.ctaText){
+      if(false && config.hero.ctaText){
         const el=document.getElementById('hero-cta');
         if(el) el.textContent=config.hero.ctaText;
       }
@@ -3118,11 +3137,11 @@ updateAdminAuthUI();
   /* â”€â”€â”€ 2. CSS INJECTION â”€â”€â”€ */
   const _css = document.createElement('style');
   _css.textContent = `
-  /* â”€â”€ Masquer anciens boutons nav auth (remplacés par l'icône profil) â”€â”€ */
+  /* â”€â”€ Masquer anciens boutons nav auth (remplaces par l'icone profil) â”€â”€ */
   #nav-auth { display:none !important; }
   #nav-client-area { display:none !important; }
 
-  /* â”€â”€ Profil icône nav â”€â”€ */
+  /* â”€â”€ Profil icone nav â”€â”€ */
   .vf-nav-pro {
     position:absolute; right:16px; top:50%; transform:translateY(-50%);
     display:flex; align-items:center; z-index:600;
@@ -3246,7 +3265,7 @@ updateAdminAuthUI();
   .ec-empty-tit { font-family:'Outfit'; font-size:19px; font-weight:700; color:var(--text); margin-bottom:6px; }
   .ec-empty-sub { font-size:13px; color:var(--text3); margin-bottom:22px; line-height:1.6; max-width:340px; margin-left:auto; margin-right:auto; }
 
-  /* â”€â”€ Formulaire pré-paiement â”€â”€ */
+  /* â”€â”€ Formulaire pre-paiement â”€â”€ */
   .vf-pp-ov {
     display:none; position:fixed; inset:0; z-index:998;
     background:rgba(0,0,20,.6); backdrop-filter:blur(18px);
@@ -3357,12 +3376,12 @@ updateAdminAuthUI();
 
   /* â”€â”€â”€ 3. PROFILE ICON DANS LA NAV â”€â”€â”€ */
   const _nav = document.getElementById('mainNav');
-  _nav.style.position = 'relative'; // assure le positionnement absolu de l'icône
+  _nav.style.position = 'relative'; // assure le positionnement absolu de l'icone
   const _proArea = document.createElement('div');
   _proArea.className = 'vf-nav-pro';
   _proArea.id = 'vf-nav-pro';
   _proArea.innerHTML = `
-    <button class="vf-pro-btn" id="vf-pro-btn" onclick="vfToggleDrop()" aria-label="Connexion">
+    <button class="vf-pro-btn" id="vf-pro-btn" aria-label="Connexion">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
       <span id="vf-pro-label">Connexion</span>
       <div class="vf-pro-dot" id="vf-pro-dot"></div>
@@ -3370,6 +3389,7 @@ updateAdminAuthUI();
     <div class="vf-drop" id="vf-drop"></div>
   `;
   _nav.appendChild(_proArea);
+  document.getElementById('vf-pro-btn').addEventListener('click', function(e){ e.stopPropagation(); if(window.vfToggleDrop) window.vfToggleDrop(); });
   document.addEventListener('click', e => {
     if (!_proArea.contains(e.target)) document.getElementById('vf-drop').classList.remove('open');
   });
@@ -3404,15 +3424,15 @@ updateAdminAuthUI();
       </div>
       <div class="vf-auth-form" id="vf-form-reg" style="display:none">
         <div class="vf-af-err" id="vf-reg-err"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span id="vf-reg-err-txt"></span></div>
-        <div class="vf-af-f"><label class="vf-af-l">Prénom &amp; Nom</label><input class="vf-af-i" type="text" id="vf-reg-name" placeholder="Jean Dupont" onkeydown="if(event.key==='Enter')document.getElementById('vf-reg-email').focus()"/></div>
+        <div class="vf-af-f"><label class="vf-af-l">Prenom &amp; Nom</label><input class="vf-af-i" type="text" id="vf-reg-name" placeholder="Jean Dupont" onkeydown="if(event.key==='Enter')document.getElementById('vf-reg-email').focus()"/></div>
         <div class="vf-af-f"><label class="vf-af-l">Email</label><input class="vf-af-i" type="email" id="vf-reg-email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')document.getElementById('vf-reg-pw').focus()"/></div>
         <div class="vf-af-f"><label class="vf-af-l">Mot de passe <span style="color:var(--text3);font-weight:400">(min. 6 car.)</span></label><div style="position:relative"><input class="vf-af-i" type="password" id="vf-reg-pw" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" onkeydown="if(event.key==='Enter')vfDoRegister()" style="width:100%;box-sizing:border-box;padding-right:44px"/><button type="button" onclick="var i=this.parentElement.querySelector('input');if(i){var s=i.type==='password';i.type=s?'text':'password';this.textContent=s?'ðŸ™ˆ':'ðŸ‘ï¸'}" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;line-height:1;z-index:2;padding:4px">ðŸ‘ï¸</button></div></div>
         <button class="vf-af-sub" id="vf-reg-btn" onclick="vfDoRegister()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-          Créer mon compte
+          Creer mon compte
         </button>
       </div>
-      <div class="vf-auth-ft">Protégé par Firebase Auth &middot; SSL 256-bit &middot; PCI-DSS</div>
+      <div class="vf-auth-ft">Protege par Firebase Auth &middot; SSL 256-bit &middot; PCI-DSS</div>
     </div>
   `;
   document.body.appendChild(_authOv);
@@ -3465,15 +3485,15 @@ updateAdminAuthUI();
             : `<button class="vf-dbtn blue" onclick="vfToggleDrop();showPage('espace-client')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Mon Espace Client</button>`
           }
           <div class="vf-drop-sep"></div>
-          <button class="vf-dbtn red" onclick="vfToggleDrop();vfDoLogout()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Se déconnecter</button>
+          <button class="vf-dbtn red" onclick="vfToggleDrop();vfDoLogout()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Se deconnecter</button>
         </div>
       `;
     } else {
       drop.innerHTML = `
-        <div class="vf-drop-hd"><div class="vf-drop-title">Mon Compte</div><div class="vf-drop-sub">Suivez votre projet en temps réel.</div></div>
+        <div class="vf-drop-hd"><div class="vf-drop-title">Mon Compte</div><div class="vf-drop-sub">Suivez votre projet en temps reel.</div></div>
         <div class="vf-drop-body">
           <button class="vf-dbtn blue" onclick="vfToggleDrop();vfOpenAuth('login')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Se connecter</button>
-          <button class="vf-dbtn" onclick="vfToggleDrop();vfOpenAuth('register')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>Créer un compte</button>
+          <button class="vf-dbtn" onclick="vfToggleDrop();vfOpenAuth('register')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>Creer un compte</button>
         </div>
       `;
     }
@@ -3512,24 +3532,24 @@ updateAdminAuthUI();
   /* â”€â”€â”€ 9. FIREBASE AUTH FUNCTIONS â”€â”€â”€ */
   function _fbErrMsg (code) {
     return ({
-      'auth/user-not-found':'Aucun compte trouvé avec cet email.',
+      'auth/user-not-found':'Aucun compte trouve avec cet email.',
       'auth/wrong-password':'Mot de passe incorrect.',
       'auth/invalid-credential':'Email ou mot de passe incorrect.',
-      'auth/email-already-in-use':'Un compte existe déjà avec cet email.',
+      'auth/email-already-in-use':'Un compte existe deja avec cet email.',
       'auth/invalid-email':'Adresse email invalide.',
       'auth/weak-password':'Mot de passe trop faible (min. 6 car.).',
-      'auth/too-many-requests':'Trop de tentatives. Réessayez dans quelques minutes.',
-      'auth/network-request-failed':'Erreur réseau. Vérifiez votre connexion.',
-      'auth/operation-not-allowed':'Connexion par email non activée. Activez-la dans Firebase Console → Authentication → Sign-in methods.',
-      'auth/invalid-api-key':'Clé API Firebase invalide. Vérifiez la configuration.',
-      'auth/app-not-authorized':'Application non autorisée. Vérifiez le domaine dans Firebase Console.',
-      'auth/expired-action-code':'Lien expiré. Réessayez.',
-      'auth/popup-closed-by-user':'Fenêtre fermée avant la fin. Réessayez.',
-    })[code] || ('Erreur : ' + (code || 'inconnue') + '. Réessayez.');
+      'auth/too-many-requests':'Trop de tentatives. Reessayez dans quelques minutes.',
+      'auth/network-request-failed':'Erreur reseau. Verifiez votre connexion.',
+      'auth/operation-not-allowed':'Connexion par email non activee. Activez-la dans Firebase Console → Authentication → Sign-in methods.',
+      'auth/invalid-api-key':'Cle API Firebase invalide. Verifiez la configuration.',
+      'auth/app-not-authorized':'Application non autorisee. Verifiez le domaine dans Firebase Console.',
+      'auth/expired-action-code':'Lien expire. Reessayez.',
+      'auth/popup-closed-by-user':'Fenêtre fermee avant la fin. Reessayez.',
+    })[code] || ('Erreur : ' + (code || 'inconnue') + '. Reessayez.');
   }
 
   const _loginBtnHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Se connecter';
-  const _regBtnHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg> Créer mon compte';
+  const _regBtnHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg> Creer mon compte';
 
   window.vfDoLogin = async function () {
     const email = document.getElementById('vf-log-email').value.trim();
@@ -3566,7 +3586,7 @@ updateAdminAuthUI();
     if (!name || !email || !pw) { errTxt.textContent = 'Veuillez remplir tous les champs.'; errEl.classList.add('on'); return; }
     if (pw.length < 6) { errTxt.textContent = 'Mot de passe : 6 caractères minimum.'; errEl.classList.add('on'); return; }
     if (!auth) { errTxt.textContent = 'Service d\'authentification indisponible. Rechargez la page.'; errEl.classList.add('on'); return; }
-    btn.disabled = true; btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-dasharray="31.4" stroke-dashoffset="31.4" style="animation:spin 1s linear infinite"/></svg> Création…';
+    btn.disabled = true; btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-dasharray="31.4" stroke-dashoffset="31.4" style="animation:spin 1s linear infinite"/></svg> Creation…';
     try {
       const cred = await auth.createUserWithEmailAndPassword(email, pw);
       await cred.user.updateProfile({ displayName: name });
@@ -3639,7 +3659,7 @@ updateAdminAuthUI();
       <div class="ec-card" id="ec-projs"><div style="text-align:center;padding:28px;color:var(--text3);font-size:13px">Chargement…</div></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
         <button class="bg" style="font-size:12px;padding:9px 18px;border:.5px solid var(--bord-md);border-radius:980px" onclick="vfLoadEC()">â†º Actualiser</button>
-        <button class="ba" style="font-size:13px;padding:10px 22px" onclick="showPage('form')">Configurer un nouveau site →</button>
+        <button class="ba" style="font-size:13px;padding:10px 22px" onclick="goHomePack('essentiel')">Configurer un nouveau site →</button>
       </div>
     `;
     await _loadProjects();
@@ -3673,16 +3693,16 @@ updateAdminAuthUI();
         }
       }
       if (projects.length === 0) {
-        card.innerHTML = `<div class="ec-empty"><div class="ec-empty-ico">ðŸš€</div><div class="ec-empty-tit">Aucun projet pour le moment</div><div class="ec-empty-sub">Choisissez votre offre et configurez votre site — votre projet apparaîtra ici.</div><button class="ba" style="font-size:14px" onclick="showPage('form')">Voir nos tarifs →</button></div>`;
+        card.innerHTML = `<div class="ec-empty"><div class="ec-empty-ico">ðŸš€</div><div class="ec-empty-tit">Aucun projet pour le moment</div><div class="ec-empty-sub">Choisissez votre offre et configurez votre site — votre projet apparaîtra ici.</div><button class="ba" style="font-size:14px" onclick="goHomePack('essentiel')">Voir nos tarifs →</button></div>`;
         return;
       }
       const ST = {
         pending:   { steps:[1,0,0,0], lbl:'En attente de paiement', col:'#f59e0b' },
         paid:      { steps:[1,1,0,0], lbl:'Paiement reçu âœ“',        col:'#0071E3' },
-        building:  { steps:[1,1,1,0], lbl:'En cours de création',   col:'#8338ec' },
-        delivered: { steps:[1,1,1,1], lbl:'Site livré ðŸŽ‰',          col:'#22c55e' },
+        building:  { steps:[1,1,1,0], lbl:'En cours de creation',   col:'#8338ec' },
+        delivered: { steps:[1,1,1,1], lbl:'Site livre ðŸŽ‰',          col:'#22c55e' },
       };
-      const SLBL = ['Commande','Paiement','Création','Livraison'];
+      const SLBL = ['Commande','Paiement','Creation','Livraison'];
       card.innerHTML = projects.map(p => {
         const st = ST[p.status] || ST.pending;
         const cls = p.pack === 'premium' ? 'prem' : 'ess';
@@ -3696,7 +3716,7 @@ updateAdminAuthUI();
         return `<div class="ec-proj"><div class="ec-ptop"><div><div class="ec-pname">${p.businessName||p.cuisine||'Projet'}</div><div class="ec-pmeta"><span>${dt}</span>${p.businessType?`<span>${p.businessType}</span>`:''}</div></div><span class="ec-ppill ${cls}">${pnm}</span></div><div class="ec-sbar">${stHtml}<span class="ec-slbl" style="color:${st.col}">${st.lbl}</span></div></div>`;
       }).join('');
     } catch (e) {
-      card.innerHTML = `<div class="ec-empty"><div class="ec-empty-ico">âš ï¸</div><div class="ec-empty-tit">Erreur de chargement</div><div class="ec-empty-sub">Vérifiez les index Firestore (champ uid + createdAt sur la collection ${PROJECTS_COL}).</div><button class="bg" onclick="vfLoadEC()">Réessayer</button></div>`;
+      card.innerHTML = `<div class="ec-empty"><div class="ec-empty-ico">âš ï¸</div><div class="ec-empty-tit">Erreur de chargement</div><div class="ec-empty-sub">Verifiez les index Firestore (champ uid + createdAt sur la collection ${PROJECTS_COL}).</div><button class="bg" onclick="vfLoadEC()">Reessayer</button></div>`;
     }
   }
 
@@ -3705,14 +3725,14 @@ updateAdminAuthUI();
   /* â”€â”€ Étapes par pack â”€â”€ */
   const PACK_STEPS = {
     essentiel: [
-      { id:'identity',   lbl:'Identité',       tit:'Identité de votre restaurant',  sub:'Informations de base affichées sur votre site.' },
-      { id:'hours',      lbl:'Infos pratiques', tit:'Horaires & Réseaux sociaux',    sub:'Vos horaires et liens vers vos réseaux.' },
+      { id:'identity',   lbl:'Identite',       tit:'Identite de votre restaurant',  sub:'Informations de base affichees sur votre site.' },
+      { id:'hours',      lbl:'Infos pratiques', tit:'Horaires & Reseaux sociaux',    sub:'Vos horaires et liens vers vos reseaux.' },
       { id:'menu',       lbl:'Menu',            tit:'Votre carte',                   sub:'Ajoutez vos plats, prix et photos.' },
       { id:'story',      lbl:'Histoire',        tit:'Votre histoire & personnalisation', sub:'Ce qui rend votre restaurant unique.' },
     ],
     premium: [
-      { id:'identity',   lbl:'Identité',       tit:'Identité de votre restaurant',  sub:'Informations de base affichées sur votre site.' },
-      { id:'hours',      lbl:'Infos pratiques', tit:'Horaires & Réseaux sociaux',    sub:'Vos horaires et liens vers vos réseaux.' },
+      { id:'identity',   lbl:'Identite',       tit:'Identite de votre restaurant',  sub:'Informations de base affichees sur votre site.' },
+      { id:'hours',      lbl:'Infos pratiques', tit:'Horaires & Reseaux sociaux',    sub:'Vos horaires et liens vers vos reseaux.' },
       { id:'menu',       lbl:'Menu',            tit:'Votre carte',                   sub:'Ajoutez vos plats, prix et photos.' },
       { id:'story',      lbl:'Histoire',        tit:'Votre histoire & personnalisation', sub:'Ce qui rend votre restaurant unique.' },
       { id:'delivery',   lbl:'Livraison',       tit:'Commandes & Livraison',         sub:'Configurez votre système de commande en ligne.' },
@@ -3773,7 +3793,7 @@ updateAdminAuthUI();
       _ppData.menuPhotoDataUrl = e.target.result;
       _saveDraft();
       const lbl = document.getElementById('pp-photo-label');
-      if (lbl) lbl.textContent = 'Photo chargée ✓';
+      if (lbl) lbl.textContent = 'Photo chargee ✓';
       const zone = document.getElementById('pp-menu-photo-zone');
       if (zone) {
         let img = document.getElementById('pp-menu-photo-preview');
@@ -3817,7 +3837,7 @@ updateAdminAuthUI();
     if (!container) return;
     const items = _menuItems();
     if (items.length === 0) {
-      container.innerHTML = '<div class="pp-menu-empty">Aucun plat ajouté. Cliquez sur "+ Ajouter un plat" pour commencer.</div>';
+      container.innerHTML = '<div class="pp-menu-empty">Aucun plat ajoute. Cliquez sur "+ Ajouter un plat" pour commencer.</div>';
       return;
     }
     container.innerHTML = items.map(item => `
@@ -3834,7 +3854,7 @@ updateAdminAuthUI();
           <div class="vf-pp-row">
             <div class="vf-pp-field">
               <label class="vf-pp-lbl">Nom du plat <span class="req">*</span></label>
-              <input class="vf-pp-inp" placeholder="Ex : Entrecôte grillée" value="${_esc(item.name)}" onchange="_ppMenuUpdate('${item.id}','name',this.value)"/>
+              <input class="vf-pp-inp" placeholder="Ex : Entrecote grillee" value="${_esc(item.name)}" onchange="_ppMenuUpdate('${item.id}','name',this.value)"/>
             </div>
             <div class="vf-pp-field">
               <label class="vf-pp-lbl">Prix (€) <span class="req">*</span></label>
@@ -3842,9 +3862,9 @@ updateAdminAuthUI();
             </div>
           </div>
           <div class="vf-pp-field">
-            <label class="vf-pp-lbl">Catégorie</label>
+            <label class="vf-pp-lbl">Categorie</label>
             <select class="vf-pp-inp" onchange="_ppMenuUpdate('${item.id}','category',this.value)">
-              ${['Entrée','Plat','Dessert','Boisson'].map(c => `<option value="${c}" ${item.category===c?'selected':''}>${c}</option>`).join('')}
+              ${['Entree','Plat','Dessert','Boisson'].map(c => `<option value="${c}" ${item.category===c?'selected':''}>${c}</option>`).join('')}
             </select>
           </div>
         </div>
@@ -3965,12 +3985,12 @@ updateAdminAuthUI();
       '<input type="file" accept="image/*" style="display:none" onchange="vfFrMenuPhoto(\'' + cityId + '\',\'' + item.id + '\',this)"/></label></div>' +
       '<div class="pp-menu-fields"><div class="vf-pp-row">' +
       '<div class="vf-pp-field"><label class="vf-pp-lbl">Nom du plat <span class="req">*</span></label>' +
-      '<input class="vf-pp-inp" placeholder="Ex : Entrecôte grillée" value="' + _esc(item.name) + '" onchange="_ppFrMenuUpdate(\'' + cityId + '\',\'' + item.id + '\',\'name\',this.value)"/></div>' +
+      '<input class="vf-pp-inp" placeholder="Ex : Entrecote grillee" value="' + _esc(item.name) + '" onchange="_ppFrMenuUpdate(\'' + cityId + '\',\'' + item.id + '\',\'name\',this.value)"/></div>' +
       '<div class="vf-pp-field"><label class="vf-pp-lbl">Prix (€) <span class="req">*</span></label>' +
       '<input class="vf-pp-inp" type="number" min="0" step="0.5" placeholder="12.50" value="' + item.price + '" onchange="_ppFrMenuUpdate(\'' + cityId + '\',\'' + item.id + '\',\'price\',this.value)"/></div></div>' +
-      '<div class="vf-pp-field"><label class="vf-pp-lbl">Catégorie</label>' +
+      '<div class="vf-pp-field"><label class="vf-pp-lbl">Categorie</label>' +
       '<select class="vf-pp-inp" onchange="_ppFrMenuUpdate(\'' + cityId + '\',\'' + item.id + '\',\'category\',this.value)">' +
-      ['Entrée','Plat','Dessert','Boisson'].map(function(cat){ return '<option value="' + cat + '" ' + (item.category===cat?'selected':'') + '>' + cat + '</option>'; }).join('') +
+      ['Entree','Plat','Dessert','Boisson'].map(function(cat){ return '<option value="' + cat + '" ' + (item.category===cat?'selected':'') + '>' + cat + '</option>'; }).join('') +
       '</select></div></div>' +
       '<button class="pp-menu-del" onclick="vfFrMenuRemove(\'' + cityId + '\',\'' + item.id + '\')" title="Supprimer">&times;</button></div>'
     ); }).join('');
@@ -4009,20 +4029,20 @@ updateAdminAuthUI();
     const hrs = city.hours || {};
     const days = [['lun','Lundi'],['mar','Mardi'],['mer','Mercredi'],['jeu','Jeudi'],['ven','Vendredi'],['sam','Samedi'],['dim','Dimanche']];
     const dm = city.deliveryMode || 'internal';
-    const dmodes = [['internal','Livraison interne','Votre propre équipe gère les livraisons.'],['platforms','Via plateformes tierces','UberEats, Deliveroo, Just Eat, etc.'],['both','Les deux','Livraison interne et plateformes.']];
+    const dmodes = [['internal','Livraison interne','Votre propre equipe gère les livraisons.'],['platforms','Via plateformes tierces','UberEats, Deliveroo, Just Eat, etc.'],['both','Les deux','Livraison interne et plateformes.']];
     container.innerHTML =
-      '<div class="fr-section"><div class="fr-section-head">Identité</div><div class="fr-section-body">' +
+      '<div class="fr-section"><div class="fr-section-head">Identite</div><div class="fr-section-body">' +
       '<div class="vf-pp-field"><label class="vf-pp-lbl">Nom du restaurant <span class="req">*</span></label>' +
       '<input class="vf-pp-inp" placeholder="Le Petit Bistrot" value="' + _esc(city.siteName) + '" oninput="_ppCityUpdate(\'' + cid + '\',\'siteName\',this.value)"/></div>' +
       '<div class="vf-pp-field"><label class="vf-pp-lbl">Adresse <span class="req">*</span></label>' +
       '<input class="vf-pp-inp" placeholder="12 Rue de la Paix, 75001 Paris" value="' + _esc(city.address) + '" oninput="_ppCityUpdate(\'' + cid + '\',\'address\',this.value)"/></div>' +
       '<div class="vf-pp-row">' +
-      '<div class="vf-pp-field"><label class="vf-pp-lbl">Téléphone <span class="req">*</span></label>' +
+      '<div class="vf-pp-field"><label class="vf-pp-lbl">Telephone <span class="req">*</span></label>' +
       '<input class="vf-pp-inp" type="tel" placeholder="06 12 34 56 78" value="' + _esc(city.phone) + '" oninput="_ppCityUpdate(\'' + cid + '\',\'phone\',this.value)"/></div>' +
       '<div class="vf-pp-field"><label class="vf-pp-lbl">Email de contact</label>' +
       '<input class="vf-pp-inp" type="email" placeholder="contact@resto.fr" value="' + _esc(city.email) + '" oninput="_ppCityUpdate(\'' + cid + '\',\'email\',this.value)"/></div>' +
       '</div></div></div>' +
-      '<div class="fr-section"><div class="fr-section-head">Horaires & Réseaux sociaux</div><div class="fr-section-body">' +
+      '<div class="fr-section"><div class="fr-section-head">Horaires & Reseaux sociaux</div><div class="fr-section-body">' +
       '<div class="pp-hours-grid">' + days.map(function(d){ return '<div class="pp-hours-row"><span class="pp-hours-day">' + d[1] + '</span><input class="vf-pp-inp pp-hours-inp" placeholder="11h30â€“14h · 19hâ€“22h30" value="' + _esc(hrs[d[0]]||'') + '" oninput="_ppCityHoursUpdate(\'' + cid + '\',\'' + d[0] + '\',this.value)"/></div>'; }).join('') + '</div>' +
       '<div class="vf-pp-row" style="margin-top:14px">' +
       '<div class="vf-pp-field"><label class="vf-pp-lbl">Instagram</label>' +
@@ -4042,9 +4062,9 @@ updateAdminAuthUI();
       '<div class="fr-section"><div class="fr-section-head">Histoire & Notes</div><div class="fr-section-body">' +
       '<div class="vf-pp-field"><label class="vf-pp-lbl">L\'histoire de votre restaurant <span style="color:var(--text3);font-weight:400">(optionnel)</span></label>' +
       '<textarea class="vf-pp-inp" rows="3" placeholder="Notre histoire…" oninput="_ppCityUpdate(\'' + cid + '\',\'story\',this.value)">' + _esc(city.story) + '</textarea></div>' +
-      '<div class="vf-pp-field"><label class="vf-pp-lbl">Spécificités & demandes particulières <span style="color:var(--text3);font-weight:400">(optionnel)</span></label>' +
-      '<textarea class="vf-pp-inp" rows="2" placeholder="Terrasse en été, menu végétarien…" oninput="_ppCityUpdate(\'' + cid + '\',\'notes\',this.value)">' + _esc(city.notes) + '</textarea></div>' +
-      '<div class="vf-pp-field"><label class="vf-pp-lbl">Délai de livraison souhaité</label>' +
+      '<div class="vf-pp-field"><label class="vf-pp-lbl">Specificites & demandes particulières <span style="color:var(--text3);font-weight:400">(optionnel)</span></label>' +
+      '<textarea class="vf-pp-inp" rows="2" placeholder="Terrasse en ete, menu vegetarien…" oninput="_ppCityUpdate(\'' + cid + '\',\'notes\',this.value)">' + _esc(city.notes) + '</textarea></div>' +
+      '<div class="vf-pp-field"><label class="vf-pp-lbl">Delai de livraison souhaite</label>' +
       '<select class="vf-pp-inp" onchange="_ppCityUpdate(\'' + cid + '\',\'delai\',this.value)">' +
       '<option value="5 jours" ' + ((city.delai||'5 jours')==='5 jours'?'selected':'') + '>Standard — max 5 jours</option>' +
       '<option value="urgent" ' + (city.delai==='urgent'?'selected':'') + '>Urgent — 24h (+50€)</option>' +
@@ -4066,7 +4086,7 @@ updateAdminAuthUI();
       '<div class="vf-pp-field"><label class="vf-pp-lbl">Autre plateforme</label>' +
       '<input class="vf-pp-inp" placeholder="Nom + URL" value="' + _esc(city.otherDeliveryUrl) + '" oninput="_ppCityUpdate(\'' + cid + '\',\'otherDeliveryUrl\',this.value)"/></div>' +
       '</div></div>' +
-      '<div class="vf-pp-field" style="margin-top:8px"><label class="vf-pp-lbl">Délai de livraison estimé <span style="color:var(--text3);font-weight:400">(optionnel)</span></label>' +
+      '<div class="vf-pp-field" style="margin-top:8px"><label class="vf-pp-lbl">Delai de livraison estime <span style="color:var(--text3);font-weight:400">(optionnel)</span></label>' +
       '<input class="vf-pp-inp" placeholder="Ex: 30â€“45 min" value="' + _esc(city.deliveryEta) + '" oninput="_ppCityUpdate(\'' + cid + '\',\'deliveryEta\',this.value)"/></div>' +
       '</div></div>';
     _renderCityMenuItems(cid);
@@ -4077,9 +4097,9 @@ updateAdminAuthUI();
   /* â”€â”€ Open / Close â”€â”€ */
   function _openPP() {
     const targetPack = _getPack();          // pack choisi par l'utilisateur
-    const hadDraft   = _restoreDraft();     // peut écraser bState.curPack
+    const hadDraft   = _restoreDraft();     // peut ecraser bState.curPack
     const draftPack  = _getPack();          // pack du brouillon
-    // Toujours imposer le plan sélectionné ; si le plan a changé → formulaire vierge
+    // Toujours imposer le plan selectionne ; si le plan a change → formulaire vierge
     if (typeof bState !== 'undefined') bState.curPack = targetPack;
     if (!hadDraft || draftPack !== targetPack) { _ppStep = 1; _ppData = {}; }
     _renderStep();
@@ -4126,7 +4146,7 @@ updateAdminAuthUI();
         <div class="vf-pp-field"><label class="vf-pp-lbl">Adresse physique <span class="req">*</span></label>
           <input class="vf-pp-inp" id="pp-address" placeholder="12 Rue de la Paix, 75001 Paris" value="${_esc(_ppData.address)}"/></div>
         <div class="vf-pp-row">
-          <div class="vf-pp-field"><label class="vf-pp-lbl">Téléphone <span class="req">*</span></label>
+          <div class="vf-pp-field"><label class="vf-pp-lbl">Telephone <span class="req">*</span></label>
             <input class="vf-pp-inp" id="pp-phone" type="tel" placeholder="06 12 34 56 78" value="${_esc(_ppData.phone)}"/></div>
           <div class="vf-pp-field"><label class="vf-pp-lbl">Email de contact <span class="req">*</span></label>
             <input class="vf-pp-inp" id="pp-email" type="email" placeholder="contact@monrestaurant.fr" value="${_esc(_ppData.email || (currentFBUser ? currentFBUser.email : ''))}"/></div>
@@ -4148,7 +4168,7 @@ updateAdminAuthUI();
             </div>`).join('')}
           </div>
         </div>
-        <div class="vf-pp-stit" style="font-size:15px;margin-top:20px">Réseaux sociaux</div>
+        <div class="vf-pp-stit" style="font-size:15px;margin-top:20px">Reseaux sociaux</div>
         <div class="vf-pp-row">
           <div class="vf-pp-field"><label class="vf-pp-lbl">Instagram</label>
             <input class="vf-pp-inp" id="pp-instagram" placeholder="@monrestaurant" value="${_esc(_ppData.instagram)}"/></div>
@@ -4188,7 +4208,7 @@ updateAdminAuthUI();
         <div id="pp-menu-photo-zone" style="display:${!showItems ? 'block' : 'none'}">
           <label style="display:block;border:2px dashed #e5e7eb;border-radius:16px;padding:36px 24px;text-align:center;cursor:pointer;background:#fafafa">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" style="margin-bottom:10px;display:block;margin-left:auto;margin-right:auto"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <div id="pp-photo-label" style="font-size:14px;font-weight:600;color:#374151;margin-bottom:4px">${_ppData.menuPhotoDataUrl ? 'Photo chargée — cliquer pour changer' : 'Cliquer pour uploader une photo de votre menu'}</div>
+            <div id="pp-photo-label" style="font-size:14px;font-weight:600;color:#374151;margin-bottom:4px">${_ppData.menuPhotoDataUrl ? 'Photo chargee — cliquer pour changer' : 'Cliquer pour uploader une photo de votre menu'}</div>
             <div style="font-size:12px;color:#9ca3af">JPG, PNG ou PDF · Max 10 Mo</div>
             <input type="file" id="pp-menu-photo-file" accept="image/*,.pdf" style="display:none" onchange="window.vfMenuPhotoUpload(this)"/>
           </label>
@@ -4196,7 +4216,7 @@ updateAdminAuthUI();
         </div>
         <div class="vf-pp-info-note" style="margin-top:12px">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span>Vous pourrez modifier votre carte à tout moment depuis votre espace admin après la livraison.</span>
+          <span>Vous pourrez modifier votre carte a tout moment depuis votre espace admin après la livraison.</span>
         </div>`;
       if (showItems) _renderMenuItems();
 
@@ -4205,10 +4225,10 @@ updateAdminAuthUI();
         <div class="vf-pp-stit">${def.tit}</div>
         <div class="vf-pp-ssub">${def.sub}</div>
         <div class="vf-pp-field"><label class="vf-pp-lbl">L'histoire de votre restaurant <span style="color:var(--text3);font-weight:400">(optionnel)</span></label>
-          <textarea class="vf-pp-inp" id="pp-story" rows="4" placeholder="Fondé en 2010 par la famille Dupont, notre bistrot propose une cuisine traditionnelle française avec des produits locaux…">${_esc(_ppData.story)}</textarea></div>
-        <div class="vf-pp-field"><label class="vf-pp-lbl">Spécificités & demandes particulières <span style="color:var(--text3);font-weight:400">(optionnel)</span></label>
-          <textarea class="vf-pp-inp" id="pp-notes" rows="3" placeholder="Terrasse en été, menu végétarien, allergènes à mentionner, ton du site (luxueux, chaleureux, moderne…)">${_esc(_ppData.notes)}</textarea></div>
-        <div class="vf-pp-field"><label class="vf-pp-lbl">Délai de livraison souhaité</label>
+          <textarea class="vf-pp-inp" id="pp-story" rows="4" placeholder="Fonde en 2010 par la famille Dupont, notre bistrot propose une cuisine traditionnelle française avec des produits locaux…">${_esc(_ppData.story)}</textarea></div>
+        <div class="vf-pp-field"><label class="vf-pp-lbl">Specificites & demandes particulières <span style="color:var(--text3);font-weight:400">(optionnel)</span></label>
+          <textarea class="vf-pp-inp" id="pp-notes" rows="3" placeholder="Terrasse en ete, menu vegetarien, allergènes a mentionner, ton du site (luxueux, chaleureux, moderne…)">${_esc(_ppData.notes)}</textarea></div>
+        <div class="vf-pp-field"><label class="vf-pp-lbl">Delai de livraison souhaite</label>
           <select class="vf-pp-inp" id="pp-delai">
             <option value="5 jours" ${(_ppData.delai||'5 jours')==='5 jours'?'selected':''}>Standard — max 5 jours</option>
             <option value="urgent" ${_ppData.delai==='urgent'?'selected':''}>Urgent — 24h (+50€)</option>
@@ -4223,7 +4243,7 @@ updateAdminAuthUI();
         <div class="vf-pp-field"><label class="vf-pp-lbl">Mode de gestion des commandes <span class="req">*</span></label>
           <div class="pp-radio-group" id="pp-delivery-mode">
             ${[
-              ['internal','Livraison interne','Votre propre équipe gère les livraisons.'],
+              ['internal','Livraison interne','Votre propre equipe gère les livraisons.'],
               ['platforms','Via plateformes tierces','UberEats, Deliveroo, Just Eat, etc.'],
               ['both','Les deux','Livraison interne et plateformes.'],
             ].map(([val,lbl,sub]) => `<label class="pp-radio-card ${dm===val?'on':''}">
@@ -4233,10 +4253,10 @@ updateAdminAuthUI();
           </div>
         </div>
         <div id="pp-platforms-wrap" style="display:${dm!=='internal'?'block':'none'}">
-          <div class="vf-pp-stit" style="font-size:14px;margin-top:4px">Intégration plateformes</div>
+          <div class="vf-pp-stit" style="font-size:14px;margin-top:4px">Integration plateformes</div>
           <div class="vf-pp-info-note" style="margin-bottom:12px">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span>Renseignez les URLs de votre espace sur chaque plateforme. Notre équipe configurera la redirection automatique.</span>
+            <span>Renseignez les URLs de votre espace sur chaque plateforme. Notre equipe configurera la redirection automatique.</span>
           </div>
           <div class="vf-pp-row">
             <div class="vf-pp-field"><label class="vf-pp-lbl">URL UberEats</label>
@@ -4251,7 +4271,7 @@ updateAdminAuthUI();
               <input class="vf-pp-inp" id="pp-other-delivery" placeholder="Nom + URL" value="${_esc(_ppData.otherDeliveryUrl)}"/></div>
           </div>
         </div>
-        <div class="vf-pp-field"><label class="vf-pp-lbl">Délai de livraison moyen estimé <span style="color:var(--text3);font-weight:400">(optionnel)</span></label>
+        <div class="vf-pp-field"><label class="vf-pp-lbl">Delai de livraison moyen estime <span style="color:var(--text3);font-weight:400">(optionnel)</span></label>
           <input class="vf-pp-inp" id="pp-eta" placeholder="Ex: 30â€“45 min" value="${_esc(_ppData.deliveryEta)}"/></div>`;
 
     } else if (def.id === 'cities-setup') {
@@ -4261,7 +4281,7 @@ updateAdminAuthUI();
         <div class="vf-pp-ssub">${def.sub}</div>
         <div class="vf-pp-info-note" style="margin-bottom:14px">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span>Chaque ville aura son propre formulaire complet : identité, horaires, menu, histoire et livraison.</span>
+          <span>Chaque ville aura son propre formulaire complet : identite, horaires, menu, histoire et livraison.</span>
         </div>
         <div id="pp-city-setup-list"></div>
         <button class="pp-add-btn" style="margin-top:10px" onclick="vfCityAdd()">
@@ -4343,7 +4363,7 @@ updateAdminAuthUI();
     if (def.id === 'identity') {
       if (!_ppData.siteName) { alert('Veuillez renseigner le nom du restaurant.'); return false; }
       if (!_ppData.address)  { alert('Veuillez renseigner l\'adresse.'); return false; }
-      if (!_ppData.phone)    { alert('Veuillez renseigner le téléphone.'); return false; }
+      if (!_ppData.phone)    { alert('Veuillez renseigner le telephone.'); return false; }
       if (!_ppData.email)    { alert('Veuillez renseigner l\'email de contact.'); return false; }
     }
     if (def.id === 'menu') {
@@ -4362,7 +4382,7 @@ updateAdminAuthUI();
     if (def.id === 'cities-config') {
       const cities = _ppData.cities || [];
       const inv = cities.find(function(ct){ return !ct.siteName || !ct.address || !ct.phone; });
-      if (inv) { alert('Veuillez renseigner le nom, l\'adresse et le téléphone pour chaque ville (section Identité).'); return false; }
+      if (inv) { alert('Veuillez renseigner le nom, l\'adresse et le telephone pour chaque ville (section Identite).'); return false; }
     }
     return true;
   }
@@ -4403,7 +4423,7 @@ updateAdminAuthUI();
       cuisine:      typeof bState !== 'undefined' ? bState.cuisine   : null,
       color:        typeof bState !== 'undefined' ? bState.color     : null,
       layout:       typeof bState !== 'undefined' ? bState.layout    : null,
-      /* Identité */
+      /* Identite */
       siteName:     _ppData.siteName,
       address:      _ppData.address,
       phone:        _ppData.phone,
@@ -4446,7 +4466,7 @@ updateAdminAuthUI();
     document.getElementById('vf-pp-ov').classList.remove('open');
     document.body.style.overflow = '';
 
-    // Redirection directe vers le lien Stripe configuré dans le dashboard
+    // Redirection directe vers le lien Stripe configure dans le dashboard
     const clientEmail = (currentFBUser ? currentFBUser.email : _ppData.email) || '';
     const stripeBase  = PAYMENT_LINKS[pack] && PAYMENT_LINKS[pack].stripe;
     if (stripeBase) {
@@ -4460,7 +4480,7 @@ updateAdminAuthUI();
     }
   };
 
-  /* Écran intermédiaire de redirection */
+  /* Écran intermediaire de redirection */
   function _vfShowRedirectScreen(pack, url) {
     const existing = document.getElementById('vf-redirect-screen');
     if (existing) existing.remove();
@@ -4472,9 +4492,9 @@ updateAdminAuthUI();
       <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/>
       </svg>
-      <div style="font-family:Outfit,sans-serif;font-size:26px;font-weight:800;color:#fff">Formulaire envoyé !</div>
+      <div style="font-family:Outfit,sans-serif;font-size:26px;font-weight:800;color:#fff">Formulaire envoye !</div>
       <div style="font-size:14px;color:rgba(255,255,255,.55);text-align:center;max-width:320px;line-height:1.6">
-        Pack <strong style="color:#60a5fa">${packLabel}</strong> — vous allez être redirigé vers le paiement sécurisé…
+        Pack <strong style="color:#60a5fa">${packLabel}</strong> — vous allez être redirige vers le paiement securise…
       </div>
       <div style="display:flex;gap:6px;margin-top:4px">
         <span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;animation:vfDot .8s ease-in-out infinite"></span>
@@ -4489,7 +4509,7 @@ updateAdminAuthUI();
 
 
   /* â”€â”€â”€ 13. INTERCEPT BUY FLOW â”€â”€â”€ */
-  // On remplace openBuyFromBuilder : affiche le formulaire pré-paiement d'abord
+  // On remplace openBuyFromBuilder : affiche le formulaire pre-paiement d'abord
   window.openBuyFromBuilder = function () {
     if (!currentFBUser) {
       vfOpenAuth('login', () => setTimeout(_openPP, 350));
@@ -4588,11 +4608,11 @@ updateAdminAuthUI();
     var c = document.getElementById('pay-orbital-container');
     if (!c) return;
     var ps = [
-      { label: 'PayPal', bg: '#fff', border: '1.5px solid #e8eaed', desc: 'Payez en quelques clics via votre compte PayPal sécurisé.', svg: '<svg viewBox="0 0 24 24" width="32" height="32"><path fill="#009CDE" d="M7.076 21.337H2.47a.641.641 0 01-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 00-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 00-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 00.554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 01.923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/><path fill="#003087" d="M6.263 7.065a.999.999 0 01.985-.843h6.3c.747 0 1.45.049 2.094.152a7.14 7.14 0 011.29.353c.318.118.605.261.857.429a5.07 5.07 0 011.012.893c.36-2.297-.003-3.86-1.244-5.28C16.175.925 13.865.268 10.938.268H3.477a.99.99 0 00-.977.838L.125 19.993a.596.596 0 00.59.69H5.33l1.29-8.19-.357 4.562z"/></svg>' },
-      { label: 'Apple Pay', bg: '#1c1c1e', desc: 'Paiement instantané via Face ID ou Touch ID sur Apple.', svg: '<svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>' },
-      { label: 'Carte Bancaire', bg: '#1B2B8A', desc: 'Visa, Mastercard et American Express acceptés partout.', svg: '<svg viewBox="0 0 30 22" width="32" height="24" fill="none"><rect x="1" y="1" width="28" height="20" rx="3" stroke="white" stroke-width="1.6"/><rect x="4" y="6.5" width="8" height="5.5" rx="1.2" stroke="white" stroke-width="1.3"/><line x1="1" y1="9" x2="29" y2="9" stroke="white" stroke-width="2.2"/><line x1="4" y1="15.5" x2="11" y2="15.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/><line x1="13" y1="15.5" x2="18" y2="15.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>' },
-      { label: 'Google Pay', bg: '#fff', border: '1.5px solid #e8eaed', desc: 'Réglez facilement depuis votre smartphone Android.', svg: '<svg viewBox="0 0 24 24" width="30" height="30"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>' },
-      { label: 'Swile', bg: '#FF6B35', desc: 'Titres-restaurant Swile pour les abonnés premium.', svg: '<svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="4.5" fill="white"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.64 5.64l1.77 1.77M16.59 16.59l1.77 1.77M5.64 18.36l1.77-1.77M16.59 7.41l1.77-1.77" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/></svg>' }
+      { label: 'PayPal', bg: '#fff', border: '1.5px solid #e8eaed', desc: 'Payez en quelques clics via votre compte PayPal securise.', svg: '<svg viewBox="0 0 24 24" width="32" height="32"><path fill="#009CDE" d="M7.076 21.337H2.47a.641.641 0 01-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 00-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 00-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 00.554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 01.923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/><path fill="#003087" d="M6.263 7.065a.999.999 0 01.985-.843h6.3c.747 0 1.45.049 2.094.152a7.14 7.14 0 011.29.353c.318.118.605.261.857.429a5.07 5.07 0 011.012.893c.36-2.297-.003-3.86-1.244-5.28C16.175.925 13.865.268 10.938.268H3.477a.99.99 0 00-.977.838L.125 19.993a.596.596 0 00.59.69H5.33l1.29-8.19-.357 4.562z"/></svg>' },
+      { label: 'Apple Pay', bg: '#1c1c1e', desc: 'Paiement instantane via Face ID ou Touch ID sur Apple.', svg: '<svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>' },
+      { label: 'Carte Bancaire', bg: '#1B2B8A', desc: 'Visa, Mastercard et American Express acceptes partout.', svg: '<svg viewBox="0 0 30 22" width="32" height="24" fill="none"><rect x="1" y="1" width="28" height="20" rx="3" stroke="white" stroke-width="1.6"/><rect x="4" y="6.5" width="8" height="5.5" rx="1.2" stroke="white" stroke-width="1.3"/><line x1="1" y1="9" x2="29" y2="9" stroke="white" stroke-width="2.2"/><line x1="4" y1="15.5" x2="11" y2="15.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/><line x1="13" y1="15.5" x2="18" y2="15.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>' },
+      { label: 'Google Pay', bg: '#fff', border: '1.5px solid #e8eaed', desc: 'Reglez facilement depuis votre smartphone Android.', svg: '<svg viewBox="0 0 24 24" width="30" height="30"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>' },
+      { label: 'Swile', bg: '#FF6B35', desc: 'Titres-restaurant Swile pour les abonnes premium.', svg: '<svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="4.5" fill="white"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.64 5.64l1.77 1.77M16.59 16.59l1.77 1.77M5.64 18.36l1.77-1.77M16.59 7.41l1.77-1.77" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/></svg>' }
     ];
     var scene = document.createElement('div');
     scene.className = 'pay-orbital-scene';
@@ -4729,7 +4749,7 @@ updateAdminAuthUI();
 
 // Injecter les URLs d'exemple dans chaque carte tarif
 // Note: on ne bloque PAS les boutons ici (pas d'ajout de classe 'empty')
-// L'état initial vient du SSR (applyConfigToHTML) et sera mis à jour par applyExampleUrlsDirect
+// L'etat initial vient du SSR (applyConfigToHTML) et sera mis a jour par applyExampleUrlsDirect
 Object.entries(EXAMPLE_URLS).forEach(([pack,url])=>{
   if(!url) return;
   ['demo-'+pack, 'demo-b-'+pack].forEach(function(id){
@@ -4740,15 +4760,108 @@ Object.entries(EXAMPLE_URLS).forEach(([pack,url])=>{
   });
 });
 
-  }, [])
+  
+window.openSitePreview = function(key){
+  var urls = {ess:'https://prestige-flow.vercel.app',prem:'https://matchaflow.vercel.app'};
+  var url = urls[key];
+  if(url) window.open(url,'_blank','noopener');
+};
+window.goHomePack = function(pack){
+  var hf = document.getElementById('home-form');
+  if(hf){ hf.style.display='block'; setTimeout(function(){ hf.scrollIntoView({behavior:'smooth',block:'start'}); },80); }
+  if(window.goToForm) window.goToForm(pack);
+};
+
+// Hero word cycle
+(function(){
+  var words = ['pizzeria','sushi bar','bistrot','boulangerie','kebab','restaurant','burger','crêperie','brasserie','traiteur'];
+  var el = document.getElementById('heroCycle');
+  if(!el) return;
+  var i = 0;
+  setInterval(function(){
+    el.classList.add('ph-out');
+    setTimeout(function(){
+      i = (i+1) % words.length;
+      el.textContent = words[i];
+      el.classList.remove('ph-out');
+    }, 300);
+  }, 2000);
+})();
+
+
+(function(){
+  function initLaptopAnim(){
+    var lid  = document.querySelector('.lp-lid');
+    var notif = document.querySelector('.lp-notif');
+    if(!lid) return;
+
+    // Float organique du laptop
+    var t0 = null;
+    function floatLaptop(ts){
+      if(!t0) t0 = ts;
+      var t = (ts - t0) / 1000;
+      var y  = Math.sin(t * 0.8) * 10 + Math.sin(t * 0.5) * 4;
+      var rx = Math.sin(t * 0.6) * 1.5;
+      var ry = Math.sin(t * 0.4) * 2;
+      var wrap = document.querySelector('.hero-laptop-wrap');
+      if(wrap) wrap.style.transform = 'translateY('+y+'px) rotateX('+rx+'deg) rotateY('+ry+'deg)';
+      requestAnimationFrame(floatLaptop);
+    }
+    requestAnimationFrame(floatLaptop);
+
+    // Contenu qui apparait dans l'ordi
+    var els = document.querySelectorAll('.lp-site-nav,.lp-site-hero,.lp-card');
+    els.forEach(function(el,i){
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(8px)';
+      el.style.transition = 'opacity .4s ease, transform .4s ease';
+      setTimeout(function(){ el.style.opacity='1'; el.style.transform='translateY(0)'; }, 400 + i*150);
+    });
+
+    // Glare sur ecran
+    var screen = document.querySelector('.lp-screen');
+    if(screen){
+      var glare = document.createElement('div');
+      glare.style.cssText = 'position:absolute;top:0;left:-100%;width:40%;height:100%;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.12) 50%,transparent 70%);pointer-events:none;z-index:50;animation:glareSweep 4s ease-in-out 1.5s infinite';
+      screen.style.position = 'relative';
+      screen.appendChild(glare);
+      if(!document.getElementById('glareStyle')){
+        var s = document.createElement('style');
+        s.id = 'glareStyle';
+        s.textContent = '@keyframes glareSweep{0%,100%{left:-100%;opacity:0}8%{opacity:1}55%{left:150%;opacity:1}60%{opacity:0}}';
+        document.head.appendChild(s);
+      }
+    }
+
+    // Ping notification
+    if(notif){
+      setTimeout(function(){
+        var ping = document.createElement('div');
+        ping.style.cssText = 'position:absolute;inset:-4px;border-radius:18px;border:2px solid rgba(37,99,235,.4);animation:pingRing .8s ease-out forwards;pointer-events:none';
+        if(!document.getElementById('pingStyle')){
+          var ps = document.createElement('style');
+          ps.id = 'pingStyle';
+          ps.textContent = '@keyframes pingRing{from{transform:scale(1);opacity:1}to{transform:scale(1.2);opacity:0}}';
+          document.head.appendChild(ps);
+        }
+        notif.style.position = 'relative';
+        notif.appendChild(ping);
+      }, 2700);
+    }
+  }
+
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initLaptopAnim);}
+  else{setTimeout(initLaptopAnim,300);}
+})();
+
+}, [])
 
   return (
     <>
       <Head>
-        <title>VisioFlow - Votre restaurant en ligne en max 5 jours</title>
+        <title>VisioFlow — Sites web pour restaurateurs</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       </Head>
-      {!heroComplete && <ShowcaseIntro onComplete={() => setHeroComplete(true)} />}
       <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: pageHTML }} />
     </>
   )
@@ -4770,3 +4883,87 @@ export async function getServerSideProps() {
     return { props: { siteConfig: null } }
   }
 }
+
+if (typeof window !== "undefined") {
+(function(){
+  function initScrollHint(){
+    var hint = document.getElementById('vf-scroll-hint');
+    if(!hint) return;
+    // Show after 1.2s
+    setTimeout(function(){ hint.style.opacity='1'; }, 1200);
+    // Hide when user scrolls 80px
+    window.addEventListener('scroll', function onScroll(){
+      if(window.scrollY > 80){
+        hint.style.opacity='0';
+        window.removeEventListener('scroll', onScroll);
+      }
+    }, {passive:true});
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initScrollHint);
+  } else {
+    initScrollHint();
+  }
+})();
+window.toggleVfTheme = function(){
+  var cur = document.documentElement.getAttribute('data-theme');
+  var next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('vf-theme', next);
+  var btn = document.getElementById('vf-theme-btn');
+  if(btn) btn.textContent = next === 'dark' ? 'Mode clair' : 'Mode sombre';
+};
+(function(){
+  var t = localStorage.getItem('vf-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', t);
+  var btn = document.getElementById('vf-theme-btn');
+  if(btn) btn.textContent = t === 'dark' ? 'Mode clair' : 'Mode sombre';
+})();
+window.openSitePreview = function(key){
+  var urls = {ess:'https://prestige-flow.vercel.app',prem:'https://matchaflow.vercel.app'};
+  var url = urls[key];
+  if(url) window.open(url,'_blank','noopener');
+};
+function _openPreviewWithUrl(url){
+  var modal = document.getElementById('spm');
+  var iframe = document.getElementById('spm-iframe');
+  var blocked = document.getElementById('spm-blocked');
+  var ext = document.getElementById('spm-ext');
+  var blockedLink = document.getElementById('spm-blocked-link');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  if(!url || url === '#' || url === 'null' || url === ''){
+    iframe.style.display = 'none';
+    blocked.style.display = 'flex';
+    blocked.querySelector('p').textContent = 'Aucune URL configur\u00e9e. Ajoutez un lien dans le dashboard.';
+    return;
+  }
+  iframe.style.display = 'block';
+  blocked.style.display = 'none';
+  ext.href = url;
+  blockedLink.href = url;
+  iframe.src = url;
+  // Detect if iframe is blocked (X-Frame-Options)
+  iframe.onload = function(){
+    try {
+      var doc = iframe.contentDocument || iframe.contentWindow.document;
+      if(!doc || doc.body.innerHTML === ''){
+        iframe.style.display = 'none';
+        blocked.style.display = 'flex';
+      }
+    } catch(e){
+      iframe.style.display = 'none';
+      blocked.style.display = 'flex';
+    }
+  };
+};
+window.closeSitePreview = function(){
+  var modal = document.getElementById('spm');
+  var iframe = document.getElementById('spm-iframe');
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+  setTimeout(function(){ iframe.src = ''; }, 300);
+};
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') window.closeSitePreview && window.closeSitePreview();
+});}
