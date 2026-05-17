@@ -30,6 +30,11 @@ const DEFAULT_CFG = {
   payment: {
     essentiel: { stripe: 'https://buy.stripe.com/8x228kbpzaHz8CHajjdUY07' },
     premium:   { stripe: 'https://buy.stripe.com/7sYbIUfFPdTL1afdvvdUY06' },
+  },
+  assistance: {
+    label:  'Besoin d\'aide ?',
+    phone1: '',
+    phone2: '',
   }
 }
 
@@ -220,6 +225,9 @@ export default function Dashboard() {
             <a href="/" target="_blank" rel="noreferrer" className="db-nav-btn" onClick={() => setMobileOpen(false)} style={{ color: 'rgba(255,255,255,.35)', fontSize: 13 }}>
               <span className="db-nav-icon">🌐</span>Voir le site
             </a>
+            <button className="db-nav-btn" onClick={async () => { await fetch('/api/admin/logout'); window.location.href = '/login-admin' }} style={{ color: 'rgba(255,255,255,.35)', fontSize: 13, width: '100%', textAlign: 'left' }}>
+              <span className="db-nav-icon">🔒</span>Se déconnecter
+            </button>
           </div>
         </aside>
 
@@ -525,9 +533,10 @@ function EditTab({ cfg, update, save, dirty, saving }) {
   const [section, setSection] = useState('urls')
 
   const sections = [
-    { id: 'urls',    label: '🔗 URLs d\'exemple' },
-    { id: 'packs',   label: '💰 Tarifs & packs' },
-    { id: 'payment', label: '💳 Liens de paiement' },
+    { id: 'urls',       label: '🔗 URLs d\'exemple' },
+    { id: 'packs',      label: '💰 Tarifs & packs' },
+    { id: 'payment',    label: '💳 Liens de paiement' },
+    { id: 'assistance', label: '📞 Assistance' },
   ]
 
   return (
@@ -642,6 +651,52 @@ function EditTab({ cfg, update, save, dirty, saving }) {
           ))}
           <div className="db-info-box">
             💡 Les liens Stripe et PayPal sont utilisés automatiquement lors du paiement selon le choix du client.
+          </div>
+        </div>
+      )}
+
+      {section === 'assistance' && (
+        <div className="db-card">
+          <div className="db-card-head">Widget d'assistance — pages formulaire</div>
+          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 20, lineHeight: 1.65 }}>
+            Un encadré flottant apparaît en bas à droite des pages formulaire avec les numéros renseignés.
+            Laissez les deux champs vides pour masquer le widget.
+          </p>
+          <div className="db-field">
+            <label>Titre du widget</label>
+            <input
+              value={cfg.assistance?.label || ''}
+              onChange={e => update('assistance.label', e.target.value)}
+              placeholder="Besoin d'aide ?"
+            />
+          </div>
+          <div className="db-field-row">
+            <div className="db-field" style={{ flex: 1 }}>
+              <label>Numéro 1</label>
+              <input
+                type="tel"
+                value={cfg.assistance?.phone1 || ''}
+                onChange={e => update('assistance.phone1', e.target.value)}
+                placeholder="06 12 34 56 78"
+              />
+            </div>
+            <div className="db-field" style={{ flex: 1 }}>
+              <label>Numéro 2</label>
+              <input
+                type="tel"
+                value={cfg.assistance?.phone2 || ''}
+                onChange={e => update('assistance.phone2', e.target.value)}
+                placeholder="07 98 76 54 32"
+              />
+            </div>
+          </div>
+          {(cfg.assistance?.phone1 || cfg.assistance?.phone2) && (
+            <div style={{ marginTop: 16, background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '12px 16px', fontSize: 13, color: '#166534', display: 'flex', gap: 8, alignItems: 'center' }}>
+              ✓ Le widget sera visible sur les pages formulaire et paiement.
+            </div>
+          )}
+          <div className="db-info-box" style={{ marginTop: 12 }}>
+            💡 Les visiteurs peuvent cliquer sur les numéros pour appeler directement depuis mobile.
           </div>
         </div>
       )}

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import AssistanceWidget from '../components/AssistanceWidget'
 
 const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
@@ -149,14 +150,16 @@ export default function Paiement() {
     clientSecret,
     locale: 'fr',
     appearance: {
-      theme: 'stripe',
+      theme: 'night',
       variables: {
-        colorPrimary:    '#0071E3',
-        colorBackground: '#ffffff',
-        colorText:       '#111827',
-        colorDanger:     '#dc2626',
-        fontFamily:      'Inter, -apple-system, sans-serif',
-        borderRadius:    '10px',
+        colorPrimary:         '#0071E3',
+        colorBackground:      '#0d1625',
+        colorText:            '#f1f5f9',
+        colorDanger:          '#f87171',
+        fontFamily:           'Inter, -apple-system, sans-serif',
+        borderRadius:         '10px',
+        colorInputBackground: '#1a2540',
+        colorInputBorder:     'rgba(255,255,255,0.12)',
       },
     },
   }
@@ -221,7 +224,7 @@ export default function Paiement() {
 
               {/* Gauche — récap commande */}
               <div style={{ background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)', borderRadius: 20, padding: '32px 28px', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', letterSpacing: '.08em', marginBottom: 20 }}>Récapitulatif de commande</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.08em', marginBottom: 20 }}>Récapitulatif de commande</div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,.08)' }}>
                   <div style={{ width: 48, height: 48, borderRadius: 12, background: packData.color + '22', border: '1px solid ' + packData.color + '44', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -229,13 +232,13 @@ export default function Paiement() {
                   </div>
                   <div>
                     <div style={{ fontFamily: 'Outfit,sans-serif', fontSize: 18, fontWeight: 800, color: '#fff' }}>{packData.label}</div>
-                    {resto && <div style={{ fontSize: 13, color: 'rgba(255,255,255,.4)', marginTop: 3 }}>{decodeURIComponent(resto)}</div>}
+                    {resto && <div style={{ fontSize: 13, color: 'rgba(255,255,255,.5)', marginTop: 3 }}>{decodeURIComponent(resto)}</div>}
                   </div>
                 </div>
 
                 <div style={{ flex: 1 }}>
                   {packData.features.map((f, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', borderBottom: '1px solid rgba(255,255,255,.05)', fontSize: 13.5, color: 'rgba(255,255,255,.72)' }}>
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', borderBottom: '1px solid rgba(255,255,255,.08)', fontSize: 13.5, color: 'rgba(255,255,255,.72)' }}>
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" style={{ flexShrink: 0 }}><polyline points="20 6 9 17 4 12"/></svg>
                       {f}
                     </div>
@@ -257,11 +260,11 @@ export default function Paiement() {
               </div>
 
               {/* Droite — Stripe PaymentElement */}
-              <div style={{ background: '#fff', borderRadius: 20, padding: '32px 28px' }}>
-                <div style={{ fontFamily: 'Outfit,sans-serif', fontSize: 20, fontWeight: 800, color: '#111827', marginBottom: 6 }}>
+              <div style={{ background: '#0d1625', border: '1px solid rgba(255,255,255,.1)', borderRadius: 20, padding: '32px 28px' }}>
+                <div style={{ fontFamily: 'Outfit,sans-serif', fontSize: 20, fontWeight: 800, color: '#fff', marginBottom: 6 }}>
                   Choisissez votre moyen de paiement
                 </div>
-                <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 24 }}>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,.5)', marginBottom: 24 }}>
                   Carte, virement, Apple Pay, Google Pay…
                 </div>
 
@@ -319,6 +322,7 @@ export default function Paiement() {
           )}
         </div>
       </div>
+      <AssistanceWidget />
     </>
   )
 }

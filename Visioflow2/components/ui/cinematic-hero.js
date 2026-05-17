@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { cn } from "@/lib/utils";
@@ -61,40 +61,27 @@ const INJECTED_STYLES = `
 
   .text-3d-matte {
     color: #ffffff;
-    text-shadow:
-      0 10px 30px rgba(255,255,255,0.2),
-      0 2px 4px rgba(255,255,255,0.1);
+    text-shadow: 0 10px 30px rgba(255,255,255,0.2), 0 2px 4px rgba(255,255,255,0.1);
   }
 
   .text-silver-matte {
     background: linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.4) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     transform: translateZ(0);
-    filter:
-      drop-shadow(0px 10px 20px rgba(255,255,255,0.15))
-      drop-shadow(0px 2px 4px rgba(255,255,255,0.1));
+    filter: drop-shadow(0px 10px 20px rgba(255,255,255,0.15)) drop-shadow(0px 2px 4px rgba(255,255,255,0.1));
   }
 
   .text-card-silver-matte {
     background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     transform: translateZ(0);
-    filter:
-      drop-shadow(0px 12px 24px rgba(0,0,0,0.8))
-      drop-shadow(0px 4px 8px rgba(0,0,0,0.6));
+    filter: drop-shadow(0px 12px 24px rgba(0,0,0,0.8)) drop-shadow(0px 4px 8px rgba(0,0,0,0.6));
   }
 
   .premium-depth-card {
     background: linear-gradient(145deg, #162C6D 0%, #0A101D 100%);
-    box-shadow:
-      0 40px 100px -20px rgba(0,0,0,0.9),
-      0 20px 40px -20px rgba(0,0,0,0.8),
-      inset 0 1px 2px rgba(255,255,255,0.2),
-      inset 0 -2px 4px rgba(0,0,0,0.8);
+    box-shadow: 0 40px 100px -20px rgba(0,0,0,0.9), 0 20px 40px -20px rgba(0,0,0,0.8),
+      inset 0 1px 2px rgba(255,255,255,0.2), inset 0 -2px 4px rgba(0,0,0,0.8);
     border: 1px solid rgba(255,255,255,0.04);
     position: relative;
   }
@@ -107,20 +94,32 @@ const INJECTED_STYLES = `
 
   .iphone-bezel {
     background-color: #111;
-    box-shadow:
-      inset 0 0 0 2px #52525B,
-      inset 0 0 0 7px #000,
-      0 40px 80px -15px rgba(0,0,0,0.9),
-      0 15px 25px -5px rgba(0,0,0,0.7);
+    box-shadow: inset 0 0 0 2px #52525B, inset 0 0 0 7px #000,
+      0 40px 80px -15px rgba(0,0,0,0.9), 0 15px 25px -5px rgba(0,0,0,0.7);
     transform-style: preserve-3d;
+  }
+
+  .tablet-bezel {
+    background-color: #111;
+    box-shadow: inset 0 0 0 2px #424242, inset 0 0 0 9px #000,
+      0 40px 80px -15px rgba(0,0,0,0.9), 0 15px 25px -5px rgba(0,0,0,0.7);
+    transform-style: preserve-3d;
+  }
+
+  .laptop-screen {
+    background-color: #1a1a1a;
+    box-shadow: inset 0 0 0 1.5px #3a3a3a, 0 35px 70px -15px rgba(0,0,0,0.95);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .laptop-base {
+    background: linear-gradient(180deg, #2e2e2e 0%, #1c1c1c 100%);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.08);
   }
 
   .hardware-btn {
     background: linear-gradient(90deg, #404040 0%, #171717 100%);
-    box-shadow:
-      -2px 0 5px rgba(0,0,0,0.8),
-      inset -1px 0 1px rgba(255,255,255,0.15),
-      inset 1px 0 2px rgba(0,0,0,0.8);
+    box-shadow: -2px 0 5px rgba(0,0,0,0.8), inset -1px 0 1px rgba(255,255,255,0.15), inset 1px 0 2px rgba(0,0,0,0.8);
     border-left: 1px solid rgba(255,255,255,0.05);
   }
 
@@ -130,30 +129,20 @@ const INJECTED_STYLES = `
 
   .widget-depth {
     background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
-    box-shadow:
-      0 10px 20px rgba(0,0,0,0.3),
-      inset 0 1px 1px rgba(255,255,255,0.05),
-      inset 0 -1px 1px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.05), inset 0 -1px 1px rgba(0,0,0,0.5);
     border: 1px solid rgba(255,255,255,0.03);
   }
 
   .floating-ui-badge {
     background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.01) 100%);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,0.1),
-      0 25px 50px -12px rgba(0,0,0,0.8),
-      inset 0 1px 1px rgba(255,255,255,0.2),
-      inset 0 -1px 1px rgba(0,0,0,0.5);
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 25px 50px -12px rgba(0,0,0,0.8),
+      inset 0 1px 1px rgba(255,255,255,0.2), inset 0 -1px 1px rgba(0,0,0,0.5);
   }
 
-  .btn-modern-light, .btn-modern-dark {
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  }
+  .btn-modern-light, .btn-modern-dark { transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
   .btn-modern-light {
-    background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
-    color: #0F172A;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%); color: #0F172A;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.1), 0 12px 24px -4px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,1), inset 0 -3px 6px rgba(0,0,0,0.06);
   }
   .btn-modern-light:hover {
@@ -161,8 +150,7 @@ const INJECTED_STYLES = `
     box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 6px 12px -2px rgba(0,0,0,0.15), 0 20px 32px -6px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,1), inset 0 -3px 6px rgba(0,0,0,0.06);
   }
   .btn-modern-dark {
-    background: linear-gradient(180deg, #27272A 0%, #18181B 100%);
-    color: #FFFFFF;
+    background: linear-gradient(180deg, #27272A 0%, #18181B 100%); color: #FFFFFF;
     box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.6), 0 12px 24px -4px rgba(0,0,0,0.9), inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -3px 6px rgba(0,0,0,0.8);
   }
   .btn-modern-dark:hover {
@@ -172,11 +160,8 @@ const INJECTED_STYLES = `
   }
 
   .progress-ring {
-    transform: rotate(-90deg);
-    transform-origin: center;
-    stroke-dasharray: 402;
-    stroke-dashoffset: 402;
-    stroke-linecap: round;
+    transform: rotate(-90deg); transform-origin: center;
+    stroke-dasharray: 402; stroke-dashoffset: 402; stroke-linecap: round;
   }
 `;
 
@@ -201,6 +186,13 @@ export function CinematicHero({
   const mainCardRef = useRef(null);
   const mockupRef = useRef(null);
   const requestRef = useRef(0);
+  const [device, setDevice] = useState(null);
+
+  // Detect device once on mount (no resize — initial load is what matters)
+  useEffect(() => {
+    const w = window.innerWidth;
+    setDevice(w < 768 ? 'mobile' : w < 1024 ? 'tablet' : 'desktop');
+  }, []);
 
   // Mouse parallax on the card
   useEffect(() => {
@@ -214,71 +206,37 @@ export function CinematicHero({
           const xVal = (e.clientX / window.innerWidth - 0.5) * 2;
           const yVal = (e.clientY / window.innerHeight - 0.5) * 2;
           gsap.to(mockupRef.current, {
-            rotationY: xVal * 10,
-            rotationX: -yVal * 10,
-            ease: "power3.out",
-            duration: 1.2,
+            rotationY: xVal * 10, rotationX: -yVal * 10,
+            ease: "power3.out", duration: 1.2,
           });
         }
       });
     };
     window.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      cancelAnimationFrame(requestRef.current);
-    };
+    return () => { window.removeEventListener("mousemove", handleMouseMove); cancelAnimationFrame(requestRef.current); };
   }, []);
 
-  // Main auto-play animation — NO ScrollTrigger
+  // Main GSAP animation — waits for device detection
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
+    if (!device) return;
 
     const ctx = gsap.context(() => {
-      // ── Initial states ──────────────────────────────────────────
       gsap.set(".text-track", { autoAlpha: 0, y: -60, scale: 0.85, filter: "blur(20px)", rotationX: 20 });
       gsap.set(".text-days",  { autoAlpha: 0, clipPath: "inset(0 100% 0 0)" });
       gsap.set(".main-card",  { y: window.innerHeight + 200, autoAlpha: 1 });
       gsap.set([".card-left-text", ".card-right-text", ".mockup-scroll-wrapper", ".floating-badge", ".phone-widget"], { autoAlpha: 0 });
       gsap.set(".cta-wrapper", { autoAlpha: 0, scale: 0.8, filter: "blur(30px)" });
 
-      // ── Single master timeline ───────────────────────────────────
       const tl = gsap.timeline({ delay: 0.2 });
 
-      // Phase 1 — texte apparaît (0 → ~2s)
-      tl.to(".text-track", {
-          duration: 1.6,
-          autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", rotationX: 0,
-          ease: "expo.out",
-        })
-        .to(".text-days", {
-          duration: 1.2,
-          autoAlpha: 1,
-          clipPath: "inset(0 0% 0 0)",
-          ease: "power4.inOut",
-        }, "-=0.9");
+      tl.to(".text-track", { duration: 1.6, autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", rotationX: 0, ease: "expo.out" })
+        .to(".text-days", { duration: 1.2, autoAlpha: 1, clipPath: "inset(0 0% 0 0)", ease: "power4.inOut" }, "-=0.9");
 
-      // Phase 2 — texte hero se floute, carte monte (1.8 → 3.2s)
-      tl.to([".hero-text-wrapper", ".bg-grid-theme"], {
-          duration: 0.9,
-          scale: 1.12, filter: "blur(18px)", opacity: 0.15,
-          ease: "power2.inOut",
-        }, "+=0.05")
-        .to(".main-card", {
-          duration: 1.3,
-          y: 0,
-          ease: "power3.inOut",
-        }, "-=0.85");
+      tl.to([".hero-text-wrapper", ".bg-grid-theme"], { duration: 0.9, scale: 1.12, filter: "blur(18px)", opacity: 0.15, ease: "power2.inOut" }, "+=0.05")
+        .to(".main-card", { duration: 1.3, y: 0, ease: "power3.inOut" }, "-=0.85");
 
-      // Phase 3 — carte s'étale en plein écran (3.0 → 3.8s)
-      tl.to(".main-card", {
-        duration: 1.1,
-        width: "100%",
-        height: "100%",
-        borderRadius: "0px",
-        ease: "expo.inOut",
-      }, "-=0.3");
+      tl.to(".main-card", { duration: 1.1, width: "100%", height: "100%", borderRadius: "0px", ease: "expo.inOut" }, "-=0.3");
 
-      // Phase 4 — contenu apparaît (3.3 → 4.5s)
       tl.fromTo(".mockup-scroll-wrapper",
           { y: 260, z: -400, rotationX: 45, rotationY: -25, autoAlpha: 0, scale: 0.65 },
           { y: 0, z: 0, rotationX: 0, rotationY: 0, autoAlpha: 1, scale: 1, ease: "expo.out", duration: 1.4 },
@@ -287,12 +245,8 @@ export function CinematicHero({
           { y: 35, autoAlpha: 0, scale: 0.94 },
           { y: 0, autoAlpha: 1, scale: 1, stagger: 0.12, ease: "back.out(1.2)", duration: 1.1 },
           "-=1.1")
-        .to(".progress-ring",
-          { strokeDashoffset: 60, duration: 1.6, ease: "power3.inOut" },
-          "-=1.1")
-        .to(".counter-val",
-          { innerHTML: metricValue, snap: { innerHTML: 1 }, duration: 1.6, ease: "expo.out" },
-          "<")
+        .to(".progress-ring", { strokeDashoffset: 60, duration: 1.6, ease: "power3.inOut" }, "-=1.1")
+        .to(".counter-val", { innerHTML: metricValue, snap: { innerHTML: 1 }, duration: 1.6, ease: "expo.out" }, "<")
         .fromTo(".floating-badge",
           { y: 70, autoAlpha: 0, scale: 0.7, rotationZ: -10 },
           { y: 0, autoAlpha: 1, scale: 1, rotationZ: 0, ease: "back.out(1.5)", duration: 1.2, stagger: 0.18 },
@@ -305,20 +259,15 @@ export function CinematicHero({
           { x: 50, autoAlpha: 0, scale: 0.85 },
           { x: 0, autoAlpha: 1, scale: 1, ease: "expo.out", duration: 1.1 },
           "<");
-
-      // ShowcaseIntro prend le relais avec son rideau noir après HOLD_MS
     }, containerRef);
 
     return () => ctx.revert();
-  }, [metricValue]);
+  }, [metricValue, device]);
 
   return (
     <div
       ref={containerRef}
-      className={cn(
-        "relative w-screen h-screen overflow-hidden flex items-center justify-center bg-black text-white font-sans antialiased",
-        className
-      )}
+      className={cn("relative w-screen h-screen overflow-hidden flex items-center justify-center bg-black text-white font-sans antialiased", className)}
       style={{ perspective: "1500px" }}
       {...props}
     >
@@ -326,19 +275,14 @@ export function CinematicHero({
       <div className="film-grain" aria-hidden="true" />
       <div className="bg-grid-theme absolute inset-0 z-0 pointer-events-none opacity-50" aria-hidden="true" />
 
-      {/* Animated geometric background shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }} aria-hidden="true">
         {SHAPES.map((s, i) => <ElegantShape key={i} {...s} />)}
       </div>
 
       {/* LAYER 1 : Texte hero */}
       <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-screen px-4 will-change-transform">
-        <h1 className="text-track gsap-reveal text-3d-matte text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight mb-2">
-          {tagline1}
-        </h1>
-        <h1 className="text-days gsap-reveal text-silver-matte text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter">
-          {tagline2}
-        </h1>
+        <h1 className="text-track gsap-reveal text-3d-matte text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight mb-2">{tagline1}</h1>
+        <h1 className="text-days gsap-reveal text-silver-matte text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter">{tagline2}</h1>
       </div>
 
       {/* LAYER 2 : Carte principale */}
@@ -353,89 +297,204 @@ export function CinematicHero({
 
             {/* Droite : nom de marque */}
             <div className="card-right-text gsap-reveal order-1 lg:order-3 flex justify-center lg:justify-end z-20 w-full">
-              <h2 className="text-6xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-card-silver-matte">
-                {brandName}
-              </h2>
+              <h2 className="text-6xl md:text-[6rem] lg:text-[8rem] font-black uppercase tracking-tighter text-card-silver-matte">{brandName}</h2>
             </div>
 
-            {/* Centre : maquette iPhone */}
+            {/* Centre : mockup adaptatif */}
             <div
               className="mockup-scroll-wrapper order-2 lg:order-2 relative w-full h-[380px] lg:h-[600px] flex items-center justify-center z-10"
               style={{ perspective: "1000px" }}
             >
               <div className="relative w-full h-full flex items-center justify-center transform scale-[0.65] md:scale-85 lg:scale-100">
-                <div
-                  ref={mockupRef}
-                  className="relative w-[280px] h-[580px] rounded-[3rem] iphone-bezel flex flex-col will-change-transform"
-                  style={{ transformStyle: "preserve-3d" }}
-                >
-                  {/* Boutons physiques */}
-                  <div className="absolute top-[120px] -left-[3px] w-[3px] h-[25px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
-                  <div className="absolute top-[160px] -left-[3px] w-[3px] h-[45px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
-                  <div className="absolute top-[220px] -left-[3px] w-[3px] h-[45px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
-                  <div className="absolute top-[170px] -right-[3px] w-[3px] h-[70px] hardware-btn rounded-r-md z-0" style={{ transform: "scaleX(-1)" }} aria-hidden="true" />
 
-                  {/* Écran */}
-                  <div className="absolute inset-[7px] bg-[#050914] rounded-[2.5rem] overflow-hidden text-white z-10" style={{ boxShadow: "inset 0 0 15px rgba(0,0,0,1)" }}>
-                    <div className="absolute inset-0 screen-glare z-40 pointer-events-none" aria-hidden="true" />
-
-                    {/* Dynamic Island */}
-                    <div className="absolute top-[5px] left-1/2 -translate-x-1/2 w-[100px] h-[28px] bg-black rounded-full z-50 flex items-center justify-end px-3" style={{ boxShadow: "inset 0 -1px 2px rgba(255,255,255,0.1)" }}>
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" style={{ boxShadow: "0 0 8px rgba(34,197,94,0.8)" }} />
+                {/* ── DESKTOP : MacBook ── */}
+                {device === 'desktop' && (
+                  <div ref={mockupRef} className="relative flex flex-col items-center will-change-transform" style={{ transformStyle: "preserve-3d" }}>
+                    {/* Écran */}
+                    <div className="laptop-screen w-[460px] rounded-t-[14px] rounded-b-[3px] overflow-hidden flex flex-col" style={{ height: '296px' }}>
+                      {/* Bande caméra */}
+                      <div className="h-[24px] bg-[#1a1a1a] flex items-center justify-center flex-shrink-0">
+                        <div className="w-[5px] h-[5px] rounded-full bg-neutral-600" style={{ boxShadow: "inset 0 0 2px rgba(0,0,0,0.8)" }} />
+                      </div>
+                      {/* Chrome navigateur */}
+                      <div className="h-[24px] bg-[#141414] flex items-center px-3 gap-2 border-b border-white/[0.04] flex-shrink-0">
+                        <div className="flex gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-[#FF5F56]" />
+                          <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
+                          <div className="w-2 h-2 rounded-full bg-[#27C93F]" />
+                        </div>
+                        <div className="flex-1 flex justify-center">
+                          <div className="bg-white/[0.05] rounded px-3 py-0.5 flex items-center gap-1.5 max-w-[190px] w-full">
+                            <svg className="w-2.5 h-2.5 text-neutral-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                            </svg>
+                            <span className="text-[9px] text-neutral-600 truncate">mon-restaurant.visioflow.fr</span>
+                          </div>
+                        </div>
+                      </div>
+                      {/* Contenu */}
+                      <div className="flex-1 bg-[#050914] relative overflow-hidden">
+                        <div className="absolute inset-0 screen-glare z-40 pointer-events-none" aria-hidden="true" />
+                        <div className="relative w-full h-full flex items-center px-5 gap-5">
+                          {/* Gauche */}
+                          <div className="flex flex-col items-center w-[155px] flex-shrink-0">
+                            <div className="phone-widget flex justify-between items-center mb-3 w-full">
+                              <div>
+                                <span className="block text-[8px] text-neutral-400 uppercase tracking-widest font-bold mb-0.5">Aujourd'hui</span>
+                                <span className="block text-sm font-bold tracking-tight text-white">Mon Restaurant</span>
+                              </div>
+                              <div className="w-7 h-7 rounded-full bg-white/5 flex items-center justify-center font-bold text-xs border border-white/10 text-neutral-200">VF</div>
+                            </div>
+                            <div className="phone-widget w-full rounded-2xl py-3 flex flex-col items-center" style={{ background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.15)' }}>
+                              <span className="counter-val text-3xl font-extrabold tracking-tighter text-white">0</span>
+                              <span className="text-[7px] text-blue-200/50 uppercase tracking-[0.1em] font-bold mt-0.5">{metricLabel}</span>
+                            </div>
+                          </div>
+                          {/* Droite : widgets */}
+                          <div className="flex-1 space-y-2">
+                            {[
+                              { color: 'blue', icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", w1: 'w-20', w2: 'w-12' },
+                              { color: 'emerald', icon: "M5 13l4 4L19 7", w1: 'w-16', w2: 'w-24' },
+                              { color: 'violet', icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6", w1: 'w-14', w2: 'w-20' },
+                            ].map(({ color, icon, w1, w2 }, i) => (
+                              <div key={i} className="phone-widget widget-depth rounded-xl p-2.5 flex items-center">
+                                <div className={`w-8 h-8 rounded-lg bg-gradient-to-br from-${color}-500/20 to-${color}-600/5 flex items-center justify-center mr-3 border border-${color}-400/20`}>
+                                  <svg className={`w-3.5 h-3.5 text-${color}-400`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={icon} />
+                                  </svg>
+                                </div>
+                                <div className="flex-1">
+                                  <div className={`h-1.5 ${w1} bg-neutral-300 rounded-full mb-1.5`} />
+                                  <div className={`h-1.5 ${w2} bg-neutral-600 rounded-full`} />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    {/* Base clavier */}
+                    <div className="laptop-base w-[500px] h-[14px] rounded-b-[6px]" style={{ marginTop: '-1px' }}>
+                      <div className="mx-auto mt-[3px] w-[110px] h-[7px] rounded-sm" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.03)' }} />
+                    </div>
+                    <div className="w-[520px] h-[3px] rounded-b-[4px]" style={{ background: 'linear-gradient(180deg, #111 0%, #080808 100%)', boxShadow: '0 4px 12px rgba(0,0,0,0.8)' }} />
+                  </div>
+                )}
 
-                    {/* Interface restaurant */}
-                    <div className="relative w-full h-full pt-12 px-5 pb-8 flex flex-col">
-                      <div className="phone-widget flex justify-between items-center mb-8">
-                        <div className="flex flex-col">
-                          <span className="text-[10px] text-neutral-400 uppercase tracking-widest font-bold mb-1">Aujourd'hui</span>
-                          <span className="text-xl font-bold tracking-tight text-white drop-shadow-md">Mon Restaurant</span>
+                {/* ── TABLET : iPad ── */}
+                {device === 'tablet' && (
+                  <div
+                    ref={mockupRef}
+                    className="relative w-[330px] h-[460px] rounded-[2rem] tablet-bezel flex flex-col will-change-transform"
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    <div className="absolute top-[80px] -right-[3px] w-[3px] h-[28px] hardware-btn rounded-r-md z-0" style={{ transform: "scaleX(-1)" }} aria-hidden="true" />
+                    <div className="absolute top-[50px] -left-[3px] w-[3px] h-[18px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
+                    <div className="absolute top-[75px] -left-[3px] w-[3px] h-[18px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
+
+                    <div className="absolute inset-[9px] bg-[#050914] rounded-[1.4rem] overflow-hidden z-10">
+                      <div className="absolute inset-0 screen-glare z-40 pointer-events-none" aria-hidden="true" />
+                      <div className="absolute top-[5px] left-1/2 -translate-x-1/2 w-[6px] h-[6px] bg-neutral-800 rounded-full z-50" />
+
+                      <div className="relative w-full h-full pt-10 px-5 pb-7 flex flex-col">
+                        <div className="phone-widget flex justify-between items-center mb-6">
+                          <div>
+                            <span className="block text-[9px] text-neutral-400 uppercase tracking-widest font-bold mb-1">Aujourd'hui</span>
+                            <span className="block text-lg font-bold tracking-tight text-white">Mon Restaurant</span>
+                          </div>
+                          <div className="w-9 h-9 rounded-full bg-white/5 text-neutral-200 flex items-center justify-center font-bold text-sm border border-white/10" style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.5)" }}>VF</div>
                         </div>
-                        <div className="w-9 h-9 rounded-full bg-white/5 text-neutral-200 flex items-center justify-center font-bold text-sm border border-white/10" style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.5)" }}>VF</div>
+
+                        <div className="phone-widget relative w-36 h-36 mx-auto flex items-center justify-center mb-5" style={{ filter: "drop-shadow(0 15px 25px rgba(0,0,0,0.8))" }}>
+                          <svg className="absolute inset-0 w-full h-full" aria-hidden="true">
+                            <circle cx="72" cy="72" r="55" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="10" />
+                            <circle className="progress-ring" cx="72" cy="72" r="55" fill="none" stroke="#3B82F6" strokeWidth="10" style={{ strokeDasharray: 345, strokeDashoffset: 345 }} />
+                          </svg>
+                          <div className="text-center z-10 flex flex-col items-center">
+                            <span className="counter-val text-3xl font-extrabold tracking-tighter text-white">0</span>
+                            <span className="text-[8px] text-blue-200/50 uppercase tracking-[0.1em] font-bold mt-0.5">{metricLabel}</span>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2.5">
+                          <div className="phone-widget widget-depth rounded-2xl p-2.5 flex items-center">
+                            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/5 flex items-center justify-center mr-3 border border-blue-400/20">
+                              <svg className="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <div className="flex-1"><div className="h-2 w-20 bg-neutral-300 rounded-full mb-1.5" /><div className="h-1.5 w-12 bg-neutral-600 rounded-full" /></div>
+                          </div>
+                          <div className="phone-widget widget-depth rounded-2xl p-2.5 flex items-center">
+                            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/5 flex items-center justify-center mr-3 border border-emerald-400/20">
+                              <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+                            </div>
+                            <div className="flex-1"><div className="h-2 w-16 bg-neutral-300 rounded-full mb-1.5" /><div className="h-1.5 w-24 bg-neutral-600 rounded-full" /></div>
+                          </div>
+                        </div>
+
+                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-white/20 rounded-full" />
                       </div>
-
-                      {/* Ring de progression */}
-                      <div className="phone-widget relative w-44 h-44 mx-auto flex items-center justify-center mb-8" style={{ filter: "drop-shadow(0 15px 25px rgba(0,0,0,0.8))" }}>
-                        <svg className="absolute inset-0 w-full h-full" aria-hidden="true">
-                          <circle cx="88" cy="88" r="64" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="12" />
-                          <circle className="progress-ring" cx="88" cy="88" r="64" fill="none" stroke="#3B82F6" strokeWidth="12" />
-                        </svg>
-                        <div className="text-center z-10 flex flex-col items-center">
-                          <span className="counter-val text-4xl font-extrabold tracking-tighter text-white">0</span>
-                          <span className="text-[8px] text-blue-200/50 uppercase tracking-[0.1em] font-bold mt-0.5">{metricLabel}</span>
-                        </div>
-                      </div>
-
-                      {/* Widgets */}
-                      <div className="space-y-3">
-                        <div className="phone-widget widget-depth rounded-2xl p-3 flex items-center">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/5 flex items-center justify-center mr-3 border border-blue-400/20">
-                            <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                          </div>
-                          <div className="flex-1">
-                            <div className="h-2 w-20 bg-neutral-300 rounded-full mb-2" />
-                            <div className="h-1.5 w-12 bg-neutral-600 rounded-full" />
-                          </div>
-                        </div>
-                        <div className="phone-widget widget-depth rounded-2xl p-3 flex items-center">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/5 flex items-center justify-center mr-3 border border-emerald-400/20">
-                            <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                            </svg>
-                          </div>
-                          <div className="flex-1">
-                            <div className="h-2 w-16 bg-neutral-300 rounded-full mb-2" />
-                            <div className="h-1.5 w-24 bg-neutral-600 rounded-full" />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[120px] h-[4px] bg-white/20 rounded-full" />
                     </div>
                   </div>
-                </div>
+                )}
+
+                {/* ── MOBILE : iPhone ── */}
+                {(device === 'mobile' || device === null) && (
+                  <div
+                    ref={mockupRef}
+                    className="relative w-[280px] h-[580px] rounded-[3rem] iphone-bezel flex flex-col will-change-transform"
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    <div className="absolute top-[120px] -left-[3px] w-[3px] h-[25px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
+                    <div className="absolute top-[160px] -left-[3px] w-[3px] h-[45px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
+                    <div className="absolute top-[220px] -left-[3px] w-[3px] h-[45px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
+                    <div className="absolute top-[170px] -right-[3px] w-[3px] h-[70px] hardware-btn rounded-r-md z-0" style={{ transform: "scaleX(-1)" }} aria-hidden="true" />
+
+                    <div className="absolute inset-[7px] bg-[#050914] rounded-[2.5rem] overflow-hidden text-white z-10" style={{ boxShadow: "inset 0 0 15px rgba(0,0,0,1)" }}>
+                      <div className="absolute inset-0 screen-glare z-40 pointer-events-none" aria-hidden="true" />
+                      <div className="absolute top-[5px] left-1/2 -translate-x-1/2 w-[100px] h-[28px] bg-black rounded-full z-50 flex items-center justify-end px-3" style={{ boxShadow: "inset 0 -1px 2px rgba(255,255,255,0.1)" }}>
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" style={{ boxShadow: "0 0 8px rgba(34,197,94,0.8)" }} />
+                      </div>
+
+                      <div className="relative w-full h-full pt-12 px-5 pb-8 flex flex-col">
+                        <div className="phone-widget flex justify-between items-center mb-8">
+                          <div>
+                            <span className="block text-[10px] text-neutral-400 uppercase tracking-widest font-bold mb-1">Aujourd'hui</span>
+                            <span className="block text-xl font-bold tracking-tight text-white drop-shadow-md">Mon Restaurant</span>
+                          </div>
+                          <div className="w-9 h-9 rounded-full bg-white/5 text-neutral-200 flex items-center justify-center font-bold text-sm border border-white/10" style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.5)" }}>VF</div>
+                        </div>
+
+                        <div className="phone-widget relative w-44 h-44 mx-auto flex items-center justify-center mb-8" style={{ filter: "drop-shadow(0 15px 25px rgba(0,0,0,0.8))" }}>
+                          <svg className="absolute inset-0 w-full h-full" aria-hidden="true">
+                            <circle cx="88" cy="88" r="64" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="12" />
+                            <circle className="progress-ring" cx="88" cy="88" r="64" fill="none" stroke="#3B82F6" strokeWidth="12" />
+                          </svg>
+                          <div className="text-center z-10 flex flex-col items-center">
+                            <span className="counter-val text-4xl font-extrabold tracking-tighter text-white">0</span>
+                            <span className="text-[8px] text-blue-200/50 uppercase tracking-[0.1em] font-bold mt-0.5">{metricLabel}</span>
+                          </div>
+                        </div>
+
+                        <div className="space-y-3">
+                          <div className="phone-widget widget-depth rounded-2xl p-3 flex items-center">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/5 flex items-center justify-center mr-3 border border-blue-400/20">
+                              <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <div className="flex-1"><div className="h-2 w-20 bg-neutral-300 rounded-full mb-2" /><div className="h-1.5 w-12 bg-neutral-600 rounded-full" /></div>
+                          </div>
+                          <div className="phone-widget widget-depth rounded-2xl p-3 flex items-center">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/5 flex items-center justify-center mr-3 border border-emerald-400/20">
+                              <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+                            </div>
+                            <div className="flex-1"><div className="h-2 w-16 bg-neutral-300 rounded-full mb-2" /><div className="h-1.5 w-24 bg-neutral-600 rounded-full" /></div>
+                          </div>
+                        </div>
+
+                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[120px] h-[4px] bg-white/20 rounded-full" />
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Badges flottants */}
                 <div className="floating-badge absolute flex top-6 lg:top-12 left-[-15px] lg:left-[-80px] floating-ui-badge rounded-xl lg:rounded-2xl p-3 lg:p-4 items-center gap-3 lg:gap-4 z-30">
@@ -462,9 +521,7 @@ export function CinematicHero({
 
             {/* Gauche : texte description */}
             <div className="card-left-text gsap-reveal order-3 lg:order-1 flex flex-col justify-center text-center lg:text-left z-20 w-full lg:max-w-none px-4 lg:px-0">
-              <h3 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-0 lg:mb-5 tracking-tight">
-                {cardHeading}
-              </h3>
+              <h3 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-0 lg:mb-5 tracking-tight">{cardHeading}</h3>
               <p className="hidden md:block text-blue-100/70 text-sm md:text-base lg:text-lg font-normal leading-relaxed mx-auto lg:mx-0 max-w-sm lg:max-w-none">
                 {cardDescription}
               </p>
