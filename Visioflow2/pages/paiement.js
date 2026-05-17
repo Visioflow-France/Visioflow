@@ -9,8 +9,8 @@ const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   : null
 
 const PACKS = {
-  essentiel: { label: 'Pack Essentiel', price: '150 €', color: '#6b7280', features: ['Site vitrine professionnel', 'Design sur mesure', 'Responsive mobile', 'Livré en 5 jours', 'Hébergement 1ère année inclus'] },
-  premium:   { label: 'Pack Premium',   price: '490 €', color: '#0071E3', features: ['Site avec commandes en ligne', 'Panier & paiement intégré', 'Panel admin restaurant', 'Responsive mobile', 'Livré en 5 jours', 'Hébergement 1ère année inclus'] },
+  essentiel: { label: 'Pack Essentiel', price: '150 €', color: '#6b7280', features: ['Site vitrine professionnel', 'Design sur mesure', 'Responsive mobile', 'Livré en 5 jours', 'Hébergement à vie inclus'] },
+  premium:   { label: 'Pack Premium',   price: '490 €', color: '#0071E3', features: ['Site avec commandes en ligne', 'Panier & paiement intégré', 'Panel admin restaurant', 'Responsive mobile', 'Livré en 5 jours', 'Hébergement à vie inclus'] },
 }
 
 /* ── Formulaire avec tous les moyens de paiement Stripe ── */
@@ -174,6 +174,7 @@ export default function Paiement() {
           body{font-family:'Inter',sans-serif;min-height:100vh}
           @keyframes spin{to{transform:rotate(360deg)}}
           @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+          @keyframes pulse{0%,100%{opacity:.4}50%{opacity:.8}}
           .fade-up{animation:fadeUp .5s ease forwards}
           @media(max-width:700px){.pay-grid{grid-template-columns:1fr!important}}
         `}</style>
@@ -243,7 +244,11 @@ export default function Paiement() {
 
                 <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(255,255,255,.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ color: 'rgba(255,255,255,.5)', fontSize: 14 }}>Total TTC</span>
-                  <span style={{ fontFamily: 'Outfit,sans-serif', fontSize: 34, fontWeight: 900, color: '#fff' }}>{livePrice || packData.price}</span>
+                  {loading ? (
+                    <span style={{ display: 'inline-block', width: 90, height: 38, background: 'rgba(255,255,255,.1)', borderRadius: 8, animation: 'pulse 1.5s ease-in-out infinite' }} />
+                  ) : (
+                    <span style={{ fontFamily: 'Outfit,sans-serif', fontSize: 34, fontWeight: 900, color: '#fff' }}>{livePrice || packData.price}</span>
+                  )}
                 </div>
 
                 <div style={{ marginTop: 16, padding: '10px 14px', background: 'rgba(52,211,153,.08)', border: '1px solid rgba(52,211,153,.2)', borderRadius: 10, fontSize: 12, color: '#34d399', lineHeight: 1.6 }}>

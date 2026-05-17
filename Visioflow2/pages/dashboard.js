@@ -708,15 +708,15 @@ const ADMIN_PASSWORD = 'Visioflow2024!'`}</pre>
         <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 16 }}>
           Téléchargez toutes vos données clients en JSON ({subsCount} configuration{subsCount !== 1 ? 's' : ''} builder, {formsCount} formulaire{formsCount !== 1 ? 's' : ''} complet{formsCount !== 1 ? 's' : ''}).
         </p>
-        <button onClick={onExport} className="db-btn-primary">Exporter toutes les données →</button>
+        <button onClick={onExport} className="db-btn-primary" style={{ width: '100%', justifyContent: 'center' }}>Exporter toutes les données →</button>
       </div>
 
       <div className="db-card">
         <div className="db-card-head">🔥 Firebase</div>
         <div className="db-kv"><span>Projet</span><span style={{ fontWeight: 600 }}>visioflow-cb6eb</span></div>
-        <div className="db-kv"><span>Collections utilisées</span><span style={{ textAlign: 'right', fontSize: 12 }}>submissions · form_submissions · site_config</span></div>
+        <div className="db-kv" style={{ flexWrap: 'wrap', gap: 4 }}><span>Collections</span><span style={{ fontSize: 12, wordBreak: 'break-word' }}>submissions · form_submissions · site_config</span></div>
         <div className="db-kv"><span>SDK</span><span>v10.12.0 (CDN compat)</span></div>
-        <div className="db-kv"><span>Console Firebase</span><a href="https://console.firebase.google.com/project/visioflow-cb6eb" target="_blank" rel="noreferrer" style={{ color: '#0071E3', fontSize: 12 }}>Ouvrir Firebase →</a></div>
+        <div className="db-kv"><span style={{ flexShrink: 0 }}>Console</span><a href="https://console.firebase.google.com/project/visioflow-cb6eb" target="_blank" rel="noreferrer" style={{ color: '#0071E3', fontSize: 12, wordBreak: 'break-word' }}>Ouvrir Firebase →</a></div>
         <div className="db-info-box" style={{ marginTop: 14 }}>
           🔒 Le dashboard n'est jamais indexé par les moteurs de recherche (<code>noindex, nofollow</code>).
         </div>
@@ -1466,5 +1466,67 @@ code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-family: '
   .db-card { padding: 14px 12px; }
   .db-table { min-width: 400px; }
   .db-table th, .db-table td { font-size: 11px; padding: 9px 8px 9px 0; }
+}
+
+/* ── ANTI-OVERFLOW GLOBAL MOBILE ── */
+@media (max-width: 768px) {
+  /* Racine : jamais de scroll horizontal sur la page */
+  html, body { overflow-x: hidden; max-width: 100vw; }
+
+  /* Flex root : min-width:0 force le main à ne pas dépasser le viewport */
+  .db { overflow-x: hidden; }
+  .db-main { min-width: 0; max-width: 100%; overflow-x: hidden; }
+
+  /* Bloc de code (pre) : scrollable EN INTERNE, ne fait plus déborder la page */
+  .db-code-block {
+    max-width: 100%;
+    overflow-x: auto;
+    font-size: 11px;
+    padding: 12px 14px;
+    -webkit-overflow-scrolling: touch;
+    /* white-space: pre conservé pour l'affichage du code */
+  }
+
+  /* Code inline : wrap plutôt que déborder */
+  code { word-break: break-all; overflow-wrap: anywhere; }
+
+  /* KV rows : valeur droite se wrap si trop longue */
+  .db-kv { align-items: flex-start; }
+  .db-kv > span:last-child, .db-kv a {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+
+  /* Cartes : pas de min-width implicite */
+  .db-card { overflow: hidden; }
+
+  /* Page Paramètres : bouton export pleine largeur */
+  .db-btn-primary { max-width: 100%; box-sizing: border-box; }
+
+  /* Infos Firebase : URL lien wrap */
+  .db-info-box { word-break: break-word; overflow-wrap: anywhere; }
+
+  /* Textarea du prompt IA : contenue dans la carte */
+  textarea { max-width: 100%; box-sizing: border-box; }
+
+  /* Detail grid : toujours 1 colonne */
+  .db-detail-grid { grid-template-columns: 1fr !important; }
+
+  /* Header overview avec badge live : passe en colonne si petit */
+  .db-page-header > div { min-width: 0; }
+}
+
+@media (max-width: 390px) {
+  .db-main { padding: 62px 10px 24px; }
+  .db-card { padding: 12px 10px; border-radius: 10px; }
+  .db-h1 { font-size: 17px; }
+  .db-sub { font-size: 12px; }
+  .db-stat { padding: 12px 10px; }
+  .db-stat-val { font-size: 20px; }
+  .db-filter-btn { font-size: 11px; padding: 5px 9px; }
+  .db-btn-primary { font-size: 13px; padding: 9px 14px; }
+  .db-code-block { font-size: 10.5px; padding: 10px 12px; }
+  .db-kv { font-size: 12px; }
 }
 `

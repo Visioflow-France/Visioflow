@@ -33,7 +33,10 @@
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\clayt\\\\OneDrive\\\\Desktop\\\\Visioflow-Projet\\\\Visioflow2\" -Recurse -Directory)",
       "Bash(Select-Object -First 30 FullName)",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\clayt\\\\OneDrive\\\\Desktop\\\\Visioflow-Projet\\\\Visioflow2\" -Recurse -Include \"*.js\", \"*.jsx\", \"*.ts\", \"*.tsx\", \"*.vue\", \"*.html\" -Exclude \"node_modules\")",
-      "Bash(Select-Object -First 50 -ExpandProperty FullName)"
+      "Bash(Select-Object -First 50 -ExpandProperty FullName)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\clayt\\\\OneDrive\\\\Desktop\\\\Visioflow-Projet\\\\Visioflow2\\\\pages\" -Recurse -Include \"*.js\", \"*.jsx\", \"*.ts\", \"*.tsx\")",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Select-Object -First 20)"
     ]
   }
 }
