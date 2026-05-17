@@ -1,12 +1,13 @@
 const PACK_DEFAULTS = {
-  essentiel: { amount: 15000, label: 'Pack Essentiel' },
-  premium:   { amount: 49000, label: 'Pack Premium'   },
+  essentiel: { amount: 15000, label: 'Pack Essentiel VisioFlow' },
+  premium:   { amount: 49000, label: 'Pack Premium VisioFlow'   },
 }
 
 const FIRESTORE_URL =
   'https://firestore.googleapis.com/v1/projects/visioflow-cb6eb-9d051/databases/(default)/documents/site_config/main'
 const FIREBASE_API_KEY = 'AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY'
 
+// Lit le prix d'un pack directement depuis Firestore (toujours à jour)
 async function getPriceFromFirestore(pack) {
   try {
     const res = await fetch(`${FIRESTORE_URL}?key=${FIREBASE_API_KEY}`, { cache: 'no-store' })
@@ -28,30 +29,45 @@ export default async function handler(req, res) {
   const secretKey = process.env.STRIPE_SECRET_KEY
   if (!secretKey) return res.status(500).json({ error: 'STRIPE_SECRET_KEY manquante dans .env.local' })
 
-  const { pack, restaurantName } = req.body
+  const { pack, email, clientReferenceId } = req.body
   if (!PACK_DEFAULTS[pack]) return res.status(400).json({ error: 'Pack invalide : ' + pack })
 
   // Prix lu depuis Firestore (source de vérité), fallback sur valeur par défaut
   const amountFromFirestore = await getPriceFromFirestore(pack)
-  const amount = amountFromFirestore || PACK_DEFAULTS[pack].amount
+  const amountCents = amountFromFirestore || PACK_DEFAULTS[pack].amount
+
+  const origin = req.headers.origin
+    || req.headers.referer?.split('/').slice(0, 3).join('/')
+    || 'https://visioflow2.vercel.app'
 
   try {
     const Stripe = (await import('stripe')).default
     const stripe = new Stripe(secretKey, { apiVersion: '2023-10-16' })
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: 'eur',
-      automatic_payment_methods: { enabled: true },
-      metadata: { pack, restaurantName: restaurantName || '' },
+    const session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      payment_method_types: ['card'],
+      line_items: [{
+        price_data: {
+          currency: 'eur',
+          unit_amount: amountCents,
+          product_data: {
+            name: PACK_DEFAULTS[pack].label,
+            description: 'Site web restaurant — paiement unique, hébergement inclus',
+          },
+        },
+        quantity: 1,
+      }],
+      customer_email: email || undefined,
+      client_reference_id: clientReferenceId || pack,
+      success_url: origin + '/?paiement=success&pack=' + pack,
+      cancel_url:  origin + '/?paiement=cancel',
+      locale: 'fr',
     })
 
-    res.status(200).json({
-      clientSecret: paymentIntent.client_secret,
-      amount,
-    })
+    res.status(200).json({ url: session.url })
   } catch (err) {
-    console.error('Stripe error:', err.message)
+    console.error('[Checkout Session]', err.message)
     res.status(500).json({ error: err.message })
   }
 }

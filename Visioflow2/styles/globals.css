@@ -435,10 +435,19 @@ body{background:var(--bg);color:var(--text);min-height:100vh;transition:backgrou
   .lp-notif{right:-8px;min-width:180px}
 }
 @media(max-width:600px){
-  .lp-lid{width:300px}
-  .lp-base{width:340px}
-  .lp-foot{width:360px}
+  .lp-lid{width:260px}
+  .lp-base{width:300px}
+  .lp-foot{width:320px}
+  .lp-notif{right:-4px;min-width:160px;font-size:10px}
   .hero-main{grid-template-columns:1fr}
+  .hero-laptop-wrap{transform-origin:top center}
+}
+@media(max-width:420px){
+  .lp-lid{width:200px}
+  .lp-base{width:240px}
+  .lp-foot{width:260px}
+  .lp-notif{display:none}
+  .hero-laptop-wrap{margin-bottom:-20px}
 }
 
 /* ── PHONE MOCKUP HERO ──────────────────────────────── */
@@ -2077,7 +2086,6 @@ textarea.form-input{min-height:90px;resize:vertical}
 
 /* Nav mobile */
 @media(max-width:640px){
-  .nav{gap:8px;padding:0 16px;justify-content:space-between}
   .nav-logo{font-size:15px;flex-shrink:0}
   .nl{font-size:11px;white-space:nowrap;flex-shrink:0}
   .nav-cta{font-size:12px;padding:7px 14px;white-space:nowrap;flex-shrink:0}
@@ -2090,14 +2098,16 @@ textarea.form-input{min-height:90px;resize:vertical}
 
 /* Hero mobile */
 @media(max-width:640px){
-  .hero{padding:90px 18px 60px;min-height:auto}
+  .hero{padding:80px 16px 50px;min-height:auto;overflow-x:hidden}
   .hero h1{letter-spacing:-2px;line-height:1.05}
-  .hero-stats{gap:24px;margin-top:48px}
-  .hsv{font-size:30px;letter-spacing:-1px}
+  .hero-stats{gap:24px;margin-top:40px}
+  .hsv{font-size:28px;letter-spacing:-1px}
   .hero-actions{gap:10px}
   .hero-actions .ba,.hero-actions .bg{padding:11px 20px;font-size:14px}
-  .trust-row{gap:7px;padding:0 12px 60px}
+  .trust-row{gap:7px;padding:0 12px 50px}
   .tbadge{font-size:11px;padding:6px 12px}
+  .hero-laptop-wrap{max-width:100%;overflow:hidden}
+  .hero-right-clean{max-width:100%;overflow:hidden}
 }
 
 /* Teaser section mobile */
@@ -2215,11 +2225,15 @@ textarea.form-input{min-height:90px;resize:vertical}
 
 /* ── MOBILE COMPLET ─────────────────────────────────── */
 
-/* Nav : logo + bouton Mode sombre côte à côte, espacés */
+/* Nav mobile : logo + Mode sombre + bouton profil sans chevauchement */
 @media(max-width:640px){
-  .nav{padding:0 14px;justify-content:space-between;gap:0}
-  .nav-logo{flex:1}
-  .vf-theme-btn{padding:5px 10px;font-size:11px;white-space:nowrap;flex-shrink:0}
+  .nav{padding:0 14px;justify-content:space-between;gap:0;padding-right:58px}
+  .nav-logo{flex:1;min-width:0}
+  .vf-theme-btn{padding:5px 8px;font-size:11px;white-space:nowrap;flex-shrink:0}
+}
+@media(max-width:380px){
+  .nav{padding-right:52px}
+  .vf-theme-btn{font-size:10px;padding:4px 6px}
 }
 
 /* Process 5 étapes : 2 colonnes sur tablette, 1 sur mobile */

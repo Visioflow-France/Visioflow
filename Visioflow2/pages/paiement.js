@@ -14,7 +14,7 @@ const PACKS = {
 }
 
 /* ── Formulaire avec tous les moyens de paiement Stripe ── */
-function CheckoutForm({ pack, restaurantName, onSuccess }) {
+function CheckoutForm({ pack, restaurantName, onSuccess, livePrice }) {
   const stripe   = useStripe()
   const elements = useElements()
   const [loading, setLoading] = useState(false)
@@ -99,7 +99,7 @@ function CheckoutForm({ pack, restaurantName, onSuccess }) {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
             </svg>
-            Payer {packData.price}
+            Payer {livePrice || packData.price}
           </>
         )}
       </button>
@@ -122,6 +122,7 @@ export default function Paiement() {
   const [loading, setLoading]           = useState(true)
   const [apiError, setApiError]         = useState('')
   const [paid, setPaid]                 = useState(false)
+  const [livePrice, setLivePrice]       = useState(null) // prix réel depuis Firebase
 
   useEffect(() => {
     if (!router.isReady) return
@@ -137,6 +138,8 @@ export default function Paiement() {
         if (data.error) { setApiError('Erreur Stripe : ' + data.error); setLoading(false); return }
         if (!data.clientSecret) { setApiError('Clé manquante — vérifiez .env.local et redémarrez.'); setLoading(false); return }
         setClientSecret(data.clientSecret)
+        // Mettre à jour le prix affiché avec le montant réel facturé
+        if (data.amount) setLivePrice((data.amount / 100).toFixed(0) + ' €')
         setLoading(false)
       })
       .catch(err => { setApiError('Erreur réseau : ' + err.message); setLoading(false) })
@@ -205,7 +208,7 @@ export default function Paiement() {
               <div style={{ background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)', borderRadius: 14, padding: '18px 24px', marginBottom: 28, textAlign: 'left' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', color: '#fff', fontSize: 15 }}>
                   <span>{packData.label}</span>
-                  <span style={{ fontWeight: 700, color: '#60a5fa' }}>{packData.price}</span>
+                  <span style={{ fontWeight: 700, color: '#60a5fa' }}>{livePrice || packData.price}</span>
                 </div>
               </div>
               <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 28px', borderRadius: 980, background: '#0071E3', color: '#fff', textDecoration: 'none', fontWeight: 700, fontSize: 14 }}>
@@ -240,7 +243,7 @@ export default function Paiement() {
 
                 <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(255,255,255,.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ color: 'rgba(255,255,255,.5)', fontSize: 14 }}>Total TTC</span>
-                  <span style={{ fontFamily: 'Outfit,sans-serif', fontSize: 34, fontWeight: 900, color: '#fff' }}>{packData.price}</span>
+                  <span style={{ fontFamily: 'Outfit,sans-serif', fontSize: 34, fontWeight: 900, color: '#fff' }}>{livePrice || packData.price}</span>
                 </div>
 
                 <div style={{ marginTop: 16, padding: '10px 14px', background: 'rgba(52,211,153,.08)', border: '1px solid rgba(52,211,153,.2)', borderRadius: 10, fontSize: 12, color: '#34d399', lineHeight: 1.6 }}>
@@ -283,6 +286,7 @@ export default function Paiement() {
                   <Elements stripe={stripePromise} options={stripeOptions}>
                     <CheckoutForm
                       pack={pack}
+                      livePrice={livePrice}
                       restaurantName={resto ? decodeURIComponent(resto) : ''}
                       onSuccess={async () => {
                         try {

@@ -31,7 +31,9 @@
       "Bash(npm install *)",
       "Bash(Remove-Item \"C:/Users/clayt/OneDrive/Desktop/Visioflow-Projet/rebuild_av.py\" -ErrorAction SilentlyContinue)",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\clayt\\\\OneDrive\\\\Desktop\\\\Visioflow-Projet\\\\Visioflow2\" -Recurse -Directory)",
-      "Bash(Select-Object -First 30 FullName)"
+      "Bash(Select-Object -First 30 FullName)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\clayt\\\\OneDrive\\\\Desktop\\\\Visioflow-Projet\\\\Visioflow2\" -Recurse -Include \"*.js\", \"*.jsx\", \"*.ts\", \"*.tsx\", \"*.vue\", \"*.html\" -Exclude \"node_modules\")",
+      "Bash(Select-Object -First 50 -ExpandProperty FullName)"
     ]
   }
 }

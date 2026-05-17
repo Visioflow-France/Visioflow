@@ -505,6 +505,38 @@ function DetailPanel({ item, onClose, onStatus, onDelete }) {
         </div>
       )}
 
+      {/* Stripe Connect */}
+      {item.pack === 'premium' && (
+        <div className="db-card" style={{ marginBottom: 14 }}>
+          <div className="db-card-head">💳 Stripe Connect — Paiements restaurant</div>
+          <div style={{ padding: '14px 16px' }}>
+            {item.stripeAccountId ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#22c55e', flexShrink: 0, display: 'inline-block' }} />
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 14 }}>Compte Stripe connecté</div>
+                  <div style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>ID : {item.stripeAccountId}</div>
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 4 }}>Aucun compte Stripe connecté</div>
+                  <div style={{ fontSize: 12, color: '#6b7280' }}>Le restaurant doit connecter son compte pour recevoir les paiements de ses clients.</div>
+                </div>
+                <a
+                  href={`/api/stripe-connect-init?projectId=${item.id}`}
+                  className="db-btn-primary"
+                  style={{ whiteSpace: 'nowrap', flexShrink: 0 }}
+                >
+                  🔗 Connecter Stripe
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         {(item.email || item.cities?.[0]?.email) && (
           <a href={'mailto:' + (item.email || item.cities[0].email)} className="db-btn-primary">
