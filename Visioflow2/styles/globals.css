@@ -435,19 +435,19 @@ body{background:var(--bg);color:var(--text);min-height:100vh;transition:backgrou
   .lp-notif{right:-8px;min-width:180px}
 }
 @media(max-width:600px){
-  .lp-lid{width:260px}
-  .lp-base{width:300px}
-  .lp-foot{width:320px}
-  .lp-notif{right:-4px;min-width:160px;font-size:10px}
+  .lp-lid{width:min(260px,72vw)}
+  .lp-base{width:min(300px,82vw)}
+  .lp-foot{width:min(320px,88vw)}
+  .lp-notif{right:-4px;min-width:min(160px,42vw);font-size:10px}
   .hero-main{grid-template-columns:1fr}
-  .hero-laptop-wrap{transform-origin:top center}
+  .hero-laptop-wrap{transform-origin:top center;margin:0 auto 24px;padding:0 12px;box-sizing:border-box}
 }
 @media(max-width:420px){
-  .lp-lid{width:200px}
-  .lp-base{width:240px}
-  .lp-foot{width:260px}
+  .lp-lid{width:min(200px,68vw)}
+  .lp-base{width:min(240px,78vw)}
+  .lp-foot{width:min(260px,84vw)}
   .lp-notif{display:none}
-  .hero-laptop-wrap{margin-bottom:-20px}
+  .hero-laptop-wrap{margin-bottom:0;padding:0 8px}
 }
 
 /* ── PHONE MOCKUP HERO ──────────────────────────────── */
@@ -2106,7 +2106,7 @@ textarea.form-input{min-height:90px;resize:vertical}
   .hero-actions .ba,.hero-actions .bg{padding:11px 20px;font-size:14px}
   .trust-row{gap:7px;padding:0 12px 50px}
   .tbadge{font-size:11px;padding:6px 12px}
-  .hero-laptop-wrap{max-width:100%;overflow:hidden}
+  .hero-laptop-wrap{max-width:100%;overflow:hidden;padding:0 12px;box-sizing:border-box}
   .hero-right-clean{max-width:100%;overflow:hidden}
 }
 

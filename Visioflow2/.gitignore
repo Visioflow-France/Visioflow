@@ -1,5 +1,6 @@
-node_modules 
-.tmp.driveupload 
+node_modules
+.next
+.tmp.driveupload
 
 .env.local
 .env*.local
