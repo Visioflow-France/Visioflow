@@ -225,20 +225,27 @@ export default function ShowcaseIntro({ onComplete }) {
           margin: 0, transformStyle: "preserve-3d",
           userSelect: "none",
         }}>
-          {BRAND.split("").map((ch, i) => (
-            <span
-              key={i}
-              className="si-letter"
-              style={{
-                display: "inline-block",
-                color: "transparent",
-                background: `linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,${0.60 + (i / BRAND.length) * 0.30}) 100%)`,
-                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                filter: "drop-shadow(0 2px 20px rgba(0,113,227,0.22))",
-              }}
-            >{ch}</span>
-          ))}
+          {BRAND.split("").map((ch, i) => {
+            const isFlow = i >= 5 // "FLOW" commence à l'index 5
+            return (
+              <span
+                key={i}
+                className="si-letter"
+                style={{
+                  display: "inline-block",
+                  color: "transparent",
+                  background: isFlow
+                    ? "linear-gradient(180deg, #60a5fa 0%, #0071E3 100%)"
+                    : `linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,${0.60 + (i / BRAND.length) * 0.30}) 100%)`,
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  filter: isFlow
+                    ? "drop-shadow(0 2px 28px rgba(0,113,227,0.55))"
+                    : "drop-shadow(0 2px 20px rgba(0,113,227,0.22))",
+                }}
+              >{ch}</span>
+            )
+          })}
         </h1>
 
         {/* Ligne déco */}

@@ -52,6 +52,54 @@ async function sendNotificationEmail(formData, docId) {
   })
 }
 
+async function sendConfirmationEmail(formData) {
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey || apiKey.startsWith('re_XXX')) return
+  const clientEmail = formData.email || formData.cities?.[0]?.email
+  if (!clientEmail) return
+
+  const pack = formData.pack === 'premium' ? 'Pack Premium' : 'Pack Essentiel'
+  const resto = formData.restaurantName || (formData.cities?.[0]?.name) || 'votre restaurant'
+
+  const html = `
+    <div style="font-family:sans-serif;max-width:560px;margin:0 auto;background:#0f172a;color:#f1f5f9;padding:32px;border-radius:16px">
+      <div style="text-align:center;margin-bottom:28px">
+        <div style="font-size:40px;margin-bottom:8px">🎉</div>
+        <h1 style="font-size:26px;font-weight:800;margin:0;color:#fff">Commande confirmée !</h1>
+        <p style="color:rgba(255,255,255,.5);margin-top:6px;font-size:14px">Merci pour votre confiance</p>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:20px 24px;margin-bottom:20px">
+        <p style="margin:0 0 12px;font-size:13px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em">Récapitulatif</p>
+        <table style="width:100%;border-collapse:collapse">
+          <tr><td style="padding:6px 0;color:rgba(255,255,255,.5);font-size:13px">Pack</td><td style="padding:6px 0;font-weight:700;color:#60a5fa;text-align:right">${pack}</td></tr>
+          <tr><td style="padding:6px 0;color:rgba(255,255,255,.5);font-size:13px">Restaurant</td><td style="padding:6px 0;font-weight:600;color:#fff;text-align:right">${resto}</td></tr>
+        </table>
+      </div>
+      <div style="background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:12px;padding:16px 20px;margin-bottom:24px">
+        <p style="margin:0;font-size:13px;color:#34d399;line-height:1.7">
+          ✓ Notre équipe vous contacte sous <strong>24h</strong> pour démarrer votre site.<br/>
+          ✓ Livraison en <strong>5 jours ouvrés</strong> maximum.<br/>
+          ✓ Hébergement inclus à vie.
+        </p>
+      </div>
+      <p style="font-size:12px;color:rgba(255,255,255,.25);text-align:center;margin:0">
+        Une question ? Répondez à cet email ou contactez-nous sur <a href="https://visioflow2.vercel.app" style="color:#60a5fa">visioflow.fr</a>
+      </p>
+    </div>
+  `
+
+  await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: process.env.RESEND_FROM || 'VisioFlow <noreply@visioflow.fr>',
+      to: clientEmail,
+      subject: `✅ Commande confirmée — ${pack} pour ${resto}`,
+      html,
+    }),
+  })
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" })
 
@@ -69,6 +117,7 @@ export default async function handler(req, res) {
   fields.paymentDate   = { stringValue: now.toLocaleDateString("fr-FR") }
   fields.status        = { stringValue: "new" }
   fields.createdAt     = { stringValue: now.toISOString() }
+  fields.timestamp     = { timestampValue: now.toISOString() }
 
   try {
     const resp = await fetch(url, {
@@ -86,6 +135,7 @@ export default async function handler(req, res) {
     const docId = doc.name && doc.name.split("/").pop() || ""
 
     sendNotificationEmail(formData, docId).catch(() => {})
+    sendConfirmationEmail(formData).catch(() => {})
 
     res.status(200).json({ success: true, docId })
   } catch (err) {

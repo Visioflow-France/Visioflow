@@ -113,6 +113,90 @@ function CheckoutForm({ pack, restaurantName, onSuccess, livePrice }) {
   )
 }
 
+/* ── Auth gate ── */
+function AuthGate({ onAuth }) {
+  const [tab, setTab]       = useState('login')
+  const [name, setName]     = useState('')
+  const [email, setEmail]   = useState('')
+  const [password, setPass] = useState('')
+  const [confirm, setConf]  = useState('')
+  const [error, setError]   = useState('')
+  const [loading, setLoading] = useState(false)
+
+  async function submit(e) {
+    e.preventDefault()
+    setError('')
+    if (tab === 'register' && password !== confirm) return setError('Les mots de passe ne correspondent pas.')
+    setLoading(true)
+    const route = tab === 'login' ? '/api/auth/login' : '/api/auth/register'
+    const body = tab === 'login' ? { email, password } : { email, password, name }
+    try {
+      const r = await fetch(route, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      const data = await r.json()
+      if (!r.ok) { setError(data.error || 'Erreur'); setLoading(false); return }
+      try { sessionStorage.setItem('vf_client', JSON.stringify({ token: data.token, email: data.email, name: data.name })) } catch {}
+      onAuth(data)
+    } catch {
+      setError('Erreur réseau')
+      setLoading(false)
+    }
+  }
+
+  const inp = { background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 12, padding: '12px 16px', color: '#fff', fontSize: 14, width: '100%', outline: 'none', fontFamily: 'Inter,sans-serif', boxSizing: 'border-box' }
+  const lbl = { display: 'block', fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,.4)', marginBottom: 5, textTransform: 'uppercase', letterSpacing: '.06em' }
+
+  return (
+    <div style={{ width: '100%', maxWidth: 420 }}>
+      <div style={{ background: '#141724', border: '1px solid rgba(255,255,255,.1)', borderRadius: 24, overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,.4)' }}>
+        <div style={{ padding: '36px 32px 0', textAlign: 'center' }}>
+          <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg,#0071E3,#38bdf8)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 24 }}>👤</div>
+          <div style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 24, color: '#fff', marginBottom: 4 }}>Espace client</div>
+          <div style={{ fontSize: 13, color: 'rgba(255,255,255,.35)', marginBottom: 24, lineHeight: 1.5 }}>Connectez-vous pour finaliser votre commande</div>
+        </div>
+
+        <div style={{ display: 'flex', background: 'rgba(255,255,255,.05)', borderRadius: 12, padding: 3, margin: '0 32px 24px' }}>
+          {['login','register'].map(t => (
+            <button key={t} onClick={() => { setTab(t); setError('') }}
+              style={{ flex: 1, padding: '10px', border: 'none', borderRadius: 10, fontFamily: 'Inter,sans-serif', fontSize: 13, fontWeight: 600, cursor: 'pointer', transition: 'all .2s',
+                background: tab === t ? '#0071E3' : 'none', color: tab === t ? '#fff' : 'rgba(255,255,255,.4)' }}>
+              {t === 'login' ? 'Connexion' : 'Inscription'}
+            </button>
+          ))}
+        </div>
+
+        <form onSubmit={submit} style={{ padding: '0 32px 28px' }}>
+          {error && <div style={{ background: 'rgba(239,68,68,.12)', border: '1px solid rgba(239,68,68,.25)', borderRadius: 10, padding: '10px 14px', fontSize: 12, color: '#f87171', marginBottom: 14 }}>⚠️ {error}</div>}
+
+          {tab === 'register' && (
+            <div style={{ marginBottom: 14 }}>
+              <label style={lbl}>Votre nom</label>
+              <input style={inp} type="text" placeholder="Prénom Nom" value={name} onChange={e => setName(e.target.value)} required />
+            </div>
+          )}
+          <div style={{ marginBottom: 14 }}>
+            <label style={lbl}>Email</label>
+            <input style={inp} type="email" placeholder="votre@email.com" value={email} onChange={e => setEmail(e.target.value)} required />
+          </div>
+          <div style={{ marginBottom: tab === 'register' ? 14 : 20 }}>
+            <label style={lbl}>Mot de passe</label>
+            <input style={inp} type="password" placeholder="••••••••" value={password} onChange={e => setPass(e.target.value)} required />
+          </div>
+          {tab === 'register' && (
+            <div style={{ marginBottom: 20 }}>
+              <label style={lbl}>Confirmer le mot de passe</label>
+              <input style={inp} type="password" placeholder="••••••••" value={confirm} onChange={e => setConf(e.target.value)} required />
+            </div>
+          )}
+          <button type="submit" disabled={loading}
+            style={{ width: '100%', padding: 14, border: 'none', borderRadius: 14, background: loading ? '#6b7280' : '#0071E3', color: '#fff', fontSize: 15, fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', fontFamily: 'Inter,sans-serif' }}>
+            {loading ? 'Chargement…' : tab === 'login' ? 'Se connecter →' : 'Créer mon compte →'}
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
+
 /* ── Page principale ── */
 export default function Paiement() {
   const router   = useRouter()
@@ -123,11 +207,45 @@ export default function Paiement() {
   const [loading, setLoading]           = useState(true)
   const [apiError, setApiError]         = useState('')
   const [paid, setPaid]                 = useState(false)
-  const [livePrice, setLivePrice]       = useState(null) // prix réel depuis Firebase
+  const [livePrice, setLivePrice]       = useState(null)
+  const [authUser, setAuthUser]         = useState(null)   // { email, name, token }
+  const [authChecked, setAuthChecked]   = useState(false)
+
+  // Restore session client
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem('vf_client')
+      if (saved) setAuthUser(JSON.parse(saved))
+    } catch {}
+    setAuthChecked(true)
+  }, [])
 
   useEffect(() => {
-    if (!router.isReady) return
-    if (success) { setLoading(false); return }
+    if (!router.isReady || !authChecked) return
+    if (!authUser && !success) return // attendre l'auth avant de charger Stripe
+
+    if (success) {
+      // Après un redirect Stripe (ex: 3DS), sauvegarder le formulaire en attente
+      try {
+        const clientEmail = authUser?.email || ''
+        const raw = sessionStorage.getItem('vf_pending_form')
+        const formData = raw ? { ...JSON.parse(raw), email: clientEmail } : {
+          type: 'direct_payment', pack,
+          restaurantName: resto ? decodeURIComponent(resto) : '',
+          email: clientEmail,
+        }
+        fetch('/api/save-form', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ formData }),
+        }).catch(() => {})
+        if (raw) sessionStorage.removeItem('vf_pending_form')
+      } catch (e) {
+        console.warn('sessionStorage indisponible:', e.message)
+      }
+      setLoading(false)
+      return
+    }
 
     fetch('/api/create-payment-intent', {
       method: 'POST',
@@ -144,7 +262,7 @@ export default function Paiement() {
         setLoading(false)
       })
       .catch(err => { setApiError('Erreur réseau : ' + err.message); setLoading(false) })
-  }, [router.isReady, pack, resto, success])
+  }, [router.isReady, pack, resto, success, authUser, authChecked])
 
   const stripeOptions = {
     clientSecret,
@@ -198,6 +316,17 @@ export default function Paiement() {
 
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 16px' }}>
 
+          {/* Auth gate — si pas connecté et pas en mode succès */}
+          {authChecked && !authUser && !isSuccess ? (
+            <div className="fade-up">
+              <div style={{ textAlign: 'center', marginBottom: 24 }}>
+                <div style={{ fontFamily: 'Outfit,sans-serif', fontSize: 28, fontWeight: 900, color: '#fff', marginBottom: 8 }}>Presque terminé !</div>
+                <div style={{ fontSize: 14, color: 'rgba(255,255,255,.5)' }}>Créez votre espace client pour finaliser votre commande</div>
+              </div>
+              <AuthGate onAuth={user => setAuthUser(user)} />
+            </div>
+          ) : null}
+
           {/* Succès */}
           {isSuccess ? (
             <div className="fade-up" style={{ textAlign: 'center', maxWidth: 480 }}>
@@ -219,7 +348,7 @@ export default function Paiement() {
                 ← Retour à l'accueil
               </a>
             </div>
-          ) : (
+          ) : authUser ? (
             <div className="pay-grid fade-up" style={{ width: '100%', maxWidth: 900, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
 
               {/* Gauche — récap commande */}
@@ -299,15 +428,16 @@ export default function Paiement() {
                       onSuccess={async () => {
                         try {
                           const raw = sessionStorage.getItem('vf_pending_form')
-                          if (raw) {
-                            const formData = JSON.parse(raw)
-                            await fetch('/api/save-form', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({ formData }),
-                            }).catch(() => {})
-                            sessionStorage.removeItem('vf_pending_form')
-                          }
+                          const clientEmail = authUser?.email || ''
+                          const formData = raw
+                            ? { ...JSON.parse(raw), email: clientEmail }
+                            : { type: 'direct_payment', pack, restaurantName: resto ? decodeURIComponent(resto) : '', email: clientEmail }
+                          await fetch('/api/save-form', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ formData }),
+                          }).catch(() => {})
+                          if (raw) sessionStorage.removeItem('vf_pending_form')
                         } catch (e) {
                           console.warn('Erreur sauvegarde formulaire:', e.message)
                         }
@@ -319,7 +449,7 @@ export default function Paiement() {
               </div>
 
             </div>
-          )}
+          ) : null}
         </div>
       </div>
       <AssistanceWidget />

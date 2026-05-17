@@ -164,7 +164,12 @@ export default function Dashboard() {
 
   const allCount = subs.length + forms.length
   const newCount = [...subs, ...forms].filter(x => !x.status || x.status === 'new').length
-  const revenue  = [...subs, ...forms].reduce((a, s) => a + (PACK_PRICE[s.pack] || 0), 0)
+  function packPrice(pack) {
+    const fromCfg = cfg.packs?.[pack]?.price
+    if (fromCfg) { const n = parseFloat(String(fromCfg).replace(/[^0-9.]/g, '')); if (n > 0) return n }
+    return PACK_PRICE[pack] || 0
+  }
+  const revenue = [...subs, ...forms].reduce((a, s) => a + packPrice(s.pack), 0)
 
   const TABS = [
     { id: 'overview', icon: '📊', label: "Vue d'ensemble" },
@@ -810,7 +815,8 @@ function buildAIPrompt(group, cfg) {
   lines.push('')
   lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
   lines.push(`BRIEF CLIENT — ${restaurantName.toUpperCase()}`)
-  lines.push(`Pack : ${PACK_LABEL[pack] || pack} (${PACK_PRICE[pack] || '?'}€) | ${new Date().toLocaleDateString('fr-FR')}`)
+  const packPriceDisplay = cfg?.packs?.[pack]?.price || (PACK_PRICE[pack] + ' €') || '?'
+  lines.push(`Pack : ${PACK_LABEL[pack] || pack} (${packPriceDisplay}) | ${new Date().toLocaleDateString('fr-FR')}`)
   lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
   lines.push('')
 
