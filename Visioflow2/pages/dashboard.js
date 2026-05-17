@@ -1,13 +1,15 @@
 ﻿import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
 
-const FB_CONFIG = {
-  apiKey:            'AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY',
-  authDomain: 'visioflow-cb6eb-9d051.firebaseapp.com',
-  projectId: 'visioflow-cb6eb-9d051',
-  storageBucket:     'visioflow-cb6eb.firebasestorage.app',
-  messagingSenderId: '208625257783',
-  appId:             '1:208625257783:web:903429389d81159833deb2'
+const ADMIN_TOKEN = process.env.NEXT_PUBLIC_ADMIN_TOKEN || ''
+
+function adminFetch(path, body) {
+  const opts = {
+    headers: { 'x-admin-token': ADMIN_TOKEN, 'content-type': 'application/json' },
+  }
+  if (body) { opts.method = 'POST'; opts.body = JSON.stringify(body) }
+  else opts.method = 'GET'
+  return fetch(path, opts).then(r => r.json())
 }
 
 const PACK_COLOR = { essentiel: '#6b7280', premium: '#0071E3' }
@@ -67,7 +69,6 @@ function StatusBadge({ status }) {
    DASHBOARD PRINCIPAL
    ════════════════════════════════════════════════════════════════ */
 export default function Dashboard() {
-  const [dbReady, setDbReady]       = useState(false)
   const [tab, setTab]               = useState('overview')
   const [subs, setSubs]             = useState([])
   const [forms, setForms]           = useState([])
@@ -79,53 +80,23 @@ export default function Dashboard() {
   const [loading, setLoading]       = useState(true)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [live, setLive]             = useState(false)
-  const dbRef = useRef(null)
-  const unsubRef = useRef([])
+
+  async function loadData() {
+    try {
+      const data = await adminFetch('/api/admin/data')
+      if (data.error) { setLive(false); return }
+      if (data.config) setCfg(deepMerge(DEFAULT_CFG, data.config))
+      setSubs(data.submissions || [])
+      setForms(data.forms || [])
+      setLive(true)
+    } catch { setLive(false) }
+  }
 
   useEffect(() => {
-    const tryInit = () => {
-      if (typeof window === 'undefined' || !window.firebase) { setTimeout(tryInit, 300); return }
-      try {
-        if (!window.firebase.apps?.length) window.firebase.initializeApp(FB_CONFIG)
-        dbRef.current = window.firebase.firestore()
-        setDbReady(true)
-        setLoading(false)
-      } catch (e) { console.error('Firebase dashboard:', e); setLoading(false) }
-    }
-    tryInit()
-    return () => {
-      unsubRef.current.forEach(fn => fn())
-      unsubRef.current = []
-    }
+    loadData().finally(() => setLoading(false))
+    const interval = setInterval(loadData, 15000)
+    return () => clearInterval(interval)
   }, [])
-
-  useEffect(() => {
-    if (!dbReady) return
-    const db = dbRef.current
-    if (!db) return
-
-    // Config : lecture unique
-    db.collection('site_config').doc('main').get()
-      .then(doc => { if (doc.exists) setCfg(deepMerge(DEFAULT_CFG, doc.data())) })
-      .catch(e => console.error('config:', e))
-
-    // Submissions : listener temps réel
-    const u1 = db.collection('submissions').orderBy('timestamp', 'desc').limit(200)
-      .onSnapshot(snap => {
-        const arr = []; snap.forEach(d => arr.push({ id: d.id, ...d.data() }))
-        setSubs(arr); setLive(true)
-      }, e => { console.error('subs:', e); setLive(false) })
-
-    // Formulaires : listener temps réel
-    const u2 = db.collection('form_submissions').orderBy('timestamp', 'desc').limit(200)
-      .onSnapshot(snap => {
-        const arr = []; snap.forEach(d => arr.push({ id: d.id, ...d.data() }))
-        setForms(arr); setLive(true)
-      }, e => { console.error('forms:', e); setLive(false) })
-
-    unsubRef.current = [u1, u2]
-    return () => { u1(); u2(); unsubRef.current = [] }
-  }, [dbReady])
 
   
   function showToast(msg) {
@@ -146,11 +117,10 @@ export default function Dashboard() {
   }
 
   async function saveCfg() {
-    const db = dbRef.current
-    if (!db) return
     setSaving(true)
     try {
-      await db.collection('site_config').doc('main').set(cfg, { merge: true })
+      const res = await adminFetch('/api/admin/config', { cfg })
+      if (res.error) throw new Error(res.error)
       setDirty(false)
       showToast('Configuration sauvegardée ✓')
     } catch (e) { showToast('Erreur : ' + e.message) }
@@ -158,26 +128,25 @@ export default function Dashboard() {
   }
 
   async function updateStatus(collection, id, status) {
-    const db = dbRef.current
-    if (!db) return
     try {
-      await db.collection(collection).doc(id).update({ status })
+      const res = await adminFetch('/api/admin/status', { collection, id, status })
+      if (res.error) throw new Error(res.error)
       if (collection === 'submissions') setSubs(p => p.map(s => s.id === id ? { ...s, status } : s))
       else setForms(p => p.map(s => s.id === id ? { ...s, status } : s))
       showToast('Statut mis à jour')
-    } catch (e) { showToast('Erreur') }
+    } catch { showToast('Erreur') }
   }
 
   async function deleteEntry(collection, id) {
-    const db = dbRef.current
-    if (!db || !confirm('Supprimer définitivement cette entrée ?')) return
+    if (!confirm('Supprimer définitivement cette entrée ?')) return
     try {
-      await db.collection(collection).doc(id).delete()
+      const res = await adminFetch('/api/admin/delete', { collection, id })
+      if (res.error) throw new Error(res.error)
       if (collection === 'submissions') setSubs(p => p.filter(s => s.id !== id))
       else setForms(p => p.filter(s => s.id !== id))
       if (detail?.id === id) setDetail(null)
       showToast('Entrée supprimée')
-    } catch (e) { showToast('Erreur') }
+    } catch { showToast('Erreur') }
   }
 
   function exportJSON() {

@@ -58,7 +58,7 @@ export default async function handler(req, res) {
   const { formData } = req.body
   if (!formData) return res.status(400).json({ error: "formData manquant" })
 
-  const projectId = process.env.FIREBASE_PROJECT_ID || "visioflow-cb6eb"
+  const projectId = process.env.FIREBASE_PROJECT_ID || "visioflow-cb6eb-9d051"
   const apiKey    = process.env.FIREBASE_API_KEY    || "AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY"
   const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/form_submissions?key=${apiKey}`
 
