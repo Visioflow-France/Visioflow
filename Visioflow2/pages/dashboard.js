@@ -77,6 +77,7 @@ export default function Dashboard() {
   const [tab, setTab]               = useState('overview')
   const [subs, setSubs]             = useState([])
   const [forms, setForms]           = useState([])
+  const [clientProjects, setClientProjects] = useState([])
   const [cfg, setCfg]               = useState(DEFAULT_CFG)
   const [dirty, setDirty]           = useState(false)
   const [saving, setSaving]         = useState(false)
@@ -93,6 +94,7 @@ export default function Dashboard() {
       if (data.config) setCfg(deepMerge(DEFAULT_CFG, data.config))
       setSubs(data.submissions || [])
       setForms(data.forms || [])
+      setClientProjects(data.clientProjects || [])
       setLive(true)
     } catch { setLive(false) }
   }
@@ -137,6 +139,7 @@ export default function Dashboard() {
       const res = await adminFetch('/api/admin/status', { collection, id, status })
       if (res.error) throw new Error(res.error)
       if (collection === 'submissions') setSubs(p => p.map(s => s.id === id ? { ...s, status } : s))
+      else if (collection === 'client_projects') setClientProjects(p => p.map(s => s.id === id ? { ...s, status } : s))
       else setForms(p => p.map(s => s.id === id ? { ...s, status } : s))
       showToast('Statut mis à jour')
     } catch { showToast('Erreur') }
@@ -148,6 +151,7 @@ export default function Dashboard() {
       const res = await adminFetch('/api/admin/delete', { collection, id })
       if (res.error) throw new Error(res.error)
       if (collection === 'submissions') setSubs(p => p.filter(s => s.id !== id))
+      else if (collection === 'client_projects') setClientProjects(p => p.filter(s => s.id !== id))
       else setForms(p => p.filter(s => s.id !== id))
       if (detail?.id === id) setDetail(null)
       showToast('Entrée supprimée')
@@ -238,7 +242,7 @@ export default function Dashboard() {
 
         <main className="db-main">
           {tab === 'overview' && <OverviewTab subs={subs} forms={forms} allCount={allCount} newCount={newCount} revenue={revenue} live={live} onGoClients={() => { setTab('clients'); setDetail(null) }} />}
-          {tab === 'clients'  && <ClientsTab subs={subs} forms={forms} detail={detail} setDetail={setDetail} onStatus={updateStatus} onDelete={deleteEntry} />}
+          {tab === 'clients'  && <ClientsTab subs={subs} forms={forms} clientProjects={clientProjects} detail={detail} setDetail={setDetail} onStatus={updateStatus} onDelete={deleteEntry} />}
           {tab === 'ai'       && <AiTab subs={subs} forms={forms} cfg={cfg} />}
           {tab === 'edit'     && <EditTab cfg={cfg} update={updateCfg} save={saveCfg} dirty={dirty} saving={saving} />}
           {tab === 'settings' && <SettingsTab onExport={exportJSON} subsCount={subs.length} formsCount={forms.length} />}
@@ -338,17 +342,23 @@ function OverviewTab({ subs, forms, allCount, newCount, revenue, live, onGoClien
 /* ════════════════════════════════════════════════════════════════
    CLIENTS
    ════════════════════════════════════════════════════════════════ */
-function ClientsTab({ subs, forms, detail, setDetail, onStatus, onDelete }) {
+function ClientsTab({ subs, forms, clientProjects, detail, setDetail, onStatus, onDelete }) {
   const [filter, setFilter] = useState('all')
 
   const allItems = [
     ...subs.map(s => ({ ...s, _type: 'config', _col: 'submissions' })),
-    ...forms.map(s => ({ ...s, _type: 'form', _col: 'form_submissions' }))
-  ].sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0))
+    ...forms.map(s => ({ ...s, _type: 'form', _col: 'form_submissions' })),
+    ...( clientProjects || []).map(s => ({ ...s, _type: 'project', _col: 'client_projects', restaurantName: s.siteName || s.restaurantName })),
+  ].sort((a, b) => {
+    const ta = b.timestamp?.seconds || (b.createdAt ? new Date(b.createdAt).getTime() / 1000 : 0)
+    const tb = a.timestamp?.seconds || (a.createdAt ? new Date(a.createdAt).getTime() / 1000 : 0)
+    return ta - tb
+  })
 
   const filtered = filter === 'all'       ? allItems
     : filter === 'config'                 ? allItems.filter(x => x._type === 'config')
     : filter === 'form'                   ? allItems.filter(x => x._type === 'form')
+    : filter === 'project'                ? allItems.filter(x => x._type === 'project')
     : allItems.filter(x => (x.status || 'new') === filter)
 
   if (detail) {
@@ -363,7 +373,7 @@ function ClientsTab({ subs, forms, detail, setDetail, onStatus, onDelete }) {
       </div>
 
       <div className="db-filters">
-        {[['all', 'Tous'], ['config', 'Configurations builder'], ['form', 'Formulaires complets'], ['new', 'Nouveaux'], ['contacted', 'Contactés'], ['completed', 'Terminés']].map(([v, l]) => (
+        {[['all', 'Tous'], ['config', 'Builder'], ['form', 'Formulaire'], ['project', 'Popup form'], ['new', 'Nouveaux'], ['contacted', 'Contactés'], ['completed', 'Terminés']].map(([v, l]) => (
           <button key={v} onClick={() => setFilter(v)} className={'db-filter-btn' + (filter === v ? ' active' : '')}>{l}</button>
         ))}
       </div>

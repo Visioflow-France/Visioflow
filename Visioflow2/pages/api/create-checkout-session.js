@@ -60,7 +60,8 @@ export default async function handler(req, res) {
       }],
       customer_email: email || undefined,
       client_reference_id: clientReferenceId || pack,
-      success_url: origin + '/?paiement=success&pack=' + pack,
+      metadata: { pack },
+      success_url: origin + '/?paiement=success&pack=' + pack + '&session_id={CHECKOUT_SESSION_ID}',
       cancel_url:  origin + '/?paiement=cancel',
       locale: 'fr',
     })

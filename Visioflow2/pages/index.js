@@ -1936,14 +1936,99 @@ window.doClientRegister = function(){
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errT.textContent='Email invalide.'; err.classList.add('show'); return; }
   const accounts = getClientAccounts();
   if(accounts.find(a=>a.email===email)){ errT.textContent='Un compte existe d\u00e9j\u00e0 avec cet email.'; err.classList.add('show'); return; }
-  accounts.push({name, email, password:pw, createdAt:new Date().toLocaleDateString('fr-FR')});
+  accounts.push({name, email, password:pw, createdAt:new Date().toLocaleDateString('fr-FR'), verified:false});
   saveClientAccounts(accounts);
-  suc.classList.add('show');
+  // Envoyer le code de vérification
+  fetch('/api/auth/send-verification', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  }).catch(function(){});
+  // Afficher la modale de vérification
   document.getElementById('cl-reg-name').value='';
   document.getElementById('cl-reg-email').value='';
   document.getElementById('cl-reg-pw').value='';
   document.getElementById('cl-reg-pw2').value='';
-  setTimeout(()=>{ switchClientTab('login'); document.getElementById('cl-log-email').value=email; },1500);
+  showVerificationModal(email, name);
+};
+
+function showVerificationModal(email, name) {
+  var existing = document.getElementById('vf-verif-modal');
+  if(existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = 'vf-verif-modal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px';
+  modal.innerHTML = `
+    <div style="background:#141724;border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:36px 32px;max-width:400px;width:100%;box-shadow:0 40px 80px rgba(0,0,0,.5)">
+      <div style="text-align:center;margin-bottom:24px">
+        <div style="font-size:36px;margin-bottom:10px">🔐</div>
+        <div style="font-family:Outfit,sans-serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">Vérifiez votre email</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6">Un code à 6 chiffres a été envoyé à<br><strong style="color:#60a5fa">${email}</strong></div>
+      </div>
+      <div id="vf-verif-error" style="display:none;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:10px 14px;font-size:12px;color:#f87171;margin-bottom:14px"></div>
+      <input id="vf-verif-code" type="text" inputmode="numeric" maxlength="6" placeholder="000000"
+        style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;color:#fff;font-size:28px;font-weight:700;letter-spacing:10px;text-align:center;font-family:monospace;outline:none;margin-bottom:16px"
+        oninput="this.value=this.value.replace(/\\D/g,'').slice(0,6)"/>
+      <button onclick="window.submitVerifCode('${email}','${name}')"
+        style="width:100%;padding:14px;border:none;border-radius:14px;background:#0071E3;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin-bottom:12px">
+        Confirmer →
+      </button>
+      <div style="text-align:center">
+        <button id="vf-verif-resend" onclick="window.resendVerifCode('${email}')"
+          style="background:none;border:none;color:#60a5fa;font-size:13px;cursor:pointer;font-family:Inter,sans-serif">
+          Renvoyer le code
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  setTimeout(function(){ var i=document.getElementById('vf-verif-code'); if(i) i.focus(); }, 100);
+}
+
+window.submitVerifCode = async function(email, name) {
+  var codeEl = document.getElementById('vf-verif-code');
+  var errEl  = document.getElementById('vf-verif-error');
+  var code   = codeEl ? codeEl.value.trim() : '';
+  if(code.length < 6){ if(errEl){ errEl.textContent='Entrez le code à 6 chiffres.'; errEl.style.display='block'; } return; }
+  if(errEl) errEl.style.display='none';
+  try {
+    var r = await fetch('/api/auth/verify-code', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, code }),
+    });
+    var data = await r.json();
+    if(!r.ok){ if(errEl){ errEl.textContent = data.error || 'Code invalide.'; errEl.style.display='block'; } return; }
+    // Marquer le compte comme vérifié dans localStorage
+    var accounts = getClientAccounts();
+    var acc = accounts.find(function(a){ return a.email===email; });
+    if(acc){ acc.verified=true; saveClientAccounts(accounts); }
+    // Connecter l'utilisateur
+    clientUser = { name: name||data.name||'', email: email };
+    try{ localStorage.setItem('vf_client_session', JSON.stringify(clientUser)); }catch(e){}
+    var modal = document.getElementById('vf-verif-modal');
+    if(modal) modal.remove();
+    updateClientUI();
+    showPage('mon-compte');
+  } catch(e) {
+    if(errEl){ errEl.textContent='Erreur réseau. Réessayez.'; errEl.style.display='block'; }
+  }
+};
+
+window.resendVerifCode = async function(email) {
+  var btn = document.getElementById('vf-verif-resend');
+  if(btn){ btn.disabled=true; btn.style.color='rgba(255,255,255,.2)'; }
+  await fetch('/api/auth/send-verification', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ email }),
+  }).catch(function(){});
+  var countdown = 30;
+  var interval = setInterval(function(){
+    countdown--;
+    if(btn) btn.textContent = 'Renvoyer dans '+countdown+'s';
+    if(countdown <= 0){
+      clearInterval(interval);
+      if(btn){ btn.textContent='Renvoyer le code'; btn.disabled=false; btn.style.color='#60a5fa'; }
+    }
+  }, 1000);
 };
 
 window.doClientLogout = function(){
@@ -1997,6 +2082,8 @@ function renderMonCompte(){
   const cart = getClientCart(clientUser.email);
   const orders = getClientOrders(clientUser.email);
   const total = cart.reduce((s,i)=>s+parseFloat(i.price),0).toFixed(2);
+  // Charger les projets VisioFlow en async
+  loadClientProjects();
 
   let cartItemsHTML = '';
   if(cart.length === 0){
@@ -2035,6 +2122,15 @@ function renderMonCompte(){
       <div class="mc-info">
         <h1>${clientUser.name}</h1>
         <p>${clientUser.email}</p>
+      </div>
+    </div>
+
+    <div class="mc-section" id="mc-projects-section">
+      <div class="mc-section-head">
+        <div class="mc-section-title">\uD83C\uDF10 Mes sites command\u00E9s</div>
+      </div>
+      <div class="mc-section-body" id="mc-projects-body">
+        <div class="mc-empty" style="padding:20px 0"><div style="font-size:20px;margin-bottom:6px">\u23F3</div>Chargement\u2026</div>
       </div>
     </div>
 
@@ -2079,6 +2175,162 @@ function renderMonCompte(){
 }
 
 /* ===== 10. CART ACTIONS ===== */
+var _clientProjectsCache = [];
+
+async function loadClientProjects(){
+  var container = document.getElementById('mc-projects-body');
+  if(!container || !clientUser) return;
+  try {
+    var r = await fetch('/api/public/my-projects', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: clientUser.email }),
+    });
+    var data = await r.json();
+    var projects = data.projects || [];
+    _clientProjectsCache = projects;
+
+    var STATUS = {
+      new:       { label: 'Commande reçue',  color: '#0071E3', step: 1 },
+      viewed:    { label: 'Dossier en cours', color: '#f59e0b', step: 2 },
+      contacted: { label: 'En production',   color: '#a855f7', step: 3 },
+      completed: { label: 'Site livré ✓',    color: '#10b981', step: 4 },
+    };
+    var STEPS = ['Commande reçue', 'Dossier en cours', 'En production', 'Site livré'];
+
+    if(projects.length === 0){
+      container.innerHTML = '<div class="mc-empty"><div style="font-size:20px;margin-bottom:6px">🌐</div>Aucun site commandé pour le moment.<br/><span style="font-size:11px;color:rgba(255,255,255,.25)">Votre commande apparaîtra ici après le paiement.</span></div>';
+      return;
+    }
+
+    container.innerHTML = projects.map(function(p, idx){
+      var s = STATUS[p.status] || STATUS.new;
+      var packLabel = p.pack === 'premium' ? 'Pack Premium' : 'Pack Essentiel';
+      var date = p.createdAt ? new Date(p.createdAt).toLocaleDateString('fr-FR') : '';
+      var stepsHtml = STEPS.map(function(lbl, i){
+        var done = (i + 1) <= s.step;
+        return '<div style="display:flex;align-items:center;gap:5px;flex:1;min-width:0">'
+          + '<div style="width:18px;height:18px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;'
+          + (done ? 'background:'+s.color+';color:#fff' : 'background:rgba(255,255,255,.07);color:rgba(255,255,255,.2)')
+          + '">' + (done ? '✓' : (i+1)) + '</div>'
+          + '<div style="font-size:10px;color:'+(done?'rgba(255,255,255,.65)':'rgba(255,255,255,.18)')+';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + lbl + '</div>'
+          + (i < STEPS.length - 1 ? '<div style="flex:1;height:1px;background:'+(done&&s.step>i+1?s.color:'rgba(255,255,255,.07)')+';min-width:4px"></div>' : '')
+          + '</div>';
+      }).join('');
+
+      return '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 20px;margin-bottom:12px">'
+        + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:10px">'
+        +   '<div style="min-width:0">'
+        +     '<div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:3px">' + (p.siteName || 'Site web') + '</div>'
+        +     '<div style="font-size:11px;color:rgba(255,255,255,.3)">' + packLabel + (date ? ' · ' + date : '') + '</div>'
+        +   '</div>'
+        +   '<div style="padding:4px 10px;border-radius:980px;font-size:11px;font-weight:700;background:'+s.color+'22;color:'+s.color+';white-space:nowrap;flex-shrink:0">' + s.label + '</div>'
+        + '</div>'
+        + '<div style="display:flex;align-items:center;gap:3px;overflow:hidden;margin-bottom:14px">' + stepsHtml + '</div>'
+        + '<button onclick="window.showProjectModal('+idx+')" style="width:100%;padding:9px 14px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.75);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px">'
+        +   '📋 Voir mon projet'
+        + '</button>'
+        + '</div>';
+    }).join('');
+  } catch(e) {
+    var c2 = document.getElementById('mc-projects-body');
+    if(c2) c2.innerHTML = '<div class="mc-empty">Impossible de charger vos projets. Réessayez plus tard.</div>';
+  }
+}
+
+window.showProjectModal = function(idx) {
+  var p = _clientProjectsCache[idx];
+  if(!p) return;
+
+  var STATUS = {
+    new:       { label: 'Commande reçue',  color: '#0071E3' },
+    viewed:    { label: 'Dossier en cours', color: '#f59e0b' },
+    contacted: { label: 'En production',   color: '#a855f7' },
+    completed: { label: 'Site livré ✓',    color: '#10b981' },
+  };
+  var s = STATUS[p.status] || STATUS.new;
+  var packLabel = p.pack === 'premium' ? 'Pack Premium' : 'Pack Essentiel';
+  var date = p.createdAt ? new Date(p.createdAt).toLocaleDateString('fr-FR') : '';
+
+  function row(icon, label, val) {
+    if(!val) return '';
+    return '<div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)">'
+      + '<div style="font-size:14px;flex-shrink:0;width:20px;text-align:center">'+icon+'</div>'
+      + '<div style="flex:1;min-width:0">'
+      +   '<div style="font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">'+label+'</div>'
+      +   '<div style="font-size:13px;color:rgba(255,255,255,.85);word-break:break-word">'+val+'</div>'
+      + '</div>'
+      + '</div>';
+  }
+
+  // Menu items
+  var menuHtml = '';
+  if(p.menuCardPhotoUrl) {
+    menuHtml = '<div style="margin-top:4px"><img src="'+p.menuCardPhotoUrl+'" style="max-width:100%;border-radius:8px;border:1px solid rgba(255,255,255,.08)"/></div>';
+  } else if(p.menuItems && p.menuItems.length) {
+    menuHtml = '<div style="margin-top:4px;display:flex;flex-direction:column;gap:4px">'
+      + p.menuItems.map(function(m){
+          return '<div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.7);padding:4px 8px;background:rgba(255,255,255,.04);border-radius:6px">'
+            + '<span>'+(m.category ? '<span style="color:rgba(255,255,255,.3);margin-right:6px">'+m.category+'</span>' : '')+m.name+'</span>'
+            + '<span style="font-weight:600;color:#60a5fa">'+(m.price ? m.price+'€' : '')+'</span>'
+            + '</div>';
+        }).join('')
+      + '</div>';
+  }
+
+  // Réseaux sociaux
+  var socials = [p.instagram&&('Instagram: @'+p.instagram), p.facebook&&('Facebook: '+p.facebook), p.tiktok&&('TikTok: @'+p.tiktok), p.website&&p.website].filter(Boolean).join('<br/>');
+
+  // Livraison
+  var delivery = [p.ubereatsUrl&&'Uber Eats', p.deliverooUrl&&'Deliveroo', p.justEatUrl&&'Just Eat'].filter(Boolean).join(', ');
+
+  var existing = document.getElementById('vf-project-modal');
+  if(existing) existing.remove();
+  var modal = document.createElement('div');
+  modal.id = 'vf-project-modal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:flex;align-items:flex-start;justify-content:center;padding:20px 16px;overflow-y:auto';
+  modal.onclick = function(e){ if(e.target===modal) modal.remove(); };
+  modal.innerHTML = '<div style="background:#141724;border:1px solid rgba(255,255,255,.1);border-radius:20px;width:100%;max-width:520px;overflow:hidden;margin:auto">'
+    // Header
+    + '<div style="background:linear-gradient(135deg,rgba(0,113,227,.15),rgba(168,85,247,.1));padding:24px;border-bottom:1px solid rgba(255,255,255,.07)">'
+    +   '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">'
+    +     '<div>'
+    +       '<div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:4px">' + (p.siteName || 'Mon site') + '</div>'
+    +       '<div style="font-size:12px;color:rgba(255,255,255,.4)">' + packLabel + (date ? ' · Commandé le ' + date : '') + '</div>'
+    +     '</div>'
+    +     '<button onclick="document.getElementById(\'vf-project-modal\').remove()" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.5);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center">×</button>'
+    +   '</div>'
+    +   '<div style="margin-top:14px;display:inline-flex;padding:5px 12px;border-radius:980px;font-size:12px;font-weight:700;background:'+s.color+'22;color:'+s.color+'">'+s.label+'</div>'
+    + '</div>'
+    // Body
+    + '<div style="padding:20px 24px;display:flex;flex-direction:column;gap:2px">'
+    +   '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Votre commande</div>'
+    +   row('📦', 'Pack', packLabel)
+    +   row('🍽️', 'Type de cuisine', p.cuisine)
+    +   row('📍', 'Adresse', p.address)
+    +   row('📞', 'Téléphone', p.phone)
+    +   row('🎨', 'Couleur principale', p.color ? '<span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:'+p.color+';vertical-align:middle;margin-right:6px"></span>'+p.color : '')
+    +   row('📐', 'Mise en page menu', p.layout === 'grille' ? 'Grille de cartes' : p.layout === 'liste' ? 'Liste élégante' : p.layout)
+    +   (delivery ? row('🛵', 'Livraison', delivery) : '')
+    +   (socials ? row('🔗', 'Réseaux sociaux', socials) : '')
+    +   (p.notes || p.story ? row('📝', 'Remarques', (p.notes||p.story)) : '')
+    +   '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.08em;margin-top:14px;margin-bottom:6px">Menu / Carte</div>'
+    +   (p.menuCardPhotoUrl
+        ? '<div>'+menuHtml+'</div>'
+        : (p.menuItems && p.menuItems.length
+           ? menuHtml
+           : '<div style="font-size:12px;color:rgba(255,255,255,.25);padding:8px 0">Aucun menu fourni</div>'
+          )
+       )
+    + '</div>'
+    // Footer
+    + '<div style="padding:16px 24px;border-top:1px solid rgba(255,255,255,.07)">'
+    +   '<button onclick="document.getElementById(\'vf-project-modal\').remove()" style="width:100%;padding:11px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Fermer</button>'
+    + '</div>'
+    + '</div>';
+  document.body.appendChild(modal);
+};
+
 window.removeClientCartItem = function(idx){
   if(!clientUser) return;
   const cart = getClientCart(clientUser.email);
@@ -4597,6 +4849,8 @@ updateAdminAuthUI();
       tiktok:       _ppData.tiktok    || '',
       website:      _ppData.website   || '',
       /* Menu */
+      menuMode:         _ppData.menuMode || 'items',
+      menuCardPhotoUrl: window._menuCardPhotoUrl || '',
       menuItems:    (_ppData.menuItems || []).map(m => ({ name:m.name, price:m.price, category:m.category, photoDataUrl: m.photoDataUrl ? '[photo]' : '' })),
       menuItemCount:(_ppData.menuItems || []).length,
       /* Histoire */
@@ -5146,4 +5400,25 @@ window.closeSitePreview = function(){
 };
 document.addEventListener('keydown', function(e){
   if(e.key === 'Escape') window.closeSitePreview && window.closeSitePreview();
-});}
+});
+
+// ── Stripe Checkout success handler ──────────────────────────────────────────
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('paiement') !== 'success') return;
+  var sessionId = params.get('session_id');
+  window.history.replaceState({}, '', window.location.pathname);
+  var toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:9999;background:#10b981;color:#fff;padding:14px 28px;border-radius:980px;font-family:Inter,sans-serif;font-size:15px;font-weight:600;box-shadow:0 8px 32px rgba(16,185,129,.4);transition:opacity .5s';
+  toast.textContent = '✓ Paiement confirmé ! Un email de confirmation vous a été envoyé.';
+  document.body.appendChild(toast);
+  setTimeout(function(){ toast.style.opacity='0'; setTimeout(function(){ toast.remove(); }, 500); }, 6000);
+  if (sessionId) {
+    fetch('/api/send-confirmation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: sessionId }),
+    }).catch(function(){});
+  }
+})();
+}

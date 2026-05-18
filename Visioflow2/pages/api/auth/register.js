@@ -19,16 +19,24 @@ export default async function handler(req, res) {
     const existing = await db.collection('clients').where('email', '==', email.toLowerCase()).limit(1).get()
     if (!existing.empty) return res.status(409).json({ error: 'Un compte existe déjà avec cet email.' })
 
-    const docRef = await db.collection('clients').add({
+    await db.collection('clients').add({
       email: email.toLowerCase(),
       name: name || '',
       password: hashPassword(password),
+      verified: false,
       createdAt: new Date().toISOString(),
     })
 
-    const token = Buffer.from(JSON.stringify({ id: docRef.id, email: email.toLowerCase(), name: name || '' })).toString('base64')
+    // Déclencher l'envoi du code de vérification
+    const origin = req.headers.origin || 'http://localhost:3000'
+    fetch(`${origin}/api/auth/send-verification`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.toLowerCase() }),
+    }).catch(() => {})
 
-    res.status(200).json({ token, email: email.toLowerCase(), name: name || '' })
+    // Pas de token encore — le client doit d'abord vérifier son email
+    res.status(200).json({ requiresVerification: true, email: email.toLowerCase() })
   } catch (e) {
     console.error('register:', e)
     res.status(500).json({ error: e.message })

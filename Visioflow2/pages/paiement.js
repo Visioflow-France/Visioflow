@@ -115,13 +115,24 @@ function CheckoutForm({ pack, restaurantName, onSuccess, livePrice }) {
 
 /* ── Auth gate ── */
 function AuthGate({ onAuth }) {
-  const [tab, setTab]       = useState('login')
-  const [name, setName]     = useState('')
-  const [email, setEmail]   = useState('')
-  const [password, setPass] = useState('')
-  const [confirm, setConf]  = useState('')
-  const [error, setError]   = useState('')
-  const [loading, setLoading] = useState(false)
+  const [tab, setTab]             = useState('login')
+  const [name, setName]           = useState('')
+  const [email, setEmail]         = useState('')
+  const [password, setPass]       = useState('')
+  const [confirm, setConf]        = useState('')
+  const [error, setError]         = useState('')
+  const [loading, setLoading]     = useState(false)
+  const [verifying, setVerifying] = useState(false) // étape vérification code
+  const [pendingEmail, setPendingEmail] = useState('')
+  const [code, setCode]           = useState('')
+  const [resendCooldown, setResendCooldown] = useState(0)
+
+  // Countdown pour "Renvoyer le code"
+  useState(() => {
+    if (resendCooldown <= 0) return
+    const t = setTimeout(() => setResendCooldown(v => v - 1), 1000)
+    return () => clearTimeout(t)
+  }, [resendCooldown])
 
   async function submit(e) {
     e.preventDefault()
@@ -129,11 +140,19 @@ function AuthGate({ onAuth }) {
     if (tab === 'register' && password !== confirm) return setError('Les mots de passe ne correspondent pas.')
     setLoading(true)
     const route = tab === 'login' ? '/api/auth/login' : '/api/auth/register'
-    const body = tab === 'login' ? { email, password } : { email, password, name }
+    const body  = tab === 'login' ? { email, password } : { email, password, name }
     try {
       const r = await fetch(route, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       const data = await r.json()
       if (!r.ok) { setError(data.error || 'Erreur'); setLoading(false); return }
+      if (data.requiresVerification) {
+        // Inscription → passer à l'étape de vérification
+        setPendingEmail(data.email)
+        setVerifying(true)
+        setResendCooldown(30)
+        setLoading(false)
+        return
+      }
       try { sessionStorage.setItem('vf_client', JSON.stringify({ token: data.token, email: data.email, name: data.name })) } catch {}
       onAuth(data)
     } catch {
@@ -142,9 +161,79 @@ function AuthGate({ onAuth }) {
     }
   }
 
+  async function submitCode(e) {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    try {
+      const r = await fetch('/api/auth/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: pendingEmail, code }),
+      })
+      const data = await r.json()
+      if (!r.ok) { setError(data.error || 'Code invalide'); setLoading(false); return }
+      try { sessionStorage.setItem('vf_client', JSON.stringify({ token: data.token, email: data.email, name: data.name })) } catch {}
+      onAuth(data)
+    } catch {
+      setError('Erreur réseau')
+      setLoading(false)
+    }
+  }
+
+  async function resendCode() {
+    if (resendCooldown > 0) return
+    setError('')
+    setResendCooldown(30)
+    await fetch('/api/auth/send-verification', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: pendingEmail }),
+    }).catch(() => {})
+  }
+
   const inp = { background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 12, padding: '12px 16px', color: '#fff', fontSize: 14, width: '100%', outline: 'none', fontFamily: 'Inter,sans-serif', boxSizing: 'border-box' }
   const lbl = { display: 'block', fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,.4)', marginBottom: 5, textTransform: 'uppercase', letterSpacing: '.06em' }
 
+  // ── Étape vérification code ──
+  if (verifying) return (
+    <div style={{ width: '100%', maxWidth: 420 }}>
+      <div style={{ background: '#141724', border: '1px solid rgba(255,255,255,.1)', borderRadius: 24, overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,.4)' }}>
+        <div style={{ padding: '36px 32px 0', textAlign: 'center' }}>
+          <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg,#0071E3,#38bdf8)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 24 }}>🔐</div>
+          <div style={{ fontFamily: 'Outfit,sans-serif', fontWeight: 800, fontSize: 22, color: '#fff', marginBottom: 4 }}>Vérifiez votre email</div>
+          <div style={{ fontSize: 13, color: 'rgba(255,255,255,.35)', marginBottom: 28, lineHeight: 1.6 }}>
+            Un code à 6 chiffres a été envoyé à<br/>
+            <strong style={{ color: '#60a5fa' }}>{pendingEmail}</strong>
+          </div>
+        </div>
+        <form onSubmit={submitCode} style={{ padding: '0 32px 28px' }}>
+          {error && <div style={{ background: 'rgba(239,68,68,.12)', border: '1px solid rgba(239,68,68,.25)', borderRadius: 10, padding: '10px 14px', fontSize: 12, color: '#f87171', marginBottom: 14 }}>⚠️ {error}</div>}
+          <div style={{ marginBottom: 20 }}>
+            <label style={lbl}>Code de vérification</label>
+            <input
+              style={{ ...inp, fontSize: 28, fontWeight: 700, letterSpacing: 8, textAlign: 'center', fontFamily: 'monospace' }}
+              type="text" inputMode="numeric" maxLength={6} placeholder="000000"
+              value={code} onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              autoFocus required
+            />
+          </div>
+          <button type="submit" disabled={loading || code.length < 6}
+            style={{ width: '100%', padding: 14, border: 'none', borderRadius: 14, background: loading ? '#6b7280' : '#0071E3', color: '#fff', fontSize: 15, fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', fontFamily: 'Inter,sans-serif', marginBottom: 14 }}>
+            {loading ? 'Vérification…' : 'Confirmer →'}
+          </button>
+          <div style={{ textAlign: 'center' }}>
+            <button type="button" onClick={resendCode} disabled={resendCooldown > 0}
+              style={{ background: 'none', border: 'none', color: resendCooldown > 0 ? 'rgba(255,255,255,.2)' : '#60a5fa', fontSize: 13, cursor: resendCooldown > 0 ? 'default' : 'pointer', fontFamily: 'Inter,sans-serif' }}>
+              {resendCooldown > 0 ? `Renvoyer dans ${resendCooldown}s` : 'Renvoyer le code'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+
+  // ── Formulaire login / register ──
   return (
     <div style={{ width: '100%', maxWidth: 420 }}>
       <div style={{ background: '#141724', border: '1px solid rgba(255,255,255,.1)', borderRadius: 24, overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,.4)' }}>
@@ -214,8 +303,15 @@ export default function Paiement() {
   // Restore session client
   useEffect(() => {
     try {
+      // Session du paiement (après login/register sur cette page)
       const saved = sessionStorage.getItem('vf_client')
-      if (saved) setAuthUser(JSON.parse(saved))
+      if (saved) { setAuthUser(JSON.parse(saved)); setAuthChecked(true); return }
+      // Session du site (connexion en haut à droite) — évite de se reconnecter
+      const localSession = localStorage.getItem('vf_client_session')
+      if (localSession) {
+        const u = JSON.parse(localSession)
+        if (u?.email) { setAuthUser({ email: u.email, name: u.name || '', token: 'local' }); setAuthChecked(true); return }
+      }
     } catch {}
     setAuthChecked(true)
   }, [])
