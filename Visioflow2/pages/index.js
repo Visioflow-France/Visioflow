@@ -3998,16 +3998,83 @@ updateAdminAuthUI();
     try {
       const cred = await auth.createUserWithEmailAndPassword(email, pw);
       await cred.user.updateProfile({ displayName: name });
-      currentFBUser = cred.user;
-      _updateProIconUI();
-      vfCloseAuth();
+      // Envoyer le code de vérification
+      await fetch('/api/auth/send-verification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
       btn.disabled = false; btn.innerHTML = _regBtnHTML;
-      if (_authCB) { const cb = _authCB; _authCB = null; cb(); } else { window.showPage('espace-client'); }
+      vfCloseAuth();
+      // Afficher la modale de vérification avant de connecter l'utilisateur
+      showVerificationModalFB(email, name, cred.user);
     } catch (e) {
       btn.disabled = false; btn.innerHTML = _regBtnHTML;
       errTxt.textContent = _fbErrMsg(e.code); errEl.classList.add('on');
     }
   };
+
+  function showVerificationModalFB(email, name, fbUser) {
+    var existing = document.getElementById('vf-verif-modal-fb');
+    if (existing) existing.remove();
+    var modal = document.createElement('div');
+    modal.id = 'vf-verif-modal-fb';
+    modal.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px';
+    modal.innerHTML = `
+      <div style="background:#141724;border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:36px 32px;max-width:400px;width:100%;box-shadow:0 40px 80px rgba(0,0,0,.5)">
+        <div style="text-align:center;margin-bottom:24px">
+          <div style="font-size:36px;margin-bottom:10px">🔐</div>
+          <div style="font-family:Outfit,sans-serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">Vérifiez votre email</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6">Un code à 6 chiffres a été envoyé à<br><strong style="color:#60a5fa">${email}</strong></div>
+        </div>
+        <div id="vf-verif-fb-error" style="display:none;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:10px 14px;font-size:12px;color:#f87171;margin-bottom:14px"></div>
+        <input id="vf-verif-fb-code" type="text" inputmode="numeric" maxlength="6" placeholder="000000"
+          style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;color:#fff;font-size:28px;font-weight:700;letter-spacing:10px;text-align:center;font-family:monospace;outline:none;margin-bottom:16px"
+          oninput="this.value=this.value.replace(/\\D/g,'').slice(0,6)"/>
+        <button onclick="window._submitVerifFB('${email}','${name}')"
+          style="width:100%;padding:14px;border:none;border-radius:14px;background:#0071E3;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin-bottom:12px">
+          Confirmer →
+        </button>
+        <div style="text-align:center">
+          <button onclick="window._resendVerifFB('${email}')"
+            style="background:none;border:none;color:#60a5fa;font-size:13px;cursor:pointer;font-family:Inter,sans-serif">
+            Renvoyer le code
+          </button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    setTimeout(function(){ var i = document.getElementById('vf-verif-fb-code'); if(i) i.focus(); }, 100);
+
+    window._submitVerifFB = async function(em, nm) {
+      var codeEl = document.getElementById('vf-verif-fb-code');
+      var errEl  = document.getElementById('vf-verif-fb-error');
+      var code   = codeEl ? codeEl.value.trim() : '';
+      if (code.length < 6) { if(errEl){ errEl.textContent='Entrez le code à 6 chiffres.'; errEl.style.display='block'; } return; }
+      if (errEl) errEl.style.display = 'none';
+      try {
+        var r = await fetch('/api/auth/verify-code', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: em, code }),
+        });
+        var data = await r.json();
+        if (!r.ok) { if(errEl){ errEl.textContent = data.error || 'Code invalide.'; errEl.style.display='block'; } return; }
+        currentFBUser = fbUser;
+        _updateProIconUI();
+        var m = document.getElementById('vf-verif-modal-fb');
+        if (m) m.remove();
+        if (_authCB) { var cb = _authCB; _authCB = null; cb(); } else { window.showPage('espace-client'); }
+      } catch(e) {
+        if(errEl){ errEl.textContent='Erreur réseau. Réessayez.'; errEl.style.display='block'; }
+      }
+    };
+
+    window._resendVerifFB = async function(em) {
+      await fetch('/api/auth/send-verification', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: em }),
+      });
+    };
+  }
 
   window.vfDoLogout = async function () {
     _clearDraft();
