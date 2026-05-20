@@ -147,6 +147,22 @@ export default function Home({ siteConfig }) {
   }, [heroComplete])
 
   useEffect(() => {
+    // Fix SEO: Ensure only one descriptive H1 on the page
+    const allH1s = document.querySelectorAll('h1');
+    if (allH1s.length > 0) {
+      allH1s.forEach(h1 => {
+        h1.style.display = 'none';
+      });
+      // Find the most appropriate H1 and make it visible with descriptive content
+      const heroTitleEl = document.getElementById('hero-title');
+      if (heroTitleEl) {
+        heroTitleEl.style.display = 'block';
+        heroTitleEl.textContent = 'Créez votre site de restaurant professionnel avec commandes en ligne';
+      }
+    }
+  }, [heroComplete])
+
+  useEffect(() => {
 
 /* Declares ici pour être accessibles a toutes les fonctions (formSubmit, doPay, etc.) */
 let db;
@@ -5411,12 +5427,7 @@ window.goHomePack = function(pack){
           }}
         />
       </Head>
-      <div suppressHydrationWarning>
-        <h1 style={{position:'absolute',width:'1px',height:'1px',margin:'-1px',padding:0,overflow:'hidden',clip:'rect(0,0,0,0)',whiteSpace:'nowrap',border:0}}>
-          Sites web professionnels pour restaurateurs avec commandes en ligne
-        </h1>
-        <div dangerouslySetInnerHTML={{ __html: pageHTML }} />
-      </div>
+      <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: pageHTML }} />
       <AssistanceWidget />
     </>
   )

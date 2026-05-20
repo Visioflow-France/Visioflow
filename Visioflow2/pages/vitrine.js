@@ -539,8 +539,8 @@ export default function Vitrine() {
             <div className="vt-hero-dot" />
             {CONFIG.cuisine}
           </div>
-          <h1 className="vt-hero-title">{CONFIG.siteName}</h1>
-          <p className="vt-hero-sub">{CONFIG.tagline}</p>
+          <h1 className="vt-hero-title">Site restaurant avec menu complet et {IS_PREMIUM ? 'commandes en ligne' : 'informations pratiques'}</h1>
+          <p className="vt-hero-sub">{CONFIG.siteName} - {CONFIG.tagline}</p>
           <div className="vt-hero-actions">
             <a href="#menu" className="vt-hero-btn primary">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
