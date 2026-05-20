@@ -222,15 +222,13 @@ export function CinematicHero({
 
     const ctx = gsap.context(() => {
       gsap.set(".text-track", { autoAlpha: 0, y: -60, scale: 0.85, filter: "blur(20px)", rotationX: 20 });
-      gsap.set(".text-days",  { autoAlpha: 0, clipPath: "inset(0 100% 0 0)" });
       gsap.set(".main-card",  { y: window.innerHeight + 200, autoAlpha: 1 });
       gsap.set([".card-left-text", ".card-right-text", ".mockup-scroll-wrapper", ".floating-badge", ".phone-widget"], { autoAlpha: 0 });
       gsap.set(".cta-wrapper", { autoAlpha: 0, scale: 0.8, filter: "blur(30px)" });
 
       const tl = gsap.timeline({ delay: 0.2 });
 
-      tl.to(".text-track", { duration: 1.6, autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", rotationX: 0, ease: "expo.out" })
-        .to(".text-days", { duration: 1.2, autoAlpha: 1, clipPath: "inset(0 0% 0 0)", ease: "power4.inOut" }, "-=0.9");
+      tl.to(".text-track", { duration: 1.6, autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", rotationX: 0, ease: "expo.out" });
 
       tl.to([".hero-text-wrapper", ".bg-grid-theme"], { duration: 0.9, scale: 1.12, filter: "blur(18px)", opacity: 0.15, ease: "power2.inOut" }, "+=0.05")
         .to(".main-card", { duration: 1.3, y: 0, ease: "power3.inOut" }, "-=0.85");
@@ -281,8 +279,7 @@ export function CinematicHero({
 
       {/* LAYER 1 : Texte hero */}
       <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-screen px-4 will-change-transform">
-        <h1 className="text-track gsap-reveal text-3d-matte text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight mb-2">{tagline1}</h1>
-        <h1 className="text-days gsap-reveal text-silver-matte text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter">{tagline2}</h1>
+        <h1 className="text-track gsap-reveal text-3d-matte text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight mb-2">{tagline1} {tagline2}</h1>
       </div>
 
       {/* LAYER 2 : Carte principale */}

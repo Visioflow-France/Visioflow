@@ -1720,7 +1720,7 @@ clientCSS.textContent = `
 .mc-wrap{max-width:700px;margin:0 auto;padding:80px 24px 60px}
 .mc-header{display:flex;align-items:center;gap:16px;margin-bottom:32px}
 .mc-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#38bdf8);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 16px rgba(0,113,227,.3)}
-.mc-info h1{font-family:'Outfit';font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.mc-info .mc-user-name{font-family:'Outfit';font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px}
 .mc-info p{font-size:13px;color:rgba(255,255,255,.35)}
 .mc-section{background:#141724;border:.5px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;margin-bottom:18px}
 .mc-section-head{padding:18px 22px;border-bottom:.5px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
@@ -2120,7 +2120,7 @@ function renderMonCompte(){
     <div class="mc-header">
       <div class="mc-avatar">\uD83D\uDC64</div>
       <div class="mc-info">
-        <h1>${clientUser.name}</h1>
+        <div class="mc-user-name">${clientUser.name}</div>
         <p>${clientUser.email}</p>
       </div>
     </div>
@@ -2865,7 +2865,7 @@ async function renderLiveAdmin(){
   const topbar = adminWrap.querySelector('.vf-topbar');
   if(topbar){
     topbar.innerHTML = `
-      <h1 style="font-family:'Outfit';font-size:28px;font-weight:800;color:#fff;letter-spacing:-1px">Visio<span style="color:var(--blue)">Flow</span> Admin</h1>
+      <div style="font-family:'Outfit';font-size:28px;font-weight:800;color:#fff;letter-spacing:-1px">Visio<span style="color:var(--blue)">Flow</span> Admin</div>
       <div style="display:flex;gap:10px;align-items:center">
         <div class="vf-live-status ${firebaseReady?'on':'off'}"><div class="vf-live-dot"></div>${firebaseReady?'Firebase connect\u00e9':'Mode hors ligne'}</div>
         <button class="vf-btn-sm vf-btn-blue" onclick="renderLiveAdmin()">\u21BB Rafra\u00eechir</button>
@@ -5368,8 +5368,55 @@ window.goHomePack = function(pack){
         <meta property="og:url" content="https://visioflow.fr/" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://visioflow.fr/#organization",
+                  "name": "VisioFlow",
+                  "url": "https://visioflow.fr",
+                  "logo": "https://visioflow.fr/logo.png",
+                  "description": "Créateur de sites web professionnels pour restaurateurs avec système de commande en ligne, livré en 48 heures.",
+                  "foundingDate": "2024",
+                  "contactPoint": {
+                    "@type": "ContactPoint",
+                    "contactType": "customer service",
+                    "email": "contact@visioflow.fr",
+                    "availableLanguage": ["French"]
+                  },
+                  "sameAs": []
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://visioflow.fr/#website",
+                  "url": "https://visioflow.fr",
+                  "name": "VisioFlow",
+                  "description": "Créez votre site de restaurant professionnel avec commandes en ligne en seulement 48 heures. Service tout compris : design, hébergement, paiement et livraison.",
+                  "publisher": {
+                    "@id": "https://visioflow.fr/#organization"
+                  },
+                  "inLanguage": "fr-FR",
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://visioflow.fr/search?q={search_term_string}",
+                    "query-input": "required name=search_term_string"
+                  }
+                }
+              ]
+            })
+          }}
+        />
       </Head>
-      <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: pageHTML }} />
+      <div suppressHydrationWarning>
+        <h1 style={{position:'absolute',width:'1px',height:'1px',margin:'-1px',padding:0,overflow:'hidden',clip:'rect(0,0,0,0)',whiteSpace:'nowrap',border:0}}>
+          Sites web professionnels pour restaurateurs avec commandes en ligne
+        </h1>
+        <div dangerouslySetInnerHTML={{ __html: pageHTML }} />
+      </div>
       <AssistanceWidget />
     </>
   )

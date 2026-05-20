@@ -198,6 +198,36 @@ export default function Vitrine() {
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Restaurant",
+              "name": CONFIG.siteName,
+              "description": CONFIG.tagline,
+              "servesCuisine": CONFIG.cuisine,
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": CONFIG.address,
+                "addressCountry": "FR"
+              },
+              "telephone": CONFIG.phone,
+              "email": CONFIG.email,
+              "openingHoursSpecification": Object.entries(CONFIG.hours)
+                .filter(([_, v]) => v && v.toLowerCase() !== 'fermé')
+                .map(([day, hours]) => ({
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": day.charAt(0).toUpperCase() + day.slice(1),
+                  "opens": hours.split('·')[0]?.trim(),
+                  "closes": hours.split('·')[1]?.trim()
+                })),
+              "priceRange": "€€",
+              "url": canonicalUrl,
+              "sameAs": [CONFIG.instagram, CONFIG.facebook, CONFIG.tiktok].filter(Boolean)
+            })
+          }}
+        />
         <style>{`
           :root {
             --brand:    ${CONFIG.color};
