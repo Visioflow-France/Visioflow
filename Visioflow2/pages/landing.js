@@ -59,7 +59,18 @@ export default function LandingPage() {
         />
       </Head>
       <div className="overflow-x-hidden w-full min-h-screen">
-        <CinematicHero />
+        <CinematicHero
+          tagline1="Créez votre site de restaurant"
+          tagline2="professionnel avec commandes en ligne"
+          cardHeading="Service de création web pour restaurateurs"
+          cardDescription={
+            <>
+              <span className="text-white font-semibold">Visioflow</span> crée des sites
+              web professionnels pour restaurants avec commande en ligne, tableau de
+              bord admin et paiements intégrés — le tout livré en 48 heures.
+            </>
+          }
+        />
       </div>
     </>
   );
