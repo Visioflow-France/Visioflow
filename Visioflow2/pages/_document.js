@@ -12,6 +12,11 @@ export default function Document() {
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"/>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"/>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"/>
+        <link rel="canonical" href="https://visioflow.fr/" />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:site_name" content="VisioFlow" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="fr_FR" />
       </Head>
       <body suppressHydrationWarning>
         <Main />

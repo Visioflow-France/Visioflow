@@ -5361,6 +5361,13 @@ window.goHomePack = function(pack){
       <Head>
         <title>VisioFlow — Sites web pour restaurateurs</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="canonical" href="https://visioflow.fr/" />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="VisioFlow — Sites web pour restaurateurs" />
+        <meta property="og:description" content="Créez votre site de restaurant professionnel avec commandes en ligne en seulement 48 heures." />
+        <meta property="og:url" content="https://visioflow.fr/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="fr_FR" />
       </Head>
       <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: pageHTML }} />
       <AssistanceWidget />

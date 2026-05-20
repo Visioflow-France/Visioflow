@@ -181,6 +181,8 @@ export default function Vitrine() {
   const hasStory     = !!CONFIG.story;
   const hasSocial    = CONFIG.instagram || CONFIG.facebook || CONFIG.tiktok;
 
+  const canonicalUrl = `https://visioflow.fr/vitrine`;
+
   return (
     <>
       <Head>
@@ -189,6 +191,13 @@ export default function Vitrine() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={`${CONFIG.siteName} — ${CONFIG.cuisine}`} />
+        <meta property="og:description" content={CONFIG.tagline} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="fr_FR" />
         <style>{`
           :root {
             --brand:    ${CONFIG.color};
