@@ -1,7 +1,13 @@
 import { db } from '../../../lib/firebase-admin'
 
 function checkAuth(req) {
-  return req.headers['x-admin-token'] === process.env.ADMIN_TOKEN
+  const cookies = Object.fromEntries(
+    (req.headers.cookie || '').split(';').map(c => {
+      const [k, ...v] = c.trim().split('=')
+      return [k.trim(), v.join('=').trim()]
+    }).filter(([k]) => k)
+  )
+  return !!process.env.ADMIN_TOKEN && cookies.vf_admin === process.env.ADMIN_TOKEN
 }
 
 const ALLOWED = ['submissions', 'form_submissions', 'client_projects']

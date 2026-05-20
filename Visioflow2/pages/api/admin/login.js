@@ -7,7 +7,7 @@ export default function handler(req, res) {
 
   if (!valid) return res.status(401).json({ error: 'Code incorrect' })
 
-  const token = process.env.ADMIN_TOKEN || process.env.NEXT_PUBLIC_ADMIN_TOKEN
+  const token = process.env.ADMIN_TOKEN
   res.setHeader(
     'Set-Cookie',
     `vf_admin=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=86400`

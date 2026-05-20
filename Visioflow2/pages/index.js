@@ -2059,7 +2059,7 @@ function showVerificationModal(email, name) {
       </div>
       <div id="vf-verif-error" style="display:none;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:10px 14px;font-size:12px;color:#f87171;margin-bottom:14px"></div>
       <input id="vf-verif-code" type="text" inputmode="numeric" maxlength="6" placeholder="000000"
-        style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;color:#fff;font-size:28px;font-weight:700;letter-spacing:10px;text-align:center;font-family:monospace;outline:none;margin-bottom:16px"
+        style="width:100%;box-sizing:border-box;background:#1a2035;border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:14px 16px;color:#fff;font-size:28px;font-weight:700;letter-spacing:10px;text-align:center;font-family:monospace;outline:none;margin-bottom:16px;color-scheme:dark"
         oninput="this.value=this.value.replace(/\\D/g,'').slice(0,6)"/>
       <button onclick="window.submitVerifCode('${email}','${name}')"
         style="width:100%;padding:14px;border:none;border-radius:14px;background:#0071E3;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin-bottom:12px">
@@ -4121,7 +4121,7 @@ updateAdminAuthUI();
         </div>
         <div id="vf-verif-fb-error" style="display:none;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:10px 14px;font-size:12px;color:#f87171;margin-bottom:14px"></div>
         <input id="vf-verif-fb-code" type="text" inputmode="numeric" maxlength="6" placeholder="000000"
-          style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;color:#fff;font-size:28px;font-weight:700;letter-spacing:10px;text-align:center;font-family:monospace;outline:none;margin-bottom:16px"
+          style="width:100%;box-sizing:border-box;background:#1a2035;border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:14px 16px;color:#fff;font-size:28px;font-weight:700;letter-spacing:10px;text-align:center;font-family:monospace;outline:none;margin-bottom:16px;color-scheme:dark"
           oninput="this.value=this.value.replace(/\\D/g,'').slice(0,6)"/>
         <button onclick="window._submitVerifFB('${email}','${name}')"
           style="width:100%;padding:14px;border:none;border-radius:14px;background:#0071E3;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin-bottom:12px">

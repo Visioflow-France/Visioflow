@@ -1,15 +1,27 @@
 ﻿import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
 
-const ADMIN_TOKEN = process.env.NEXT_PUBLIC_ADMIN_TOKEN || ''
-
 function adminFetch(path, body) {
   const opts = {
-    headers: { 'x-admin-token': ADMIN_TOKEN, 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json' },
+    credentials: 'same-origin',
   }
   if (body) { opts.method = 'POST'; opts.body = JSON.stringify(body) }
   else opts.method = 'GET'
   return fetch(path, opts).then(r => r.json())
+}
+
+export async function getServerSideProps({ req }) {
+  const cookies = Object.fromEntries(
+    (req.headers.cookie || '').split(';').map(c => {
+      const [k, ...v] = c.trim().split('=')
+      return [k.trim(), v.join('=').trim()]
+    }).filter(([k]) => k)
+  )
+  if (!process.env.ADMIN_TOKEN || cookies.vf_admin !== process.env.ADMIN_TOKEN) {
+    return { redirect: { destination: '/login-admin', permanent: false } }
+  }
+  return { props: {} }
 }
 
 const PACK_COLOR = { essentiel: '#6b7280', premium: '#0071E3' }
@@ -86,12 +98,13 @@ export default function Dashboard() {
   const [loading, setLoading]       = useState(true)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [live, setLive]             = useState(false)
+  const dirtyRef                     = useRef(false)
 
   async function loadData() {
     try {
       const data = await adminFetch('/api/admin/data')
       if (data.error) { setLive(false); return }
-      if (data.config) setCfg(deepMerge(DEFAULT_CFG, data.config))
+      if (data.config && !dirtyRef.current) setCfg(deepMerge(DEFAULT_CFG, data.config))
       setSubs(data.submissions || [])
       setForms(data.forms || [])
       setClientProjects(data.clientProjects || [])
@@ -121,6 +134,7 @@ export default function Dashboard() {
       return next
     })
     setDirty(true)
+    dirtyRef.current = true
   }
 
   async function saveCfg() {
@@ -129,6 +143,7 @@ export default function Dashboard() {
       const res = await adminFetch('/api/admin/config', { cfg })
       if (res.error) throw new Error(res.error)
       setDirty(false)
+      dirtyRef.current = false
       showToast('Configuration sauvegardée ✓')
     } catch (e) { showToast('Erreur : ' + e.message) }
     setSaving(false)

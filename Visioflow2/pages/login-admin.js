@@ -79,13 +79,14 @@ export default function LoginAdmin() {
                   padding: '12px 14px',
                   borderRadius: 10,
                   border: err ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.1)',
-                  background: 'rgba(255,255,255,0.05)',
+                  background: '#1e293b',
                   color: '#f1f5f9',
                   fontSize: 15,
                   outline: 'none',
                   boxSizing: 'border-box',
                   fontFamily: 'Inter, sans-serif',
                   transition: 'border-color 0.2s',
+                  colorScheme: 'dark',
                 }}
               />
               {err && (
