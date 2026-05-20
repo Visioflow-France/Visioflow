@@ -71,6 +71,22 @@ export default function LandingPage() {
             </>
           }
         />
+        <div className="px-6 py-12 text-center max-w-4xl mx-auto">
+          <p className="text-gray-400 mb-6">
+            Découvrez comment fonctionne notre service et les avantages pour votre restaurant.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a href="/paiement" className="text-blue-500 hover:text-blue-400 font-semibold transition-colors">
+              Voir nos packs et tarifs →
+            </a>
+            <a href="/vitrine" className="text-blue-500 hover:text-blue-400 font-semibold transition-colors">
+              Voir un exemple de site →
+            </a>
+            <a href="/" className="text-blue-500 hover:text-blue-400 font-semibold transition-colors">
+              Retour à l'accueil →
+            </a>
+          </div>
+        </div>
       </div>
     </>
   );

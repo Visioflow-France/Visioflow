@@ -113,6 +113,20 @@ function applyConfigToHTML(html, config) {
       h = h.replace(new RegExp(`(id="demo-b-${pack}" href=")[^"]*"`), `$1${url}"`)
     }
   })
+  // Add contextual internal links for SEO
+  h = h.replace(
+    /(<div class="lp-section"[^>]*>)/,
+    `$1<a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:600;">Découvrir nos packs</a> • `
+  );
+  h = h.replace(
+    /(<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>)/,
+    `$1<a href="/landing" style="color:#0071E3;text-decoration:none;font-weight:600;">Comment ça marche ?</a> • `
+  );
+  h = h.replace(
+    /(<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>)/,
+    `$1<a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:600;">Voir un exemple de site</a> • `
+  );
+
   h += OPAQUE_CSS
   return h
 }

@@ -566,6 +566,21 @@ export default function Vitrine() {
             <p className="vt-section-sub">Des produits frais, une cuisine faite maison, des saveurs authentiques.</p>
           </div>
           <div dangerouslySetInnerHTML={{__html: renderMenu(CONFIG.menu)}} />
+          <div className="text-center mt-8 mb-4">
+            <div className="flex flex-wrap gap-4 justify-center">
+              <a href="#about" className="text-[var(--brand)] font-semibold hover:opacity-80 transition-opacity">
+                Découvrir notre histoire →
+              </a>
+              <a href="#info" className="text-[var(--brand)] font-semibold hover:opacity-80 transition-opacity">
+                Horaires et contact →
+              </a>
+              {hasGallery && (
+                <a href="#gallery" className="text-[var(--brand)] font-semibold hover:opacity-80 transition-opacity">
+                  Voir la galerie →
+                </a>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
