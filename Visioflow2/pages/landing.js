@@ -1,7 +1,18 @@
 import Head from "next/head";
-import { CinematicHero } from "@/components/ui/cinematic-hero";
+import { useEffect } from "react";
 
 export default function LandingPage() {
+  useEffect(() => {
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }, []);
+
   const canonicalUrl = "https://visioflow.fr/landing";
 
   return (
@@ -57,55 +68,481 @@ export default function LandingPage() {
             })
           }}
         />
-      </Head>
-      <div className="overflow-x-hidden w-full min-h-screen">
-        <CinematicHero
-          tagline1="Créez votre site de restaurant"
-          tagline2="professionnel avec commandes en ligne"
-          cardHeading="Service de création web pour restaurateurs"
-          cardDescription={
-            <>
-              <span className="text-white font-semibold">Visioflow</span> crée des sites
-              web professionnels pour restaurants avec commande en ligne, tableau de
-              bord admin et paiements intégrés — le tout livré en 48 heures.
-            </>
+        <style>{`
+          *{box-sizing:border-box;margin:0;padding:0}
+          body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
+          a{text-decoration:none;transition:all .2s}
+          .container{max-width:1200px;margin:0 auto;padding:0 20px}
+          @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+          @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+          .nav{background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+          .nav-content{display:flex;justify-content:space-between;align-items:center}
+          .logo{font-family:Outfit,sans-serif;font-size:28px;font-weight:900;color:#fff}
+          .logo span{color:#0071E3}
+          .nav-links{display:flex;gap:32px}
+          .nav-links a{color:#94a3b8;font-size:14px;font-weight:500}
+          .nav-links a:hover{color:#fff}
+          .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px}
+          .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
+          .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;position:relative;overflow:hidden}
+          .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);opacity:.3}
+          .hero-content{position:relative;z-index:1;max-width:900px}
+          .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,113,227,.15);border:1px solid rgba(0,113,227,.3);padding:8px 20px;border-radius:50px;color:#0071E3;font-size:13px;font-weight:600;margin-bottom:24px}
+          .hero-title{font-family:Outfit,sans-serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          .hero-sub{font-size:18px;color:#94a3b8;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+          .hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+          .hero-btn{padding:16px 40px;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+          .hero-btn.primary{background:#0071E3;color:#fff;box-shadow:0 10px 40px rgba(0,113,227,.3)}
+          .hero-btn.primary:hover{background:#0056b3;transform:translateY(-3px);box-shadow:0 15px 50px rgba(0,113,227,.4)}
+          .hero-btn.secondary{background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.2)}
+          .hero-btn.secondary:hover{background:rgba(255,255,255,.15)}
+          .section{padding:100px 20px}
+          .section-title{font-family:Outfit,sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;text-align:center;margin-bottom:16px;letter-spacing:-1px}
+          .section-sub{color:#94a3b8;text-align:center;max-width:700px;margin:0 auto 60px;font-size:18px}
+          .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;margin-top:60px}
+          .step-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:32px;transition:all .3s}
+          .step-card:hover{transform:translateY(-5px);border-color:rgba(0,113,227,.3);box-shadow:0 20px 60px rgba(0,113,227,.15)}
+          .step-number{width:56px;height:56px;background:linear-gradient(135deg,#0071E3,#38bdf8);border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:Outfit,sans-serif;font-size:24px;font-weight:900;color:#fff;margin-bottom:20px}
+          .step-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:12px}
+          .step-desc{color:#94a3b8;font-size:15px;line-height:1.7}
+          .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+          .feature-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px;transition:all .3s}
+          .feature-card:hover{background:rgba(255,255,255,.05);border-color:rgba(0,113,227,.2)}
+          .feature-icon{width:48px;height:48px;background:rgba(0,113,227,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#0071E3;margin-bottom:16px}
+          .feature-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
+          .feature-desc{color:#94a3b8;font-size:14px;line-height:1.6}
+          .feature-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;color:#0071E3;font-size:14px;font-weight:600}
+          .feature-link:hover{gap:10px}
+          .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;max-width:900px;margin:0 auto}
+          .pricing-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:40px;position:relative;transition:all .3s}
+          .pricing-card.featured{border-color:#0071E3;box-shadow:0 20px 60px rgba(0,113,227,.2)}
+          .pricing-card:hover{transform:translateY(-8px)}
+          .pricing-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#0071E3;color:#fff;padding:6px 20px;border-radius:50px;font-size:12px;font-weight:700}
+          .pricing-name{font-family:Outfit,sans-serif;font-size:28px;font-weight:900;color:#fff;margin-bottom:8px}
+          .pricing-desc{color:#94a3b8;font-size:15px;margin-bottom:24px;line-height:1.6}
+          .pricing-price{font-family:Outfit,sans-serif;font-size:56px;font-weight:900;color:#fff;margin-bottom:20px}
+          .pricing-price span{font-size:18px;color:#94a3b8;font-weight:500}
+          .pricing-features{margin-bottom:32px}
+          .pricing-feature{display:flex;align-items:center;gap:12px;margin-bottom:14px;color:#cbd5e1;font-size:15px}
+          .pricing-feature svg{color:#34d399;flex-shrink:0}
+          .pricing-btn{width:100%;padding:18px;border-radius:16px;background:#0071E3;color:#fff;font-size:16px;font-weight:700;border:none;cursor:pointer;transition:all .3s;font-family:Inter,sans-serif}
+          .pricing-btn:hover{background:#0056b3;transform:translateY(-2px)}
+          .pricing-btn.secondary{background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.2)}
+          .pricing-btn.secondary:hover{background:rgba(255,255,255,.15)}
+          .faq{max-width:800px;margin:0 auto}
+          .faq-item{border-bottom:1px solid rgba(255,255,255,.1);padding:24px 0}
+          .faq-question{font-size:18px;font-weight:700;color:#fff;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px}
+          .faq-question:hover{color:#0071E3}
+          .faq-answer{color:#94a3b8;line-height:1.7;font-size:15px}
+          .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:32px;padding:80px 20px;text-align:center;margin:100px 20px 0}
+          .cta h2{font-family:Outfit,sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
+          .cta p{color:rgba(255,255,255,.8);font-size:18px;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
+          .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1)}
+          .footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px}
+          .footer-col h4{color:#fff;font-size:16px;font-weight:700;margin-bottom:20px}
+          .footer-links{display:flex;flex-direction:column;gap:12px}
+          .footer-links a{color:#94a3b8;font-size:14px;transition:color .2s}
+          .footer-links a:hover{color:#0071E3}
+          .footer-bottom{max-width:1200px;margin:40px auto 0;padding-top:32px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
+          @media(max-width:768px){
+            .nav-links{display:none}
+            .hero-title{font-size:36px}
+            .pricing{grid-template-columns:1fr}
           }
-        />
-        <div className="px-6 py-12 text-center max-w-4xl mx-auto">
-          <p className="text-gray-400 mb-6">
-            Découvrez comment fonctionne notre service et les avantages pour votre restaurant.
+        `}</style>
+      </Head>
+
+      {/* Navigation */}
+      <nav className="nav">
+        <div className="container nav-content">
+          <a href="/" className="logo">Visio<span>flow</span></a>
+          <div className="nav-links">
+            <a href="#comment-ca-marche">Comment ça marche</a>
+            <a href="#avantages">Avantages</a>
+            <a href="#tarifs">Tarifs</a>
+            <a href="#faq">FAQ</a>
+          </div>
+          <a href="/paiement" className="nav-cta">Commencer →</a>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-bg" />
+        <div className="hero-content">
+          <div className="hero-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Livré en 48 heures
+          </div>
+          <h1 className="hero-title">
+            Votre site restaurant professionnel<br />
+            avec commandes en ligne
+          </h1>
+          <p className="hero-sub">
+            Visioflow crée des sites web modernes et performants pour restaurants.
+            Développez votre activité avec un <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>site avec commandes en ligne</a>,
+            optimisé pour mobile et livré en seulement 48 heures.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a href="/paiement" className="text-blue-500 hover:text-blue-400 font-semibold transition-colors">
-              Voir nos packs et tarifs →
+          <div className="hero-actions">
+            <a href="/paiement" className="hero-btn primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              Créer mon site
             </a>
-            <a href="/vitrine" className="text-blue-500 hover:text-blue-400 font-semibold transition-colors">
-              Voir un exemple de site →
-            </a>
-            <a href="/" className="text-blue-500 hover:text-blue-400 font-semibold transition-colors">
-              Retour à l'accueil →
+            <a href="/vitrine" className="hero-btn secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              Voir une démo
             </a>
           </div>
-          <div className="mt-8 pt-6 border-t border-gray-800">
-            <p className="text-sm text-gray-500 mb-3">
-              En savoir plus sur nos solutions :
-            </p>
-            <div className="flex flex-wrap gap-3 justify-center text-sm">
-              <a href="/paiement" className="text-gray-400 hover:text-blue-400 transition-colors">
-                Site avec commandes en ligne
+          <div style={{marginTop:40,display:'flex',flexWrap:'wrap',gap:20,justifyContent:'center',fontSize:14,color:'#64748b'}}>
+            <span>🚀 Livré en 48h</span>
+            <span>✓ Sans abonnement</span>
+            <span>📱 100% mobile</span>
+            <span>💳 Paiements intégrés</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Comment ça marche */}
+      <section id="comment-ca-marche" className="section">
+        <div className="container">
+          <h2 className="section-title">Comment ça marche ?</h2>
+          <p className="section-sub">
+            En seulement 3 étapes simples, obtenez un site professionnel pour votre restaurant.
+            Notre <a href="/" style={{color:'#0071E3'}}>service de création de site</a> est conçu pour être simple et rapide.
+          </p>
+          <div className="steps">
+            <div className="step-card">
+              <div className="step-number">1</div>
+              <h3 className="step-title">Choisissez votre pack</h3>
+              <p className="step-desc">
+                Sélectionnez parmi nos <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>deux offres adaptées</a> :
+                le Pack Essentiel pour un <a href="/vitrine" style={{color:'#0071E3',fontWeight:600}}>site vitrine</a> ou
+                le Pack Premium pour les <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>commandes en ligne</a>.
+              </p>
+            </div>
+            <div className="step-card">
+              <div className="step-number">2</div>
+              <h3 className="step-title">Personnalisez votre site</h3>
+              <p className="step-desc">
+                Donnez-nous vos informations et préférences. Notre équipe crée un site sur mesure avec votre
+                <a href="/vitrine" style={{color:'#0071E3',fontWeight:600}}>menu et vos horaires</a>.
+                Design moderne, photos de qualité, tout est optimisé.
+              </p>
+            </div>
+            <div className="step-card">
+              <div className="step-number">3</div>
+              <h3 className="step-title">Lancez votre activité</h3>
+              <p className="step-desc">
+                Recevez votre site en 48 heures et commencez à prendre des commandes.
+                Notre <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>solution complète</a> inclut
+                l'hébergement, les paiements et le support technique.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Avantages */}
+      <section id="avantages" style={{background:'rgba(255,255,255,.02)'}}>
+        <div className="container">
+          <h2 className="section-title">Pourquoi choisir Visioflow ?</h2>
+          <p className="section-sub">
+            Notre <a href="/" style={{color:'#0071E3'}}>service de site web pour restaurant</a> offre
+            de nombreux avantages pour développer votre activité en ligne.
+          </p>
+          <div className="features">
+            <div className="feature-card">
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <h3 className="feature-title">Livraison en 48h</h3>
+              <p className="feature-desc">
+                Votre site est prêt rapidement. Comparez notre délai avec les <a href="/paiement" style={{color:'#0071E3'}}>packs classiques</a>
+                d'agences web qui prennent des semaines.
+              </p>
+              <a href="/vitrine" className="feature-link">
+                Voir un exemple <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
-              <span className="text-gray-600">•</span>
-              <a href="/vitrine" className="text-gray-400 hover:text-blue-400 transition-colors">
-                Sites vitrine professionnels
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3h18v18H3zM9 9h6M9 13h6M9 17h6"/></svg>
+              </div>
+              <h3 className="feature-title">Commandes en ligne</h3>
+              <p className="feature-desc">
+                Acceptez les commandes directement via votre site. Notre <a href="/paiement" style={{color:'#0071E3'}}>Pack Premium</a>
+                inclut panier, paiement et gestion des commandes.
+              </p>
+              <a href="/paiement" className="feature-link">
+                Découvrir le pack <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
-              <span className="text-gray-600">•</span>
-              <a href="/paiement" className="text-gray-400 hover:text-blue-400 transition-colors">
-                Panel administratif
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+              </div>
+              <h3 className="feature-title">Mobile First Design</h3>
+              <p className="feature-desc">
+                Votre <a href="/vitrine" style={{color:'#0071E3'}}>site restaurant</a> est parfaitement
+                optimisé pour tous les appareils : smartphone, tablette et ordinateur.
+              </p>
+              <a href="/vitrine" className="feature-link">
+                Tester sur mobile <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <h3 className="feature-title">Hébergement inclus</h3>
+              <p className="feature-desc">
+                Pas de frais supplémentaires. L'hébergement à vie est inclus dans tous nos
+                <a href="/paiement" style={{color:'#0071E3'}}>packs</a>.
+              </p>
+              <a href="/paiement" className="feature-link">
+                Voir les prix <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+              </div>
+              <h3 className="feature-title">Support dédié</h3>
+              <p className="feature-desc">
+                Notre équipe est à votre disposition pour vous aider. Notre
+                <a href="/" style={{color:'#0071E3'}}>service client</a> répond en moins de 24h.
+              </p>
+              <a href="/" className="feature-link">
+                Nous contacter <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <h3 className="feature-title">SEO optimisé</h3>
+              <p className="feature-desc">
+                Votre <a href="/vitrine" style={{color:'#0071E3'}}>site vitrine</a> est optimisé
+                pour les moteurs de recherche. Attirez plus de clients potentiels.
+              </p>
+              <a href="/vitrine" className="feature-link">
+                Voir la démo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Tarifs */}
+      <section id="tarifs" className="section">
+        <div className="container">
+          <h2 className="section-title">Nos packs</h2>
+          <p className="section-sub">
+            Choisissez l'offre adaptée à vos besoins. Deux solutions pour créer votre
+            <a href="/vitrine" style={{color:'#0071E3'}}>site de restaurant</a> sans abonnement.
+          </p>
+          <div className="pricing">
+            <div className="pricing-card">
+              <div className="pricing-name">Pack Essentiel</div>
+              <div className="pricing-desc">
+                Site vitrine professionnel pour votre restaurant. Idéal pour présenter votre établissement.
+              </div>
+              <div className="pricing-price">150€ <span>/ unique</span></div>
+              <div className="pricing-features">
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Site vitrine professionnel
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Design sur mesure
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Responsive mobile
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Livré en 5 jours
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Hébergement à vie inclus
+                </div>
+              </div>
+              <a href="/paiement?pack=essentiel" className="pricing-btn secondary">Choisir ce pack</a>
+              <div style={{textAlign:'center',marginTop:'16px'}}>
+                <a href="/vitrine" style={{color:'#94a3b8',fontSize:'13px'}}>Voir un exemple →</a>
+              </div>
+            </div>
+            <div className="pricing-card featured">
+              <div className="pricing-badge">Recommandé</div>
+              <div className="pricing-name">Pack Premium</div>
+              <div className="pricing-desc">
+                Site complet avec commandes en ligne, panier et paiement intégré. Panel admin inclus.
+              </div>
+              <div className="pricing-price">490€ <span>/ unique</span></div>
+              <div className="pricing-features">
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Site avec commandes en ligne
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Panier & paiement intégré
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Panel admin restaurant
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Responsive mobile
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Livré en 5 jours
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Hébergement à vie inclus
+                </div>
+              </div>
+              <a href="/paiement?pack=premium" className="pricing-btn">Choisir ce pack</a>
+              <div style={{textAlign:'center',marginTop:'16px'}}>
+                <a href="/vitrine" style={{color:'#94a3b8',fontSize:'13px'}}>Voir la démo complète →</a>
+              </div>
+            </div>
+          </div>
+          <div style={{textAlign:'center',marginTop:'40px',maxWidth:'600px',margin:'40px auto 0'}}>
+            <p style={{color:'#94a3b8',fontSize:'14',marginBottom:'16px'}}>
+              Besoin d'aide pour choisir ? Comparez nos solutions et découvrez
+              <a href="/vitrine" style={{color:'#0071E3',fontWeight:600}}> les exemples de sites</a> que nous créons.
+            </p>
+            <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>
+              <a href="/vitrine" style={{color:'#94a3b8',fontSize:'13px'}}>→ Démo Site Vitrine</a>
+              <a href="/vitrine" style={{color:'#94a3b8',fontSize:'13px'}}>→ Démo avec commandes</a>
+              <a href="/" style={{color:'#94a3b8',fontSize:'13px'}}>→ Retour accueil</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" style={{background:'rgba(255,255,255,.02)'}}>
+        <div className="container">
+          <h2 className="section-title">Questions fréquentes</h2>
+          <p className="section-sub">
+            Tout savoir sur notre <a href="/" style={{color:'#0071E3'}}>service de création de site</a> pour restaurants.
+          </p>
+          <div className="faq">
+            <div className="faq-item">
+              <h3 className="faq-question">Combien de temps pour recevoir mon site ?</h3>
+              <p className="faq-answer">
+                Votre site est livré en 48 heures. Comparez avec les <a href="/paiement" style={{color:'#0071E3'}}>offres classiques</a>
+                qui prennent plusieurs semaines. Notre <a href="/" style={{color:'#0071E3'}}>processus optimisé</a> garantit
+                une livraison rapide sans compromis sur la qualité.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Le paiement est-il sécurisé ?</h3>
+              <p className="faq-answer">
+                Oui, nous utilisons Stripe, un leader des paiements en ligne. Le <a href="/paiement" style={{color:'#0071E3'}}>Pack Premium</a>
+                inclut l'intégration complète des paiements sur votre <a href="/vitrine" style={{color:'#0071E3'}}>site de restaurant</a>.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Puis-je modifier mon site ensuite ?</h3>
+              <p className="faq-answer">
+                Bien sûr. Notre <a href="/paiement" style={{color:'#0071E3'}}>panel admin</a> vous permet de modifier
+                votre menu, vos horaires et vos photos. Le <a href="/vitrine" style={{color:'#0071E3'}}>Pack Essentiel</a>
+                inclut également des modifications simples via notre support.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Y a-t-il des frais mensuels ?</h3>
+              <p className="faq-answer">
+                Non, tous nos <a href="/paiement" style={{color:'#0071E3'}}>packs</a> sont en paiement unique.
+                L'hébergement est inclus à vie. Contrairement à d'autres <a href="/" style={{color:'#0071E3'}}>services de site web</a>,
+                nous n'avons pas d'abonnement caché.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Puis-je voir un exemple avant de commander ?</h3>
+              <p className="faq-answer">
+                Oui, visitez notre <a href="/vitrine" style={{color:'#0071E3'}}>page de démonstration</a>
+                pour voir un <a href="/vitrine" style={{color:'#0071E3'}}>exemple de site restaurant</a>
+                avec toutes les fonctionnalités. Vous pouvez aussi consulter notre <a href="/" style={{color:'#0071E3'}}>page d'accueil</a>
+                pour voir d'autres réalisations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <div className="cta">
+        <h2>Prêt à lancer votre site ?</h2>
+        <p>
+          Créez votre site professionnel en 48 heures. Choisissez votre pack et commencez à développer
+          votre activité en ligne avec notre <a href="/vitrine" style={{color:'rgba(255,255,255,.9)',textDecoration:'underline'}}>solution de commande en ligne</a>.
+        </p>
+        <div className="hero-actions" style={{justifyContent:'center'}}>
+          <a href="/paiement" className="hero-btn" style={{background:'#fff',color:'#0071E3'}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Créer mon site
+          </a>
+          <a href="/vitrine" className="hero-btn" style={{background:'rgba(255,255,255,.2)',color:'#fff',border:'2px solid rgba(255,255,255,.3)'}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Voir une démo
+          </a>
+        </div>
+        <div style={{marginTop:'32px',fontSize:'13px',color:'rgba(255,255,255,.7)'}}>
+          <a href="/" style={{color:'rgba(255,255,255,.7)',marginRight:'20px'}}>← Retour à l'accueil</a>
+          <a href="#comment-ca-marche" style={{color:'rgba(255,255,255,.7)',marginRight:'20px'}}>Comment ça marche</a>
+          <a href="#avantages" style={{color:'rgba(255,255,255,.7)'}}>Nos avantages</a>
+        </div>
       </div>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          <div className="footer-col">
+            <h4>Visioflow</h4>
+            <div className="footer-links">
+              <a href="/">Accueil</a>
+              <a href="/landing">Comment ça marche</a>
+              <a href="/paiement">Nos packs</a>
+              <a href="/vitrine">Démo site</a>
+            </div>
+          </div>
+          <div className="footer-col">
+            <h4>Solutions</h4>
+            <div className="footer-links">
+              <a href="/paiement?pack=essentiel">Pack Essentiel</a>
+              <a href="/paiement?pack=premium">Pack Premium</a>
+              <a href="/vitrine">Site vitrine</a>
+              <a href="/vitrine">Commandes en ligne</a>
+            </div>
+          </div>
+          <div className="footer-col">
+            <h4>Support</h4>
+            <div className="footer-links">
+              <a href="/#faq">FAQ</a>
+              <a href="/">Nous contacter</a>
+              <a href="#comment-ca-marche">Processus</a>
+            </div>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          © {new Date().getFullYear()} Visioflow. Création de sites web pour restaurants.
+          <div style={{marginTop:'8px'}}>
+            <a href="/" style={{color:'rgba(255,255,255,.5)',margin:'0 12px'}}>Sites restaurant</a>
+            <a href="/vitrine" style={{color:'rgba(255,255,255,.5)',margin:'0 12px'}}>Démo</a>
+            <a href="/paiement" style={{color:'rgba(255,255,255,.5)',margin:'0 12px'}}>Tarifs</a>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

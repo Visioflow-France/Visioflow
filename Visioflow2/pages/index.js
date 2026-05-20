@@ -113,31 +113,80 @@ function applyConfigToHTML(html, config) {
       h = h.replace(new RegExp(`(id="demo-b-${pack}" href=")[^"]*"`), `$1${url}"`)
     }
   })
-  // Add contextual internal links for SEO
+  // Add contextual internal links for SEO optimization - Multiple strategic placements
+  // Link 1: After first section
   h = h.replace(
     /(<div class="lp-section"[^>]*>)/,
-    `$1<a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:600;">Découvrir nos packs</a> • `
+    `$1<a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:600;font-size:13px;">Découvrir nos packs</a> • `
   );
+  // Link 2: After second section
   h = h.replace(
     /(<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>)/,
-    `$1<a href="/landing" style="color:#0071E3;text-decoration:none;font-weight:600;">Comment ça marche ?</a> • `
+    `$1<a href="/landing" style="color:#0071E3;text-decoration:none;font-weight:600;font-size:13px;">Comment ça marche ?</a> • `
   );
+  // Link 3: After third section
   h = h.replace(
     /(<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>)/,
-    `$1<a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:600;">Voir un exemple de site</a> • `
+    `$1<a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:600;font-size:13px;">Voir un exemple de site</a> • `
   );
-  // Add more contextual links for SEO optimization
+
+  // Add contextual links after H2 headings
   h = h.replace(
-    /(<h2[^>]*>.*?Pack.*?<\/h2>)/,
-    `$1<p style="margin-top:12px;font-size:14px;color:#6b7280;">Besoin d'un site avec <a href="/paiement" style="color:#0071E3;text-decoration:underline;">commandes en ligne</a>? Découvrez notre <a href="/vitrine" style="color:#0071E3;text-decoration:underline;">démonstration</a> ou <a href="/landing" style="color:#0071E3;text-decoration:underline;">en savoir plus sur notre service</a>.</p>`
+    /(<h2[^>]*>.*?visioflow|créer.*?site|pour.*?restaurant|nos.*?packs|avantages.*?resto|nos.*?services.*?<\/h2>)/gi,
+    `$1<div style="margin-top:8px;margin-bottom:8px;"><span style="font-size:12px;color:#6b7280;">En savoir : </span><a href="/landing" style="color:#0071E3;text-decoration:none;font-size:12px;font-weight:500;">Notre processus</a> • <a href="/vitrine" style="color:#0071E3;text-decoration:none;font-size:12px;font-weight:500;">Démo</a> • <a href="/paiement" style="color:#0071E3;text-decoration:none;font-size:12px;font-weight:500;">Tarifs</a></div>`
   );
+
+  // Add links after paragraphs mentioning site, restaurant, web
   h = h.replace(
-    /(<p[^>]*>.*?site.*?restaurant.*?<\/p>)/gi,
-    `$1 <span style="font-size:13px;color:#0071E3;">( <a href="/vitrine" style="color:inherit;">Voir un exemple</a> • <a href="/landing" style="color:inherit;">Comment ça marche</a> • <a href="/paiement" style="color:inherit;">Nos tarifs</a> )</span>`
+    /(<p[^>]*>.*?(?:site|restaurant|création|web|commande|menu).*?<\/p>)/gi,
+    `$1<span style="display:block;margin-top:6px;font-size:12px;color:#0071E3;"><a href="/vitrine" style="color:inherit;text-decoration:none;">→ Voir un exemple de site</a> • <a href="/landing" style="color:inherit;text-decoration:none;">→ Comment ça marche</a> • <a href="/paiement" style="color:inherit;text-decoration:none;">→ Nos offres</a></span>`
   );
+
+  // Add links after pricing sections
   h = h.replace(
-    /(<button[^>]*>Commander|Choisir|Sélectionner)<\/button>/gi,
-    `<button$1</button> <a href="/landing" style="font-size:12px;color:#6b7280;text-decoration:none;margin-left:8px;">En savoir plus →</a>`
+    /(<div[^>]*class="[^"]*price[^"]*"[^>]*>.*?<\/div>)/gi,
+    `$1<div style="margin-top:12px;text-align:center;font-size:12px;"><a href="/landing" style="color:#6b7280;text-decoration:none;">En savoir plus sur le processus</a> • <a href="/vitrine" style="color:#6b7280;text-decoration:none;">Voir la démo</a></div>`
+  );
+
+  // Add links after feature cards
+  h = h.replace(
+    /(<div[^>]*class="[^"]*feature[^"]*card[^"]*"[^>]*>.*?<\/div>)/gi,
+    `$1<div style="margin-top:8px;padding:8px;background:#f4f5f8;border-radius:8px;font-size:12px;color:#6b7280;">Découvrez : <a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:500;">Packs & tarifs</a> • <a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:500;">Démo complète</a> • <a href="/landing" style="color:#0071E3;text-decoration:none;font-weight:500;">Comment ça marche</a></div>`
+  );
+
+  // Add links after action buttons
+  h = h.replace(
+    /(<button[^>]*>(?:commander|choisir|démarrer|commencer|créer).+?<\/button>)/gi,
+    `$1 <a href="/landing" style="font-size:11px;color:#6b7280;text-decoration:none;margin-left:6px;">En savoir plus →</a> <a href="/vitrine" style="font-size:11px;color:#6b7280;text-decoration:none;margin-left:6px;">Voir démo →</a>`
+  );
+
+  // Add links after sections about delivery or creation time
+  h = h.replace(
+    /(<div[^>]*>.*?(?:48h|48 heures|livré|création|délai).*?<\/div>)/gi,
+    `$1<div style="margin:8px 0;padding:8px 12px;background:rgba(0,113,227,0.05);border-left:3px solid #0071E3;border-radius:4px;font-size:12px;color:#4b5563;">Processus expliqué : <a href="/landing" style="color:#0071E3;text-decoration:none;font-weight:600;">Comment ça marche</a> • Exemple : <a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:600;">Site restaurant</a> • Tarifs : <a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:600;">Nos packs</a></div>`
+  );
+
+  // Add contextual links after mentions of mobile, responsive, or design
+  h = h.replace(
+    /(<div[^>]*>.*?(?:mobile|responsive|design|moderne|optimisé).*?<\/div>)/gi,
+    `$1<div style="margin-top:8px;font-size:12px;color:#6b7280;">Voir notre design en action : <a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:500;">Démo mobile</a> • <a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:500;">Pack avec commandes</a></div>`
+  );
+
+  // Add bottom contextual links section before footer
+  h = h.replace(
+    /(<footer)/i,
+    `<div style="padding:40px 20px;text-align:center;background:#f9fafb;border-top:1px solid #e5e7eb;">
+      <h3 style="font-size:18px;font-weight:700;color:#1f2937;margin-bottom:12px;">Explorez nos solutions pour restaurants</h3>
+      <p style="color:#6b7280;font-size:14px;margin-bottom:16px;">Découvrez comment créer votre site professionnel en 48 heures</p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:13px;">
+        <a href="/landing" style="color:#0071E3;text-decoration:none;font-weight:500;padding:8px 16px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;">Comment ça marche →</a>
+        <a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:500;padding:8px 16px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;">Voir un exemple de site →</a>
+        <a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:500;padding:8px 16px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;">Nos packs et tarifs →</a>
+      </div>
+      <div style="margin-top:20px;font-size:12px;color:#9ca3af;">
+        Solutions : <a href="/vitrine" style="color:#6b7280;text-decoration:none;">Site vitrine</a> • <a href="/paiement" style="color:#6b7280;text-decoration:none;">Commandes en ligne</a> • <a href="/vitrine" style="color:#6b7280;text-decoration:none;">Menu restaurant</a> • <a href="/landing" style="color:#6b7280;text-decoration:none;">Panel admin</a>
+      </div>
+    </div>$1`
   );
 
   h += OPAQUE_CSS
