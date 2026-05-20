@@ -86,6 +86,24 @@ export default function LandingPage() {
               Retour à l'accueil →
             </a>
           </div>
+          <div className="mt-8 pt-6 border-t border-gray-800">
+            <p className="text-sm text-gray-500 mb-3">
+              En savoir plus sur nos solutions :
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center text-sm">
+              <a href="/paiement" className="text-gray-400 hover:text-blue-400 transition-colors">
+                Site avec commandes en ligne
+              </a>
+              <span className="text-gray-600">•</span>
+              <a href="/vitrine" className="text-gray-400 hover:text-blue-400 transition-colors">
+                Sites vitrine professionnels
+              </a>
+              <span className="text-gray-600">•</span>
+              <a href="/paiement" className="text-gray-400 hover:text-blue-400 transition-colors">
+                Panel administratif
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </>

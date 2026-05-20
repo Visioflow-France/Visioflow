@@ -126,6 +126,19 @@ function applyConfigToHTML(html, config) {
     /(<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>)/,
     `$1<a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:600;">Voir un exemple de site</a> • `
   );
+  // Add more contextual links for SEO optimization
+  h = h.replace(
+    /(<h2[^>]*>.*?Pack.*?<\/h2>)/,
+    `$1<p style="margin-top:12px;font-size:14px;color:#6b7280;">Besoin d'un site avec <a href="/paiement" style="color:#0071E3;text-decoration:underline;">commandes en ligne</a>? Découvrez notre <a href="/vitrine" style="color:#0071E3;text-decoration:underline;">démonstration</a> ou <a href="/landing" style="color:#0071E3;text-decoration:underline;">en savoir plus sur notre service</a>.</p>`
+  );
+  h = h.replace(
+    /(<p[^>]*>.*?site.*?restaurant.*?<\/p>)/gi,
+    `$1 <span style="font-size:13px;color:#0071E3;">( <a href="/vitrine" style="color:inherit;">Voir un exemple</a> • <a href="/landing" style="color:inherit;">Comment ça marche</a> • <a href="/paiement" style="color:inherit;">Nos tarifs</a> )</span>`
+  );
+  h = h.replace(
+    /(<button[^>]*>Commander|Choisir|Sélectionner)<\/button>/gi,
+    `<button$1</button> <a href="/landing" style="font-size:12px;color:#6b7280;text-decoration:none;margin-left:8px;">En savoir plus →</a>`
+  );
 
   h += OPAQUE_CSS
   return h

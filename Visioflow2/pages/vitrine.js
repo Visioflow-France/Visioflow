@@ -580,6 +580,22 @@ export default function Vitrine() {
                 </a>
               )}
             </div>
+            <div className="mt-6 pt-4 border-t" style={{borderColor:'var(--bord)'}}>
+              <p className="text-sm" style={{color:'var(--text3)',marginBottom:'8px'}}>Ce site a été créé avec VisioFlow :</p>
+              <div className="flex flex-wrap gap-3 justify-center text-sm">
+                <a href="/" style={{color:'var(--text2)',textDecoration:'none',transition:'color .2s'}}>
+                  Sites pour restaurateurs
+                </a>
+                <span style={{color:'var(--text3)'}}>•</span>
+                <a href="/landing" style={{color:'var(--text2)',textDecoration:'none',transition:'color .2s'}}>
+                  Comment ça marche
+                </a>
+                <span style={{color:'var(--text3)'}}>•</span>
+                <a href="/paiement" style={{color:'var(--text2)',textDecoration:'none',transition:'color .2s'}}>
+                  Nos packs
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
