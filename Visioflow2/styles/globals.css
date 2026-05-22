@@ -450,8 +450,8 @@ body{background:var(--bg);color:var(--text);min-height:100vh;transition:backgrou
   .hero-laptop-wrap{margin-bottom:0;padding:0 8px}
 }
 
-/* Responsive devices - DISABLED: All devices show laptop version */
-/* @media(max-width:767px){
+/* Responsive devices - ENABLED: Show device-specific mockups */
+@media(max-width:767px){
   .hero-laptop-wrap{display:none}
   .hero-phone-wrap{display:flex}
 }
@@ -463,11 +463,11 @@ body{background:var(--bg);color:var(--text);min-height:100vh;transition:backgrou
   .hero-phone-wrap{display:none}
   .hero-tablet-wrap{display:none}
   .hero-laptop-wrap{display:flex}
-} */
+}
 
 /* ── PHONE MOCKUP HERO ──────────────────────────────── */
 .hero-phone-wrap{
-  position:relative;display:flex;align-items:center;justify-content:center;
+  position:relative;display:none;align-items:center;justify-content:center;
   padding:40px 20px;
   animation:phoneEnter .9s cubic-bezier(.34,1.56,.64,1) .3s both}
 @keyframes phoneEnter{from{opacity:0;transform:translateY(40px) rotate(-4deg)}to{opacity:1;transform:translateY(0) rotate(-2deg)}}
@@ -612,10 +612,9 @@ body{background:var(--bg);color:var(--text);min-height:100vh;transition:backgrou
 
 /* ── TABLET MOCKUP HERO ────────────────────────────── */
 .hero-tablet-wrap{
-  position:relative;display:flex;align-items:center;justify-content:center;
+  position:relative;display:none;align-items:center;justify-content:center;
   padding:40px 20px;
-  animation:tabletEnter 1s cubic-bezier(.34,1.36,.64,1) .3s both;
-  display:none}
+  animation:tabletEnter 1s cubic-bezier(.34,1.36,.64,1) .3s both}
 @keyframes tabletEnter{from{opacity:0;transform:translateY(30px) rotateX(10deg)}to{opacity:1;transform:translateY(0) rotateX(0deg)}}
 
 .hero-tablet-wrap::before{
