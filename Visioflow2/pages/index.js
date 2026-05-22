@@ -75,27 +75,6 @@ const OPAQUE_CSS = `
   document.addEventListener('DOMContentLoaded', applyOpaque);
   var obs = new MutationObserver(applyOpaque);
   obs.observe(document.body || document.documentElement, {childList:true, subtree:true});
-
-  // Add responsive phone and tablet HTML with exact laptop content
-  function addResponsiveDevices(){
-    var laptopScreen = document.querySelector('.lp-screen');
-    if(!laptopScreen) return;
-
-    var laptopContent = '<div class="lp-screen">' + laptopScreen.innerHTML + '</div>';
-
-    // Create phone version
-    var phoneHTML = '<div class="hero-phone-wrap"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen">' + laptopContent + '</div></div></div>';
-
-    // Create tablet version
-    var tabletHTML = '<div class="hero-tablet-wrap"><div class="ht-frame"><div class="ht-screen">' + laptopContent + '</div></div></div>';
-
-    // Insert after the main script closing tag
-    document.currentScript.insertAdjacentHTML('afterend', phoneHTML);
-    document.currentScript.insertAdjacentHTML('afterend', tabletHTML);
-  }
-
-  // Run immediately after script loads (before DOMContentLoaded)
-  addResponsiveDevices();
 })();
 </script>`
 
@@ -242,6 +221,40 @@ export default function Home({ siteConfig }) {
   useEffect(() => {
     if (siteConfig?.exampleUrls) applyDemoUrls(siteConfig.exampleUrls);
   }, [heroComplete])
+
+  // Add responsive phone and tablet mockups
+  useEffect(() => {
+    function addResponsiveDevices(){
+      const laptopScreen = document.querySelector('.lp-screen');
+      if(!laptopScreen) return;
+
+      const laptopContent = '<div class="lp-screen">' + laptopScreen.innerHTML + '</div>';
+
+      // Create phone version
+      const phoneHTML = '<div class="hero-phone-wrap"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen">' + laptopContent + '</div></div></div>';
+
+      // Create tablet version
+      const tabletHTML = '<div class="hero-tablet-wrap"><div class="ht-frame"><div class="ht-screen">' + laptopContent + '</div></div></div>';
+
+      // Insert before the laptop wrap
+      const laptopWrap = document.querySelector('.hero-laptop-wrap');
+      if(laptopWrap){
+        laptopWrap.insertAdjacentHTML('beforebegin', phoneHTML);
+        laptopWrap.insertAdjacentHTML('beforebegin', tabletHTML);
+      }
+    }
+
+    // Wait for DOM to be ready
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', addResponsiveDevices);
+    } else {
+      addResponsiveDevices();
+    }
+
+    // Retry after delay in case elements aren't ready
+    setTimeout(addResponsiveDevices, 1000);
+    setTimeout(addResponsiveDevices, 2000);
+  }, [pageHTML])
 
   useEffect(() => {
     // Fix SEO: Ensure only one descriptive H1 on the page
