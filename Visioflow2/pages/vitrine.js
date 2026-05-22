@@ -580,69 +580,10 @@ export default function Vitrine() {
                 </a>
               )}
             </div>
-            <div className="mt-6 pt-4 border-t" style={{borderColor:'var(--bord)'}}>
-              <p className="text-sm" style={{color:'var(--text3)',marginBottom:'8px'}}>Ce site a été créé avec VisioFlow - Création de sites pour restaurants</p>
-              <div className="flex flex-wrap gap-3 justify-center text-sm">
-                <a href="/" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500',transition:'color .2s'}}>
-                  Sites pour restaurateurs
-                </a>
-                <span style={{color:'var(--text3)'}}>•</span>
-                <a href="/landing" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500',transition:'color .2s'}}>
-                  Comment ça marche
-                </a>
-                <span style={{color:'var(--text3)'}}>•</span>
-                <a href="/paiement" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500',transition:'color .2s'}}>
-                  Nos packs
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ── SEO CONTEXTUAL LINKS SECTION ── */}
-      <section className="vt-section alt">
-        <div className="vt-container">
-          <div className="vt-section-header">
-            <div className="vt-section-tag">Services pour restaurants</div>
-            <h2 className="vt-section-title">Créez votre site professionnel</h2>
-            <p className="vt-section-sub">Découvrez comment développer votre activité en ligne avec VisioFlow.</p>
-          </div>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(250px,1fr))',gap:'20px',marginTop:'32px'}}>
-            <div style={{background:'#fff',padding:'24px',borderRadius:'16px',border:'1px solid var(--bord)',boxShadow:'var(--sh)'}}>
-              <h3 style={{fontFamily:'var(--font)',fontSize:'18px',fontWeight:'800',color:'var(--text)',marginBottom:'8px'}}>Site vitrine</h3>
-              <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'16px',lineHeight:'1.6'}}>Présentez votre restaurant avec un site moderne et professionnel.</p>
-              <a href="/paiement" style={{display:'inline-flex',alignItems:'center',gap:'6px',color:'var(--brand)',fontSize:'14px',fontWeight:'600',textDecoration:'none'}}>
-                Découvrir le Pack Essentiel →
-              </a>
-            </div>
-            <div style={{background:'#fff',padding:'24px',borderRadius:'16px',border:'1px solid var(--bord)',boxShadow:'var(--sh)'}}>
-              <h3 style={{fontFamily:'var(--font)',fontSize:'18px',fontWeight:'800',color:'var(--text)',marginBottom:'8px'}}>Commandes en ligne</h3>
-              <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'16px',lineHeight:'1.6'}}>Acceptez les commandes directement depuis votre site web.</p>
-              <a href="/paiement" style={{display:'inline-flex',alignItems:'center',gap:'6px',color:'var(--brand)',fontSize:'14px',fontWeight:'600',textDecoration:'none'}}>
-                Découvrir le Pack Premium →
-              </a>
-            </div>
-            <div style={{background:'#fff',padding:'24px',borderRadius:'16px',border:'1px solid var(--bord)',boxShadow:'var(--sh)'}}>
-              <h3 style={{fontFamily:'var(--font)',fontSize:'18px',fontWeight:'800',color:'var(--text)',marginBottom:'8px'}}>Comment ça marche</h3>
-              <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'16px',lineHeight:'1.6'}}>Notre processus simple : 3 étapes pour avoir votre site en 48h.</p>
-              <a href="/landing" style={{display:'inline-flex',alignItems:'center',gap:'6px',color:'var(--brand)',fontSize:'14px',fontWeight:'600',textDecoration:'none'}}>
-                Voir le processus →
-              </a>
-            </div>
-          </div>
-          <div style={{marginTop:'32px',textAlign:'center',padding:'20px',background:'rgba(0,0,0,.03)',borderRadius:'12px'}}>
-            <p style={{fontSize:'13px',color:'var(--text2)',marginBottom:'12px'}}>Explorez nos solutions pour développer votre restaurant en ligne</p>
-            <div style={{display:'flex',flexWrap:'wrap',gap:'12px',justifyContent:'center',fontSize:'13px'}}>
-              <a href="/" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500'}}>→ Accueil VisioFlow</a>
-              <a href="/landing" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500'}}>→ Comment ça marche</a>
-              <a href="/paiement" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500'}}>→ Tarifs et packs</a>
-              <a href="/" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500'}}>→ Sites vitrine</a>
-              <a href="/paiement" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500'}}>→ Sites avec commandes</a>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── ABOUT ── */}
       {hasStory && (
@@ -718,16 +659,6 @@ export default function Vitrine() {
               <p className="vt-section-sub">Livraison ou à emporter, choisissez la formule qui vous convient.</p>
             </div>
             <div dangerouslySetInnerHTML={{__html: renderDelivery()}} />
-            <div style={{marginTop:'24px',padding:'16px',background:'rgba(255,255,255,.5)',borderRadius:'12px',textAlign:'center'}}>
-              <p style={{fontSize:'12px',color:'var(--text2)',marginBottom:'8px'}}>Ce site a été créé avec VisioFlow - Création de sites pour restaurants</p>
-              <div style={{display:'flex',flexWrap:'wrap',gap:'8px',justifyContent:'center',fontSize:'12px'}}>
-                <a href="/" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500'}}>Sites restaurant</a>
-                <span style={{color:'var(--text3)'}}>•</span>
-                <a href="/landing" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500'}}>Comment ça marche</a>
-                <span style={{color:'var(--text3)'}}>•</span>
-                <a href="/paiement" style={{color:'var(--brand)',textDecoration:'none',fontWeight:'500'}}>Nos packs</a>
-              </div>
-            </div>
           </div>
         </section>
       )}
@@ -802,20 +733,6 @@ export default function Vitrine() {
         )}
         <p className="vt-footer-copy">© {new Date().getFullYear()} {CONFIG.siteName} — Tous droits réservés.</p>
         <p style={{fontSize:'11px',color:'rgba(255,255,255,.2)',marginTop:'8px'}}>Site créé par VisioFlow — Sites web pour restaurants</p>
-        <div style={{marginTop:'16px',paddingTop:'16px',borderTop:'1px solid rgba(255,255,255,.1)'}}>
-          <div style={{display:'flex',flexWrap:'wrap',gap:'12px',justifyContent:'center',fontSize:'11px',color:'rgba(255,255,255,.3)'}}>
-            <span>Services :</span>
-            <a href="/" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Site restaurant</a>
-            <span>•</span>
-            <a href="/landing" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Comment ça marche</a>
-            <span>•</span>
-            <a href="/paiement" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Tarifs</a>
-            <span>•</span>
-            <a href="/paiement" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Site avec commandes</a>
-            <span>•</span>
-            <a href="/paiement" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Site vitrine</a>
-          </div>
-        </div>
       </footer>
 
       {/* ── ORDER MODAL (livraison interne, premium+) ── */}

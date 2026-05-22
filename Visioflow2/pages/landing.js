@@ -419,11 +419,6 @@ export default function LandingPage() {
               Besoin d'aide pour choisir ? Comparez nos solutions et découvrez
               <a href="/vitrine" style={{color:'#0071E3',fontWeight:600}}> les exemples de sites</a> que nous créons.
             </p>
-            <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>
-              <a href="/vitrine" style={{color:'#94a3b8',fontSize:'13px'}}>→ Démo Site Vitrine</a>
-              <a href="/vitrine" style={{color:'#94a3b8',fontSize:'13px'}}>→ Démo avec commandes</a>
-              <a href="/" style={{color:'#94a3b8',fontSize:'13px'}}>→ Retour accueil</a>
-            </div>
           </div>
         </div>
       </section>
