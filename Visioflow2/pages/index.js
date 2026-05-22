@@ -5475,7 +5475,7 @@ window.goHomePack = function(pack){
     <>
       <Head>
         <title>VisioFlow — Sites web pour restaurateurs</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=1280, initial-scale=1.0"/>
         <link rel="canonical" href="https://visioflow.fr/" />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content="VisioFlow — Sites web pour restaurateurs" />
