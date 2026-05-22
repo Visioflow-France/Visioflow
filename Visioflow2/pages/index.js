@@ -76,14 +76,21 @@ const OPAQUE_CSS = `
   var obs = new MutationObserver(applyOpaque);
   obs.observe(document.body || document.documentElement, {childList:true, subtree:true});
 
-  // Add responsive phone and tablet HTML
+  // Add responsive phone and tablet HTML with exact laptop content
   function addResponsiveDevices(){
     var laptopWrap = document.querySelector('.hero-laptop-wrap');
     if(!laptopWrap) return;
 
-    var phoneHTML = '<div class="hero-phone-wrap" style="display:none;"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen"><div class="hp-site-header"><div class="hp-site-logo">Le Petit Bistrot</div><div class="hp-site-nav">Menu • Horaires</div></div><div class="hp-site-hero"><div class="hp-site-title">Cuisine française</div><div class="hp-site-sub">Paris 11e • Ouvert tous les jours</div><div class="hp-site-cta">Voir la carte →</div></div><div class="hp-menu-row"><div class="hp-menu-img"></div><div><div class="hp-menu-name">Boeuf Bourguignon</div><div class="hp-menu-price">18€</div></div></div><div class="hp-menu-row"><div class="hp-menu-img hp-img2"></div><div><div class="hp-menu-name">Entrecote grillée</div><div class="hp-menu-price">24€</div></div></div><div class="hp-menu-row"><div class="hp-menu-img" style="background:linear-gradient(135deg,#8b5cf6,#6366f1)"></div><div><div class="hp-menu-name">Tarte Tatin</div><div class="hp-menu-price">9€</div></div></div></div></div></div>';
+    // Get exact content from laptop screen
+    var laptopScreen = document.querySelector('.lp-screen');
+    if(!laptopScreen) return;
+    var laptopContent = laptopScreen.innerHTML;
 
-    var tabletHTML = '<div class="hero-tablet-wrap" style="display:none;"><div class="ht-frame"><div class="ht-screen"><div class="ht-site-header"><div class="ht-site-logo">Le Petit Bistrot</div><div class="ht-site-nav">Menu • Horaires • Nous contacter</div></div><div class="ht-site-hero"><div class="ht-site-title">Cuisine française</div><div class="ht-site-sub">Paris 11e • Ouvert tous les jours</div><div class="ht-site-cta">Voir la carte →</div></div><div class="ht-menu-row"><div class="ht-menu-img"></div><div><div class="ht-menu-name">Boeuf Bourguignon</div><div class="ht-menu-price">18€</div></div></div><div class="ht-menu-row"><div class="ht-menu-img ht-img2"></div><div><div class="ht-menu-name">Entrecote grillée</div><div class="ht-menu-price">24€</div></div></div><div class="ht-menu-row"><div class="ht-menu-img ht-img3"></div><div><div class="ht-menu-name">Tarte Tatin</div><div class="ht-menu-price">9€</div></div></div></div></div></div>';
+    // Create phone version with same content
+    var phoneHTML = '<div class="hero-phone-wrap" style="display:none;"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen">' + laptopContent + '</div></div></div>';
+
+    // Create tablet version with same content
+    var tabletHTML = '<div class="hero-tablet-wrap" style="display:none;"><div class="ht-frame"><div class="ht-screen">' + laptopContent + '</div></div></div>';
 
     laptopWrap.insertAdjacentHTML('beforebegin', phoneHTML);
     laptopWrap.insertAdjacentHTML('beforebegin', tabletHTML);
