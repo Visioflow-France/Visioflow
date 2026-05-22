@@ -86,11 +86,11 @@ const OPAQUE_CSS = `
     if(!laptopScreen) return;
     var laptopContent = laptopScreen.innerHTML;
 
-    // Create phone version with same content
-    var phoneHTML = '<div class="hero-phone-wrap" style="display:none;"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen">' + laptopContent + '</div></div></div>';
+    // Create phone version with same content (CSS media queries will control display)
+    var phoneHTML = '<div class="hero-phone-wrap"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen">' + laptopContent + '</div></div></div>';
 
-    // Create tablet version with same content
-    var tabletHTML = '<div class="hero-tablet-wrap" style="display:none;"><div class="ht-frame"><div class="ht-screen">' + laptopContent + '</div></div></div>';
+    // Create tablet version with same content (CSS media queries will control display)
+    var tabletHTML = '<div class="hero-tablet-wrap"><div class="ht-frame"><div class="ht-screen">' + laptopContent + '</div></div></div>';
 
     laptopWrap.insertAdjacentHTML('beforebegin', phoneHTML);
     laptopWrap.insertAdjacentHTML('beforebegin', tabletHTML);
