@@ -77,6 +77,7 @@ const OPAQUE_CSS = `
   obs.observe(document.body || document.documentElement, {childList:true, subtree:true});
 
   // Add responsive phone and tablet HTML with exact laptop content
+  // COMMENTED OUT: All devices now show the same laptop version
   function addResponsiveDevices(){
     var laptopWrap = document.querySelector('.hero-laptop-wrap');
     if(!laptopWrap) return;
@@ -87,17 +88,17 @@ const OPAQUE_CSS = `
     var laptopContent = laptopScreen.innerHTML;
 
     // Create phone version with same content
-    var phoneHTML = '<div class="hero-phone-wrap" style="display:none;"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen">' + laptopContent + '</div></div></div>';
+    // var phoneHTML = '<div class="hero-phone-wrap" style="display:none;"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen">' + laptopContent + '</div></div></div>';
 
     // Create tablet version with same content
-    var tabletHTML = '<div class="hero-tablet-wrap" style="display:none;"><div class="ht-frame"><div class="ht-screen">' + laptopContent + '</div></div></div>';
+    // var tabletHTML = '<div class="hero-tablet-wrap" style="display:none;"><div class="ht-frame"><div class="ht-screen">' + laptopContent + '</div></div></div>';
 
-    laptopWrap.insertAdjacentHTML('beforebegin', phoneHTML);
-    laptopWrap.insertAdjacentHTML('beforebegin', tabletHTML);
+    // laptopWrap.insertAdjacentHTML('beforebegin', phoneHTML);
+    // laptopWrap.insertAdjacentHTML('beforebegin', tabletHTML);
   }
 
-  document.addEventListener('DOMContentLoaded', addResponsiveDevices);
-  setTimeout(addResponsiveDevices, 500);
+  // document.addEventListener('DOMContentLoaded', addResponsiveDevices);
+  // setTimeout(addResponsiveDevices, 500);
 })();
 </script>`
 

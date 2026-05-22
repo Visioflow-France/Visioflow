@@ -450,8 +450,8 @@ body{background:var(--bg);color:var(--text);min-height:100vh;transition:backgrou
   .hero-laptop-wrap{margin-bottom:0;padding:0 8px}
 }
 
-/* Responsive devices */
-@media(max-width:767px){
+/* Responsive devices - DISABLED: All devices show laptop version */
+/* @media(max-width:767px){
   .hero-laptop-wrap{display:none}
   .hero-phone-wrap{display:flex}
 }
@@ -463,7 +463,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh;transition:backgrou
   .hero-phone-wrap{display:none}
   .hero-tablet-wrap{display:none}
   .hero-laptop-wrap{display:flex}
-}
+} */
 
 /* ── PHONE MOCKUP HERO ──────────────────────────────── */
 .hero-phone-wrap{
