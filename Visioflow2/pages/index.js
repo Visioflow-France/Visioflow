@@ -78,13 +78,17 @@ const OPAQUE_CSS = `
 
   // Add responsive phone and tablet HTML with exact laptop content
   function addResponsiveDevices(){
+    console.log('addResponsiveDevices called');
     var laptopWrap = document.querySelector('.hero-laptop-wrap');
+    console.log('laptopWrap:', laptopWrap);
     if(!laptopWrap) return;
 
     // Get exact content from laptop screen
     var laptopScreen = document.querySelector('.lp-screen');
+    console.log('laptopScreen:', laptopScreen);
     if(!laptopScreen) return;
-    var laptopContent = laptopScreen.innerHTML;
+    var laptopContent = '<div class="lp-screen">' + laptopScreen.innerHTML + '</div>';
+    console.log('laptopContent length:', laptopContent.length);
 
     // Create phone version with same content (CSS media queries will control display)
     var phoneHTML = '<div class="hero-phone-wrap"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen">' + laptopContent + '</div></div></div>';
@@ -94,6 +98,7 @@ const OPAQUE_CSS = `
 
     laptopWrap.insertAdjacentHTML('beforebegin', phoneHTML);
     laptopWrap.insertAdjacentHTML('beforebegin', tabletHTML);
+    console.log('Phone and tablet mockups inserted');
   }
 
   document.addEventListener('DOMContentLoaded', addResponsiveDevices);
