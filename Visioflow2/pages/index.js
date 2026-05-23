@@ -228,6 +228,9 @@ export default function Home({ siteConfig }) {
       const laptopScreen = document.querySelector('.lp-screen');
       if(!laptopScreen) return;
 
+      // Already inserted — don't duplicate
+      if(document.querySelector('.hero-phone-wrap') || document.querySelector('.hero-tablet-wrap')) return;
+
       const laptopContent = '<div class="lp-screen">' + laptopScreen.innerHTML + '</div>';
 
       // Create phone version
