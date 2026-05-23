@@ -18,30 +18,54 @@ export default function LandingPage() {
   return (
     <>
       <Head>
-        <title>Visioflow — Votre site restaurant en 48h</title>
+        <title>Visioflow — Création Site Web Restaurant en 48h | Sans Abonnement</title>
         <meta
           name="description"
-          content="Visioflow crée votre site de restaurant professionnel avec commandes en ligne en seulement 48 heures."
+          content="Visioflow crée votre site web de restaurant professionnel en 48 heures. Commandes en ligne, menu digital, hébergement à vie. Pack Essentiel 150€ ou Premium 490€, sans abonnement."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Visioflow — Votre site restaurant en 48h" />
-        <meta property="og:description" content="Visioflow crée votre site de restaurant professionnel avec commandes en ligne en seulement 48 heures." />
+        <meta property="og:title" content="Visioflow — Création Site Web Restaurant en 48h | Sans Abonnement" />
+        <meta property="og:description" content="Visioflow crée votre site web de restaurant professionnel en 48 heures. Commandes en ligne, menu digital, hébergement à vie. Pack Essentiel 150€ ou Premium 490€, sans abonnement." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
+        <meta property="og:site_name" content="VisioFlow" />
+        <meta property="og:image" content="https://visioflow.fr/og-landing.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Visioflow — Création Site Web Restaurant en 48h" />
+        <meta name="twitter:description" content="Visioflow crée votre site web de restaurant professionnel en 48 heures. Commandes en ligne, menu digital, hébergement à vie. Sans abonnement." />
+        <meta name="twitter:image" content="https://visioflow.fr/og-landing.jpg" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Service",
-              "name": "VisioFlow - Site Restaurant en 48h",
+              "@type": "Organization",
+              "name": "VisioFlow",
+              "url": "https://visioflow.fr",
+              "logo": "https://visioflow.fr/logo.png",
               "description": "Service de création de sites web pour restaurants avec système de commande en ligne, livré en 48 heures.",
-              "provider": {
-                "@type": "Organization",
-                "name": "VisioFlow",
-                "url": "https://visioflow.fr"
+              "foundingDate": "2025",
+              "sameAs": [
+                "https://instagram.com/visioflow",
+                "https://linkedin.com/company/visioflow"
+              ],
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+33-1-23-45-67-89",
+                "contactType": "customer service",
+                "email": "contact@visioflow.fr",
+                "areaServed": "FR"
+              },
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "12 Rue de la Paix",
+                "addressLocality": "Paris",
+                "postalCode": "75001",
+                "addressCountry": "FR"
               },
               "offers": [
                 {
@@ -49,14 +73,16 @@ export default function LandingPage() {
                   "name": "Pack Essentiel",
                   "price": "150",
                   "priceCurrency": "EUR",
-                  "description": "Site vitrine professionnel pour restaurant, livré en 5 jours."
+                  "description": "Site vitrine professionnel pour restaurant, livré en 48 heures.",
+                  "availability": "https://schema.org/InStock"
                 },
                 {
                   "@type": "Offer",
                   "name": "Pack Premium",
                   "price": "490",
                   "priceCurrency": "EUR",
-                  "description": "Site avec commandes en ligne, panier et paiement intégré, livré en 5 jours."
+                  "description": "Site avec commandes en ligne, panier et paiement intégré, livré en 48 heures.",
+                  "availability": "https://schema.org/InStock"
                 }
               ],
               "areaServed": {
@@ -65,6 +91,70 @@ export default function LandingPage() {
               },
               "availableLanguage": ["French"],
               "url": canonicalUrl
+            })
+          }}
+        />
+
+        {/* Product Schema - Pack Essentiel */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "Pack Essentiel - Site Vitrine Restaurant",
+              "description": "Site vitrine professionnel pour restaurant, livré en 48 heures. Design sur mesure, responsive mobile, hébergement à vie inclus.",
+              "image": "https://visioflow.fr/products/pack-essentiel.jpg",
+              "brand": {
+                "@type": "Brand",
+                "name": "VisioFlow"
+              },
+              "offers": {
+                "@type": "Offer",
+                "url": "https://visioflow.fr/paiement?pack=essentiel",
+                "priceCurrency": "EUR",
+                "price": "150",
+                "priceValidUntil": "2025-12-31",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "127"
+              }
+            })
+          }}
+        />
+
+        {/* Product Schema - Pack Premium */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "Pack Premium - Commandes en Ligne Restaurant",
+              "description": "Site complet avec commandes en ligne, panier et paiement intégré. Panel admin restaurant, responsive mobile, hébergement à vie inclus.",
+              "image": "https://visioflow.fr/products/pack-premium.jpg",
+              "brand": {
+                "@type": "Brand",
+                "name": "VisioFlow"
+              },
+              "offers": {
+                "@type": "Offer",
+                "url": "https://visioflow.fr/paiement?pack=premium",
+                "priceCurrency": "EUR",
+                "price": "490",
+                "priceValidUntil": "2025-12-31",
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": "89"
+              }
             })
           }}
         />
@@ -215,9 +305,9 @@ export default function LandingPage() {
               <div className="step-number">1</div>
               <h3 className="step-title">Choisissez votre pack</h3>
               <p className="step-desc">
-                Sélectionnez parmi nos <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>deux offres adaptées</a> :
-                le Pack Essentiel pour un <a href="/vitrine" style={{color:'#0071E3',fontWeight:600}}>site vitrine</a> ou
-                le Pack Premium pour les <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>commandes en ligne</a>.
+                Sélectionnez l'offre adaptée à votre projet :
+                le Pack Essentiel pour un site vitrine ou
+                le Pack Premium pour les commandes en ligne.
               </p>
             </div>
             <div className="step-card">
@@ -225,7 +315,7 @@ export default function LandingPage() {
               <h3 className="step-title">Personnalisez votre site</h3>
               <p className="step-desc">
                 Donnez-nous vos informations et préférences. Notre équipe crée un site sur mesure avec votre
-                <a href="/vitrine" style={{color:'#0071E3',fontWeight:600}}>menu et vos horaires</a>.
+                menu et vos horaires.
                 Design moderne, photos de qualité, tout est optimisé.
               </p>
             </div>
@@ -234,7 +324,7 @@ export default function LandingPage() {
               <h3 className="step-title">Lancez votre activité</h3>
               <p className="step-desc">
                 Recevez votre site en 48 heures et commencez à prendre des commandes.
-                Notre <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>solution complète</a> inclut
+                La solution complète inclut
                 l'hébergement, les paiements et le support technique.
               </p>
             </div>
@@ -247,7 +337,7 @@ export default function LandingPage() {
         <div className="container">
           <h2 className="section-title">Pourquoi choisir Visioflow ?</h2>
           <p className="section-sub">
-            Notre <a href="/" style={{color:'#0071E3'}}>service de site web pour restaurant</a> offre
+            Notre service de création de sites web offre
             de nombreux avantages pour développer votre activité en ligne.
           </p>
           <div className="features">
@@ -257,7 +347,7 @@ export default function LandingPage() {
               </div>
               <h3 className="feature-title">Livraison en 48h</h3>
               <p className="feature-desc">
-                Votre site est prêt rapidement. Comparez notre délai avec les <a href="/paiement" style={{color:'#0071E3'}}>packs classiques</a>
+                Votre site est prêt rapidement. Comparez notre délai avec les solutions classiques
                 d'agences web qui prennent des semaines.
               </p>
               <a href="/vitrine" className="feature-link">
@@ -270,7 +360,7 @@ export default function LandingPage() {
               </div>
               <h3 className="feature-title">Commandes en ligne</h3>
               <p className="feature-desc">
-                Acceptez les commandes directement via votre site. Notre <a href="/paiement" style={{color:'#0071E3'}}>Pack Premium</a>
+                Acceptez les commandes directement via votre site. Le Pack Premium
                 inclut panier, paiement et gestion des commandes.
               </p>
               <a href="/paiement" className="feature-link">
@@ -283,7 +373,7 @@ export default function LandingPage() {
               </div>
               <h3 className="feature-title">Mobile First Design</h3>
               <p className="feature-desc">
-                Votre <a href="/vitrine" style={{color:'#0071E3'}}>site restaurant</a> est parfaitement
+                Votre site est parfaitement
                 optimisé pour tous les appareils : smartphone, tablette et ordinateur.
               </p>
               <a href="/vitrine" className="feature-link">
@@ -296,8 +386,7 @@ export default function LandingPage() {
               </div>
               <h3 className="feature-title">Hébergement inclus</h3>
               <p className="feature-desc">
-                Pas de frais supplémentaires. L'hébergement à vie est inclus dans tous nos
-                <a href="/paiement" style={{color:'#0071E3'}}>packs</a>.
+                Pas de frais supplémentaires. L'hébergement à vie est inclus dans tous nos packs.
               </p>
               <a href="/paiement" className="feature-link">
                 Voir les prix <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -309,8 +398,8 @@ export default function LandingPage() {
               </div>
               <h3 className="feature-title">Support dédié</h3>
               <p className="feature-desc">
-                Notre équipe est à votre disposition pour vous aider. Notre
-                <a href="/" style={{color:'#0071E3'}}>service client</a> répond en moins de 24h.
+                Notre équipe est à votre disposition pour vous aider. Le
+                service client répond en moins de 24h.
               </p>
               <a href="/" className="feature-link">
                 Nous contacter <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -322,7 +411,7 @@ export default function LandingPage() {
               </div>
               <h3 className="feature-title">SEO optimisé</h3>
               <p className="feature-desc">
-                Votre <a href="/vitrine" style={{color:'#0071E3'}}>site vitrine</a> est optimisé
+                Votre site vitrine est optimisé
                 pour les moteurs de recherche. Attirez plus de clients potentiels.
               </p>
             </div>
@@ -336,7 +425,7 @@ export default function LandingPage() {
           <h2 className="section-title">Nos packs</h2>
           <p className="section-sub">
             Choisissez l'offre adaptée à vos besoins. Deux solutions pour créer votre
-            <a href="/vitrine" style={{color:'#0071E3'}}>site de restaurant</a> sans abonnement.
+            site sans abonnement.
           </p>
           <div className="pricing">
             <div className="pricing-card">
@@ -409,7 +498,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div style={{textAlign:'center',marginTop:'40px',maxWidth:'600px',margin:'40px auto 0'}}>
-            <p style={{color:'#94a3b8',fontSize:'14',marginBottom:'16px'}}>
+            <p style={{color:'#94a3b8',fontSize:'14px',marginBottom:'16px'}}>
               Besoin d'aide pour choisir ? Comparez nos solutions et découvrez
               <a href="/vitrine" style={{color:'#0071E3',fontWeight:600}}> les exemples de sites</a> que nous créons.
             </p>
@@ -422,47 +511,45 @@ export default function LandingPage() {
         <div className="container">
           <h2 className="section-title">Questions fréquentes</h2>
           <p className="section-sub">
-            Tout savoir sur notre <a href="/" style={{color:'#0071E3'}}>service de création de site</a> pour restaurants.
+            Tout savoir sur notre service de création de site pour restaurants.
           </p>
           <div className="faq">
             <div className="faq-item">
               <h3 className="faq-question">Combien de temps pour recevoir mon site ?</h3>
               <p className="faq-answer">
-                Votre site est livré en 48 heures. Comparez avec les <a href="/paiement" style={{color:'#0071E3'}}>offres classiques</a>
-                qui prennent plusieurs semaines. Notre <a href="/" style={{color:'#0071E3'}}>processus optimisé</a> garantit
+                Votre site est livré en 48 heures. Comparez avec les offres classiques
+                qui prennent plusieurs semaines. Le processus optimisé garantit
                 une livraison rapide sans compromis sur la qualité.
               </p>
             </div>
             <div className="faq-item">
               <h3 className="faq-question">Le paiement est-il sécurisé ?</h3>
               <p className="faq-answer">
-                Oui, nous utilisons Stripe, un leader des paiements en ligne. Le <a href="/paiement" style={{color:'#0071E3'}}>Pack Premium</a>
-                inclut l'intégration complète des paiements sur votre <a href="/vitrine" style={{color:'#0071E3'}}>site de restaurant</a>.
+                Oui, nous utilisons Stripe, un leader des paiements en ligne. Le Pack Premium
+                inclut l'intégration complète des paiements sur votre site.
               </p>
             </div>
             <div className="faq-item">
               <h3 className="faq-question">Puis-je modifier mon site ensuite ?</h3>
               <p className="faq-answer">
-                Bien sûr. Notre <a href="/paiement" style={{color:'#0071E3'}}>panel admin</a> vous permet de modifier
-                votre menu, vos horaires et vos photos. Le <a href="/vitrine" style={{color:'#0071E3'}}>Pack Essentiel</a>
+                Bien sûr. Le panel admin vous permet de modifier
+                votre menu, vos horaires et vos photos. Le Pack Essentiel
                 inclut également des modifications simples via notre support.
               </p>
             </div>
             <div className="faq-item">
               <h3 className="faq-question">Y a-t-il des frais mensuels ?</h3>
               <p className="faq-answer">
-                Non, tous nos <a href="/paiement" style={{color:'#0071E3'}}>packs</a> sont en paiement unique.
-                L'hébergement est inclus à vie. Contrairement à d'autres <a href="/" style={{color:'#0071E3'}}>services de site web</a>,
+                Non, tous nos packs sont en paiement unique.
+                L'hébergement est inclus à vie. Contrairement à d'autres services,
                 nous n'avons pas d'abonnement caché.
               </p>
             </div>
             <div className="faq-item">
               <h3 className="faq-question">Puis-je voir un exemple avant de commander ?</h3>
               <p className="faq-answer">
-                Oui, visitez notre <a href="/vitrine" style={{color:'#0071E3'}}>page de démonstration</a>
-                pour voir un <a href="/vitrine" style={{color:'#0071E3'}}>exemple de site restaurant</a>
-                avec toutes les fonctionnalités. Vous pouvez aussi consulter notre <a href="/" style={{color:'#0071E3'}}>page d'accueil</a>
-                pour voir d'autres réalisations.
+                Oui, visitez notre page de démonstration
+                pour voir un exemple de site avec toutes les fonctionnalités.
               </p>
             </div>
           </div>

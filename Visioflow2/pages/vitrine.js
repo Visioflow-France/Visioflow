@@ -71,7 +71,7 @@ function renderMenu(items) {
         <div class="menu-grid">
           ${catItems.map(item => `
             <div class="menu-card">
-              <div class="menu-photo" style="${item.photo ? `background-image:url(${item.photo})` : ''}">
+              <div class="menu-photo" style="${item.photo ? `background-image:url(${item.photo})` : ''}" ${item.photo ? `alt="${item.name} - ${item.category} - ${CONFIG.siteName}" loading="lazy"` : ''}>
                 ${!item.photo ? `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".3"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>` : ''}
               </div>
               <div class="menu-info">
