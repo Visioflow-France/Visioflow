@@ -325,9 +325,6 @@ export default function LandingPage() {
                 Votre <a href="/vitrine" style={{color:'#0071E3'}}>site vitrine</a> est optimisé
                 pour les moteurs de recherche. Attirez plus de clients potentiels.
               </p>
-              <a href="/vitrine" className="feature-link">
-                Voir la démo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
             </div>
           </div>
         </div>
@@ -409,9 +406,6 @@ export default function LandingPage() {
                 </div>
               </div>
               <a href="/paiement?pack=premium" className="pricing-btn">Choisir ce pack</a>
-              <div style={{textAlign:'center',marginTop:'16px'}}>
-                <a href="/vitrine" style={{color:'#94a3b8',fontSize:'13px'}}>Voir la démo complète →</a>
-              </div>
             </div>
           </div>
           <div style={{textAlign:'center',marginTop:'40px',maxWidth:'600px',margin:'40px auto 0'}}>

@@ -79,15 +79,20 @@ const OPAQUE_CSS = `
 </script>`
 
 function applyConfigToHTML(html, config) {
-  if (!config) return html + OPAQUE_CSS
-  let h = html
+  // Always inject responsive device mockups regardless of config
+  const _screenInner = '<div class="lp-browser"><div class="lp-bar"><span class="lp-dot r"></span><span class="lp-dot y"></span><span class="lp-dot g"></span><div class="lp-url">lepetitbistrot.fr</div></div><div class="lp-content"><div class="lp-site-nav"><span>Le Petit Bistrot</span><span>Menu &bull; Horaires &bull; Nous contacter</span></div><div class="lp-site-hero"><div class="lp-hero-text"><div class="lp-hero-title">Cuisine fran&ccedil;aise</div><div class="lp-hero-sub">Paris 11e &bull; Ouvert tous les jours</div><div class="lp-hero-cta">Voir la carte &rarr;</div></div></div><div class="lp-cards"><div class="lp-card"><div class="lp-card-img lp-img1"></div><div class="lp-card-name">Boeuf Bourguignon</div><div class="lp-card-price">18&euro;</div></div><div class="lp-card"><div class="lp-card-img lp-img2"></div><div class="lp-card-name">Entrecote grill&eacute;e</div><div class="lp-card-price">24&euro;</div></div><div class="lp-card"><div class="lp-card-img lp-img3"></div><div class="lp-card-name">Tarte Tatin</div><div class="lp-card-price">9&euro;</div></div></div></div></div>';
+  const _phoneWrap = `<div class="hero-phone-wrap"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen"><div class="lp-screen">${_screenInner}</div></div></div></div>`;
+  const _tabletWrap = `<div class="hero-tablet-wrap"><div class="ht-frame"><div class="ht-screen"><div class="lp-screen">${_screenInner}</div></div></div></div>`;
+  let h = html.replace('<div class="hero-laptop-wrap">', _phoneWrap + _tabletWrap + '<div class="hero-laptop-wrap">');
+
+  if (!config) return h + OPAQUE_CSS
+
   const packs = config.packs || {}
   ;['essentiel', 'premium'].forEach(pack => {
     const data = packs[pack]
     if (data?.price) {
       h = h.replace(new RegExp(`(id="price-${pack}">)[^<]+`),   `$1${data.price} `)
       h = h.replace(new RegExp(`(id="price-b-${pack}">)[^<]+`), `$1${data.price} `)
-      // Mettre a jour le prix dans la barre du formulaire (defaut : premium)
       if (pack === 'premium') {
         h = h.replace(/(id="form-pack-price"[^>]*>)[^<]+/, `$1${data.price}`)
         h = h.replace(/(id="mPrice"[^>]*>)[^<]+/, `$1${data.price}`)
@@ -101,9 +106,6 @@ function applyConfigToHTML(html, config) {
       h = h.replace(new RegExp(`(id="desc-b-${pack}">)[^<]+`), `$1${data.desc}`)
     }
   })
-  const hero = config.hero || {}
-  // hero.ctaText disabled
-  // hero.subtitle disabled
   const exampleUrls = config.exampleUrls || {}
   ;['essentiel', 'premium'].forEach(pack => {
     let url = (exampleUrls[pack] || '').trim()
@@ -113,81 +115,6 @@ function applyConfigToHTML(html, config) {
       h = h.replace(new RegExp(`(id="demo-b-${pack}" href=")[^"]*"`), `$1${url}"`)
     }
   })
-  // Add contextual internal links for SEO optimization - Multiple strategic placements
-  // Link 1: After first section
-  h = h.replace(
-    /(<div class="lp-section"[^>]*>)/,
-    `$1<a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:600;font-size:13px;">Découvrir nos packs</a> • `
-  );
-  // Link 2: After second section
-  h = h.replace(
-    /(<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>)/,
-    `$1<a href="/landing" style="color:#0071E3;text-decoration:none;font-weight:600;font-size:13px;">Comment ça marche ?</a> • `
-  );
-  // Link 3: After third section
-  h = h.replace(
-    /(<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>.*?<div class="lp-section"[^>]*>)/,
-    `$1<a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:600;font-size:13px;">Voir un exemple de site</a> • `
-  );
-
-  // Add contextual links after H2 headings
-  h = h.replace(
-    /(<h2[^>]*>.*?visioflow|créer.*?site|pour.*?restaurant|nos.*?packs|avantages.*?resto|nos.*?services.*?<\/h2>)/gi,
-    `$1<div style="margin-top:8px;margin-bottom:8px;"><span style="font-size:12px;color:#6b7280;">En savoir : </span><a href="/landing" style="color:#0071E3;text-decoration:none;font-size:12px;font-weight:500;">Notre processus</a> • <a href="/vitrine" style="color:#0071E3;text-decoration:none;font-size:12px;font-weight:500;">Démo</a> • <a href="/paiement" style="color:#0071E3;text-decoration:none;font-size:12px;font-weight:500;">Tarifs</a></div>`
-  );
-
-  // Add links after paragraphs mentioning site, restaurant, web
-  h = h.replace(
-    /(<p[^>]*>.*?(?:site|restaurant|création|web|commande|menu).*?<\/p>)/gi,
-    `$1<span style="display:block;margin-top:6px;font-size:12px;color:#0071E3;"><a href="/vitrine" style="color:inherit;text-decoration:none;">→ Voir un exemple de site</a> • <a href="/landing" style="color:inherit;text-decoration:none;">→ Comment ça marche</a> • <a href="/paiement" style="color:inherit;text-decoration:none;">→ Nos offres</a></span>`
-  );
-
-  // Add links after pricing sections
-  h = h.replace(
-    /(<div[^>]*class="[^"]*price[^"]*"[^>]*>.*?<\/div>)/gi,
-    `$1<div style="margin-top:12px;text-align:center;font-size:12px;"><a href="/landing" style="color:#6b7280;text-decoration:none;">En savoir plus sur le processus</a> • <a href="/vitrine" style="color:#6b7280;text-decoration:none;">Voir la démo</a></div>`
-  );
-
-  // Add links after feature cards
-  h = h.replace(
-    /(<div[^>]*class="[^"]*feature[^"]*card[^"]*"[^>]*>.*?<\/div>)/gi,
-    `$1<div style="margin-top:8px;padding:8px;background:#f4f5f8;border-radius:8px;font-size:12px;color:#6b7280;">Découvrez : <a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:500;">Packs & tarifs</a> • <a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:500;">Démo complète</a> • <a href="/landing" style="color:#0071E3;text-decoration:none;font-weight:500;">Comment ça marche</a></div>`
-  );
-
-  // Add links after action buttons
-  h = h.replace(
-    /(<button[^>]*>(?:commander|choisir|démarrer|commencer|créer).+?<\/button>)/gi,
-    `$1 <a href="/landing" style="font-size:11px;color:#6b7280;text-decoration:none;margin-left:6px;">En savoir plus →</a> <a href="/vitrine" style="font-size:11px;color:#6b7280;text-decoration:none;margin-left:6px;">Voir démo →</a>`
-  );
-
-  // Add links after sections about delivery or creation time
-  h = h.replace(
-    /(<div[^>]*>.*?(?:48h|48 heures|livré|création|délai).*?<\/div>)/gi,
-    `$1<div style="margin:8px 0;padding:8px 12px;background:rgba(0,113,227,0.05);border-left:3px solid #0071E3;border-radius:4px;font-size:12px;color:#4b5563;">Processus expliqué : <a href="/landing" style="color:#0071E3;text-decoration:none;font-weight:600;">Comment ça marche</a> • Exemple : <a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:600;">Site restaurant</a> • Tarifs : <a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:600;">Nos packs</a></div>`
-  );
-
-  // Add contextual links after mentions of mobile, responsive, or design
-  h = h.replace(
-    /(<div[^>]*>.*?(?:mobile|responsive|design|moderne|optimisé).*?<\/div>)/gi,
-    `$1<div style="margin-top:8px;font-size:12px;color:#6b7280;">Voir notre design en action : <a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:500;">Démo mobile</a> • <a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:500;">Pack avec commandes</a></div>`
-  );
-
-  // Add bottom contextual links section before footer
-  h = h.replace(
-    /(<footer)/i,
-    `<div style="padding:40px 20px;text-align:center;background:#f9fafb;border-top:1px solid #e5e7eb;">
-      <h3 style="font-size:18px;font-weight:700;color:#1f2937;margin-bottom:12px;">Explorez nos solutions pour restaurants</h3>
-      <p style="color:#6b7280;font-size:14px;margin-bottom:16px;">Découvrez comment créer votre site professionnel en 48 heures</p>
-      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;font-size:13px;">
-        <a href="/landing" style="color:#0071E3;text-decoration:none;font-weight:500;padding:8px 16px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;">Comment ça marche →</a>
-        <a href="/vitrine" style="color:#0071E3;text-decoration:none;font-weight:500;padding:8px 16px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;">Voir un exemple de site →</a>
-        <a href="/paiement" style="color:#0071E3;text-decoration:none;font-weight:500;padding:8px 16px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;">Nos packs et tarifs →</a>
-      </div>
-      <div style="margin-top:20px;font-size:12px;color:#9ca3af;">
-        Solutions : <a href="/vitrine" style="color:#6b7280;text-decoration:none;">Site vitrine</a> • <a href="/paiement" style="color:#6b7280;text-decoration:none;">Commandes en ligne</a> • <a href="/vitrine" style="color:#6b7280;text-decoration:none;">Menu restaurant</a> • <a href="/landing" style="color:#6b7280;text-decoration:none;">Panel admin</a>
-      </div>
-    </div>$1`
-  );
 
   h += OPAQUE_CSS
   return h
@@ -270,7 +197,6 @@ export default function Home({ siteConfig }) {
       const heroTitleEl = document.getElementById('hero-title');
       if (heroTitleEl) {
         heroTitleEl.style.display = 'block';
-        heroTitleEl.textContent = 'Créez votre site de restaurant professionnel avec commandes en ligne';
       }
     }
   }, [heroComplete])
