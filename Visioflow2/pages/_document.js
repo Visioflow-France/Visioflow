@@ -5,9 +5,11 @@ export default function Document() {
     <Html lang="fr" suppressHydrationWarning>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-        <meta name="theme-color" content="#0071E3"/>
+        <meta name="theme-color" content="#ffffff"/>
         <link rel="manifest" href="/manifest.json"/>
-        <link rel="apple-touch-icon" href="/icon-192.png"/>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
         <script dangerouslySetInnerHTML={{
@@ -20,12 +22,12 @@ export default function Document() {
           `
         }}/>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-        <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"/>
-        <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"/>
-        <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"/>
-        <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"/>
-        <link rel="canonical" href="https://visioflow.fr/" />
+        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"/>
+        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"/>
+        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"/>
+        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"/>
         <meta name="robots" content="index, follow" />
         <meta property="og:site_name" content="VisioFlow" />
         <meta property="og:type" content="website" />

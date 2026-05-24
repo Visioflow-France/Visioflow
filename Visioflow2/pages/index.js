@@ -5414,15 +5414,25 @@ window.goHomePack = function(pack){
   return (
     <>
       <Head>
-        <title>VisioFlow — Sites web pour restaurateurs</title>
-        <meta name="viewport" content="width=1280, initial-scale=1.0"/>
+        <title>Visioflow — Création site web restaurant professionnel | À partir de 150€</title>
+        <meta name="description" content="Agence web spécialisée restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus. À partir de 150€ sans abonnement, livré en 5 jours." />
+        <meta name="keywords" content="création site web restaurant, site internet restaurant, agence web restaurant, site restaurant professionnel, site vitrine restaurant, commandes en ligne restaurant, site web restaurateur, faire site restaurant" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="canonical" href="https://visioflow.fr/" />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="VisioFlow — Sites web pour restaurateurs" />
-        <meta property="og:description" content="Créez votre site de restaurant professionnel avec commandes en ligne en seulement 48 heures." />
+        <meta property="og:title" content="Visioflow — Création site web restaurant professionnel | À partir de 150€" />
+        <meta property="og:description" content="Agence web spécialisée restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus. À partir de 150€ sans abonnement, livré en 5 jours." />
         <meta property="og:url" content="https://visioflow.fr/" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
+        <meta property="og:image" content="https://visioflow.fr/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Visioflow — Création site web restaurant professionnel" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Visioflow — Création site web restaurant professionnel | À partir de 150€" />
+        <meta name="twitter:description" content="Agence web spécialisée restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus. À partir de 150€ sans abonnement, livré en 5 jours." />
+        <meta name="twitter:image" content="https://visioflow.fr/og-image.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -5435,7 +5445,7 @@ window.goHomePack = function(pack){
                   "name": "VisioFlow",
                   "url": "https://visioflow.fr",
                   "logo": "https://visioflow.fr/logo.png",
-                  "description": "Créateur de sites web professionnels pour restaurateurs avec système de commande en ligne, livré en 48 heures.",
+                  "description": "Agence web spécialisée dans la création de sites professionnels pour restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus, à partir de 150€.",
                   "foundingDate": "2024",
                   "contactPoint": {
                     "@type": "ContactPoint",
@@ -5450,7 +5460,7 @@ window.goHomePack = function(pack){
                   "@id": "https://visioflow.fr/#website",
                   "url": "https://visioflow.fr",
                   "name": "VisioFlow",
-                  "description": "Créez votre site de restaurant professionnel avec commandes en ligne en seulement 48 heures. Service tout compris : design, hébergement, paiement et livraison.",
+                  "description": "Création de sites web professionnels pour restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus. À partir de 150€, livré en 5 jours.",
                   "publisher": {
                     "@id": "https://visioflow.fr/#organization"
                   },

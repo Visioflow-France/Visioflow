@@ -186,45 +186,61 @@ export default function Vitrine() {
   return (
     <>
       <Head>
-        <title>{CONFIG.siteName} — {CONFIG.cuisine}</title>
-        <meta name="description" content={CONFIG.tagline} />
+        <title>Exemple site web restaurant — Démo Visioflow | Menu &amp; commandes en ligne</title>
+        <meta name="description" content="Découvrez un exemple concret de site restaurant professionnel créé par Visioflow : menu en ligne, commandes et paiement intégré. Pack Essentiel 150€ ou Premium 490€, livré en 5 jours." />
+        <meta name="keywords" content="exemple site restaurant, démo site web restaurant, site restaurant avec commandes en ligne, modèle site restaurant, aperçu site vitrine restaurant" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content={`${CONFIG.siteName} — ${CONFIG.cuisine}`} />
-        <meta property="og:description" content={CONFIG.tagline} />
+        <meta property="og:title" content="Exemple site web restaurant — Démo Visioflow" />
+        <meta property="og:description" content="Découvrez un exemple concret de site restaurant professionnel créé par Visioflow : menu en ligne, commandes et paiement intégré. À partir de 150€." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
+        <meta property="og:image" content="https://visioflow.fr/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Exemple site web restaurant — Démo Visioflow" />
+        <meta name="twitter:description" content="Découvrez un exemple concret de site restaurant créé par Visioflow. À partir de 150€, livré en 5 jours." />
+        <meta name="twitter:image" content="https://visioflow.fr/og-image.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Restaurant",
-              "name": CONFIG.siteName,
-              "description": CONFIG.tagline,
-              "servesCuisine": CONFIG.cuisine,
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": CONFIG.address,
-                "addressCountry": "FR"
-              },
-              "telephone": CONFIG.phone,
-              "email": CONFIG.email,
-              "openingHoursSpecification": Object.entries(CONFIG.hours)
-                .filter(([_, v]) => v && v.toLowerCase() !== 'fermé')
-                .map(([day, hours]) => ({
-                  "@type": "OpeningHoursSpecification",
-                  "dayOfWeek": day.charAt(0).toUpperCase() + day.slice(1),
-                  "opens": hours.split('·')[0]?.trim(),
-                  "closes": hours.split('·')[1]?.trim()
-                })),
-              "priceRange": "€€",
+              "@type": "WebPage",
+              "name": "Exemple site web restaurant — Démo Visioflow",
+              "description": "Démonstration d'un site restaurant professionnel créé par Visioflow : menu en ligne, commandes et paiement intégré.",
               "url": canonicalUrl,
-              "sameAs": [CONFIG.instagram, CONFIG.facebook, CONFIG.tiktok].filter(Boolean)
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "Visioflow",
+                "url": "https://visioflow.fr"
+              },
+              "about": {
+                "@type": "Service",
+                "name": "Création site web restaurant professionnel",
+                "provider": {
+                  "@type": "Organization",
+                  "name": "Visioflow",
+                  "url": "https://visioflow.fr"
+                },
+                "offers": [
+                  {
+                    "@type": "Offer",
+                    "name": "Pack Essentiel — Site vitrine restaurant",
+                    "price": "150",
+                    "priceCurrency": "EUR"
+                  },
+                  {
+                    "@type": "Offer",
+                    "name": "Pack Premium — Site restaurant avec commandes en ligne",
+                    "price": "490",
+                    "priceCurrency": "EUR"
+                  }
+                ]
+              }
             })
           }}
         />

@@ -18,71 +18,54 @@ export default function LandingPage() {
   return (
     <>
       <Head>
-        <title>Visioflow — Création Site Web Restaurant en 48h | Sans Abonnement</title>
+        <title>Créer un site web pour votre restaurant — Visioflow | Site vitrine &amp; commandes en ligne</title>
         <meta
           name="description"
-          content="Visioflow crée votre site web de restaurant professionnel en 48 heures. Commandes en ligne, menu digital, hébergement à vie. Pack Essentiel 150€ ou Premium 490€, sans abonnement."
+          content="Votre site restaurant professionnel avec menu en ligne, commandes et paiement intégré. Pack Essentiel 150€ ou Premium 490€ — livré en 5 jours, hébergement à vie inclus."
         />
+        <meta name="keywords" content="créer site restaurant, site restaurant commandes en ligne, site vitrine restaurant pas cher, site web restaurant rapide, faire site internet restaurant, site restaurant menu en ligne, prise de commande en ligne restaurant" />
         <link rel="canonical" href={canonicalUrl} />
-        <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Visioflow — Création Site Web Restaurant en 48h | Sans Abonnement" />
-        <meta property="og:description" content="Visioflow crée votre site web de restaurant professionnel en 48 heures. Commandes en ligne, menu digital, hébergement à vie. Pack Essentiel 150€ ou Premium 490€, sans abonnement." />
+        <meta name="robots" content="noindex, nofollow" />
+        <meta property="og:title" content="Créer un site web pour votre restaurant — Visioflow" />
+        <meta property="og:description" content="Votre site restaurant professionnel avec menu en ligne, commandes et paiement intégré. Pack Essentiel 150€ ou Premium 490€ — livré en 5 jours, hébergement à vie inclus." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
-        <meta property="og:site_name" content="VisioFlow" />
-        <meta property="og:image" content="https://visioflow.fr/og-landing.jpg" />
+        <meta property="og:image" content="https://visioflow.fr/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Visioflow — Créer un site web pour votre restaurant" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Visioflow — Création Site Web Restaurant en 48h" />
-        <meta name="twitter:description" content="Visioflow crée votre site web de restaurant professionnel en 48 heures. Commandes en ligne, menu digital, hébergement à vie. Sans abonnement." />
-        <meta name="twitter:image" content="https://visioflow.fr/og-landing.jpg" />
+        <meta name="twitter:title" content="Créer un site web pour votre restaurant — Visioflow" />
+        <meta name="twitter:description" content="Votre site restaurant professionnel avec menu en ligne, commandes et paiement intégré. Pack Essentiel 150€ ou Premium 490€ — livré en 5 jours, hébergement à vie inclus." />
+        <meta name="twitter:image" content="https://visioflow.fr/og-image.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
-              "name": "VisioFlow",
-              "url": "https://visioflow.fr",
-              "logo": "https://visioflow.fr/logo.png",
-              "description": "Service de création de sites web pour restaurants avec système de commande en ligne, livré en 48 heures.",
-              "foundingDate": "2025",
-              "sameAs": [
-                "https://instagram.com/visioflow",
-                "https://linkedin.com/company/visioflow"
-              ],
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+33-1-23-45-67-89",
-                "contactType": "customer service",
-                "email": "contact@visioflow.fr",
-                "areaServed": "FR"
-              },
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "12 Rue de la Paix",
-                "addressLocality": "Paris",
-                "postalCode": "75001",
-                "addressCountry": "FR"
+              "@type": "Service",
+              "name": "Visioflow — Création site web restaurant professionnel",
+              "description": "Service de création de sites web professionnels pour restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus, livré en 5 jours maximum.",
+              "provider": {
+                "@type": "Organization",
+                "name": "Visioflow",
+                "url": "https://visioflow.fr"
               },
               "offers": [
                 {
                   "@type": "Offer",
-                  "name": "Pack Essentiel",
+                  "name": "Pack Essentiel — Site vitrine restaurant",
                   "price": "150",
                   "priceCurrency": "EUR",
-                  "description": "Site vitrine professionnel pour restaurant, livré en 48 heures.",
-                  "availability": "https://schema.org/InStock"
+                  "description": "Site vitrine professionnel pour restaurant, design sur mesure, responsive mobile, hébergement à vie inclus. Livré en 5 jours."
                 },
                 {
                   "@type": "Offer",
-                  "name": "Pack Premium",
+                  "name": "Pack Premium — Site restaurant avec commandes en ligne",
                   "price": "490",
                   "priceCurrency": "EUR",
-                  "description": "Site avec commandes en ligne, panier et paiement intégré, livré en 48 heures.",
-                  "availability": "https://schema.org/InStock"
+                  "description": "Site restaurant complet avec commandes en ligne, panier, paiement intégré Stripe et panel admin. Livré en 5 jours."
                 }
               ],
               "areaServed": {
@@ -94,67 +77,54 @@ export default function LandingPage() {
             })
           }}
         />
-
-        {/* Product Schema - Pack Essentiel */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Product",
-              "name": "Pack Essentiel - Site Vitrine Restaurant",
-              "description": "Site vitrine professionnel pour restaurant, livré en 48 heures. Design sur mesure, responsive mobile, hébergement à vie inclus.",
-              "image": "https://visioflow.fr/products/pack-essentiel.jpg",
-              "brand": {
-                "@type": "Brand",
-                "name": "VisioFlow"
-              },
-              "offers": {
-                "@type": "Offer",
-                "url": "https://visioflow.fr/paiement?pack=essentiel",
-                "priceCurrency": "EUR",
-                "price": "150",
-                "priceValidUntil": "2025-12-31",
-                "availability": "https://schema.org/InStock",
-                "itemCondition": "https://schema.org/NewCondition"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "127"
-              }
-            })
-          }}
-        />
-
-        {/* Product Schema - Pack Premium */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Product",
-              "name": "Pack Premium - Commandes en Ligne Restaurant",
-              "description": "Site complet avec commandes en ligne, panier et paiement intégré. Panel admin restaurant, responsive mobile, hébergement à vie inclus.",
-              "image": "https://visioflow.fr/products/pack-premium.jpg",
-              "brand": {
-                "@type": "Brand",
-                "name": "VisioFlow"
-              },
-              "offers": {
-                "@type": "Offer",
-                "url": "https://visioflow.fr/paiement?pack=premium",
-                "priceCurrency": "EUR",
-                "price": "490",
-                "priceValidUntil": "2025-12-31",
-                "availability": "https://schema.org/InStock",
-                "itemCondition": "https://schema.org/NewCondition"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "89"
-              }
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Combien de temps pour recevoir mon site restaurant ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Votre site est livré en 5 jours maximum. Nos packs incluent design sur mesure, hébergement et mise en ligne complète."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Quel est le prix pour créer un site web de restaurant ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Visioflow propose deux packs : le Pack Essentiel à 150€ (site vitrine professionnel) et le Pack Premium à 490€ (site avec commandes en ligne, panier et paiement intégré). Paiement unique, sans abonnement."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Y a-t-il des frais mensuels pour le site de mon restaurant ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Non. Tous nos packs sont en paiement unique. L'hébergement est inclus à vie, sans abonnement caché."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Mon site restaurant sera-t-il visible sur mobile ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Oui. Tous nos sites sont conçus Mobile First : parfaitement optimisés pour smartphone, tablette et ordinateur."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Puis-je accepter des commandes en ligne sur mon site restaurant ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Oui, avec le Pack Premium à 490€. Il inclut un système de commandes en ligne, panier, paiement sécurisé via Stripe et un panel admin pour gérer votre menu."
+                  }
+                }
+              ]
             })
           }}
         />
@@ -262,7 +232,7 @@ export default function LandingPage() {
         <div className="hero-content">
           <div className="hero-badge">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Livré en 48 heures
+            Livré en 5 jours maximum
           </div>
           <h1 className="hero-title">
             Votre site restaurant professionnel<br />
@@ -271,7 +241,7 @@ export default function LandingPage() {
           <p className="hero-sub">
             Visioflow crée des sites web modernes et performants pour restaurants.
             Développez votre activité avec un <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>site avec commandes en ligne</a>,
-            optimisé pour mobile et livré en seulement 48 heures.
+            optimisé pour mobile et livré en 5 jours maximum.
           </p>
           <div className="hero-actions">
             <a href="/paiement" className="hero-btn primary">
@@ -284,7 +254,7 @@ export default function LandingPage() {
             </a>
           </div>
           <div style={{marginTop:40,display:'flex',flexWrap:'wrap',gap:20,justifyContent:'center',fontSize:14,color:'#64748b'}}>
-            <span>🚀 Livré en 48h</span>
+            <span>🚀 Livré en 5 jours</span>
             <span>✓ Sans abonnement</span>
             <span>📱 100% mobile</span>
             <span>💳 Paiements intégrés</span>
@@ -323,8 +293,13 @@ export default function LandingPage() {
               <div className="step-number">3</div>
               <h3 className="step-title">Lancez votre activité</h3>
               <p className="step-desc">
+<<<<<<< HEAD
                 Recevez votre site en 48 heures et commencez à prendre des commandes.
                 La solution complète inclut
+=======
+                Recevez votre site en 5 jours et commencez à prendre des commandes.
+                Notre <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>solution complète</a> inclut
+>>>>>>> f183cbd (seo max)
                 l'hébergement, les paiements et le support technique.
               </p>
             </div>
@@ -345,10 +320,15 @@ export default function LandingPage() {
               <div className="feature-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
               </div>
-              <h3 className="feature-title">Livraison en 48h</h3>
+              <h3 className="feature-title">Livraison en 5 jours</h3>
               <p className="feature-desc">
+<<<<<<< HEAD
                 Votre site est prêt rapidement. Comparez notre délai avec les solutions classiques
                 d'agences web qui prennent des semaines.
+=======
+                Votre site est prêt en 5 jours maximum. Comparez avec les <a href="/paiement" style={{color:'#0071E3'}}>agences classiques</a>
+                qui prennent plusieurs semaines.
+>>>>>>> f183cbd (seo max)
               </p>
               <a href="/vitrine" className="feature-link">
                 Voir un exemple <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -517,8 +497,13 @@ export default function LandingPage() {
             <div className="faq-item">
               <h3 className="faq-question">Combien de temps pour recevoir mon site ?</h3>
               <p className="faq-answer">
+<<<<<<< HEAD
                 Votre site est livré en 48 heures. Comparez avec les offres classiques
                 qui prennent plusieurs semaines. Le processus optimisé garantit
+=======
+                Votre site est livré en 5 jours maximum. Comparez avec les <a href="/paiement" style={{color:'#0071E3'}}>agences classiques</a>
+                qui prennent plusieurs semaines. Notre <a href="/" style={{color:'#0071E3'}}>processus optimisé</a> garantit
+>>>>>>> f183cbd (seo max)
                 une livraison rapide sans compromis sur la qualité.
               </p>
             </div>
