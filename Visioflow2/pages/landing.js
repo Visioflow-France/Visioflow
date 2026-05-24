@@ -293,13 +293,8 @@ export default function LandingPage() {
               <div className="step-number">3</div>
               <h3 className="step-title">Lancez votre activité</h3>
               <p className="step-desc">
-<<<<<<< HEAD
-                Recevez votre site en 48 heures et commencez à prendre des commandes.
-                La solution complète inclut
-=======
                 Recevez votre site en 5 jours et commencez à prendre des commandes.
                 Notre <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>solution complète</a> inclut
->>>>>>> f183cbd (seo max)
                 l'hébergement, les paiements et le support technique.
               </p>
             </div>
@@ -322,13 +317,8 @@ export default function LandingPage() {
               </div>
               <h3 className="feature-title">Livraison en 5 jours</h3>
               <p className="feature-desc">
-<<<<<<< HEAD
-                Votre site est prêt rapidement. Comparez notre délai avec les solutions classiques
-                d'agences web qui prennent des semaines.
-=======
                 Votre site est prêt en 5 jours maximum. Comparez avec les <a href="/paiement" style={{color:'#0071E3'}}>agences classiques</a>
                 qui prennent plusieurs semaines.
->>>>>>> f183cbd (seo max)
               </p>
               <a href="/vitrine" className="feature-link">
                 Voir un exemple <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -497,13 +487,8 @@ export default function LandingPage() {
             <div className="faq-item">
               <h3 className="faq-question">Combien de temps pour recevoir mon site ?</h3>
               <p className="faq-answer">
-<<<<<<< HEAD
-                Votre site est livré en 48 heures. Comparez avec les offres classiques
-                qui prennent plusieurs semaines. Le processus optimisé garantit
-=======
                 Votre site est livré en 5 jours maximum. Comparez avec les <a href="/paiement" style={{color:'#0071E3'}}>agences classiques</a>
                 qui prennent plusieurs semaines. Notre <a href="/" style={{color:'#0071E3'}}>processus optimisé</a> garantit
->>>>>>> f183cbd (seo max)
                 une livraison rapide sans compromis sur la qualité.
               </p>
             </div>
