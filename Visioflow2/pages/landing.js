@@ -137,7 +137,7 @@ export default function LandingPage() {
           @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
           .nav{background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
           .nav-content{display:flex;justify-content:space-between;align-items:center}
-          .logo{font-family:Outfit,sans-serif;font-size:28px;font-weight:900;color:#fff}
+          .logo{font-family:Outfit,sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
           .logo span{color:#0071E3}
           .nav-links{display:flex;gap:32px}
           .nav-links a{color:#94a3b8;font-size:14px;font-weight:500}
@@ -215,7 +215,7 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="nav">
         <div className="container nav-content">
-          <a href="/" className="logo">Visio<span>flow</span></a>
+          <a href="/" className="logo"><img src="/logo.svg" alt="VisioFlow" width="32" height="32" />Visio<span>flow</span></a>
           <div className="nav-links">
             <a href="#comment-ca-marche">Comment ça marche</a>
             <a href="#avantages">Avantages</a>

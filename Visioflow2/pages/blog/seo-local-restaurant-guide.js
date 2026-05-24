@@ -44,7 +44,7 @@ export default function BlogSEOLocal() {
 
       <nav className="nav">
         <div className="nav-content">
-          <Link href="/" className="logo">Visio<span>flow</span></Link>
+          <Link href="/" className="logo"><img src="/logo.svg" alt="VisioFlow" width="32" height="32" />Visio<span>flow</span></Link>
           <Link href="/paiement" style={{background:'#0071E3',color:'#fff',padding:'10px 20px',borderRadius:'50px',fontWeight:600,textDecoration:'none'}}>Commencer →</Link>
         </div>
       </nav>

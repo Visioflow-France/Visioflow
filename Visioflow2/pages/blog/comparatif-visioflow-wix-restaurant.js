@@ -74,7 +74,7 @@ export default function BlogComparatifWix() {
       {/* Navigation */}
       <nav className="nav">
         <div className="nav-content">
-          <Link href="/" className="logo">Visio<span>flow</span></Link>
+          <Link href="/" className="logo"><img src="/logo.svg" alt="VisioFlow" width="32" height="32" />Visio<span>flow</span></Link>
           <div className="nav-links">
             <Link href="/landing">Comment ça marche</Link>
             <Link href="/tarifs">Tarifs</Link>
