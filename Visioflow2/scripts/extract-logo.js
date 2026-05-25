@@ -1,92 +1,47 @@
 const sharp = require('sharp');
 
 async function extractLogo() {
-  const image = await sharp('Gemini_Generated_Image_sdvrysdvrysdvrys.png').raw().toBuffer({ resolveWithObject: true });
-  const { data, info } = image;
-  const { width, height, channels } = info;
+  // First, let's get the image info
+  const metadata = await sharp('Gemini_Generated_Image_sdvrysdvrysdvrys.png').metadata();
+  console.log(`Image: ${metadata.width}x${metadata.height}`);
 
-  console.log(`Image dimensions: ${width}x${height}, channels: ${channels}`);
+  // Based on visual analysis, the logo VF is roughly centered in the image
+  // The image is 1408x768, and the VF logo is in the center area
+  // Let's try extracting the center square that contains the logo
 
-  // Find the logo boundaries by detecting purple/blue gradient colors
-  let minX = width, maxX = 0, minY = height, maxY = 0;
+  // Center coordinates
+  const centerX = Math.floor(metadata.width / 2);
+  const centerY = Math.floor(metadata.height / 2);
 
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const idx = (y * width + x) * channels;
-      const r = data[idx];
-      const g = data[idx + 1];
-      const b = data[idx + 2];
-      const a = data[idx + 3];
+  // The logo appears to be roughly 300x350 pixels
+  // Let's extract a square region centered on the image
+  const size = Math.min(metadata.width, metadata.height) * 0.6; // 60% of the smaller dimension
 
-      // Skip transparent pixels
-      if (a < 50) continue;
+  const left = Math.floor(centerX - size / 2);
+  const top = Math.floor(centerY - size / 2);
 
-      // Check if pixel is part of the purple/blue gradient logo
-      // The logo has bright purple and blue colors, while background is black
-      const brightness = (r + g + b) / 3;
-      const isPurpleBlue = (r > 50 && r < 255 && b > 100 && g < 200) &&
-                           (b > r * 0.8 && r > g * 1.2);
+  console.log(`Extracting: ${left},${top} size ${Math.floor(size)}x${Math.floor(size)}`);
 
-      if (isPurpleBlue) {
-        minX = Math.min(minX, x);
-        maxX = Math.max(maxX, x);
-        minY = Math.min(minY, y);
-        maxY = Math.max(maxY, y);
-      }
-    }
-  }
-
-  console.log(`Logo bounds: x=${minX}-${maxX}, y=${minY}-${maxY}`);
-  console.log(`Logo size: ${maxX - minX}x${maxY - minY}`);
-
-  // Add padding
-  const padding = 100;
-  const logoWidth = maxX - minX + padding * 2;
-  const logoHeight = maxY - minY + padding * 2;
-
-  const centerX = Math.floor((minX + maxX) / 2);
-  const centerY = Math.floor((minY + maxY) / 2);
-
-  const left = Math.max(0, centerX - Math.floor(logoWidth / 2));
-  const top = Math.max(0, centerY - Math.floor(logoHeight / 2));
-
-  console.log(`Cropped area: ${left},${top} size ${logoWidth}x${logoHeight}`);
-
-  // Extract and save the logo
   await sharp('Gemini_Generated_Image_sdvrysdvrysdvrys.png')
-    .extract({ left, top, width: logoWidth, height: logoHeight })
+    .extract({ left, top, width: Math.floor(size), height: Math.floor(size) })
     .png()
     .toFile('public/logo-extracted.png');
 
-  console.log('Logo extracted to public/logo-extracted.png');
+  console.log('Logo extracted');
 
-  // Generate favicons from extracted logo
-  await sharp('public/logo-extracted.png')
-    .resize(16, 16, { fit: 'cover' })
-    .png()
-    .toFile('public/favicon-16.png');
+  // Generate favicons
+  const sizes = [16, 32, 180, 192, 512];
+  const names = ['favicon-16.png', 'favicon-32.png', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'];
 
-  await sharp('public/logo-extracted.png')
-    .resize(32, 32, { fit: 'cover' })
-    .png()
-    .toFile('public/favicon-32.png');
+  for (let i = 0; i < sizes.length; i++) {
+    await sharp('public/logo-extracted.png')
+      .resize(sizes[i], sizes[i], { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+      .png()
+      .toFile(`public/${names[i]}`);
+    console.log(`${names[i]} generated`);
+  }
 
-  await sharp('public/logo-extracted.png')
-    .resize(180, 180, { fit: 'cover' })
-    .png()
-    .toFile('public/apple-touch-icon.png');
-
-  await sharp('public/logo-extracted.png')
-    .resize(192, 192, { fit: 'cover' })
-    .png()
-    .toFile('public/icon-192.png');
-
-  await sharp('public/logo-extracted.png')
-    .resize(512, 512, { fit: 'cover' })
-    .png()
-    .toFile('public/icon-512.png');
-
-  console.log('Favicons generated successfully');
+  console.log('All favicons generated');
 }
 
 extractLogo().catch(console.error);
