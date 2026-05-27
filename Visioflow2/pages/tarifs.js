@@ -472,6 +472,17 @@ export default function Tarifs() {
             <a href="/a-propos" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>À propos</a>
           </div>
           <p style={{color:'rgba(255,255,255,.3)'}}>© {new Date().getFullYear()} VisioFlow — Tous droits réservés.</p>
+          <div style={{marginTop:'12px',fontSize:'12px',color:'rgba(255,255,255,.4)',display:'flex',gap:'8px',justifyContent:'center',flexWrap:'wrap'}}>
+            <a href="/mentions-legales" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Mentions légales</a>
+            <span style={{color:'rgba(255,255,255,.3)'}}>•</span>
+            <a href="/politique-confidentialite" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Politique de confidentialité</a>
+            <span style={{color:'rgba(255,255,255,.3)'}}>•</span>
+            <a href="/cgu" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>CGU</a>
+            <span style={{color:'rgba(255,255,255,.3)'}}>•</span>
+            <a href="/politique-cookies" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Cookies</a>
+            <span style={{color:'rgba(255,255,255,.3)'}}>•</span>
+            <a href="/cgv" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>CGV</a>
+          </div>
         </div>
       </footer>
     </>

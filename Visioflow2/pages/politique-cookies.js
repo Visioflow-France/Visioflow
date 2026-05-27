@@ -1,0 +1,415 @@
+import Head from 'next/head';
+
+const canonicalUrl = "https://visioflow.fr/politique-cookies";
+
+export default function PolitiqueCookies() {
+  return (
+    <>
+      <Head>
+        <title>Politique de Cookies | VisioFlow</title>
+        <meta
+          name="description"
+          content="Politique de cookies de VisioFlow. Découvrez les cookies que nous utilisons, leurs finalités et comment configurer vos préférences."
+        />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="Politique de Cookies | VisioFlow" />
+        <meta property="og:description" content="Politique de cookies de VisioFlow." />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:site_name" content="VisioFlow" />
+
+        <style>{`
+          *{box-sizing:border-box;margin:0;padding:0}
+          body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
+          .container{max-width:1000px;margin:0 auto;padding:0 20px}
+          .hero{min-height:50vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px 40px;position:relative}
+          .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);opacity:.3}
+          .hero-content{position:relative;z-index:1;max-width:800px}
+          .hero-title{font-family:'Outfit',sans-serif;font-size:clamp(36px,6vw,56px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          .hero-sub{font-size:16px;color:#94a3b8;margin-bottom:30px;max-width:600px;margin-left:auto;margin-right:auto}
+          .content{padding:60px 20px}
+          .section{background:rgba(255,255,255,.02);border-radius:20px;padding:40px;margin-bottom:24px;border:1px solid rgba(255,255,255,.05)}
+          .section-title{font-family:'Outfit',sans-serif;font-size:24px;font-weight:700;color:#fff;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+          .section-icon{width:32px;height:32px;background:rgba(0,113,227,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#0071E3}
+          .section p{color:#94a3b8;margin-bottom:16px;line-height:1.8}
+          .section p:last-child{margin-bottom:0}
+          .section strong{color:#f1f5f9;font-weight:600}
+          .section ul{margin:16px 0;padding-left:24px}
+          .section li{color:#94a3b8;margin-bottom:10px;line-height:1.8}
+          .cookie-table{width:100%;border-collapse:collapse;margin:20px 0;background:rgba(0,113,227,.05);border-radius:12px;overflow:hidden}
+          .cookie-table th{background:rgba(0,113,227,.15);color:#f1f5f9;padding:16px;text-align:left;font-weight:600;border-bottom:1px solid rgba(0,113,227,.2)}
+          .cookie-table td{padding:16px;color:#94a3b8;border-bottom:1px solid rgba(255,255,255,.05)}
+          .cookie-table tr:last-child td{border-bottom:none}
+          .cookie-category{background:rgba(0,113,227,.1);color:#0071E3;font-weight:600;padding:20px;margin:24px 0 16px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:18px}
+          .nav{background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+          .nav-content{display:flex;justify-content:space-between;align-items:center}
+          .logo{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px;text-decoration:none}
+          .logo span{color:#0071E3}
+          .nav-links{display:flex;gap:32px}
+          .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
+          .nav-links a:hover{color:#fff}
+          .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s}
+          .nav-cta:hover{background:#0056b3;transform:translateY(-2px}
+          .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
+          .legal-links{display:flex;gap:20px;justifyContent:center;flexWrap:wrap;marginBottom:20px}
+          .legal-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:13px;transition:color .2s}
+          .legal-links a:hover{color:#0071E3}
+          @media(max-width:768px){.nav-links{display:none}.cookie-table{font-size:13px}.cookie-table th,.cookie-table td{padding:12px}}
+        `}</style>
+      </Head>
+
+      {/* Navigation */}
+      <nav className="nav">
+        <div className="container nav-content">
+          <a href="/" className="logo"><img src="/logo.svg" alt="VisioFlow" width="32" height="32" />Visio<span>flow</span></a>
+          <div className="nav-links">
+            <a href="/landing">Comment ça marche</a>
+            <a href="/tarifs">Tarifs</a>
+            <a href="/temoignages">Témoignages</a>
+            <a href="/a-propos">À propos</a>
+          </div>
+          <a href="/paiement" className="nav-cta">Commencer →</a>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-bg" />
+        <div className="hero-content">
+          <h1 className="hero-title">Politique de Cookies</h1>
+          <p className="hero-sub">
+            Découvrez les cookies que nous utilisons sur notre site et comment configurer vos préférences.
+          </p>
+        </div>
+      </section>
+
+      {/* Content Section */}
+      <div className="container content">
+        {/* Qu'est-ce qu'un cookie */}
+        <div className="section">
+          <h2 className="section-title">
+            <div className="section-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            Qu'est-ce qu'un cookie ?
+          </h2>
+          <p>
+            Un cookie est un petit fichier texte stocké sur votre terminal (ordinateur, tablette,
+            mobile) lorsque vous visitez un site web. Il permet au site de mémoriser vos actions
+            et préférences (identifiant de connexion, langue, choix de police, etc.) pendant une
+            durée déterminée.
+          </p>
+          <p>
+            Les cookies sont gérés par votre navigateur web et peuvent être supprimés ou bloqués
+            à tout moment via les paramètres de votre navigateur.
+          </p>
+          <p>
+            Conformément à la réglementation française et européenne (RGPD et ePrivacy Directive),
+            nous vous informons sur l'utilisation des cookies sur notre site et vous offrons
+            la possibilité de les gérer.
+          </p>
+        </div>
+
+        {/* Types de cookies */}
+        <div className="section">
+          <h2 className="section-title">
+            <div className="section-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            Types de cookies utilisés
+          </h2>
+
+          <div className="cookie-category">Cookies strictement nécessaires</div>
+          <p>
+            Ces cookies sont indispensables au bon fonctionnement du site. Ils permettent notamment
+            de naviguer sur le site et d'en utiliser les fonctionnalités essentielles. Ils ne
+            nécessitent pas votre consentement préalable conformément à la réglementation.
+          </p>
+
+          <table className="cookie-table">
+            <thead>
+              <tr>
+                <th>Nom du cookie</th>
+                <th>Finalité</th>
+                <th>Durée</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>next-auth.session-token</td>
+                <td>Authentification et maintien de session</td>
+                <td>Session</td>
+              </tr>
+              <tr>
+                <td>next-auth.csrf-token</td>
+                <td>Protection contre les attaques CSRF</td>
+                <td>Session</td>
+              </tr>
+              <tr>
+                <td>__Secure-next-auth.callback-url</td>
+                <td>Gestion des redirections après authentification</td>
+                <td>Session</td>
+              </tr>
+              <tr>
+                <td>cookie_consent</td>
+                <td>Mémorisation de votre choix en matière de cookies</td>
+                <td>1 an</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div className="cookie-category">Cookies de performance et d'analyse</div>
+          <p>
+            Ces cookies nous permettent de mesurer l'audience du site et d'analyser le comportement
+            des visiteurs afin d'améliorer nos services. Ils nécessitent votre consentement.
+          </p>
+
+          <table className="cookie-table">
+            <thead>
+              <tr>
+                <th>Nom du cookie</th>
+                <th>Finalité</th>
+                <th>Durée</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>_ga, _gid</td>
+                <td>Google Analytics - Statistiques de visite</td>
+                <td>2 ans / 24h</td>
+              </tr>
+              <tr>
+                <td>_gat</td>
+                <td>Google Analytics - Limitation du taux de requêtes</td>
+                <td>1 minute</td>
+              </tr>
+              <tr>
+                <td>_gcl_au</td>
+                <td>Google Ads - Conversion publicitaire</td>
+                <td>90 jours</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div className="cookie-category">Cookies de fonctionnalité</div>
+          <p>
+            Ces cookies permettent de mémoriser vos préférences et choix afin d'améliorer votre
+            expérience de navigation. Ils nécessitent votre consentement.
+          </p>
+
+          <table className="cookie-table">
+            <thead>
+              <tr>
+                <th>Nom du cookie</th>
+                <th>Finalité</th>
+                <th>Durée</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>theme_preference</td>
+                <td>Mémorisation du thème choisi (clair/sombre)</td>
+                <td>1 an</td>
+              </tr>
+              <tr>
+                <td>language_preference</td>
+                <td>Mémorisation de la langue choisie</td>
+                <td>1 an</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div className="cookie-category">Cookies de publicité ciblée</div>
+          <p>
+            Ces cookies sont utilisés pour vous afficher des publicités pertinentes en fonction de
+            vos centres d'intérêt et de votre navigation. Ils nécessitent votre consentement.
+          </p>
+
+          <table className="cookie-table">
+            <thead>
+              <tr>
+                <th>Nom du cookie</th>
+                <th>Finalité</th>
+                <th>Durée</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Facebook Pixel cookies</td>
+                <td>Meta - Suivi des conversions et publicités</td>
+                <td>Varié</td>
+              </tr>
+              <tr>
+                <td>LinkedIn Insight Tag</td>
+                <td>LinkedIn - Suivi des conversions et publicités</td>
+                <td>Varié</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Gestion des cookies */}
+        <div className="section">
+          <h2 className="section-title">
+            <div className="section-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
+            Gestion de votre consentement
+          </h2>
+          <p>
+            Lors de votre première visite sur notre site, un bandeau de consentement apparaît
+            et vous invite à accepter ou refuser les cookies non strictement nécessaires.
+          </p>
+          <p>
+            Vous pouvez à tout moment modifier vos préférences en matière de cookies en cliquant
+            sur le lien "Gérer les cookies" présent en bas de chaque page ou via les paramètres
+            de votre compte.
+          </p>
+          <p>
+            Votre choix sera conservé pendant une durée d'un an. Passé ce délai, nous vous
+            demanderons à nouveau votre consentement.
+          </p>
+        </div>
+
+        {/* Paramétrage du navigateur */}
+        <div className="section">
+          <h2 className="section-title">
+            <div className="section-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            Paramétrage de votre navigateur
+          </h2>
+          <p>
+            Vous pouvez également configurer votre navigateur pour refuser ou supprimer les cookies.
+            Les procédures varient selon les navigateurs :
+          </p>
+
+          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 12px'}}>Google Chrome</h3>
+          <ul>
+            <li>Menu → Paramètres → Confidentialité et sécurité → Cookies et autres données des sites</li>
+            <li>Vous pouvez choisir de bloquer les cookies de tiers ou tous les cookies</li>
+          </ul>
+
+          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 12px'}}>Mozilla Firefox</h3>
+          <ul>
+            <li>Menu → Options → Vie privée et sécurité → Cookies et données de site</li>
+            <li>Cochez "Bloquer les cookies et les données de site" pour désactiver les cookies</li>
+          </ul>
+
+          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 12px'}}>Safari</h3>
+          <ul>
+            <li>Menu Safari → Préférences → Confidentialité</li>
+            <li>Cochez "Bloquer les cookies" pour désactiver les cookies</li>
+          </ul>
+
+          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 12px'}}>Microsoft Edge</h3>
+          <ul>
+            <li>Menu → Paramètres → Cookies et autorisations de site</li>
+            <li>Gérez vos préférences en matière de cookies</li>
+          </ul>
+
+          <p style={{margin:'24px 0 0',padding:'16px',background:'rgba(0,113,227,.1)',borderLeft:'3px solid #0071E3',borderRadius:'0 10px 10px 0'}}>
+            <strong>Attention :</strong> La désactivation des cookies peut affecter le bon fonctionnement
+            de certaines fonctionnalités de notre site (connexion, panier, personnalisation, etc.).
+          </p>
+        </div>
+
+        {/* Tiers */}
+        <div className="section">
+          <h2 className="section-title">
+            <div className="section-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="M2 14h20"/><path d="M6 18h12"/><path d="M2 22h20"/></svg>
+            </div>
+            Cookies déposés par des tiers
+          </h2>
+          <p>
+            Certains cookies sont déposés par des tiers avec lesquels nous collaborons. Ces cookies
+            sont soumis aux politiques de confidentialité de ces tiers :
+          </p>
+          <ul>
+            <li>
+              <strong>Google Analytics</strong> :
+              <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>Politique de cookies Google</a>
+            </li>
+            <li>
+              <strong>Google Ads</strong> :
+              <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>Politique publicitaire Google</a>
+            </li>
+            <li>
+              <strong>Meta (Facebook)</strong> :
+              <a href="https://www.facebook.com/policies/cookies/" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>Politique de cookies Facebook</a>
+            </li>
+            <li>
+              <strong>LinkedIn</strong> :
+              <a href="https://www.linkedin.com/legal/cookie_policy" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>Politique de cookies LinkedIn</a>
+            </li>
+          </ul>
+          <p>
+            Ces tiers peuvent utiliser les données collectées via leurs cookies à des fins de
+            mesure d'audience, de personnalisation publicitaire et d'analyse comportementale.
+          </p>
+        </div>
+
+        {/* Évolution */}
+        <div className="section">
+          <h2 className="section-title">
+            <div className="section-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            </div>
+            Évolution de la politique
+          </h2>
+          <p>
+            Nous nous réservons le droit de modifier cette politique de cookies à tout moment afin
+            de tenir compte des évolutions technologiques, réglementaires ou de l'ajout de nouveaux
+            services sur notre site.
+          </p>
+          <p>
+            En cas de modification importante, nous en informerons les utilisateurs via une
+            notification sur le site. Nous vous invitons à consulter régulièrement cette page.
+          </p>
+        </div>
+
+        {/* Contact */}
+        <div className="section">
+          <h2 className="section-title">
+            <div className="section-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            Contact
+          </h2>
+          <p>
+            Pour toute question relative à l'utilisation des cookies sur notre site, vous pouvez
+            nous contacter à l'adresse :
+            <a href="mailto:dpo@visioflow.fr" style={{color:'#0071E3'}}>dpo@visioflow.fr</a>
+          </p>
+          <p>
+            La présente politique de cookies a été mise à jour le
+            <strong>{new Date().toLocaleDateString('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'})}</strong>.
+          </p>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="container">
+          <p style={{fontFamily:'Outfit, sans-serif',fontSize:'22px',fontWeight:900,color:'#fff',marginBottom:'8px'}}>
+            Visio<span style={{color:'#0071E3'}}>flow</span>
+          </p>
+          <p style={{color:'rgba(255,255,255,.6)',marginBottom:'24px'}}>
+            Création de sites web pour restaurateurs avec commandes en ligne, livrés en 48 heures.
+          </p>
+          <div className="legal-links">
+            <a href="/mentions-legales">Mentions légales</a>
+            <a href="/politique-confidentialite">Politique de confidentialité</a>
+            <a href="/cgu">Conditions générales d'utilisation</a>
+            <a href="/politique-cookies">Politique de cookies</a>
+            <a href="/cgv">Conditions générales de vente</a>
+          </div>
+          <p style={{color:'rgba(255,255,255,.3)'}}>© {new Date().getFullYear()} VisioFlow — Tous droits réservés.</p>
+        </div>
+      </footer>
+    </>
+  );
+}

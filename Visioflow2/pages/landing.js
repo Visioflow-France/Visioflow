@@ -587,6 +587,17 @@ export default function LandingPage() {
             <a href="/vitrine" style={{color:'rgba(255,255,255,.5)',margin:'0 12px'}}>Démo</a>
             <a href="/paiement" style={{color:'rgba(255,255,255,.5)',margin:'0 12px'}}>Tarifs</a>
           </div>
+          <div style={{marginTop:'12px',fontSize:'12px',color:'rgba(255,255,255,.4)'}}>
+            <a href="/mentions-legales" style={{color:'rgba(255,255,255,.4)',margin:'0 10px',textDecoration:'none'}}>Mentions légales</a>
+            <span style={{color:'rgba(255,255,255,.4)'}}>•</span>
+            <a href="/politique-confidentialite" style={{color:'rgba(255,255,255,.4)',margin:'0 10px',textDecoration:'none'}}>Politique de confidentialité</a>
+            <span style={{color:'rgba(255,255,255,.4)'}}>•</span>
+            <a href="/cgu" style={{color:'rgba(255,255,255,.4)',margin:'0 10px',textDecoration:'none'}}>CGU</a>
+            <span style={{color:'rgba(255,255,255,.4)'}}>•</span>
+            <a href="/politique-cookies" style={{color:'rgba(255,255,255,.4)',margin:'0 10px',textDecoration:'none'}}>Cookies</a>
+            <span style={{color:'rgba(255,255,255,.4)'}}>•</span>
+            <a href="/cgv" style={{color:'rgba(255,255,255,.4)',margin:'0 10px',textDecoration:'none'}}>CGV</a>
+          </div>
         </div>
       </footer>
     </>
