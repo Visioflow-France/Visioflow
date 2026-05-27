@@ -5477,6 +5477,30 @@ window.goHomePack = function(pack){
         />
       </Head>
       <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: pageHTML }} />
+      <footer style={{background:'#0f172a',borderTop:'1px solid rgba(255,255,255,.1)',padding:'40px 20px 20px',marginTop:'80px'}}>
+        <div style={{maxWidth:'1200px',margin:'0 auto',textAlign:'center'}}>
+          <p style={{fontFamily:'Outfit,sans-serif',fontSize:'22px',fontWeight:900,color:'#fff',marginBottom:'8px'}}>Visio<span style={{color:'#0071E3'}}>flow</span></p>
+          <p style={{color:'rgba(255,255,255,.6)',marginBottom:'20px',fontSize:'14px'}}>Création de sites web pour restaurateurs avec commandes en ligne, livrés en 48 heures.</p>
+          <div style={{display:'flex',justifyContent:'center',flexWrap:'wrap',gap:'12px',marginBottom:'24px'}}>
+            <a href="/landing" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',fontSize:'14px'}}>Comment ça marche</a>
+            <a href="/tarifs" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',fontSize:'14px'}}>Tarifs</a>
+            <a href="/temoignages" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',fontSize:'14px'}}>Témoignages</a>
+            <a href="/a-propos" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',fontSize:'14px'}}>À propos</a>
+          </div>
+          <div style={{display:'flex',justifyContent:'center',flexWrap:'wrap',gap:'8px',fontSize:'12px',color:'rgba(255,255,255,.4)'}}>
+            <a href="/mentions-legales" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Mentions légales</a>
+            <span>•</span>
+            <a href="/politique-confidentialite" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Politique de confidentialité</a>
+            <span>•</span>
+            <a href="/cgu" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>CGU</a>
+            <span>•</span>
+            <a href="/politique-cookies" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Cookies</a>
+            <span>•</span>
+            <a href="/cgv" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>CGV</a>
+          </div>
+          <p style={{color:'rgba(255,255,255,.3)',fontSize:'13px',marginTop:'16px'}}>© {new Date().getFullYear()} VisioFlow — Tous droits réservés.</p>
+        </div>
+      </footer>
       <AssistanceWidget />
     </>
   )
