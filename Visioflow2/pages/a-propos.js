@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Footer from '../components/Footer';
 
 const canonicalUrl = "https://visioflow.fr/a-propos";
 
@@ -410,25 +411,7 @@ export default function About() {
         <a href="/tarifs" className="cta-btn">Voir nos tarifs</a>
       </div>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <p style={{fontFamily:'Outfit, sans-serif',fontSize:'22px',fontWeight:900,color:'#fff',marginBottom:'8px'}}>
-            Visio<span style={{color:'#0071E3'}}>flow</span>
-          </p>
-          <p style={{color:'rgba(255,255,255,.6)',marginBottom:'24px'}}>
-            Création de sites web pour restaurateurs avec commandes en ligne, livrés en 48 heures.
-          </p>
-          <div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',marginBottom:'28px'}}>
-            <a href="/" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>Accueil</a>
-            <a href="/landing" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>Comment ça marche</a>
-            <a href="/tarifs" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>Tarifs</a>
-            <a href="/temoignages" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>Témoignages</a>
-            <a href="/a-propos" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>À propos</a>
-          </div>
-          <p style={{color:'rgba(255,255,255,.3)'}}>© {new Date().getFullYear()} VisioFlow — Tous droits réservés.</p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

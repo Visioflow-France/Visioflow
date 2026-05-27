@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useEffect } from "react";
+import Footer from "../components/Footer";
 
 export default function LandingPage() {
   useEffect(() => {
@@ -550,56 +551,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="footer-content">
-          <div className="footer-col">
-            <h4>Visioflow</h4>
-            <div className="footer-links">
-              <a href="/">Accueil</a>
-              <a href="/landing">Comment ça marche</a>
-              <a href="/paiement">Nos packs</a>
-              <a href="/vitrine">Démo site</a>
-            </div>
-          </div>
-          <div className="footer-col">
-            <h4>Solutions</h4>
-            <div className="footer-links">
-              <a href="/paiement?pack=essentiel">Pack Essentiel</a>
-              <a href="/paiement?pack=premium">Pack Premium</a>
-              <a href="/vitrine">Site vitrine</a>
-              <a href="/vitrine">Commandes en ligne</a>
-            </div>
-          </div>
-          <div className="footer-col">
-            <h4>Support</h4>
-            <div className="footer-links">
-              <a href="/#faq">FAQ</a>
-              <a href="/">Nous contacter</a>
-              <a href="#comment-ca-marche">Processus</a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          © {new Date().getFullYear()} Visioflow. Création de sites web pour restaurants.
-          <div style={{marginTop:'8px'}}>
-            <a href="/" style={{color:'rgba(255,255,255,.5)',margin:'0 12px'}}>Sites restaurant</a>
-            <a href="/vitrine" style={{color:'rgba(255,255,255,.5)',margin:'0 12px'}}>Démo</a>
-            <a href="/paiement" style={{color:'rgba(255,255,255,.5)',margin:'0 12px'}}>Tarifs</a>
-          </div>
-          <div style={{marginTop:'12px',fontSize:'12px',color:'rgba(255,255,255,.4)'}}>
-            <a href="/mentions-legales" style={{color:'rgba(255,255,255,.4)',margin:'0 10px',textDecoration:'none'}}>Mentions légales</a>
-            <span style={{color:'rgba(255,255,255,.4)'}}>•</span>
-            <a href="/politique-confidentialite" style={{color:'rgba(255,255,255,.4)',margin:'0 10px',textDecoration:'none'}}>Politique de confidentialité</a>
-            <span style={{color:'rgba(255,255,255,.4)'}}>•</span>
-            <a href="/cgu" style={{color:'rgba(255,255,255,.4)',margin:'0 10px',textDecoration:'none'}}>CGU</a>
-            <span style={{color:'rgba(255,255,255,.4)'}}>•</span>
-            <a href="/politique-cookies" style={{color:'rgba(255,255,255,.4)',margin:'0 10px',textDecoration:'none'}}>Cookies</a>
-            <span style={{color:'rgba(255,255,255,.4)'}}>•</span>
-            <a href="/cgv" style={{color:'rgba(255,255,255,.4)',margin:'0 10px',textDecoration:'none'}}>CGV</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

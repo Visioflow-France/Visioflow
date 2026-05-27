@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Footer from '../components/Footer';
 
 const canonicalUrl = "https://visioflow.fr/tarifs";
 
@@ -455,36 +456,7 @@ export default function Tarifs() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <p style={{fontFamily:'Outfit, sans-serif',fontSize:'22px',fontWeight:900,color:'#fff',marginBottom:'8px'}}>
-            Visio<span style={{color:'#0071E3'}}>flow</span>
-          </p>
-          <p style={{color:'rgba(255,255,255,.6)',marginBottom:'24px'}}>
-            Création de sites web pour restaurateurs avec commandes en ligne, livrés en 48 heures.
-          </p>
-          <div style={{display:'flex',gap:'20px',justifyContent:'center',flexWrap:'wrap',marginBottom:'28px'}}>
-            <a href="/" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>Accueil</a>
-            <a href="/landing" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>Comment ça marche</a>
-            <a href="/tarifs" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>Tarifs</a>
-            <a href="/temoignages" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>Témoignages</a>
-            <a href="/a-propos" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>À propos</a>
-          </div>
-          <p style={{color:'rgba(255,255,255,.3)'}}>© {new Date().getFullYear()} VisioFlow — Tous droits réservés.</p>
-          <div style={{marginTop:'12px',fontSize:'12px',color:'rgba(255,255,255,.4)',display:'flex',gap:'8px',justifyContent:'center',flexWrap:'wrap'}}>
-            <a href="/mentions-legales" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Mentions légales</a>
-            <span style={{color:'rgba(255,255,255,.3)'}}>•</span>
-            <a href="/politique-confidentialite" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Politique de confidentialité</a>
-            <span style={{color:'rgba(255,255,255,.3)'}}>•</span>
-            <a href="/cgu" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>CGU</a>
-            <span style={{color:'rgba(255,255,255,.3)'}}>•</span>
-            <a href="/politique-cookies" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>Cookies</a>
-            <span style={{color:'rgba(255,255,255,.3)'}}>•</span>
-            <a href="/cgv" style={{color:'rgba(255,255,255,.4)',textDecoration:'none'}}>CGV</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
