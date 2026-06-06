@@ -512,10 +512,10 @@ function DetailPanel({ item, onClose, onStatus, onDelete }) {
         </div>
       )}
 
-      {/* Stripe Connect */}
+      {/* Stripe Express */}
       {item.pack === 'premium' && (
         <div className="db-card" style={{ marginBottom: 14 }}>
-          <div className="db-card-head">💳 Stripe Connect — Paiements restaurant</div>
+          <div className="db-card-head">💳 Stripe Express — Paiements restaurant</div>
           <div style={{ padding: '14px 16px' }}>
             {item.stripeAccountId ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -526,18 +526,46 @@ function DetailPanel({ item, onClose, onStatus, onDelete }) {
                 </div>
               </div>
             ) : (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 4 }}>Aucun compte Stripe connecté</div>
-                  <div style={{ fontSize: 12, color: '#6b7280' }}>Le restaurant doit connecter son compte pour recevoir les paiements de ses clients.</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 4 }}>Aucun compte Stripe connecté</div>
+                <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 8 }}>Le restaurant doit connecter son compte pour recevoir les paiements de ses clients.</div>
+
+                {/* Info importante : On va envoyer un lien */}
+                <div style={{ padding: 10, background: 'rgba(0,113,227,0.1)', borderRadius: 8, border: '1px solid rgba(0,113,227,0.2)', marginBottom: 8 }}>
+                  <div style={{ color: '#0071E3', fontSize: 12, fontWeight: 600, marginBottom: 4 }}>
+                    📧 Processus recommandé : Envoyer un lien
+                  </div>
+                  <p style={{ color: '#6b7280', fontSize: 11, margin: 0 }}>
+                    Le restaurateur recevra un lien sécurisé pour connecter son compte Stripe quand il sera prêt, devant son ordinateur. (5-10 minutes)
+                  </p>
                 </div>
-                <a
-                  href={`/api/stripe-connect-init?projectId=${item.id}`}
+
+                {/* Option recommandée : Générer un lien à envoyer */}
+                <button
+                  onClick={() => window.open(`/api/stripe-connect-link?projectId=${item.id}`, '_blank')}
                   className="db-btn-primary"
-                  style={{ whiteSpace: 'nowrap', flexShrink: 0 }}
+                  style={{
+                    fontSize: 13,
+                    padding: '10px 16px'
+                  }}
                 >
-                  🔗 Connecter Stripe
-                </a>
+                  📧 Générer un lien à envoyer au restaurateur
+                </button>
+
+                {/* Option alternative : Connecter maintenant (si le restaurateur est devant son ordi) */}
+                <div style={{ marginTop: 4 }}>
+                  <a
+                    href={`/api/stripe-connect-init?projectId=${item.id}`}
+                    style={{
+                      fontSize: 12,
+                      color: '#6b7280',
+                      textDecoration: 'underline',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Ou connecter maintenant (si le restaurateur est devant son ordi)
+                  </a>
+                </div>
               </div>
             )}
           </div>

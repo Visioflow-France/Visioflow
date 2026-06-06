@@ -2,6 +2,42 @@ import Head from 'next/head';
 
 const canonicalUrl = "https://visioflow.fr/mentions-legales";
 
+// ============================================================
+// À REMPLIR AVEC LES VRAIES INFORMATIONS UNE FOIS LE SIRET OBTENU
+// ============================================================const LEGAL_INFO = {
+  // Raison sociale (nom de l'auto-entreprise)
+  companyName: "Christian Micillo",  // Ex: "Jean Dupont"
+
+  // Forme juridique (auto-entrepreneur)
+  legalForm: "Auto-entrepreneur",
+
+  // SIRET (14 chiffres) - à recevoir par email après inscription
+  siret: "101 079 366 00015",  // Ex: "123 456 789 00012"
+
+  // SIREN (9 premiers chiffres du SIRET)
+  siren: "101 079 366",  // Ex: "123 456 789"
+
+  // Numéro TVA (auto-entrepreneur en franchise de base = pas de numéro)
+  tvaNumber: "FRXXXXXXXXXXXXXXXXXXXXXXXX",  // Laisser tel quel si franchise de TVA
+
+  // Adresse professionnelle
+  address: "6 rue Lacretelle, 77340 Pontcarrault",  // Ex: "12 Rue de la Paix, 75001 Paris"
+
+  // Téléphone
+  phone: "+33 6 11 04 58 29",  // Ex: "+33 6 12 34 56 78"
+
+  // Email de contact
+  email: "contact@visioflow.fr",
+
+  // Nom du directeur de publication (votre frère)
+  directorName: "Christian Micillo",  // Ex: "Jean Dupont"
+
+  // Titre du directeur (fondateur/gérant)
+  directorTitle: "Fondateur et gérant",
+};
+
+// ============================================================
+
 export default function MentionsLegales() {
   return (
     <>
@@ -94,48 +130,42 @@ export default function MentionsLegales() {
             Éditeur du site
           </h2>
           <p>
-            Le présent site est édité par la société <strong>VisioFlow</strong>, SARL au capital social de 1 000 euros.
+            Le présent site est édité par <strong>{LEGAL_INFO.companyName}</strong>, {LEGAL_INFO.legalForm}.
           </p>
           <div className="info-list">
             <div className="info-item">
-              <div className="info-label">Raison sociale</div>
-              <div className="info-value">VisioFlow</div>
+              <div className="info-label">Raison sociale / Nom</div>
+              <div className="info-value">{LEGAL_INFO.companyName}</div>
             </div>
             <div className="info-item">
               <div className="info-label">Forme juridique</div>
-              <div className="info-value">SARL</div>
-            </div>
-            <div className="info-item">
-              <div className="info-label">Capital social</div>
-              <div className="info-value">1 000 €</div>
+              <div className="info-value">{LEGAL_INFO.legalForm}</div>
             </div>
             <div className="info-item">
               <div className="info-label">SIRET</div>
-              <div className="info-value">XXX XXX XXX XXXXX</div>
+              <div className="info-value">{LEGAL_INFO.siret}</div>
             </div>
             <div className="info-item">
               <div className="info-label">SIREN</div>
-              <div className="info-value">XXX XXX XXX</div>
+              <div className="info-value">{LEGAL_INFO.siren}</div>
             </div>
-            <div className="info-item">
-              <div className="info-label">Numéro TVA</div>
-              <div className="info-value">FRXXXXXXXXXXX</div>
-            </div>
+            {LEGAL_INFO.tvaNumber && LEGAL_INFO.tvaNumber !== "FRXXXXXXXXXXXXXXXXXXXXXXXX" && (
+              <div className="info-item">
+                <div className="info-label">Numéro TVA intracommunautaire</div>
+                <div className="info-value">{LEGAL_INFO.tvaNumber}</div>
+              </div>
+            )}
             <div className="info-item">
               <div className="info-label">Adresse</div>
-              <div className="info-value">12 Rue de la Paix, 75001 Paris</div>
+              <div className="info-value">{LEGAL_INFO.address}</div>
             </div>
             <div className="info-item">
               <div className="info-label">Téléphone</div>
-              <div className="info-value">+33 1 23 45 67 89</div>
+              <div className="info-value">{LEGAL_INFO.phone}</div>
             </div>
             <div className="info-item">
               <div className="info-label">Email</div>
-              <div className="info-value">contact@visioflow.fr</div>
-            </div>
-            <div className="info-item">
-              <div className="info-label">RCS</div>
-              <div className="info-value">Paris B XXX XXX XXX</div>
+              <div className="info-value">{LEGAL_INFO.email}</div>
             </div>
           </div>
         </div>
@@ -149,8 +179,8 @@ export default function MentionsLegales() {
             Directeur de la publication
           </h2>
           <p>
-            Le directeur de la publication du site visioflow.fr est <strong>Yanis Boudadour</strong>,
-            fondateur et gérant de la société VisioFlow.
+            Le directeur de la publication du site visioflow.fr est <strong>{LEGAL_INFO.directorName}</strong>,
+            {LEGAL_INFO.directorTitle}.
           </p>
           <p>
             En qualité de responsable de la rédaction, il s'engage à respecter les obligations légales
@@ -291,7 +321,7 @@ export default function MentionsLegales() {
           </h2>
           <p>
             En cas de litige lié à l'utilisation de ce site ou aux services proposés, vous êtes invité
-            à contacter en premier lieu notre service client à l'adresse <strong>contact@visioflow.fr</strong>.
+            à contacter en premier lieu notre service client à l'adresse <strong>{LEGAL_INFO.email}</strong>.
           </p>
           <p>
             Si le litige ne peut être résolu à l'amiable, vous avez la possibilité de saisir le tribunal
