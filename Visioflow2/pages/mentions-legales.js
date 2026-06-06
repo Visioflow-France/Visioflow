@@ -21,7 +21,7 @@ const canonicalUrl = "https://visioflow.fr/mentions-legales";
   tvaNumber: "FRXXXXXXXXXXXXXXXXXXXXXXXX",  // Laisser tel quel si franchise de TVA
 
   // Adresse professionnelle
-  address: "6 rue Lacretelle, 77340 Pontcarrault",  // Ex: "12 Rue de la Paix, 75001 Paris"
+  address: "6 rue Lacretelle, 77340 Pontault-Combault",  // Ex: "12 Rue de la Paix, 75001 Paris"
 
   // Téléphone
   phone: "+33 6 11 04 58 29",  // Ex: "+33 6 12 34 56 78"

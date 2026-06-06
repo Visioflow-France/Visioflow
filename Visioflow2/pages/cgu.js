@@ -473,7 +473,7 @@ export default function CGU() {
           <ul>
             <li>Par email : <a href="mailto:contact@visioflow.fr" style={{color:'#0071E3'}}>contact@visioflow.fr</a></li>
             <li>Par téléphone : +33 6 11 04 58 29</li>
-            <li>Par courrier : Christian Micillo, 6 rue Lacretelle, 77340 Pontcarrault</li>
+            <li>Par courrier : Christian Micillo, 6 rue Lacretelle, 77340 Pontault-Combault</li>
           </ul>
         </div>
       </div>

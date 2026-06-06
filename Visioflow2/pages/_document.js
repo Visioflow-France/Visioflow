@@ -62,7 +62,7 @@ export default function Document() {
               "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "6 rue Lacretelle",
-                "addressLocality": "Pontcarrault",
+                "addressLocality": "Pontault-Combault",
                 "postalCode": "77340",
                 "addressCountry": "FR"
               },
@@ -91,14 +91,14 @@ export default function Document() {
               "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "6 rue Lacretelle",
-                "addressLocality": "Pontcarrault",
+                "addressLocality": "Pontault-Combault",
                 "postalCode": "77340",
                 "addressCountry": "FR"
               },
               "geo": {
                 "@type": "GeoCoordinates",
-                "latitude": "48.4898",
-                "longitude": "2.6319"
+                "latitude": "48.7167",
+                "longitude": "2.6167"
               },
               "openingHoursSpecification": {
                 "@type": "OpeningHoursSpecification",
