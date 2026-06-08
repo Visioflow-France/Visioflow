@@ -11,7 +11,7 @@ const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 
 const PACKS = {
   essentiel: { label: 'Pack Essentiel', price: '150 €', color: '#6b7280', features: ['Site vitrine professionnel', 'Design sur mesure', 'Responsive mobile', 'Livré en 5 jours', 'Hébergement à vie inclus'] },
-  premium:   { label: 'Pack Premium',   price: '490 €', color: '#0071E3', features: ['Site avec commandes en ligne', 'Panier & paiement intégré', 'Panel admin restaurant', 'Responsive mobile', 'Livré en 5 jours', 'Hébergement à vie inclus'] },
+  premium:   { label: 'Pack Premium',   price: '490 €', color: '#0071E3', features: ['Site avec commandes en ligne', 'Panier & paiement intégré', 'Panel admin restaurant', 'Responsive mobile', 'Livré en 5 jours', 'Hébergement à vie inclus'], stripeExpress: true },
 }
 
 /* ── Formulaire avec tous les moyens de paiement Stripe ── */
@@ -482,6 +482,20 @@ export default function Paiement() {
                 <div style={{ marginTop: 16, padding: '10px 14px', background: 'rgba(52,211,153,.08)', border: '1px solid rgba(52,211,153,.2)', borderRadius: 10, fontSize: 12, color: '#34d399', lineHeight: 1.6 }}>
                   ✓ Paiement unique · Zéro abonnement · Livré en 5 jours
                 </div>
+
+                {packData.stripeExpress && (
+                  <div style={{ marginTop: 12, padding: '12px 16px', background: 'rgba(96,165,250,.08)', border: '1px solid rgba(96,165,250,.25)', borderRadius: 10, fontSize: 12, color: '#60a5fa', lineHeight: 1.6 }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ flexShrink: 0, marginTop: 1 }}>
+                        <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+                      </svg>
+                      <div>
+                        <strong>Important : </strong>
+                        Pour activer les paiements en ligne sur votre site, nous vous enverrons un lien <strong>Stripe Express</strong> après votre commande. Ce lien vous permettra de configurer votre compte Stripe pour recevoir les paiements de vos clients (processus simple en 5 minutes).
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Droite — Stripe PaymentElement */}
