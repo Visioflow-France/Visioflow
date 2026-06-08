@@ -4,7 +4,8 @@ const canonicalUrl = "https://visioflow.fr/mentions-legales";
 
 // ============================================================
 // À REMPLIR AVEC LES VRAIES INFORMATIONS UNE FOIS LE SIRET OBTENU
-// ============================================================const LEGAL_INFO = {
+// ============================================================
+const LEGAL_INFO = {
   // Raison sociale (nom de l'auto-entreprise)
   companyName: "Christian Micillo",  // Ex: "Jean Dupont"
 
