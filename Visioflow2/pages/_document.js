@@ -53,7 +53,7 @@ export default function Document() {
               ],
               "contactPoint": {
                 "@type": "ContactPoint",
-                "telephone": "+33-1-23-45-67-89",
+                "telephone": "+33-6-11-04-58-29",
                 "contactType": "customer service",
                 "email": "contact@visioflow.fr",
                 "areaServed": "FR",
@@ -61,9 +61,9 @@ export default function Document() {
               },
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "12 Rue de la Paix",
-                "addressLocality": "Paris",
-                "postalCode": "75001",
+                "streetAddress": "6 rue Lacretelle",
+                "addressLocality": "Pontault-Combault",
+                "postalCode": "77340",
                 "addressCountry": "FR"
               },
               "areaServed": {
@@ -84,21 +84,21 @@ export default function Document() {
               "name": "VisioFlow",
               "image": "https://visioflow.fr/logo.png",
               "description": "Service de création de sites web pour restaurants avec système de commande en ligne, livré en 48 heures. Spécialisé dans les restaurateurs en France.",
-              "telephone": "+33-1-23-45-67-89",
+              "telephone": "+33-6-11-04-58-29",
               "email": "contact@visioflow.fr",
               "url": "https://visioflow.fr",
               "priceRange": "€€",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "12 Rue de la Paix",
-                "addressLocality": "Paris",
-                "postalCode": "75001",
+                "streetAddress": "6 rue Lacretelle",
+                "addressLocality": "Pontault-Combault",
+                "postalCode": "77340",
                 "addressCountry": "FR"
               },
               "geo": {
                 "@type": "GeoCoordinates",
-                "latitude": "48.8698",
-                "longitude": "2.3319"
+                "latitude": "48.7167",
+                "longitude": "2.6167"
               },
               "openingHoursSpecification": {
                 "@type": "OpeningHoursSpecification",
@@ -118,7 +118,7 @@ export default function Document() {
               },
               "founder": {
                 "@type": "Person",
-                "name": "Yanis Boudadour"
+                "name": "Christian Micillo"
               }
             })
           }}

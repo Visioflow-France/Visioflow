@@ -44,6 +44,9 @@ export default function LoginAdmin() {
         background: 'linear-gradient(135deg,#0f172a 0%,#1e293b 100%)',
         fontFamily: 'Inter, sans-serif',
         padding: 16,
+        overflow: 'hidden',
+        position: 'fixed',
+        inset: 0,
       }}>
         <div style={{
           background: 'rgba(255,255,255,0.04)',
@@ -64,7 +67,7 @@ export default function LoginAdmin() {
 
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: 20 }}>
-              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#94a3b8', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#e2e8f0', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Code d'accès
               </label>
               <input
@@ -79,8 +82,8 @@ export default function LoginAdmin() {
                   padding: '12px 14px',
                   borderRadius: 10,
                   border: err ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.1)',
-                  background: '#1e293b',
-                  color: '#f1f5f9',
+                  background: '#0f172a',
+                  color: '#ffffff',
                   fontSize: 15,
                   outline: 'none',
                   boxSizing: 'border-box',

@@ -670,8 +670,8 @@ export default function CGV() {
           </p>
           <ul>
             <li>Par email : <a href="mailto:contact@visioflow.fr" style={{color:'#0071E3'}}>contact@visioflow.fr</a></li>
-            <li>Par téléphone : +33 1 23 45 67 89</li>
-            <li>Par courrier : VisioFlow, 12 Rue de la Paix, 75001 Paris</li>
+            <li>Par téléphone : +33 6 11 04 58 29</li>
+            <li>Par courrier : Christian Micillo, 6 rue Lacretelle, 77340 Pontault-Combault</li>
           </ul>
           <p>
             Les présentes Conditions Générales de Vente sont entrées en vigueur le

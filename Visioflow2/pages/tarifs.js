@@ -234,6 +234,35 @@ export default function Tarifs() {
         </div>
       </section>
 
+      {/* Info nom de domaine */}
+      <section style={{padding: '40px 20px'}}>
+        <div className="container" style={{maxWidth: '800px'}}>
+          <div style={{background: 'rgba(96,165,250,.08)', border: '1px solid rgba(96,165,250,.25)', borderRadius: 20, padding: '28px 32px'}}>
+            <div style={{display: 'flex', alignItems: 'flex-start', gap: 16}}>
+              <div style={{width: 48, height: 48, borderRadius: 12, background: 'rgba(96,165,250,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
+                </svg>
+              </div>
+              <div style={{flex: 1}}>
+                <h3 style={{fontFamily: 'Outfit, sans-serif', fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 8}}>
+                  Nom de domaine inclus la 1ère année
+                </h3>
+                <p style={{color: '#94a3b8', fontSize: 14, lineHeight: 1.7, marginBottom: 12}}>
+                  <strong>C'est quoi un nom de domaine ?</strong> C'est l'adresse de votre site sur internet,
+                  comme <code style={{background: 'rgba(0,0,0,.2)', padding: '2px 6px', borderRadius: 4, color: '#60a5fa', fontFamily: 'monospace'}}>votre-restaurant.fr</code> ou <code style={{background: 'rgba(0,0,0,.2)', padding: '2px 6px', borderRadius: 4, color: '#60a5fa', fontFamily: 'monospace'}}>monbistrot-paris.com</code>.
+                </p>
+                <p style={{color: '#94a3b8', fontSize: 14, lineHeight: 1.7}}>
+                  Le nom de domaine est <strong>offert la 1ère année</strong> (valeur ~15€/an).
+                  À partir de la <strong>2ème année</strong>, le renouvellement du nom de domaine est à votre charge
+                  (environ 15€/an selon l'extension choisie). L'hébergement reste gratuit à vie.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section className="section">
         <div className="container">
