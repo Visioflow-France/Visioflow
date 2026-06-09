@@ -143,7 +143,21 @@ function applyDemoUrls(exampleUrls) {
 
 export default function Home({ siteConfig }) {
   const [heroComplete] = useState(true)
-  const pageHTML = applyConfigToHTML(PAGE_HTML, siteConfig)
+  let pageHTML = applyConfigToHTML(PAGE_HTML, siteConfig)
+
+  // Insert wave dividers with appropriate classes based on section type
+  // alt-dark sections → default wave color (#0b1628 light, #fff dark)
+  // alt-light sections → wave-light class (white in light mode)
+  pageHTML = pageHTML.replace(
+    /<div class="(alt-sec)(?: (alt-dark))?">/g,
+    (match, sectionClass, darkClass) => {
+      const isDarkSection = !!darkClass
+      // For dark sections, use default wave color
+      // For light sections, add wave-light class for white color in light mode
+      const waveClass = isDarkSection ? 'wave-divider' : 'wave-divider wave-light'
+      return `<div class="${waveClass}"></div>\\n  <div class="${sectionClass}${darkClass ? ' ' + darkClass : ''}">`
+    }
+  )
 
   useEffect(() => {
     if (siteConfig?.exampleUrls) applyDemoUrls(siteConfig.exampleUrls);
