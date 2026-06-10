@@ -192,7 +192,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh;transition:backgrou
 .wave-divider{
   position: relative;
   width: 100%;
-  height: 80px;
+  height: 120px;
   line-height: 0;
   margin-top: -1px;
   overflow: hidden;
@@ -208,22 +208,23 @@ body{background:var(--bg);color:var(--text);min-height:100vh;transition:backgrou
   background-repeat: no-repeat;
   background-position: center bottom;
   /* Default color for alt-dark sections (#0b1628 light, #ffffff dark) */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z' fill='%230b1628'/%3E%3C/svg%3E");
+  /* Vagues douces et arrondies très prononcées */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'%3E%3Cpath d='M0,96C240,120 480,140 720,130C960,120 1200,100 1440,110L1440,150L0,150Z' fill='%230b1628'/%3E%3Cpath d='M0,64C120,84 240,104 360,90C480,76 600,88 720,92C840,96 960,80 1080,72C1200,64 1320,88 1440,80L1440,120C1320,128 1200,104 1080,112C960,120 840,136 720,132C600,128 480,144 360,138C240,132 120,148 0,128L0,120Z' fill='%230b1628'/%3E%3C/svg%3E");
 }
 [data-theme="dark"] .wave-divider::after{
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z' fill='%23ffffff'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'%3E%3Cpath d='M0,96C240,120 480,140 720,130C960,120 1200,100 1440,110L1440,150L0,150Z' fill='%23ffffff'/%3E%3Cpath d='M0,64C120,84 240,104 360,90C480,76 600,88 720,92C840,96 960,80 1080,72C1200,64 1320,88 1440,80L1440,120C1320,128 1200,104 1080,112C960,120 840,136 720,132C600,128 480,144 360,138C240,132 120,148 0,128L0,120Z' fill='%23ffffff'/%3E%3C/svg%3E");
 }
 
 /* Wave-divider for alt-light sections (white in light mode, dark in dark mode) */
 .wave-divider.wave-light::after{
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z' fill='%23ffffff'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'%3E%3Cpath d='M0,96C240,120 480,140 720,130C960,120 1200,100 1440,110L1440,150L0,150Z' fill='%23ffffff'/%3E%3Cpath d='M0,64C120,84 240,104 360,90C480,76 600,88 720,92C840,96 960,80 1080,72C1200,64 1320,88 1440,80L1440,120C1320,128 1200,104 1080,112C960,120 840,136 720,132C600,128 480,144 360,138C240,132 120,148 0,128L0,120Z' fill='%23ffffff'/%3E%3C/svg%3E");
 }
 [data-theme="dark"] .wave-divider.wave-light::after{
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z' fill='%2304091a'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'%3E%3Cpath d='M0,96C240,120 480,140 720,130C960,120 1200,100 1440,110L1440,150L0,150Z' fill='%2304091a'/%3E%3Cpath d='M0,64C120,84 240,104 360,90C480,76 600,88 720,92C840,96 960,80 1080,72C1200,64 1320,88 1440,80L1440,120C1320,128 1200,104 1080,112C960,120 840,136 720,132C600,128 480,144 360,138C240,132 120,148 0,128L0,120Z' fill='%2304091a'/%3E%3C/svg%3E");
 }
 
 @media(max-width: 768px){
-  .wave-divider{height: 50px;}
+  .wave-divider{height: 80px;}
 }
 
 /* ── PAGE 1 ACCUEIL ──────────────────────────────── */

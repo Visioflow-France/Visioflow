@@ -155,7 +155,8 @@ export default function Home({ siteConfig }) {
       // For dark sections, use default wave color
       // For light sections, add wave-light class for white color in light mode
       const waveClass = isDarkSection ? 'wave-divider' : 'wave-divider wave-light'
-      return `<div class="${waveClass}"></div>\\n  <div class="${sectionClass}${darkClass ? ' ' + darkClass : ''}">`
+      // Use actual newlines instead of escaped ones
+      return '<div class="' + waveClass + '"></div>\n  <div class="' + sectionClass + (darkClass ? ' ' + darkClass : '') + '">'
     }
   )
 
