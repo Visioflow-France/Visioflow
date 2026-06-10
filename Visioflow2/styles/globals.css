@@ -188,40 +188,42 @@ body{background:var(--bg);color:var(--text);min-height:100vh;transition:backgrou
 .foot-l button:hover{color:var(--blue)}
 
 /* ── WAVE DIVIDERS ───────────────────────────────── */
-/* Base wave divider styles */
+/* Base wave divider styles — inline SVG approach */
 .wave-divider{
   position: relative;
   width: 100%;
   height: 120px;
   line-height: 0;
   margin-top: -1px;
+  margin-bottom: -1px;
   overflow: hidden;
 }
-.wave-divider::after{
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.wave-divider svg{
+  display: block;
+  width: 100%;
   height: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  /* Default color for alt-dark sections (#0b1628 light, #ffffff dark) */
-  /* Vagues douces et arrondies très prononcées */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'%3E%3Cpath d='M0,96C240,120 480,140 720,130C960,120 1200,100 1440,110L1440,150L0,150Z' fill='%230b1628'/%3E%3Cpath d='M0,64C120,84 240,104 360,90C480,76 600,88 720,92C840,96 960,80 1080,72C1200,64 1320,88 1440,80L1440,120C1320,128 1200,104 1080,112C960,120 840,136 720,132C600,128 480,144 360,138C240,132 120,148 0,128L0,120Z' fill='%230b1628'/%3E%3C/svg%3E");
-}
-[data-theme="dark"] .wave-divider::after{
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'%3E%3Cpath d='M0,96C240,120 480,140 720,130C960,120 1200,100 1440,110L1440,150L0,150Z' fill='%23ffffff'/%3E%3Cpath d='M0,64C120,84 240,104 360,90C480,76 600,88 720,92C840,96 960,80 1080,72C1200,64 1320,88 1440,80L1440,120C1320,128 1200,104 1080,112C960,120 840,136 720,132C600,128 480,144 360,138C240,132 120,148 0,128L0,120Z' fill='%23ffffff'/%3E%3C/svg%3E");
 }
 
-/* Wave-divider for alt-light sections (white in light mode, dark in dark mode) */
-.wave-divider.wave-light::after{
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'%3E%3Cpath d='M0,96C240,120 480,140 720,130C960,120 1200,100 1440,110L1440,150L0,150Z' fill='%23ffffff'/%3E%3Cpath d='M0,64C120,84 240,104 360,90C480,76 600,88 720,92C840,96 960,80 1080,72C1200,64 1320,88 1440,80L1440,120C1320,128 1200,104 1080,112C960,120 840,136 720,132C600,128 480,144 360,138C240,132 120,148 0,128L0,120Z' fill='%23ffffff'/%3E%3C/svg%3E");
-}
-[data-theme="dark"] .wave-divider.wave-light::after{
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'%3E%3Cpath d='M0,96C240,120 480,140 720,130C960,120 1200,100 1440,110L1440,150L0,150Z' fill='%2304091a'/%3E%3Cpath d='M0,64C120,84 240,104 360,90C480,76 600,88 720,92C840,96 960,80 1080,72C1200,64 1320,88 1440,80L1440,120C1320,128 1200,104 1080,112C960,120 840,136 720,132C600,128 480,144 360,138C240,132 120,148 0,128L0,120Z' fill='%2304091a'/%3E%3C/svg%3E");
-}
+/* Wave 1: Hero → Section 1 (alt-dark)
+   Light: #ffffff → #0b1628 | Dark: #080f1e → #ffffff */
+.wave-1{background:#ffffff}
+.wave-1 svg path{fill:#0b1628}
+[data-theme="dark"] .wave-1{background:#080f1e}
+[data-theme="dark"] .wave-1 svg path{fill:#ffffff}
+
+/* Wave 2: Section 3 (alt-dark) → Tarifs (home-packs-sec)
+   Light: #0b1628 → #f8fafc | Dark: #ffffff → #0b1628 */
+.wave-2{background:#0b1628}
+.wave-2 svg path{fill:#f8fafc}
+[data-theme="dark"] .wave-2{background:#ffffff}
+[data-theme="dark"] .wave-2 svg path{fill:#0b1628}
+
+/* Wave 3: Tarifs → Form area
+   Light: #f8fafc → #ffffff | Dark: #0b1628 → #04091a */
+.wave-3{background:#f8fafc}
+.wave-3 svg path{fill:#ffffff}
+[data-theme="dark"] .wave-3{background:#0b1628}
+[data-theme="dark"] .wave-3 svg path{fill:#04091a}
 
 @media(max-width: 768px){
   .wave-divider{height: 80px;}
