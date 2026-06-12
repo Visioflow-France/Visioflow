@@ -138,21 +138,27 @@ function renderDelivery(city = null) {
    ───────────────────────────────────────────────────────────── */
 export default function Vitrine() {
   useEffect(() => {
-    /* ── Mobile nav toggle ── */
     const burger = document.getElementById('vt-burger');
     const mobileNav = document.getElementById('vt-mobile-nav');
+
+    /* ── Mobile nav toggle ── */
+    const toggleMobileNav = () => mobileNav && mobileNav.classList.toggle('open');
     if (burger && mobileNav) {
-      burger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+      burger.addEventListener('click', toggleMobileNav);
     }
 
     /* ── Smooth scroll for nav links ── */
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
+    const anchors = document.querySelectorAll('a[href^="#"]');
+    const scrollHandlers = [];
+    anchors.forEach(a => {
+      const handler = (e) => {
         e.preventDefault();
         const target = document.querySelector(a.getAttribute('href'));
         if (target) target.scrollIntoView({ behavior: 'smooth' });
         if (mobileNav) mobileNav.classList.remove('open');
-      });
+      };
+      a.addEventListener('click', handler);
+      scrollHandlers.push({ a, handler });
     });
 
     /* ── Order modal (premium internal) ── */
@@ -174,6 +180,15 @@ export default function Vitrine() {
     };
     window.closeLightbox = () => {
       document.getElementById('lightbox')?.classList.remove('open');
+    };
+
+    return () => {
+      if (burger) burger.removeEventListener('click', toggleMobileNav);
+      scrollHandlers.forEach(({ a, handler }) => a.removeEventListener('click', handler));
+      delete window.openOrderModal;
+      delete window.closeOrderModal;
+      delete window.openLightbox;
+      delete window.closeLightbox;
     };
   }, []);
 
@@ -644,6 +659,7 @@ export default function Vitrine() {
       )}
 
       {/* ── GALLERY ── */}
+      {hasGallery && (
       <section className="vt-section" id="gallery">
         <div className="vt-container">
           <div className="vt-section-header">
@@ -664,6 +680,7 @@ export default function Vitrine() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ── COMMANDE / LIVRAISON (PREMIUM+) ── */}
       {IS_PREMIUM && (

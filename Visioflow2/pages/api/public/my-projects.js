@@ -1,9 +1,23 @@
 import { db } from '../../../lib/firebase-admin'
+import crypto from 'crypto'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
-  const { email } = req.body
+  const { email, token } = req.body
+  if (!email || !token) return res.status(400).json({ error: 'email et token requis' })
+
+  // Vérifier la signature HMAC du token
+  try {
+    const decoded = JSON.parse(Buffer.from(token, 'base64').toString())
+    const secret = process.env.JWT_SECRET || process.env.ADMIN_TOKEN || 'fallback-secret-change-in-production'
+    const expectedSig = crypto.createHmac('sha256', secret).update(decoded.payload).digest('hex')
+    if (decoded.signature !== expectedSig) return res.status(401).json({ error: 'Token invalide' })
+    const tokenData = JSON.parse(decoded.payload)
+    if (tokenData.email !== email.toLowerCase()) return res.status(401).json({ error: 'Token ne correspond pas à l\'email.' })
+  } catch {
+    return res.status(401).json({ error: 'Token invalide' })
+  }
   if (!email) return res.status(400).json({ error: 'email manquant' })
 
   const normalizedEmail = email.toLowerCase()

@@ -7,9 +7,6 @@ Disallow: /dashboard
 Disallow: /login-admin
 Disallow: /paiement
 Disallow: /preview
-Disallow: /wp-admin/
-Disallow: /wp-includes/
-Disallow: /wp-content/plugins/
 Crawl-delay: 1
 
 # Allow AI crawlers for SEO optimization

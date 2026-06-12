@@ -135,7 +135,6 @@ export default async function handler(req, res) {
     const docId = doc.name && doc.name.split("/").pop() || ""
 
     sendNotificationEmail(formData, docId).catch(() => {})
-    sendConfirmationEmail(formData).catch(() => {})
 
     res.status(200).json({ success: true, docId })
   } catch (err) {

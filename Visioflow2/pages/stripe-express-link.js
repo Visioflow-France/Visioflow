@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 
 export default function StripeExpressLinkPage() {
@@ -10,7 +10,7 @@ export default function StripeExpressLinkPage() {
   const [error, setError] = useState('')
 
   // Récupérer le lien depuis l'URL
-  if (typeof window !== 'undefined' && loading) {
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const expressLinkUrl = params.get('linkUrl')
     const pid = params.get('projectId')
@@ -23,7 +23,7 @@ export default function StripeExpressLinkPage() {
       setError('Aucun lien trouvé. Veuillez réessayer depuis le dashboard.')
     }
     setLoading(false)
-  }
+  }, [])
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(linkUrl)

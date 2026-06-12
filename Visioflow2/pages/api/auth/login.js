@@ -24,7 +24,10 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Email ou mot de passe incorrect.' })
     }
 
-    const token = Buffer.from(JSON.stringify({ id: doc.id, email: data.email, name: data.name || '' })).toString('base64')
+    const payload = JSON.stringify({ id: doc.id, email: data.email, name: data.name || '' })
+    const secret = process.env.JWT_SECRET || process.env.ADMIN_TOKEN || 'fallback-secret-change-in-production'
+    const signature = crypto.createHmac('sha256', secret).update(payload).digest('hex')
+    const token = Buffer.from(JSON.stringify({ payload, signature })).toString('base64')
 
     res.status(200).json({ token, email: data.email, name: data.name || '' })
   } catch (e) {

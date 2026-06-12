@@ -128,7 +128,7 @@ function AuthGate({ onAuth }) {
   const [resendCooldown, setResendCooldown] = useState(0)
 
   // Countdown pour "Renvoyer le code"
-  useState(() => {
+  useEffect(() => {
     if (resendCooldown <= 0) return
     const t = setTimeout(() => setResendCooldown(v => v - 1), 1000)
     return () => clearTimeout(t)

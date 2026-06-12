@@ -33,7 +33,7 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email.toLowerCase() }),
-    }).catch(() => {})
+    }).catch((e) => { console.error('register: failed to send verification:', e.message) })
 
     // Pas de token encore — le client doit d'abord vérifier son email
     res.status(200).json({ requiresVerification: true, email: email.toLowerCase() })

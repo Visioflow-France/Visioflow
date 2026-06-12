@@ -10,7 +10,7 @@ export default function handler(req, res) {
   const token = process.env.ADMIN_TOKEN
   res.setHeader(
     'Set-Cookie',
-    `vf_admin=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=86400`
+    `vf_admin=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=86400`
   )
   res.status(200).json({ ok: true })
 }

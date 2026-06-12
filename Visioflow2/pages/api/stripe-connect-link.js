@@ -17,15 +17,7 @@ export default async function handler(req, res) {
     const refreshUrl = `${origin}/dashboard`
     const returnUrl = `${origin}/dashboard?stripe_success=true`
 
-    // Créer un lien Stripe Express
-    const accountLink = await stripe.accountLinks.create({
-      account: projectId, // On utilise le projectId comme identifiant temporaire
-      refresh_url: refreshUrl,
-      return_url: returnUrl,
-      type: 'account_onboarding',
-    })
-
-    // Pour Stripe Express, on utilise un compte existant ou on crée un nouveau
+    // Pour Stripe Express, on crée un nouveau compte
     // Pour simplifier, on va créer un compte Express avec les infos
     const account = await stripe.accounts.create({
       type: 'express',

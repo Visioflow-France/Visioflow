@@ -1,5 +1,16 @@
+function checkAuth(req) {
+  const cookies = Object.fromEntries(
+    (req.headers.cookie || '').split(';').map(c => {
+      const [k, ...v] = c.trim().split('=')
+      return [k.trim(), v.join('=').trim()]
+    }).filter(([k]) => k)
+  )
+  return !!process.env.ADMIN_TOKEN && cookies.vf_admin === process.env.ADMIN_TOKEN
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  if (!checkAuth(req)) return res.status(401).json({ error: 'Non autorisé' })
 
   const { docId, pack, restaurantName } = req.body
   if (!docId) return res.status(400).json({ error: 'docId manquant' })
@@ -16,7 +27,7 @@ export default async function handler(req, res) {
         fields: {
           paymentStatus: { stringValue: 'paid' },
           paymentDate:   { stringValue: new Date().toLocaleDateString('fr-FR') },
-          status:        { stringValue: 'contacted' },
+          status:        { stringValue: 'paid' },
         }
       })
     })

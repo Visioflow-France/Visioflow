@@ -32,7 +32,7 @@ const DEFAULT_CFG = {
   exampleUrls: { essentiel: '', premium: '' },
   packs: {
     essentiel: { price: '150€', desc: 'Site vitrine + gestion autonome' },
-    premium:   { price: '490€', desc: 'Commandes en ligne & livréison' },
+    premium:   { price: '490€', desc: 'Commandes en ligne & livraison' },
   },
   hero: {
     title:    '',
@@ -593,6 +593,7 @@ function EditTab({ cfg, update, save, dirty, saving }) {
   const sections = [
     { id: 'urls',       label: '🔗 URLs d\'exemple' },
     { id: 'packs',      label: '💰 Tarifs & packs' },
+    { id: 'hero',       label: '🏠 Section héros' },
     { id: 'payment',    label: '💳 Liens de paiement' },
     { id: 'assistance', label: '📞 Assistance' },
   ]
@@ -776,13 +777,11 @@ function SettingsTab({ onExport, subsCount, formsCount }) {
       <div className="db-card" style={{ marginBottom: 16 }}>
         <div className="db-card-head">🔐 Identifiants d'accès</div>
         <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 16, lineHeight: 1.65 }}>
-          Pour modifier l'email ou le mot de passe du dashboard, éditez les deux constantes tout en haut du fichier <code>pages/dashboard.js</code> :
+          Pour modifier le mot de passe du dashboard, mettez à jour la variable d'environnement <code>ADMIN_PASSWORD</code> dans votre fichier <code>.env.local</code> puis redémarrez le serveur.
         </p>
-        <pre className="db-code-block">{`/* ================================================================
-   IDENTIFIANTS ADMINISTRATEUR — MODIFIEZ CES DEUX LIGNES
-   ================================================================ */
-const ADMIN_EMAIL    = 'visioflow77@gmail.com'
-const ADMIN_PASSWORD = 'Visioflow2024!'`}</pre>
+        <pre className="db-code-block">{`# .env.local
+ADMIN_PASSWORD=votre_nouveau_mot_de_passe
+ADMIN_TOKEN=un_token_secret_random`}</pre>
       </div>
 
       <div className="db-card" style={{ marginBottom: 16 }}>
@@ -795,10 +794,10 @@ const ADMIN_PASSWORD = 'Visioflow2024!'`}</pre>
 
       <div className="db-card">
         <div className="db-card-head">🔥 Firebase</div>
-        <div className="db-kv"><span>Projet</span><span style={{ fontWeight: 600 }}>visioflow-cb6eb</span></div>
+        <div className="db-kv"><span>Projet</span><span style={{ fontWeight: 600 }}>visioflow-cb6eb-9d051</span></div>
         <div className="db-kv" style={{ flexWrap: 'wrap', gap: 4 }}><span>Collections</span><span style={{ fontSize: 12, wordBreak: 'break-word' }}>submissions · form_submissions · site_config</span></div>
         <div className="db-kv"><span>SDK</span><span>v10.12.0 (CDN compat)</span></div>
-        <div className="db-kv"><span style={{ flexShrink: 0 }}>Console</span><a href="https://console.firebase.google.com/project/visioflow-cb6eb" target="_blank" rel="noreferrer" style={{ color: '#0071E3', fontSize: 12, wordBreak: 'break-word' }}>Ouvrir Firebase →</a></div>
+        <div className="db-kv"><span style={{ flexShrink: 0 }}>Console</span><a href="https://console.firebase.google.com/project/visioflow-cb6eb-9d051" target="_blank" rel="noreferrer" style={{ color: '#0071E3', fontSize: 12, wordBreak: 'break-word' }}>Ouvrir Firebase →</a></div>
         <div className="db-info-box" style={{ marginTop: 14 }}>
           🔒 Le dashboard n'est jamais indexé par les moteurs de recherche (<code>noindex, nofollow</code>).
         </div>

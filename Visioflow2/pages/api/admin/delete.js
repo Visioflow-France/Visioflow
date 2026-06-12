@@ -10,7 +10,7 @@ function checkAuth(req) {
   return !!process.env.ADMIN_TOKEN && cookies.vf_admin === process.env.ADMIN_TOKEN
 }
 
-const ALLOWED = ['submissions', 'form_submissions']
+const ALLOWED = ['submissions', 'form_submissions', 'client_projects']
 
 export default async function handler(req, res) {
   if (!checkAuth(req)) return res.status(401).json({ error: 'Non autorisé' })

@@ -80,7 +80,7 @@ function ClientExtras() {
 const ClientExtrasNoSSR = dynamic(() => Promise.resolve(ClientExtras), { ssr: false })
 
 /* ── App ── */
-const SKIP_PAGES = ['/dashboard', '/preview', '/paiement', '/vitrine', '/landing']
+const SKIP_PAGES = ['/dashboard', '/preview', '/paiement', '/vitrine', '/landing', '/stripe-connect-link', '/stripe-express-link']
 
 export default function App({ Component, pageProps }) {
   const router   = useRouter()

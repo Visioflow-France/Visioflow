@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 
 export default function StripeConnectLinkPage() {
@@ -8,7 +8,7 @@ export default function StripeConnectLinkPage() {
   const [error, setError] = useState('')
 
   // Récupérer le lien depuis l'URL
-  if (typeof window !== 'undefined' && loading) {
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const stripeConnectUrl = params.get('stripeConnectUrl')
     if (stripeConnectUrl) {
@@ -17,7 +17,7 @@ export default function StripeConnectLinkPage() {
       setError('Aucun lien trouvé. Veuillez réessayer depuis le dashboard.')
     }
     setLoading(false)
-  }
+  }, [])
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(linkUrl)

@@ -52,9 +52,9 @@ export default function CGV() {
           .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
           .nav-links a:hover{color:#fff}
           .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s}
-          .nav-cta:hover{background:#0056b3;transform:translateY(-2px}
+          .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
           .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
-          .legal-links{display:flex;gap:20px;justifyContent:center;flexWrap:wrap;marginBottom:20px}
+          .legal-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
           .legal-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:13px;transition:color .2s}
           .legal-links a:hover{color:#0071E3}
           @media(max-width:768px){.nav-links{display:none}.price-table{font-size:13px}.price-table th,.price-table td{padding:12px}}

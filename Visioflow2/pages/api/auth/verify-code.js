@@ -44,7 +44,7 @@ export default async function handler(req, res) {
         name,
       })).toString('base64')
     }
-  } catch {}
+  } catch (e) { console.error('verify-code token lookup:', e) }
 
   res.status(200).json({ success: true, token, email: email.toLowerCase(), name })
 }

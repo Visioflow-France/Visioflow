@@ -5,13 +5,22 @@ import Footer from "../components/Footer";
 export default function LandingPage() {
   useEffect(() => {
     // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+    const anchors = document.querySelectorAll('a[href^="#"]');
+    const handlers = new Map();
+    anchors.forEach(anchor => {
+      const handler = function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(anchor.getAttribute('href'));
         if (target) target.scrollIntoView({ behavior: 'smooth' });
-      });
+      };
+      anchor.addEventListener('click', handler);
+      handlers.set(anchor, handler);
     });
+    return () => {
+      handlers.forEach((handler, anchor) => {
+        anchor.removeEventListener('click', handler);
+      });
+    };
   }, []);
 
   const canonicalUrl = "https://visioflow.fr/landing";
