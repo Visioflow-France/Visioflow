@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import '../styles/globals.css'
 import dynamic from 'next/dynamic'
 import { gsap } from 'gsap'
+import ThemeToggle from '@/components/ThemeToggle'
 
 /* ── Composants client uniquement ── */
 const FloatingBackground = dynamic(() => import('@/components/FloatingBackground'), { ssr: false })
@@ -86,7 +87,12 @@ export default function App({ Component, pageProps }) {
   const router   = useRouter()
   const skipWrap = SKIP_PAGES.includes(router.pathname)
 
-  if (skipWrap) return <Component {...pageProps} />
+  if (skipWrap) return (
+    <>
+      <Component {...pageProps} />
+      <ThemeToggle />
+    </>
+  )
 
   /* Le serveur rend UNIQUEMENT <Component> — pas d'extras.
      Le client ajoute ClientExtrasNoSSR après hydratation sans mismatch. */
@@ -94,6 +100,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Component {...pageProps} />
       <ClientExtrasNoSSR />
+      <ThemeToggle />
     </>
   )
 }

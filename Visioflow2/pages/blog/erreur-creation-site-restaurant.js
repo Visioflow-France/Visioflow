@@ -23,7 +23,7 @@ export default function BlogErreurs() {
 
         <style>{`
           *{box-sizing:border-box;margin:0;padding:0}
-          body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9}
+          body{font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9}
           .container{max-width:800px;margin:0 auto;padding:0 24px}
           .hero{padding:80px 24px 60px;text-align:center}
           .error-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:24px;margin:40px 0}

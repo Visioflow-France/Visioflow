@@ -38,7 +38,7 @@ export default function StripeConnectLinkPage() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f172a', color: '#fff' }}>
+      <div style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f172a', color: '#fff' }}>
         <div>Chargement...</div>
       </div>
     )
@@ -46,7 +46,7 @@ export default function StripeConnectLinkPage() {
 
   if (error) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f172a', color: '#fff' }}>
+      <div style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f172a', color: '#fff' }}>
         <div style={{ textAlign: 'center', padding: 20 }}>
           <div style={{ fontSize: 24, marginBottom: 16 }}>❌ Erreur</div>
           <div>{error}</div>
@@ -62,7 +62,7 @@ export default function StripeConnectLinkPage() {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
 
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f172a', padding: 20 }}>
+      <div style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f172a', padding: 20 }}>
         <div style={{ maxWidth: 600, width: '100%', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 40 }}>
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: 32 }}>

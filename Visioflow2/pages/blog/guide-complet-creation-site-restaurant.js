@@ -146,16 +146,16 @@ export default function BlogGuideComplet() {
 
         <style>{`
           *{box-sizing:border-box;margin:0;padding:0}
-          body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.8}
+          body{font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.8}
           .container{max-width:900px;margin:0 auto;padding:0 24px}
           .hero{padding:80px 24px 60px;text-align:center}
           .hero-category{display:inline-block;padding:6px 16px;background:rgba(0,113,227,.15);border:1px solid rgba(0,113,227,.3);border-radius:50px;color:#0071E3;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px}
-          .hero-title{font-family:'Outfit',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:20px;letter-spacing:-1px}
+          .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:20px;letter-spacing:-1px}
           .hero-meta{color:#94a3b8;font-size:14px;margin-bottom:40px}
           .hero-meta span{margin:0 10px}
           .content{padding:60px 24px 100px}
           .article{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:48px}
-          .article h2{font-family:'Outfit',sans-serif;font-size:clamp(24px,4vw,32px);font-weight:700;color:#fff;margin:48px 0 24px;letter-spacing:-.5px}
+          .article h2{font-family:'Fraunces',sans-serif;font-size:clamp(24px,4vw,32px);font-weight:700;color:#fff;margin:48px 0 24px;letter-spacing:-.5px}
           .article h2:first-child{margin-top:0}
           .article h3{font-size:20px;font-weight:600;color:#fff;margin:32px 0 16px}
           .article h4{font-size:18px;font-weight:600;color:#fff;margin:24px 0 12px}
@@ -172,13 +172,13 @@ export default function BlogGuideComplet() {
           .article img{max-width:100%;height:auto;border-radius:12px;margin:24px 0}
           .article hr{border:none;border-top:1px solid rgba(255,255,255,.1);margin:48px 0}
           .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:24px;padding:48px;margin:40px 0;text-align:center}
-          .cta h3{font-family:'Outfit',sans-serif;font-size:clamp(24px,4vw,32px);font-weight:800;color:#fff;margin-bottom:16px}
+          .cta h3{font-family:'Fraunces',sans-serif;font-size:clamp(24px,4vw,32px);font-weight:800;color:#fff;margin-bottom:16px}
           .cta p{color:rgba(255,255,255,.8);font-size:16px;margin-bottom:24px}
           .cta-btn{display:inline-block;padding:16px 32px;border-radius:50px;background:#fff;color:#0071E3;font-size:16px;font-weight:700;text-decoration:none;transition:all .3s}
           .cta-btn:hover{transform:translateY(-2px)}
           .nav{background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
           .nav-content{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
-          .logo{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:#fff}
+          .logo{font-family:'Fraunces',sans-serif;font-size:24px;font-weight:900;color:#fff}
           .logo span{color:#0071E3}
           .nav-links{display:flex;gap:24px}
           .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:color .2s}
@@ -190,7 +190,7 @@ export default function BlogGuideComplet() {
           .breadcrumbs a{color:'#64748b;text-decoration:none;transition:color .2s}
           .breadcrumbs a:hover{color:'#0071E3'}
           .toc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px;margin:40px 0}
-          .toc-title{font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:16px}
+          .toc-title{font-family:'Fraunces',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:16px}
           .toc-list{list-style:none;padding:0}
           .toc-list a{color:#94a3b8;text-decoration:none;display:block;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);transition:color .2s}
           .toc-list a:hover{color:#0071E3}

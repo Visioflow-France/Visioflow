@@ -91,20 +91,20 @@ export default function ServiceSiteVitrine() {
 
         <style>{`
           *{box-sizing:border-box;margin:0;padding:0}
-          body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
+          body{font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
           .container{max-width:1200px;margin:0 auto;padding:0 20px}
           .hero{min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative}
           .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);opacity:.3}
           .hero-content{position:relative;z-index:1;max-width:900px}
           .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,113,227,.15);border:1px solid rgba(0,113,227,.3);padding:8px 20px;border-radius:50px;color:#0071E3;font-size:13px;font-weight:600;margin-bottom:24px}
-          .hero-title{font-family:'Outfit',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
           .hero-sub{font-size:18px;color:#94a3b8;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
-          .hero-price{font-family:'Outfit',sans-serif;font-size:72px;font-weight:900;color:#0071E3;margin-bottom:8px}
+          .hero-price{font-family:'Fraunces',sans-serif;font-size:72px;font-weight:900;color:#0071E3;margin-bottom:8px}
           .hero-price span{font-size:20px;color:#94a3b8;font-weight:500}
           .section{padding:100px 20px}
           .section.alt{background:rgba(255,255,255,.02)}
           .section-header{text-align:center;margin-bottom:60px}
-          .section-title{font-family:'Outfit',sans-serif;font-size:clamp(28px,5vw,44px);font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:16px}
+          .section-title{font-family:'Fraunces',sans-serif;font-size:clamp(28px,5vw,44px);font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:16px}
           .section-sub{color:#94a3b8;max-width:700px;margin:0 auto;font-size:18px}
           .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;margin-top:60px}
           .feature-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px;transition:all .3s}
@@ -115,7 +115,7 @@ export default function ServiceSiteVitrine() {
           .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;margin-top:60px}
           .step-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px;text-align:center;transition:all .3s}
           .step-card:hover{transform:translateY(-4px)}
-          .step-number{width:56px;height:56px;background:linear-gradient(135deg,#0071E3,#38bdf8);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:#fff;margin:0 auto 20px}
+          .step-number{width:56px;height:56px;background:linear-gradient(135deg,#0071E3,#38bdf8);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',sans-serif;font-size:24px;font-weight:900;color:#fff;margin:0 auto 20px}
           .step-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:12px}
           .step-desc{color:#94a3b8;font-size:14px;line-height:1.7}
           .comparison{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;margin-top:60px}
@@ -126,14 +126,14 @@ export default function ServiceSiteVitrine() {
           .comparison-item.check svg{color:#34d399}
           .comparison-item.cross svg{color:#ef4444}
           .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:32px;padding:80px 20px;text-align:center;margin:100px 20px 0}
-          .cta h2{font-family:'Outfit',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
+          .cta h2{font-family:'Fraunces',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
           .cta p{color:rgba(255,255,255,.8);font-size:18px;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
           .cta-btn{display:inline-block;padding:16px 40px;border-radius:50px;background:#fff;color:#0071E3;font-size:16px;font-weight:700;text-decoration:none;transition:all .3s}
           .cta-btn:hover{transform:translateY(-2px)}
           .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
           .nav{background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
           .nav-content{display:flex;justify-content:space-between;align-items:center}
-          .logo{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
+          .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
           .logo span{color:#0071E3}
           .nav-links{display:flex;gap:32px}
           .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}

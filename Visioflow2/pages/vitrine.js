@@ -272,8 +272,8 @@ export default function Vitrine() {
             --sh:       0 4px 24px rgba(0,0,0,.07);
             --sh-lg:    0 20px 60px rgba(0,0,0,.12);
             --radius:   16px;
-            --font:     'Outfit', sans-serif;
-            --font-b:   'Inter', sans-serif;
+            --font:     'Fraunces', sans-serif;
+            --font-b:   'Inter Tight', sans-serif;
           }
           *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
           html { scroll-behavior:smooth; }
@@ -314,7 +314,7 @@ export default function Vitrine() {
 
           /* ── HERO ── */
           .vt-hero {
-            position:relative; min-height:100vh;
+            position:relative; min-height:100dvh;
             display:flex; flex-direction:column; align-items:center; justify-content:center;
             text-align:center; padding:100px 24px 60px; overflow:hidden;
           }

@@ -23,7 +23,7 @@ export default function BlogPhotos() {
 
         <style>{`
           *{box-sizing:border-box;margin:0;padding:0}
-          body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9}
+          body{font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9}
           .container{max-width:900px;margin:0 auto;padding:0 24px}
           .hero{padding:80px 24px 60px;text-align:center}
           .tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin:40px 0}
@@ -34,7 +34,7 @@ export default function BlogPhotos() {
           .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:24px;padding:48px;margin:40px 0;text-align:center}
           .cta-btn{display:inline-block;padding:16px 32px;border-radius:50px;background:#fff;color:#0071E3;font-size:16px;font-weight:700;text-decoration:none;transition:all .3s}
           .nav{background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
-          .logo{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:#fff}
+          .logo{font-family:'Fraunces',sans-serif;font-size:24px;font-weight:900;color:#fff}
           .logo span{color:'#0071E3'}
         `}</style>
       </Head>

@@ -23,21 +23,21 @@ export default function BlogSEOLocal() {
 
         <style>{`
           *{box-sizing:border-box;margin:0;padding:0}
-          body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.8}
+          body{font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.8}
           .container{max-width:900px;margin:0 auto;padding:0 24px}
           .hero{padding:80px 24px 60px;text-align:center}
-          .hero-title{font-family:'Outfit',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:20px;letterSpacing:-1px}
+          .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:20px;letterSpacing:-1px}
           .hero-sub{color:#94a3b8;font-size:18px;margin-bottom:40px}
           .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin:40px 0}
           .step-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px}
-          .step-number{width:48px;height:48px;background:linear-gradient(135deg,#0071E3,#38bdf8);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:#fff;margin-bottom:20px}
+          .step-number{width:48px;height:48px;background:linear-gradient(135deg,#0071E3,#38bdf8);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',sans-serif;font-size:24px;font-weight:900;color:#fff;margin-bottom:20px}
           .step-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:12px}
           .step-desc{color:#94a3b8;font-size:14px;line-height:1.7}
           .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:24px;padding:48px;margin:40px 0;text-align:center}
           .cta-btn{display:inline-block;padding:16px 32px;border-radius:50px;background:#fff;color:#0071E3;font-size:16px;font-weight:700;text-decoration:none;transition:all .3s}
           .nav{background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
           .nav-content{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
-          .logo{font-family:'Outfit',sans-serif;font-size:24px;font-weight:900;color:#fff}
+          .logo{font-family:'Fraunces',sans-serif;font-size:24px;font-weight:900;color:#fff}
           .logo span{color:#0071E3}
         `}</style>
       </Head>

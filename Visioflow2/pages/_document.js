@@ -4,6 +4,9 @@ export default function Document() {
   return (
     <Html lang="fr" suppressHydrationWarning>
       <Head>
+        {/* ── OMEGA · LOI IV (Zéro Éclair) : le thème est posé AVANT la 1ʳᵉ peinture ── */}
+        <meta name="color-scheme" content="light dark"/>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('vf-theme');if(t!=='light'&&t!=='dark'){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}var d=document.documentElement;d.setAttribute('data-theme',t);d.style.colorScheme=t;}catch(e){}})();` }} />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
         <meta name="theme-color" content="#0071E3"/>
         <link rel="icon" href="/favicon.ico" sizes="any"/>
@@ -24,7 +27,7 @@ export default function Document() {
         }}/>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"/>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"/>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"/>

@@ -177,7 +177,7 @@ export default function ShowcaseIntro({ onComplete }) {
           {/* Glow derrière le chiffre */}
           <div aria-hidden="true" style={{
             position: "absolute", inset: 0,
-            fontFamily: "'Outfit', sans-serif",
+            fontFamily: "'Fraunces', sans-serif",
             fontSize: "clamp(108px, 23vw, 280px)",
             fontWeight: 900, letterSpacing: "-0.06em", lineHeight: 0.88,
             color: "transparent",
@@ -189,7 +189,7 @@ export default function ShowcaseIntro({ onComplete }) {
           }}>5</div>
 
           <div className="si-count-num" style={{
-            fontFamily: "'Outfit', sans-serif",
+            fontFamily: "'Fraunces', sans-serif",
             fontSize: "clamp(108px, 23vw, 280px)",
             fontWeight: 900, letterSpacing: "-0.06em", lineHeight: 0.88,
             color: "transparent",
@@ -201,7 +201,7 @@ export default function ShowcaseIntro({ onComplete }) {
           }}>0</div>
 
           <div className="si-count-sub" style={{
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "'Inter Tight', sans-serif",
             fontSize: "clamp(9px, 1.4vw, 13px)",
             fontWeight: 700, letterSpacing: "0.30em",
             textTransform: "uppercase",
@@ -219,7 +219,7 @@ export default function ShowcaseIntro({ onComplete }) {
         perspective: "900px",
       }}>
         <h1 style={{
-          fontFamily: "'Outfit', sans-serif",
+          fontFamily: "'Fraunces', sans-serif",
           fontSize: "clamp(44px, 10vw, 144px)",
           fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 1,
           margin: 0, transformStyle: "preserve-3d",
@@ -272,7 +272,7 @@ export default function ShowcaseIntro({ onComplete }) {
 
         {/* Tagline */}
         <p className="si-tagline" style={{
-          fontFamily: "'Inter', sans-serif",
+          fontFamily: "'Inter Tight', sans-serif",
           fontSize: "clamp(11px, 1.65vw, 17px)",
           fontWeight: 400,
           color: "rgba(255,255,255,0.35)",
@@ -300,7 +300,7 @@ export default function ShowcaseIntro({ onComplete }) {
             boxShadow: "0 0 7px rgba(34,197,94,0.7)",
           }} />
           <span style={{
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "'Inter Tight', sans-serif",
             fontSize: "10.5px", fontWeight: 600,
             color: "rgba(255,255,255,0.48)",
             letterSpacing: "0.055em",
@@ -324,7 +324,7 @@ export default function ShowcaseIntro({ onComplete }) {
         </div>
         <div style={{
           marginTop: "7px",
-          fontFamily: "'Inter', sans-serif",
+          fontFamily: "'Inter Tight', sans-serif",
           fontSize: "9.5px", fontWeight: 600,
           color: "rgba(255,255,255,0.15)",
           letterSpacing: "0.09em",

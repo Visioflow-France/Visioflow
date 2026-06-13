@@ -155,13 +155,13 @@ export default function Tarifs() {
 
         <style>{`
           *{box-sizing:border-box;margin:0;padding:0}
-          body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
+          body{font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
           .container{max-width:1200px;margin:0 auto;padding:0 20px}
           .hero{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative}
           .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);opacity:.3}
           .hero-content{position:relative;z-index:1;max-width:900px}
           .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,113,227,.15);border:1px solid rgba(0,113,227,.3);padding:8px 20px;border-radius:50px;color:#0071E3;font-size:13px;font-weight:600;margin-bottom:24px}
-          .hero-title{font-family:'Outfit',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
           .hero-sub{font-size:18px;color:#94a3b8;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
           .section{padding:100px 20px}
           .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;max-width:900px;margin:0 auto}
@@ -169,14 +169,14 @@ export default function Tarifs() {
           .pricing-card.featured{border-color:#0071E3;box-shadow:0 20px 60px rgba(0,113,227,.2)}
           .pricing-card:hover{transform:translateY(-8px)}
           .pricing-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#0071E3;color:#fff;padding:6px 20px;border-radius:50px;font-size:12px;font-weight:700}
-          .pricing-name{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;color:#fff;margin-bottom:8px}
+          .pricing-name{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#fff;margin-bottom:8px}
           .pricing-desc{color:#94a3b8;font-size:15px;margin-bottom:24px;line-height:1.6}
-          .pricing-price{font-family:'Outfit',sans-serif;font-size:56px;font-weight:900;color:#fff;margin-bottom:20px}
+          .pricing-price{font-family:'Fraunces',sans-serif;font-size:56px;font-weight:900;color:#fff;margin-bottom:20px}
           .pricing-price span{font-size:18px;color:#94a3b8;font-weight:500}
           .pricing-features{margin-bottom:32px}
           .pricing-feature{display:flex;align-items:center;gap:12px;margin-bottom:14px;color:#cbd5e1;font-size:15px}
           .pricing-feature svg{color:#34d399;flex-shrink:0}
-          .pricing-btn{width:100%;padding:18px;border-radius:16px;background:#0071E3;color:#fff;font-size:16px;font-weight:700;border:none;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;text-decoration:none;display:block;text-align:center}
+          .pricing-btn{width:100%;padding:18px;border-radius:16px;background:#0071E3;color:#fff;font-size:16px;font-weight:700;border:none;cursor:pointer;transition:all .3s;font-family:'Inter Tight',sans-serif;text-decoration:none;display:block;text-align:center}
           .pricing-btn:hover{background:#0056b3;transform:translateY(-2px)}
           .pricing-btn.secondary{background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.2)}
           .pricing-btn.secondary:hover{background:rgba(255,255,255,.15)}
@@ -185,12 +185,12 @@ export default function Tarifs() {
           .faq-question{font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
           .faq-answer{color:#94a3b8;line-height:1.7;font-size:15px}
           .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:32px;padding:80px 20px;text-align:center;margin:100px 20px 0}
-          .cta h2{font-family:'Outfit',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
+          .cta h2{font-family:'Fraunces',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
           .cta p{color:rgba(255,255,255,.8);font-size:18px;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
           .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
           .nav{background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
           .nav-content{display:flex;justify-content:space-between;align-items:center}
-          .logo{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
+          .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
           .logo span{color:#0071E3}
           .nav-links{display:flex;gap:32px}
           .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}

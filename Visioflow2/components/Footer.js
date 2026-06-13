@@ -125,7 +125,7 @@ export default function Footer() {
         }
 
         .footer-logo {
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Fraunces', sans-serif;
           font-size: 28px;
           font-weight: 900;
           color: #fff;
@@ -170,7 +170,7 @@ export default function Footer() {
         }
 
         .footer-title {
-          font-family: 'Outfit', sans-serif;
+          font-family: 'Fraunces', sans-serif;
           font-size: 16px;
           font-weight: 700;
           color: #fff;

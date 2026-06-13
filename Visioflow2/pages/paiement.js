@@ -388,7 +388,7 @@ export default function Paiement() {
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <style>{`
           *{box-sizing:border-box;margin:0;padding:0}
-          body{font-family:'Inter',sans-serif;min-height:100vh}
+          body{font-family:'Inter Tight',sans-serif;min-height:100dvh}
           @keyframes spin{to{transform:rotate(360deg)}}
           @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
           @keyframes pulse{0%,100%{opacity:.4}50%{opacity:.8}}
@@ -397,7 +397,7 @@ export default function Paiement() {
         `}</style>
       </Head>
 
-      <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%)', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ minHeight: '100dvh', background: 'linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%)', display: 'flex', flexDirection: 'column' }}>
 
         {/* Header */}
         <div style={{ padding: '18px 32px', borderBottom: '1px solid rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

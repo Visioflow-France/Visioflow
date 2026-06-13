@@ -208,7 +208,7 @@ export default function Dashboard() {
       </Head>
 
       {loading && (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', fontFamily: 'Inter,sans-serif', color: '#6b7280', background: '#f8fafc' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100dvh', fontFamily: 'Inter,sans-serif', color: '#6b7280', background: '#f8fafc' }}>
           Chargement…
         </div>
       )}
@@ -1333,12 +1333,12 @@ const DASHBOARD_CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 .db * { box-sizing: border-box; margin: 0; padding: 0; }
-.db { display: flex; min-height: 100vh; background: #f8fafc; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 14px; color: #111827; -webkit-font-smoothing: antialiased; }
+.db { display: flex; min-height: 100dvh; background: #f8fafc; font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 14px; color: #111827; -webkit-font-smoothing: antialiased; }
 
 /* ── SIDEBAR ── */
-.db-side { width: 240px; min-height: 100vh; background: #0f172a; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 200; overflow-y: auto; transition: transform .25s cubic-bezier(.4,0,.2,1); }
+.db-side { width: 240px; min-height: 100dvh; background: #0f172a; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 200; overflow-y: auto; transition: transform .25s cubic-bezier(.4,0,.2,1); }
 .db-logo { padding: 20px 18px 16px; border-bottom: 1px solid rgba(255,255,255,.07); display: flex; align-items: baseline; gap: 6px; flex-shrink: 0; }
-.db-logo-text { font-size: 20px; font-weight: 800; color: #fff; font-family: 'Outfit', sans-serif; }
+.db-logo-text { font-size: 20px; font-weight: 800; color: #fff; font-family: 'Fraunces', sans-serif; }
 .db-logo-blue { color: #60a5fa; }
 .db-logo-tag { font-size: 10px; color: rgba(255,255,255,.3); font-weight: 600; background: rgba(255,255,255,.08); padding: 2px 7px; border-radius: 6px; }
 .db-nav { flex: 1; padding: 10px 10px; }
@@ -1353,20 +1353,20 @@ const DASHBOARD_CSS = `
 .db-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 150; }
 .db-overlay.open { display: block; }
 .db-topbar { display: none; }
-.db-topbar-logo { font-size: 18px; font-weight: 800; color: #fff; font-family: 'Outfit', sans-serif; }
+.db-topbar-logo { font-size: 18px; font-weight: 800; color: #fff; font-family: 'Fraunces', sans-serif; }
 .db-hamburger { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: none; border: none; cursor: pointer; padding: 6px; flex-shrink: 0; }
 .db-hamburger span { display: block; height: 2px; width: 100%; background: #fff; border-radius: 2px; transition: all .2s; }
 
 /* ── MAIN ── */
-.db-main { margin-left: 240px; flex: 1; padding: 36px 40px; min-height: 100vh; }
+.db-main { margin-left: 240px; flex: 1; padding: 36px 40px; min-height: 100dvh; }
 .db-page-header { margin-bottom: 28px; }
-.db-h1 { font-size: 26px; font-weight: 800; color: #111827; font-family: 'Outfit', sans-serif; line-height: 1.2; }
+.db-h1 { font-size: 26px; font-weight: 800; color: #111827; font-family: 'Fraunces', sans-serif; line-height: 1.2; }
 .db-sub { font-size: 13px; color: #6b7280; margin-top: 5px; }
 
 /* ── STATS ── */
 .db-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
 .db-stat { background: #fff; border-radius: 14px; padding: 20px 20px 16px; border: .5px solid rgba(0,0,30,.08); box-shadow: 0 1px 3px rgba(0,0,30,.04); }
-.db-stat-val { font-size: 28px; font-weight: 800; color: #111827; font-family: 'Outfit', sans-serif; line-height: 1; }
+.db-stat-val { font-size: 28px; font-weight: 800; color: #111827; font-family: 'Fraunces', sans-serif; line-height: 1; }
 .db-stat-lbl { font-size: 12px; color: #6b7280; margin-top: 6px; line-height: 1.4; }
 .db-stat-blue .db-stat-val { color: #0071E3; }
 .db-stat-blue { border-color: rgba(0,113,227,.2); }
