@@ -122,15 +122,25 @@ export default function PolitiqueConfidentialite() {
             Le responsable du traitement de vos données personnelles est :
           </p>
           <p>
-            <strong>VisioFlow</strong><br />
-            SARL au capital de 1 000 €<br />
-            12 Rue de la Paix, 75001 Paris<br />
-            SIRET : XXX XXX XXX XXXXX<br />
-            Email : <a href="mailto:dpo@visioflow.fr" style={{color:'#0071E3'}}>dpo@visioflow.fr</a>
+            <strong>Christian Micillo</strong>, agissant en qualité d'auto-entrepreneur, éditant le
+            site VisioFlow<br />
+            6 rue Lacretelle, 77340 Pontault-Combault<br />
+            SIRET : 101 079 366 00015<br />
+            Téléphone : +33 6 11 04 58 29<br />
+            Email : <a href="mailto:contact@visioflow.fr" style={{color:'#0071E3'}}>contact@visioflow.fr</a>
           </p>
           <p>
-            Pour toute question relative à la protection de vos données personnelles,
-            vous pouvez contacter notre Délégué à la Protection des Données (DPO) à l'adresse email ci-dessus.
+            Pour toute question relative à la protection de vos données personnelles, vous pouvez
+            contacter le responsable du traitement à l'adresse email
+            <a href="mailto:dpo@visioflow.fr" style={{color:'#0071E3'}}>dpo@visioflow.fr</a> ou par
+            courrier à l'adresse postale ci-dessus. La structure étant une micro-entreprise, la
+            fonction de Délégué à la Protection des Données n'est pas légalement obligatoire ; le
+            responsable du traitement assure directement cette mission.
+          </p>
+          <p>
+            Les traitements de données personnelles mis en œuvre dans le cadre de la gestion de la
+            clientèle et des prospects font l'objet d'une déclaration conforme aux formalités prévues
+            par la CNIL.
           </p>
         </div>
 
@@ -160,15 +170,16 @@ export default function PolitiqueConfidentialite() {
             <li>Adresse de votre établissement</li>
           </ul>
 
-          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 16px'}}>2. Données collectées lors de la commande</h3>
+          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 16px'}}>2. Données collectées lors d'une commande de site</h3>
           <p>
-            Lorsque vous passez une commande sur notre site, nous collectons également :
+            Lorsque vous commandez la création d'un site web, nous collectons également :
           </p>
           <ul>
-            <li>Adresse de livraison et de facturation</li>
-            <li>Informations de paiement (traitées de manière sécurisée par notre prestataire de paiement)</li>
-            <li>Historique des commandes</li>
-            <li>Préférences et personnalisations</li>
+            <li>Adresse de facturation</li>
+            <li>Informations nécessaires à la facturation (SIRET du client professionnel le cas échéant)</li>
+            <li>Éléments de contenu du futur site (logo, photos, menus, horaires, coordonnées du restaurant)</li>
+            <li>Données de paiement (traitées de manière sécurisée par notre prestataire de paiement ; nous ne stockons jamais les données bancaires)</li>
+            <li>Historique des échanges et des commandes</li>
           </ul>
 
           <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 16px'}}>3. Données collectées automatiquement</h3>
@@ -233,19 +244,24 @@ export default function PolitiqueConfidentialite() {
                 <td>2 ans après dernier contact</td>
               </tr>
               <tr>
+                <td>Gestion des prospects et demandes de devis</td>
+                <td>Intérêt légitime (relation précontractuelle)</td>
+                <td>3 ans à compter du dernier contact</td>
+              </tr>
+              <tr>
                 <td>Amélioration de nos services</td>
                 <td>Intérêt légitime</td>
                 <td>2 ans</td>
               </tr>
               <tr>
-                <td>Marketing (avec consentement)</td>
+                <td>Marketing / newsletter (avec consentement)</td>
                 <td>Consentement</td>
-                <td>3 ans ou jusqu'au retrait</td>
+                <td>Jusqu'au retrait du consentement</td>
               </tr>
               <tr>
-                <td>Respect des obligations légales</td>
+                <td>Respect des obligations légales (facturation, comptabilité, lutte anti-fraude)</td>
                 <td>Obligation légale</td>
-                <td>Durée requise par la loi</td>
+                <td>Durée requise par la loi (10 ans comptables)</td>
               </tr>
             </tbody>
           </table>
@@ -271,11 +287,11 @@ export default function PolitiqueConfidentialite() {
               <strong>Prestataires de services</strong> : Les tiers qui nous assistent dans la prestation
               de nos services, notamment :
               <ul>
-                <li>Prestataires de paiement (Stripe)</li>
-                <li>Hébergeur (Vercel)</li>
-                <li>Services d'analyse (Google Analytics)</li>
-                <li>Services de messagerie et emailing</li>
-                <li>Outils de gestion de projet</li>
+                <li>Prestataire de paiement (Stripe Payments Europe) — traitement des transactions ;</li>
+                <li>Hébergeur du site (Vercel Inc.) — stockage et mise en ligne du site ;</li>
+                <li>Fournisseur d'infrastructure applicative et d'authentification (Google / Firebase) ;</li>
+                <li>Service d'envoi d'emails transactionnels (Resend) ;</li>
+                <li>Toute autre prestation technique strictement nécessaire à l'exécution de nos services.</li>
               </ul>
             </li>
             <li>
@@ -284,9 +300,30 @@ export default function PolitiqueConfidentialite() {
             </li>
           </ul>
           <p>
-            Tous nos prestataires sont soumis à des obligations de confidentialité et de sécurité strictes.
-            Aucun transfert de vos données en dehors de l'Union Européenne n'est effectué sans garanties
-            adéquates conformément au RGPD.
+            Tous nos prestataires sont soumis à des obligations de confidentialité et de sécurité strictes,
+            et interviennent en qualité de sous-traitants au sens du RGPD.
+          </p>
+        </div>
+
+        {/* Transferts hors UE */}
+        <div className="section">
+          <h2 className="section-title">
+            <div className="section-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            Transferts de données hors de l'Union européenne
+          </h2>
+          <p>
+            Certaines données peuvent être traitées par nos prestataires situés en dehors de l'Union
+            européenne, notamment aux États-Unis (Vercel Inc. et Google / Firebase pour
+            l'hébergement et l'infrastructure, et Stripe pour le paiement).
+          </p>
+          <p>
+            Ces transferts sont encadrés conformément au RGPD, soit sur la base d'une décision d'adéquation,
+            soit au moyen de garanties appropriées telles que les <strong>clauses contractuelles types</strong>
+            adoptées par la Commission européenne, complétées le cas échéant de mesures techniques et
+            organisationnelles supplémentaires. Les données transférées sont limitées au strict nécessaire
+            à la fourniture du service.
           </p>
         </div>
 
@@ -365,11 +402,23 @@ export default function PolitiqueConfidentialite() {
           <p>
             <strong>Pour exercer vos droits</strong>, contactez-nous à l'adresse :
             <a href="mailto:dpo@visioflow.fr" style={{color:'#0071E3'}}>dpo@visioflow.fr</a>
+            en joignant une copie d'un justificatif d'identité. Vous pouvez également exercer l'ensemble
+            de ces droits directement depuis votre espace personnel.
           </p>
           <p>
             Nous répondrons à votre demande dans un délai d'un mois à compter de sa réception.
             Ce délai peut être prolongé de deux mois supplémentaires si nécessaire, compte tenu de
             la complexité et du nombre de demandes.
+          </p>
+          <p>
+            Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous
+            pouvez introduire une réclamation auprès de l'autorité de contrôle compétente :
+          </p>
+          <p>
+            <strong>CNIL (Commission Nationale de l'Informatique et des Libertés)</strong><br />
+            3 place de Fontenoy — TSA 80715 — 75334 PARIS CEDEX 07<br />
+            Téléphone : 01 53 73 22 22 — Site web :
+            <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>www.cnil.fr</a>
           </p>
         </div>
 

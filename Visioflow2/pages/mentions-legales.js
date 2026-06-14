@@ -10,13 +10,22 @@ const LEGAL_INFO = {
   companyName: "Christian Micillo",  // Ex: "Jean Dupont"
 
   // Forme juridique (auto-entrepreneur)
-  legalForm: "Auto-entrepreneur",
+  legalForm: "Auto-entrepreneur (micro-entreprise)",
 
   // SIRET (14 chiffres) - à recevoir par email après inscription
   siret: "101 079 366 00015",  // Ex: "123 456 789 00012"
 
   // SIREN (9 premiers chiffres du SIRET)
   siren: "101 079 366",  // Ex: "123 456 789"
+
+  // Code APE / NAF (activité principale)
+  apeCode: "62 01 Z — Programmation informatique",
+
+  // Numéro de gestion CMA / CCI (répertoire des métiers / greffe)
+  rmNumber: "À compléter (RCS de Meaux)",
+
+  // Capital social (non applicable pour une auto-entreprise)
+  capital: "Non applicable (auto-entrepreneur)",
 
   // Numéro TVA (auto-entrepreneur en franchise de base = pas de numéro)
   tvaNumber: "FRXXXXXXXXXXXXXXXXXXXXXXXX",  // Laisser tel quel si franchise de TVA
@@ -150,12 +159,28 @@ export default function MentionsLegales() {
               <div className="info-label">SIREN</div>
               <div className="info-value">{LEGAL_INFO.siren}</div>
             </div>
+            <div className="info-item">
+              <div className="info-label">Code APE / NAF</div>
+              <div className="info-value">{LEGAL_INFO.apeCode}</div>
+            </div>
+            <div className="info-item">
+              <div className="info-label">Immatriculation (RCS / RM)</div>
+              <div className="info-value">{LEGAL_INFO.rmNumber}</div>
+            </div>
+            <div className="info-item">
+              <div className="info-label">Capital social</div>
+              <div className="info-value">{LEGAL_INFO.capital}</div>
+            </div>
             {LEGAL_INFO.tvaNumber && LEGAL_INFO.tvaNumber !== "FRXXXXXXXXXXXXXXXXXXXXXXXX" && (
               <div className="info-item">
                 <div className="info-label">Numéro TVA intracommunautaire</div>
                 <div className="info-value">{LEGAL_INFO.tvaNumber}</div>
               </div>
             )}
+            <div className="info-item">
+              <div className="info-label">Régime TVA</div>
+              <div className="info-value">Franchise en base de TVA (art. 293 B du CGI)</div>
+            </div>
             <div className="info-item">
               <div className="info-label">Adresse</div>
               <div className="info-value">{LEGAL_INFO.address}</div>
@@ -258,7 +283,12 @@ export default function MentionsLegales() {
           </p>
           <p>
             Pour exercer ces droits, vous pouvez nous contacter à l'adresse email :
-            <strong>dpo@visioflow.fr</strong>
+            <strong>dpo@visioflow.fr</strong> ou par courrier à l'adresse postale de l'éditeur.
+          </p>
+          <p>
+            Vous avez également la possibilité d'introduire une réclamation auprès de l'autorité française
+            de protection des données, la <strong>CNIL</strong> (3 place de Fontenoy — TSA 80715 —
+            75334 Paris Cedex 07 ; <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>www.cnil.fr</a>).
           </p>
           <p>
             Les données collectées sur ce site font l'objet d'un traitement informatique dans le but de gérer
@@ -318,19 +348,53 @@ export default function MentionsLegales() {
             <div className="section-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             </div>
-            Litiges et médiation
+            Litiges, médiation et réclamations
           </h2>
           <p>
-            En cas de litige lié à l'utilisation de ce site ou aux services proposés, vous êtes invité
-            à contacter en premier lieu notre service client à l'adresse <strong>{LEGAL_INFO.email}</strong>.
+            En cas de litige, vous êtes invité à contacter en premier lieu notre service client à
+            l'adresse <strong>{LEGAL_INFO.email}</strong>.
           </p>
           <p>
-            Si le litige ne peut être résolu à l'amiable, vous avez la possibilité de saisir le tribunal
-            compétent conformément aux dispositions du Code de commerce et du Code de consommation.
+            Conformément aux articles L. 612-1 et suivants du Code de la consommation, le Client
+            consommateur peut recourir gratuitement à un médiateur de la consommation en vue de la
+            résolution amiable d'un litige l'opposant à VisioFlow.
           </p>
           <p>
-            En cas de litige de consommation, vous pouvez également recourir à un médiateur de la consommation
-            conforme aux dispositions de l'article L. 616-1 du Code de consommation.
+            Le médiateur de la consommation compétent est :
+            <strong> Médiateur des entreprises</strong> — 12 square Desnouettes, 75015 Paris.
+            Site web : <a href="https://www.mediateurdesentreprises.fr" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>www.mediateurdesentreprises.fr</a>.
+            La saisine s'effectue en ligne, après une tentative de résolution préalable auprès de
+            notre service client.
+          </p>
+          <p>
+            Conformément à l'article L. 616-3 du Code de la consommation, vous pouvez également
+            utiliser la <strong>plateforme européenne de règlement en ligne des litiges (RLL)</strong>,
+            accessible à l'adresse :
+            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>https://ec.europa.eu/consumers/odr</a>.
+          </p>
+          <p>
+            En l'absence de résolution amiable, le litige sera porté devant les tribunaux français
+            compétents.
+          </p>
+        </div>
+
+        {/* Indication professionnelle */}
+        <div className="section">
+          <h2 className="section-title">
+            <div className="section-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            Indications professionnelles
+          </h2>
+          <p>
+            L'éditeur exerce l'activité de conception et de développement de sites internet sous le
+            statut d'auto-entrepreneur (micro-entreprise). Il est immatriculé sous le SIRET
+            {LEGAL_INFO.siret} et relève du régime de la micro-entreprise, placé en franchise en
+            base de TVA (article 293 B du Code général des impôts).
+          </p>
+          <p>
+            Le professionnel est couvert par une assurance responsabilité civile professionnelle (RC Pro)
+            adaptée à son activité. Le détail des garanties peut être communiqué sur simple demande.
           </p>
         </div>
 

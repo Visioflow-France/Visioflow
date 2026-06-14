@@ -71,14 +71,7 @@ export default function ServiceLyon() {
                   "opens": "09:00",
                   "closes": "18:00"
                 }
-              ],
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "42",
-                "bestRating": "5",
-                "worstRating": "1"
-              }
+              ]
             })
           }}
         />

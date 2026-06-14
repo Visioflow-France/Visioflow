@@ -74,58 +74,20 @@ export default function Testimonials() {
   return (
     <>
       <Head>
-        <title>Témoignages Restaurateurs | Avis Clients VisioFlow - Note 4.9/5</title>
+        <title>Cas d'usage & exemples | VisioFlow — Création de sites restaurant</title>
         <meta
           name="description"
-          content="Découvrez les témoignages de 150+ restaurateurs satisfaits de VisioFlow. Note moyenne 4.9/5 étoiles. Création de site web restaurant en 48 heures, sans abonnement."
+          content="Des exemples illustratifs de sites et de cas d'usage pour restaurateurs créés par VisioFlow : site vitrine, commandes en ligne, livraison en 48 heures, sans abonnement."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Témoignages Restaurateurs | Avis Clients VisioFlow - Note 4.9/5" />
-        <meta property="og:description" content="Découvrez les témoignages de 150+ restaurateurs satisfaits de VisioFlow. Note moyenne 4.9/5 étoiles. Création de site web restaurant en 48 heures, sans abonnement." />
+        <meta property="og:title" content="Cas d'usage & exemples | VisioFlow" />
+        <meta property="og:description" content="Des exemples illustratifs de sites et de cas d'usage pour restaurateurs créés par VisioFlow." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
         <meta property="og:site_name" content="VisioFlow" />
 
-        {/* AggregateRating Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Product",
-              "name": "Service de création de sites web pour restaurants - VisioFlow",
-              "image": "https://visioflow.fr/og-temoignages.jpg",
-              "description": "VisioFlow crée des sites web professionnels pour restaurants avec commandes en ligne, livrés en 48 heures, sans abonnement.",
-              "brand": {
-                "@type": "Brand",
-                "name": "VisioFlow"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "127",
-                "bestRating": "5",
-                "worstRating": "1"
-              },
-              "review": testimonials.map(t => ({
-                "@type": "Review",
-                "author": {
-                  "@type": "Person",
-                  "name": t.name
-                },
-                "reviewRating": {
-                  "@type": "Rating",
-                  "ratingValue": t.rating.toString(),
-                  "bestRating": "5"
-                },
-                "reviewBody": t.text,
-                "datePublished": t.date
-              }))
-            })
-          }}
-        />
 
         <style>{`
           *{box-sizing:border-box;margin:0;padding:0}
@@ -191,17 +153,13 @@ export default function Testimonials() {
       <section className="hero">
         <div className="hero-bg" />
         <div className="hero-content">
-          <div className="rating-display">
-            <div className="rating-stars">★★★★★</div>
-            <div className="rating-score">4.9/5</div>
-            <div className="rating-label">sur 127 avis</div>
-          </div>
           <h1 className="hero-title">
-            Ce que nos clients disent
+            Cas d'usage & exemples
           </h1>
           <p className="hero-sub">
-            Découvrez les témoignages de 150+ restaurateurs qui nous font confiance.
-            Leur satisfaction est notre plus belle réussite.
+            Découvrez, à travers des exemples illustratifs, les types de besoins restaurateurs
+            que VisioFlow accompagne : site vitrine, commandes en ligne, menu digital — livrés
+            en 48 heures, sans abonnement.
           </p>
         </div>
       </section>
@@ -209,9 +167,16 @@ export default function Testimonials() {
       {/* Testimonials Section */}
       <section className="section">
         <div className="container">
-          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#fff',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Témoignages clients</h2>
-          <p style={{color:'#94a3b8',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
-            Restaurateurs satisfaits de Paris à Nice, en passant par Lyon et Bordeaux.
+          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#fff',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Exemples de cas d'usage</h2>
+          <p style={{color:'#94a3b8',textAlign:'center',maxWidth:'700px',margin:'0 auto 30px',fontSize:'18px'}}>
+            Des scénarios illustratifs représentatifs des besoins que nous traitons, partout en France.
+          </p>
+          <p style={{color:'#94a3b8',textAlign:'center',maxWidth:'680px',margin:'0 auto 60px',fontSize:'13.5px',fontStyle:'italic',opacity:.85}}>
+            ⚠️ Les exemples ci-dessous sont <strong>illustratifs</strong> et présentés à titre démonstratif.
+            Les noms, établissements et commentaires ne constituent pas des avis ou témoignages de clients
+            réels et ne doivent pas être interprétés comme tels. VisioFlow s'engage à ne publier des avis
+            vérifiés que lorsqu'ils auront été collectés et contrôlés conformément aux articles L.214-1
+            et suivants du Code de la consommation.
           </p>
           <div className="testimonials-grid">
             {testimonials.map((testimonial, index) => (
@@ -225,12 +190,8 @@ export default function Testimonials() {
                     <div className="testimonial-role">{testimonial.role}</div>
                   </div>
                 </div>
-                <div className="testimonial-rating">
-                  {'★'.repeat(testimonial.rating)}{'☆'.repeat(5 - testimonial.rating)}
-                </div>
                 <p className="testimonial-text">{testimonial.text}</p>
                 <div className="testimonial-footer">
-                  <span className="testimonial-date">{testimonial.date}</span>
                   <span className="testimonial-pack">{testimonial.pack}</span>
                 </div>
               </div>
@@ -244,20 +205,20 @@ export default function Testimonials() {
         <div className="container">
           <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:'32px',textAlign:'center'}}>
             <div>
-              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'56px',fontWeight:900,color:'#0071E3',marginBottom:'8px'}}>150+</div>
-              <div style={{color:'#94a3b8',fontSize:'15px'}}>Clients satisfaits</div>
+              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'56px',fontWeight:900,color:'#0071E3',marginBottom:'8px'}}>48h</div>
+              <div style={{color:'#94a3b8',fontSize:'15px'}}>Délai de livraison annoncé</div>
             </div>
             <div>
-              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'56px',fontWeight:900,color:'#0071E3',marginBottom:'8px'}}>127</div>
-              <div style={{color:'#94a3b8',fontSize:'15px'}}>Avis Google</div>
+              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'56px',fontWeight:900,color:'#0071E3',marginBottom:'8px'}}>2</div>
+              <div style={{color:'#94a3b8',fontSize:'15px'}}>Packs proposés</div>
             </div>
             <div>
-              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'56px',fontWeight:900,color:'#0071E3',marginBottom:'8px'}}>4.9/5</div>
-              <div style={{color:'#94a3b8',fontSize:'15px'}}>Note moyenne</div>
+              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'56px',fontWeight:900,color:'#0071E3',marginBottom:'8px'}}>0 €</div>
+              <div style={{color:'#94a3b8',fontSize:'15px'}}>Abonnement mensuel</div>
             </div>
             <div>
-              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'56px',fontWeight:900,color:'#0071E3',marginBottom:'8px'}}>98%</div>
-              <div style={{color:'#94a3b8',fontSize:'15px'}}>Recommandation</div>
+              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'56px',fontWeight:900,color:'#0071E3',marginBottom:'8px'}}>À vie</div>
+              <div style={{color:'#94a3b8',fontSize:'15px'}}>Hébergement inclus</div>
             </div>
           </div>
         </div>
@@ -265,7 +226,7 @@ export default function Testimonials() {
 
       {/* CTA Section */}
       <div className="cta">
-        <h2>Rejoignez nos 150+ clients satisfaits</h2>
+        <h2>Lancez votre site restaurant</h2>
         <p>
           Votre site web professionnel en 48 heures, sans abonnement.
           Découvrez pourquoi les restaurateurs recommandent VisioFlow.

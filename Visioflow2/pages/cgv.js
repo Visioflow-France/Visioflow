@@ -98,8 +98,15 @@ export default function CGV() {
           </h2>
           <p>
             Les présentes Conditions Générales de Vente (ci-après dénommées "CGV") régissent la
-            vente des services proposés par la société <strong>VisioFlow</strong> (ci-après dénommée
-            "le Vendeur") à ses clients (ci-après dénommés "le Client" ou "l'Acheteur").
+            vente des services proposés par <strong>Christian Micillo</strong>, auto-entrepreneur,
+            éditeur du site VisioFlow (ci-après dénommé "le Vendeur"), à ses clients (ci-après
+            dénommés "le Client" ou "l'Acheteur").
+          </p>
+          <p>
+            Le Vendeur est immatriculé sous le SIRET 101 079 366 00015, dont le siège est situé
+            6 rue Lacretelle, 77340 Pontault-Combault. Il exerce en franchise en base de TVA
+            (article 293 B du CGI). Il est joignable à l'adresse contact@visioflow.fr et au
+            +33 6 11 04 58 29.
           </p>
           <p>
             Toute commande passée sur le site visioflow.fr vaut acceptation pleine et entière des
@@ -178,12 +185,14 @@ export default function CGV() {
           </h2>
           <h3 className="article-title">2.1 Tarification</h3>
           <p>
-            Les prix des services sont indiqués en euros hors taxes (HT). La TVA est applicable
-            selon le taux en vigueur au jour de la commande.
+            Les prix de nos services sont indiqués en euros. Le Vendeur étant auto-entrepreneur
+            placé en franchise en base de TVA (article 293 B du CGI), la TVA n'est pas applicable
+            et n'est donc pas facturée ni récupérable. Les prix affichés sur le site s'entendent
+            taxes comprises (TVA non applicable).
           </p>
           <p>
-            Pour les professionnels assujettis à la TVA, le prix s'entend HT. Pour les consommateurs,
-            le prix inclut la TVA.
+            Les prix peuvent être modifiés à tout moment par le Vendeur ; toutefois, les prix
+            applicables sont ceux en vigueur au jour de la validation de la commande.
           </p>
 
           <h3 className="article-title">2.2 Hébergement inclus</h3>
@@ -266,7 +275,20 @@ export default function CGV() {
           </p>
           <p>
             Pour exercer son droit de rétractation, le Client doit nous informer de sa décision
-            par écrit (email ou courrier) à l'adresse : contact@visioflow.fr
+            par écrit (email ou courrier) à l'adresse : contact@visioflow.fr. Le Client peut
+            utiliser à cet effet le formulaire type de rétractation suivant :
+          </p>
+          <p style={{background:'rgba(0,113,227,.06)',borderLeft:'3px solid #0071E3',borderRadius:'0 10px 10px 0',padding:'16px 20px',fontFamily:'Inter Tight, sans-serif',fontSize:'14px',color:'#cbd5e1'}}>
+            « Formulaire de rétractation — Addressé à : VisioFlow, Christian Micillo,
+            6 rue Lacretelle, 77340 Pontault-Combault, contact@visioflow.fr. Je vous notifie par
+            la présente ma rétractation du contrat portant sur la prestation ci-dessous. Commandée
+            le : / Reçue le : / Nom du Client : / Adresse du Client : / Signature : / Date : »
+          </p>
+          <p>
+            En cas de rétractation dans les conditions ci-dessus, le Vendeur rembourse le Client
+            de la totalité des sommes versées, hors prestations déjà exécutées avec l'accord exprès
+            et préalable du Client, au plus tard dans les <strong>14 jours</strong> suivant la
+            réception de la décision de rétractation.
           </p>
         </div>
 
@@ -301,8 +323,8 @@ export default function CGV() {
           <h3 className="article-title">4.4 Facturation</h3>
           <p>
             Une facture est émise dès le paiement effectif de la commande et envoyée au Client
-            par email. Elle mentionne le montant payé, les détails de la prestation et le numéro
-            de TVA intracommunautaire si applicable.
+            par email. Elle mentionne la date de la commande, le détail et le prix des prestations,
+            ainsi que la mention « TVA non applicable, art. 293 B du CGI » (franchise en base de TVA).
           </p>
         </div>
 
@@ -638,21 +660,26 @@ export default function CGV() {
             Les présentes CGV sont régies par le droit français.
           </p>
 
-          <h3 className="article-title">13.2 Médiation (consommateurs)</h3>
+          <h3 className="article-title">13.2 Médiation de la consommation</h3>
           <p>
-            En cas de litige avec un consommateur, le Client peut recourir à un médiateur de
-            la consommation conforme aux dispositions de l'article L. 616-1 du Code de consommation.
-            Les coordonnées du médiateur seront communiquées sur demande.
+            Conformément aux articles L. 612-1 et suivants du Code de la consommation, le Client
+            consommateur peut recourir gratuitement à un médiateur de la consommation en vue de la
+            résolution amiable d'un litige. Le médiateur compétent est le
+            <strong> Médiateur des entreprises</strong> — 12 square Desnouettes, 75015 Paris
+            (<a href="https://www.mediateurdesentreprises.fr" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>www.mediateurdesentreprises.fr</a>).
+          </p>
+          <p>
+            Conformément à l'article L. 616-3 du Code de la consommation, le Client peut également
+            saisir la <strong>plateforme européenne de règlement en ligne des litiges (RLL)</strong> :
+            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>https://ec.europa.eu/consumers/odr</a>.
           </p>
 
           <h3 className="article-title">13.3 Compétence juridictionnelle</h3>
           <p>
-            Tout litige relatif à l'interprétation ou à l'exécution des présentes CGU sera soumis
-            à la compétence exclusive des tribunaux de Paris.
-          </p>
-          <p>
-            Pour les consommateurs, les juridictions du lieu de résidence du consommateur restent
-            compétentes conformément aux dispositions du Code de consommation.
+            Tout litige relatif à l'interprétation ou à l'exécution des présentes CGV sera soumis
+            au droit français et porté devant les juridictions françaises compétentes. Pour les
+            consommateurs, les juridictions du lieu de résidence du consommateur restent compétentes
+            conformément aux dispositions du Code de la consommation.
           </p>
         </div>
 

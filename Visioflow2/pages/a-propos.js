@@ -47,32 +47,24 @@ export default function About() {
               "contactPoint": [
                 {
                   "@type": "ContactPoint",
-                  "telephone": "+33-1-23-45-67-89",
+                  "telephone": "+33-6-11-04-58-29",
                   "contactType": "customer service",
                   "email": "contact@visioflow.fr",
-                  "areaServed": "FR",
-                  "availableLanguage": "French"
-                },
-                {
-                  "@type": "ContactPoint",
-                  "telephone": "+33-6-12-34-56-78",
-                  "contactType": "sales",
-                  "email": "commercial@visioflow.fr",
                   "areaServed": "FR",
                   "availableLanguage": "French"
                 }
               ],
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "12 Rue de la Paix",
-                "addressLocality": "Paris",
-                "postalCode": "75001",
+                "streetAddress": "6 rue Lacretelle",
+                "addressLocality": "Pontault-Combault",
+                "postalCode": "77340",
                 "addressCountry": "FR"
               },
               "geo": {
                 "@type": "GeoCoordinates",
-                "latitude": 48.8667,
-                "longitude": 2.3333
+                "latitude": 48.7903,
+                "longitude": 2.6045
               },
               "areaServed": [
                 {
@@ -124,20 +116,20 @@ export default function About() {
               "name": "VisioFlow",
               "image": "https://visioflow.fr/og-image.jpg",
               "url": "https://visioflow.fr",
-              "telephone": "+33-1-23-45-67-89",
+              "telephone": "+33-6-11-04-58-29",
               "email": "contact@visioflow.fr",
               "priceRange": "€€",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "12 Rue de la Paix",
-                "addressLocality": "Paris",
-                "postalCode": "75001",
+                "streetAddress": "6 rue Lacretelle",
+                "addressLocality": "Pontault-Combault",
+                "postalCode": "77340",
                 "addressCountry": "FR"
               },
               "geo": {
                 "@type": "GeoCoordinates",
-                "latitude": 48.8667,
-                "longitude": 2.3333
+                "latitude": 48.7903,
+                "longitude": 2.6045
               },
               "openingHoursSpecification": [
                 {
@@ -146,14 +138,7 @@ export default function About() {
                   "opens": "09:00",
                   "closes": "18:00"
                 }
-              ],
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "127",
-                "bestRating": "5",
-                "worstRating": "1"
-              }
+              ]
             })
           }}
         />
@@ -268,26 +253,26 @@ export default function About() {
       {/* Stats Section */}
       <section className="section alt">
         <div className="container">
-          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#fff',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Nos chiffres</h2>
+          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#fff',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Notre approche</h2>
           <p style={{color:'#94a3b8',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
-            Des résultats concrets pour les restaurateurs français.
+            Une méthode simple et transparente, au service des restaurateurs français.
           </p>
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-num">150+</div>
-              <div className="stat-label">Restaurateurs accompagnés</div>
-            </div>
-            <div className="stat-card">
               <div className="stat-num">48h</div>
-              <div className="stat-label">Délai de livraison</div>
+              <div className="stat-label">Délai de livraison annoncé</div>
             </div>
             <div className="stat-card">
-              <div className="stat-num">4.9/5</div>
-              <div className="stat-label">Note moyenne clients</div>
+              <div className="stat-num">0 €</div>
+              <div className="stat-label">Abonnement mensuel</div>
             </div>
             <div className="stat-card">
-              <div className="stat-num">+35%</div>
-              <div className="stat-label">Moyenne d'augmentation commandes</div>
+              <div className="stat-num">2</div>
+              <div className="stat-label">Packs clairs et sans engagement</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-num">À vie</div>
+              <div className="stat-label">Hébergement inclus</div>
             </div>
           </div>
         </div>

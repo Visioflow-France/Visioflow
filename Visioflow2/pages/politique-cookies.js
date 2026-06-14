@@ -138,116 +138,36 @@ export default function PolitiqueCookies() {
             </thead>
             <tbody>
               <tr>
-                <td>next-auth.session-token</td>
-                <td>Authentification et maintien de session</td>
-                <td>Session</td>
+                <td>firebase:authUser<br />Firebase LocalStorage / IndexedDB</td>
+                <td>Maintien de la session d'authentification (Firebase Auth) — nécessaire pour accéder à votre espace client et à votre tableau de bord</td>
+                <td>Session / 1 an</td>
               </tr>
               <tr>
-                <td>next-auth.csrf-token</td>
-                <td>Protection contre les attaques CSRF</td>
-                <td>Session</td>
-              </tr>
-              <tr>
-                <td>__Secure-next-auth.callback-url</td>
-                <td>Gestion des redirections après authentification</td>
-                <td>Session</td>
+                <td>vf-theme</td>
+                <td>Mémorisation de votre préférence d'affichage (thème clair/sombre) — déposé via le stockage local du navigateur</td>
+                <td>Persistant (localStorage)</td>
               </tr>
               <tr>
                 <td>cookie_consent</td>
-                <td>Mémorisation de votre choix en matière de cookies</td>
-                <td>1 an</td>
+                <td>Mémorisation de votre choix en matière de consentement aux cookies</td>
+                <td>13 mois</td>
+              </tr>
+              <tr>
+                <td>Cookies techniques de session</td>
+                <td>Reconnaissance du visiteur d'une page à l'autre, sécurisation des formulaires et maintien du panier</td>
+                <td>Session</td>
               </tr>
             </tbody>
           </table>
 
-          <div className="cookie-category">Cookies de performance et d'analyse</div>
+          <div className="cookie-category">Cookies de mesure d'audience et de publicité</div>
           <p>
-            Ces cookies nous permettent de mesurer l'audience du site et d'analyser le comportement
-            des visiteurs afin d'améliorer nos services. Ils nécessitent votre consentement.
+            À ce jour, notre site <strong>n'utilise pas de cookies de mesure d'audience, de
+            publicité ou de ciblage</strong> tiers (type Google Analytics, Google Ads, Meta Pixel,
+            LinkedIn Insight Tag, etc.). Le cas échéant, ces traceurs ne seraient déposés qu'après
+            recueil de votre consentement exprès via notre bandeau de gestion des cookies, et la
+            présente politique serait mise à jour en conséquence.
           </p>
-
-          <table className="cookie-table">
-            <thead>
-              <tr>
-                <th>Nom du cookie</th>
-                <th>Finalité</th>
-                <th>Durée</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>_ga, _gid</td>
-                <td>Google Analytics - Statistiques de visite</td>
-                <td>2 ans / 24h</td>
-              </tr>
-              <tr>
-                <td>_gat</td>
-                <td>Google Analytics - Limitation du taux de requêtes</td>
-                <td>1 minute</td>
-              </tr>
-              <tr>
-                <td>_gcl_au</td>
-                <td>Google Ads - Conversion publicitaire</td>
-                <td>90 jours</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div className="cookie-category">Cookies de fonctionnalité</div>
-          <p>
-            Ces cookies permettent de mémoriser vos préférences et choix afin d'améliorer votre
-            expérience de navigation. Ils nécessitent votre consentement.
-          </p>
-
-          <table className="cookie-table">
-            <thead>
-              <tr>
-                <th>Nom du cookie</th>
-                <th>Finalité</th>
-                <th>Durée</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>theme_preference</td>
-                <td>Mémorisation du thème choisi (clair/sombre)</td>
-                <td>1 an</td>
-              </tr>
-              <tr>
-                <td>language_preference</td>
-                <td>Mémorisation de la langue choisie</td>
-                <td>1 an</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div className="cookie-category">Cookies de publicité ciblée</div>
-          <p>
-            Ces cookies sont utilisés pour vous afficher des publicités pertinentes en fonction de
-            vos centres d'intérêt et de votre navigation. Ils nécessitent votre consentement.
-          </p>
-
-          <table className="cookie-table">
-            <thead>
-              <tr>
-                <th>Nom du cookie</th>
-                <th>Finalité</th>
-                <th>Durée</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Facebook Pixel cookies</td>
-                <td>Meta - Suivi des conversions et publicités</td>
-                <td>Varié</td>
-              </tr>
-              <tr>
-                <td>LinkedIn Insight Tag</td>
-                <td>LinkedIn - Suivi des conversions et publicités</td>
-                <td>Varié</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
 
         {/* Gestion des cookies */}
@@ -322,33 +242,31 @@ export default function PolitiqueCookies() {
             <div className="section-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="M2 14h20"/><path d="M6 18h12"/><path d="M2 22h20"/></svg>
             </div>
-            Cookies déposés par des tiers
+            Cookies et services déposés par des tiers
           </h2>
           <p>
-            Certains cookies sont déposés par des tiers avec lesquels nous collaborons. Ces cookies
-            sont soumis aux politiques de confidentialité de ces tiers :
+            Certains éléments techniques strictement nécessaires au fonctionnement du site font
+            appel à des tiers agissant pour notre compte :
           </p>
           <ul>
             <li>
-              <strong>Google Analytics</strong> :
-              <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>Politique de cookies Google</a>
+              <strong>Google / Firebase</strong> : infrastructure d'authentification et de base de
+              données nécessaire au fonctionnement de votre espace client. Politique de confidentialité :
+              <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>policies.google.com/privacy</a>
             </li>
             <li>
-              <strong>Google Ads</strong> :
-              <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>Politique publicitaire Google</a>
+              <strong>Stripe</strong> : prestataire de paiement sécurisé. Politique de confidentialité :
+              <a href="https://stripe.com/fr/privacy" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>stripe.com/fr/privacy</a>
             </li>
             <li>
-              <strong>Meta (Facebook)</strong> :
-              <a href="https://www.facebook.com/policies/cookies/" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>Politique de cookies Facebook</a>
-            </li>
-            <li>
-              <strong>LinkedIn</strong> :
-              <a href="https://www.linkedin.com/legal/cookie_policy" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>Politique de cookies LinkedIn</a>
+              <strong>Vercel</strong> : hébergeur du site. Politique de confidentialité :
+              <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>vercel.com/legal/privacy-policy</a>
             </li>
           </ul>
           <p>
-            Ces tiers peuvent utiliser les données collectées via leurs cookies à des fins de
-            mesure d'audience, de personnalisation publicitaire et d'analyse comportementale.
+            Ces prestataires interviennent en qualité de sous-traitants et n'utilisent les données
+            que pour les finalités que nous leur assignons. Le site n'utilise pas de traceurs
+            publicitaires ou de mesure d'audience tiers soumis à consentement.
           </p>
         </div>
 

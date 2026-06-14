@@ -4,6 +4,7 @@ import '../styles/globals.css'
 import dynamic from 'next/dynamic'
 import { gsap } from 'gsap'
 import ThemeToggle from '@/components/ThemeToggle'
+import CookieConsent from '@/components/CookieConsent'
 
 /* ── Composants client uniquement ── */
 const FloatingBackground = dynamic(() => import('@/components/FloatingBackground'), { ssr: false })
@@ -91,6 +92,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Component {...pageProps} />
       <ThemeToggle />
+      <CookieConsent />
     </>
   )
 
@@ -101,6 +103,7 @@ export default function App({ Component, pageProps }) {
       <Component {...pageProps} />
       <ClientExtrasNoSSR />
       <ThemeToggle />
+      <CookieConsent />
     </>
   )
 }

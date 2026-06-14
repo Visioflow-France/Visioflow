@@ -95,8 +95,9 @@ export default function CGU() {
           </h2>
           <p>
             Les présentes Conditions Générales d'Utilisation (ci-après dénommées "CGU") régissent
-            l'utilisation du site web <strong>visioflow.fr</strong> et des services proposés par la société
-            <strong>VisioFlow</strong> (ci-après dénommée "le Prestataire").
+            l'utilisation du site web <strong>visioflow.fr</strong> et des services proposés par
+            <strong>Christian Micillo</strong>, auto-entrepreneur, éditeur du site VisioFlow
+            (ci-après dénommé "le Prestataire").
           </p>
           <p>
             L'accès et l'utilisation du site impliquent l'acceptation pleine et entière de ces CGU.
@@ -338,6 +339,21 @@ export default function CGU() {
             jusqu'au paiement intégral de la commande. Une fois le paiement effectué, le Client acquiert
             les droits d'utilisation du site créé conformément aux Conditions Générales de Vente.
           </p>
+
+          <h3 className="article-title">7.4 Signalement de contenu illicite (article 6 I-5 de la LCEN)</h3>
+          <p>
+            Le Prestataire, en qualité d'hébergeur des sites créés pour ses Clients, met à disposition
+            un dispositif facilement accessible permettant à toute personne de signaler un contenu
+            manifestement illicite (notamment atteinte aux droits de la personne, apologie des crimes
+            contre l'humanité, incitation à la haine, contenus pédopornographiques, contrefaçon).
+          </p>
+          <p>
+            Tout signalement doit être adressé à l'adresse <a href="mailto:contact@visioflow.fr" style={{color:'#0071E3'}}>contact@visioflow.fr</a>,
+            en précisant : l'identité du notifiant, la description des faits litigieux et leur localisation
+            sur le site, les motifs pour lesquels le contenu doit être retiré, ainsi que les copies des
+            échanges éventuels avec l'auteur du contenu. Le Prestataire procédera, le cas échéant, au
+            retrait rapide du contenu manifestement illicite dans les conditions prévues par la loi.
+          </p>
         </div>
 
         {/* Article 8 - Responsabilité */}
@@ -449,12 +465,17 @@ export default function CGU() {
             s'efforceront de trouver une solution amiable.
           </p>
           <p>
-            À défaut d'accord amiable, tout litige relatif à l'interprétation ou à l'exécution des
-            présentes CGU sera soumis à la compétence exclusive des tribunaux de Paris.
+            Conformément aux articles L. 612-1 et L. 616-3 du Code de la consommation, le Client
+            consommateur peut recourir gratuitement à un médiateur de la consommation (le
+            <strong> Médiateur des entreprises</strong>, <a href="https://www.mediateurdesentreprises.fr" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>www.mediateurdesentreprises.fr</a>)
+            ou saisir la plateforme européenne de règlement en ligne des litiges (RLL) :
+            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>https://ec.europa.eu/consumers/odr</a>.
           </p>
           <p>
-            Pour les consommateurs, les juridictions du lieu de résidence du consommateur restent
-            compétentes conformément aux dispositions du Code de consommation.
+            À défaut d'accord amiable, tout litige relatif à l'interprétation ou à l'exécution des
+            présentes CGU sera soumis aux juridictions françaises compétentes. Pour les
+            consommateurs, les juridictions du lieu de résidence du consommateur restent
+            compétentes conformément aux dispositions du Code de la consommation.
           </p>
         </div>
 

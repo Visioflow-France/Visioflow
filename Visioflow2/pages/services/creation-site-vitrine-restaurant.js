@@ -79,11 +79,6 @@ export default function ServiceSiteVitrine() {
                 },
                 "priceValidUntil": "2026-12-31",
                 "deliveryLeadTime": "P2D"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "127"
               }
             })
           }}

@@ -72,16 +72,9 @@ export default function ServiceParis() {
                   "closes": "18:00"
                 }
               ],
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "67",
-                "bestRating": "5",
-                "worstRating": "1"
-              },
               "founder": {
                 "@type": "Person",
-                "name": "Yanis Boudadour"
+                "name": "Christian Micillo"
               },
               "foundingDate": "2025"
             })

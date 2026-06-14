@@ -53,7 +53,7 @@ export default function Footer() {
             <h4 className="footer-title">Contact</h4>
             <div className="footer-links">
               <a href="mailto:contact@visioflow.fr">contact@visioflow.fr</a>
-              <a href="tel:+33123456789">+33 1 23 45 67 89</a>
+              <a href="tel:+33611045829">+33 6 11 04 58 29</a>
               <a href="/paiement">Commencer un projet</a>
             </div>
           </div>
