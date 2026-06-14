@@ -90,51 +90,53 @@ export default function Testimonials() {
 
 
         <style>{`
-          *{box-sizing:border-box;margin:0;padding:0}
-          body{font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
-          .container{max-width:1200px;margin:0 auto;padding:0 20px}
-          .hero{min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative}
-          .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);opacity:.3}
-          .hero-content{position:relative;z-index:1;max-width:900px}
-          .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
-          .hero-sub{font-size:18px;color:#94a3b8;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
-          .rating-display{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:20px}
-          .rating-stars{color:#fbbf24;font-size:28px}
-          .rating-score{font-family:'Fraunces',sans-serif;font-size:48px;font-weight:900;color:#fff}
-          .rating-label{color:#94a3b8;font-size:16px}
-          .section{padding:100px 20px}
-          .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:24px;margin-top:60px}
-          .testimonial-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px;transition:all .3s}
-          .testimonial-card:hover{transform:translateY(-4px);border-color:rgba(0,113,227,.3)}
-          .testimonial-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
-          .testimonial-avatar{width:56px;height:56px;border-radius:50%;background:rgba(0,113,227,.15);display:flex;align-items:center;justify-content:center;color:#0071E3}
-          .testimonial-info{flex:1}
-          .testimonial-name{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
-          .testimonial-role{font-size:13px;color:#94a3b8}
-          .testimonial-rating{display:flex;gap:4px;color:#fbbf24;margin-bottom:16px}
-          .testimonial-text{font-size:15px;color:#cbd5e1;line-height:1.7;margin-bottom:20px;font-style:italic}
-          .testimonial-footer{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
-          .testimonial-date{font-size:12px;color:#64748b}
-          .testimonial-pack{background:rgba(0,113,227,.15);color:#0071E3;padding:6px 14px;border-radius:50px;font-size:12px;font-weight:600}
-          .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:32px;padding:80px 20px;text-align:center;margin:100px 20px 0}
-          .cta h2{font-family:'Fraunces',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
-          .cta p{color:rgba(255,255,255,.8);font-size:18px;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
-          .cta-btn{display:inline-block;padding:16px 40px;border-radius:50px;background:#fff;color:#0071E3;font-size:16px;font-weight:700;text-decoration:none;transition:all .3s}
-          .cta-btn:hover{transform:translateY(-2px)}
-          .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
-          .nav{background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
-          .nav-content{display:flex;justify-content:space-between;align-items:center}
-          .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
-          .logo span{color:#0071E3}
-          .nav-links{display:flex;gap:32px}
-          .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
-          .nav-links a:hover{color:#fff}
-          .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s}
-          .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
-          @media(max-width:768px){.testimonials-grid{grid-template-columns:1fr}.nav-links{display:none}}
+          #vflp,#vflp *{box-sizing:border-box;margin:0;padding:0}
+          #vflp{min-height:100vh;font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
+          #vflp .container{max-width:1200px;margin:0 auto;padding:0 20px}
+          #vflp .hero{min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative;background:#0f172a}
+          #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);opacity:.3}
+          #vflp .hero-content{position:relative;z-index:1;max-width:900px}
+          #vflp .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          #vflp .hero-sub{font-size:18px;color:#94a3b8;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+          #vflp .rating-display{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:20px}
+          #vflp .rating-stars{color:#fbbf24;font-size:28px}
+          #vflp .rating-score{font-family:'Fraunces',sans-serif;font-size:48px;font-weight:900;color:#fff}
+          #vflp .rating-label{color:#94a3b8;font-size:16px}
+          #vflp .section{padding:100px 20px}
+          #vflp .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:24px;margin-top:60px}
+          #vflp .testimonial-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px;transition:all .3s}
+          #vflp .testimonial-card:hover{transform:translateY(-4px);border-color:rgba(0,113,227,.3)}
+          #vflp .testimonial-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+          #vflp .testimonial-avatar{width:56px;height:56px;border-radius:50%;background:rgba(0,113,227,.15);display:flex;align-items:center;justify-content:center;color:#0071E3}
+          #vflp .testimonial-info{flex:1}
+          #vflp .testimonial-name{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+          #vflp .testimonial-role{font-size:13px;color:#94a3b8}
+          #vflp .testimonial-rating{display:flex;gap:4px;color:#fbbf24;margin-bottom:16px}
+          #vflp .testimonial-text{font-size:15px;color:#cbd5e1;line-height:1.7;margin-bottom:20px;font-style:italic}
+          #vflp .testimonial-footer{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+          #vflp .testimonial-date{font-size:12px;color:#64748b}
+          #vflp .testimonial-pack{background:rgba(0,113,227,.15);color:#0071E3;padding:6px 14px;border-radius:50px;font-size:12px;font-weight:600}
+          #vflp .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:32px;padding:80px 20px;text-align:center;margin:100px 20px 0}
+          #vflp .cta h2{font-family:'Fraunces',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
+          #vflp .cta p{color:rgba(255,255,255,.8);font-size:18px;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
+          #vflp .cta-btn{display:inline-block;padding:16px 40px;border-radius:50px;background:#fff;color:#0071E3;font-size:16px;font-weight:700;text-decoration:none;transition:all .3s}
+          #vflp .cta-btn:hover{transform:translateY(-2px)}
+          #vflp .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
+          #vflp .nav{height:auto;background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+          #vflp .nav-content{display:flex;justify-content:space-between;align-items:center}
+          #vflp .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
+          #vflp .logo span{color:#0071E3}
+          #vflp .nav-links{display:flex;gap:32px}
+          #vflp .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
+          #vflp .nav-links a:hover{color:#fff}
+          #vflp .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s}
+          #vflp .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
+          @media(max-width:768px){#vflp .testimonials-grid{grid-template-columns:1fr}#vflp .nav-links{display:none}}
         `}</style>
       </Head>
 
+
+      <div id="vflp">
       {/* Navigation */}
       <nav className="nav">
         <div className="container nav-content">
@@ -235,6 +237,7 @@ export default function Testimonials() {
       </div>
 
       <Footer />
+      </div>
     </>
   );
 }
