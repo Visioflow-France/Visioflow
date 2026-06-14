@@ -140,80 +140,80 @@ export default function LandingPage() {
         />
         <style>{`
           #vflp,#vflp *{box-sizing:border-box;margin:0;padding:0}
-          #vflp{min-height:100vh;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
+          #vflp{min-height:100vh;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
           #vflp a{text-decoration:none;transition:all .2s}
           #vflp .container{max-width:1200px;margin:0 auto;padding:0 20px}
           @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
           @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-          #vflp .nav{height:auto;background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+          #vflp .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
           #vflp .nav-content{display:flex;justify-content:space-between;align-items:center}
-          #vflp .logo{font-family:Outfit,sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
+          #vflp .logo{font-family:Outfit,sans-serif;font-size:28px;font-weight:900;color:#0f172a;display:flex;align-items:center;gap:10px}
           #vflp .logo span{color:#0071E3}
           #vflp .nav-links{display:flex;gap:32px}
-          #vflp .nav-links a{color:#94a3b8;font-size:14px;font-weight:500}
-          #vflp .nav-links a:hover{color:#fff}
+          #vflp .nav-links a{color:#475569;font-size:14px;font-weight:500}
+          #vflp .nav-links a:hover{color:#0f172a}
           #vflp .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px}
           #vflp .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
-          #vflp .hero{min-height:100dvh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;position:relative;overflow:hidden;background:#0f172a}
-          #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);opacity:.3}
+          #vflp .hero{min-height:100dvh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;position:relative;overflow:hidden;background:#ffffff}
+          #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%);opacity:1}
           #vflp .hero-content{position:relative;z-index:1;max-width:900px}
           #vflp .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,113,227,.15);border:1px solid rgba(0,113,227,.3);padding:8px 20px;border-radius:50px;color:#0071E3;font-size:13px;font-weight:600;margin-bottom:24px}
-          #vflp .hero-title{font-family:Outfit,sans-serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
-          #vflp .hero-sub{font-size:18px;color:#94a3b8;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+          #vflp .hero-title{font-family:Outfit,sans-serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          #vflp .hero-sub{font-size:18px;color:#475569;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
           #vflp .hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
           #vflp .hero-btn{padding:16px 40px;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
           #vflp .hero-btn.primary{background:#0071E3;color:#fff;box-shadow:0 10px 40px rgba(0,113,227,.3)}
           #vflp .hero-btn.primary:hover{background:#0056b3;transform:translateY(-3px);box-shadow:0 15px 50px rgba(0,113,227,.4)}
-          #vflp .hero-btn.secondary{background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.2)}
-          #vflp .hero-btn.secondary:hover{background:rgba(255,255,255,.15)}
+          #vflp .hero-btn.secondary{background:rgba(15,23,42,.05);color:#0f172a;border:2px solid rgba(15,23,42,.15)}
+          #vflp .hero-btn.secondary:hover{background:rgba(15,23,42,.08)}
           #vflp .section{padding:100px 20px}
-          #vflp .section-title{font-family:Outfit,sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;text-align:center;margin-bottom:16px;letter-spacing:-1px}
-          #vflp .section-sub{color:#94a3b8;text-align:center;max-width:700px;margin:0 auto 60px;font-size:18px}
+          #vflp .section-title{font-family:Outfit,sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#0f172a;text-align:center;margin-bottom:16px;letter-spacing:-1px}
+          #vflp .section-sub{color:#475569;text-align:center;max-width:700px;margin:0 auto 60px;font-size:18px}
           #vflp .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;margin-top:60px}
-          #vflp .step-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:32px;transition:all .3s}
+          #vflp .step-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:24px;padding:32px;transition:all .3s;box-shadow:0 2px 10px rgba(15,23,42,.04)}
           #vflp .step-card:hover{transform:translateY(-5px);border-color:rgba(0,113,227,.3);box-shadow:0 20px 60px rgba(0,113,227,.15)}
           #vflp .step-number{width:56px;height:56px;background:linear-gradient(135deg,#0071E3,#38bdf8);border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:Outfit,sans-serif;font-size:24px;font-weight:900;color:#fff;margin-bottom:20px}
-          #vflp .step-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:12px}
-          #vflp .step-desc{color:#94a3b8;font-size:15px;line-height:1.7}
+          #vflp .step-title{font-size:20px;font-weight:700;color:#0f172a;margin-bottom:12px}
+          #vflp .step-desc{color:#475569;font-size:15px;line-height:1.7}
           #vflp .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-          #vflp .feature-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px;transition:all .3s}
-          #vflp .feature-card:hover{background:rgba(255,255,255,.05);border-color:rgba(0,113,227,.2)}
+          #vflp .feature-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:20px;padding:28px;transition:all .3s;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+          #vflp .feature-card:hover{background:#ffffff;border-color:rgba(0,113,227,.3)}
           #vflp .feature-icon{width:48px;height:48px;background:rgba(0,113,227,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#0071E3;margin-bottom:16px}
-          #vflp .feature-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
-          #vflp .feature-desc{color:#94a3b8;font-size:14px;line-height:1.6}
+          #vflp .feature-title{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:8px}
+          #vflp .feature-desc{color:#475569;font-size:14px;line-height:1.6}
           #vflp .feature-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;color:#0071E3;font-size:14px;font-weight:600}
           #vflp .feature-link:hover{gap:10px}
           #vflp .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;max-width:900px;margin:0 auto}
-          #vflp .pricing-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:40px;position:relative;transition:all .3s}
+          #vflp .pricing-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:28px;padding:40px;position:relative;transition:all .3s;box-shadow:0 2px 10px rgba(15,23,42,.04)}
           #vflp .pricing-card.featured{border-color:#0071E3;box-shadow:0 20px 60px rgba(0,113,227,.2)}
           #vflp .pricing-card:hover{transform:translateY(-8px)}
           #vflp .pricing-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#0071E3;color:#fff;padding:6px 20px;border-radius:50px;font-size:12px;font-weight:700}
-          #vflp .pricing-name{font-family:Outfit,sans-serif;font-size:28px;font-weight:900;color:#fff;margin-bottom:8px}
-          #vflp .pricing-desc{color:#94a3b8;font-size:15px;margin-bottom:24px;line-height:1.6}
-          #vflp .pricing-price{font-family:Outfit,sans-serif;font-size:56px;font-weight:900;color:#fff;margin-bottom:20px}
-          #vflp .pricing-price span{font-size:18px;color:#94a3b8;font-weight:500}
+          #vflp .pricing-name{font-family:Outfit,sans-serif;font-size:28px;font-weight:900;color:#0f172a;margin-bottom:8px}
+          #vflp .pricing-desc{color:#475569;font-size:15px;margin-bottom:24px;line-height:1.6}
+          #vflp .pricing-price{font-family:Outfit,sans-serif;font-size:56px;font-weight:900;color:#0f172a;margin-bottom:20px}
+          #vflp .pricing-price span{font-size:18px;color:#475569;font-weight:500}
           #vflp .pricing-features{margin-bottom:32px}
-          #vflp .pricing-feature{display:flex;align-items:center;gap:12px;margin-bottom:14px;color:#cbd5e1;font-size:15px}
+          #vflp .pricing-feature{display:flex;align-items:center;gap:12px;margin-bottom:14px;color:#475569;font-size:15px}
           #vflp .pricing-feature svg{color:#34d399;flex-shrink:0}
           #vflp .pricing-btn{width:100%;padding:18px;border-radius:16px;background:#0071E3;color:#fff;font-size:16px;font-weight:700;border:none;cursor:pointer;transition:all .3s;font-family:Inter,sans-serif}
           #vflp .pricing-btn:hover{background:#0056b3;transform:translateY(-2px)}
-          #vflp .pricing-btn.secondary{background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.2)}
-          #vflp .pricing-btn.secondary:hover{background:rgba(255,255,255,.15)}
+          #vflp .pricing-btn.secondary{background:rgba(15,23,42,.05);color:#0f172a;border:2px solid rgba(15,23,42,.15)}
+          #vflp .pricing-btn.secondary:hover{background:rgba(15,23,42,.08)}
           #vflp .faq{max-width:800px;margin:0 auto}
-          #vflp .faq-item{border-bottom:1px solid rgba(255,255,255,.1);padding:24px 0}
-          #vflp .faq-question{font-size:18px;font-weight:700;color:#fff;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px}
+          #vflp .faq-item{border-bottom:1px solid rgba(15,23,42,.08);padding:24px 0}
+          #vflp .faq-question{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px}
           #vflp .faq-question:hover{color:#0071E3}
-          #vflp .faq-answer{color:#94a3b8;line-height:1.7;font-size:15px}
+          #vflp .faq-answer{color:#475569;line-height:1.7;font-size:15px}
           #vflp .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:32px;padding:80px 20px;text-align:center;margin:100px 20px 0}
           #vflp .cta h2{font-family:Outfit,sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
           #vflp .cta p{color:rgba(255,255,255,.8);font-size:18px;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
-          #vflp .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1)}
+          #vflp .footer{background:#f8fafc;padding:60px 20px;border-top:1px solid rgba(15,23,42,.08)}
           #vflp .footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px}
-          #vflp .footer-col h4{color:#fff;font-size:16px;font-weight:700;margin-bottom:20px}
+          #vflp .footer-col h4{color:#0f172a;font-size:16px;font-weight:700;margin-bottom:20px}
           #vflp .footer-links{display:flex;flex-direction:column;gap:12px}
-          #vflp .footer-links a{color:#94a3b8;font-size:14px;transition:color .2s}
+          #vflp .footer-links a{color:#475569;font-size:14px;transition:color .2s}
           #vflp .footer-links a:hover{color:#0071E3}
-          #vflp .footer-bottom{max-width:1200px;margin:40px auto 0;padding-top:32px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
+          #vflp .footer-bottom{max-width:1200px;margin:40px auto 0;padding-top:32px;border-top:1px solid rgba(15,23,42,.08);text-align:center;color:#64748b;font-size:13px}
           @media(max-width:768px){
             #vflp .nav-links{display:none}
             #vflp .hero-title{font-size:36px}
@@ -315,7 +315,7 @@ export default function LandingPage() {
       </section>
 
       {/* Avantages */}
-      <section id="avantages" style={{background:'rgba(255,255,255,.02)'}}>
+      <section id="avantages" style={{background:'rgba(15,23,42,.02)'}}>
         <div className="container">
           <h2 className="section-title">Pourquoi choisir Visioflow ?</h2>
           <p className="section-sub">
@@ -440,7 +440,7 @@ export default function LandingPage() {
               </div>
               <a href="/paiement?pack=essentiel" className="pricing-btn secondary">Choisir ce pack</a>
               <div style={{textAlign:'center',marginTop:'16px'}}>
-                <a href="/vitrine" style={{color:'#94a3b8',fontSize:'13px'}}>Voir un exemple →</a>
+                <a href="/vitrine" style={{color:'#475569',fontSize:'13px'}}>Voir un exemple →</a>
               </div>
             </div>
             <div className="pricing-card featured">
@@ -480,7 +480,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div style={{textAlign:'center',marginTop:'40px',maxWidth:'600px',margin:'40px auto 0'}}>
-            <p style={{color:'#94a3b8',fontSize:'14px',marginBottom:'16px'}}>
+            <p style={{color:'#475569',fontSize:'14px',marginBottom:'16px'}}>
               Besoin d'aide pour choisir ? Comparez nos solutions et découvrez
               <a href="/vitrine" style={{color:'#0071E3',fontWeight:600}}> les exemples de sites</a> que nous créons.
             </p>
@@ -489,7 +489,7 @@ export default function LandingPage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" style={{background:'rgba(255,255,255,.02)'}}>
+      <section id="faq" style={{background:'rgba(15,23,42,.02)'}}>
         <div className="container">
           <h2 className="section-title">Questions fréquentes</h2>
           <p className="section-sub">

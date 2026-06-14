@@ -155,46 +155,46 @@ export default function Tarifs() {
 
         <style>{`
           #vflp,#vflp *{box-sizing:border-box;margin:0;padding:0}
-          #vflp{min-height:100vh;font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
+          #vflp{min-height:100vh;font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
           #vflp .container{max-width:1200px;margin:0 auto;padding:0 20px}
-          #vflp .hero{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative;background:#0f172a}
-          #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);opacity:.3}
+          #vflp .hero{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative;background:#ffffff}
+          #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%);opacity:1}
           #vflp .hero-content{position:relative;z-index:1;max-width:900px}
           #vflp .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,113,227,.15);border:1px solid rgba(0,113,227,.3);padding:8px 20px;border-radius:50px;color:#0071E3;font-size:13px;font-weight:600;margin-bottom:24px}
-          #vflp .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
-          #vflp .hero-sub{font-size:18px;color:#94a3b8;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+          #vflp .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          #vflp .hero-sub{font-size:18px;color:#475569;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
           #vflp .section{padding:100px 20px}
           #vflp .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;max-width:900px;margin:0 auto}
-          #vflp .pricing-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:40px;position:relative;transition:all .3s}
+          #vflp .pricing-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:28px;padding:40px;position:relative;transition:all .3s;box-shadow:0 2px 10px rgba(15,23,42,.04)}
           #vflp .pricing-card.featured{border-color:#0071E3;box-shadow:0 20px 60px rgba(0,113,227,.2)}
           #vflp .pricing-card:hover{transform:translateY(-8px)}
           #vflp .pricing-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#0071E3;color:#fff;padding:6px 20px;border-radius:50px;font-size:12px;font-weight:700}
-          #vflp .pricing-name{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#fff;margin-bottom:8px}
-          #vflp .pricing-desc{color:#94a3b8;font-size:15px;margin-bottom:24px;line-height:1.6}
-          #vflp .pricing-price{font-family:'Fraunces',sans-serif;font-size:56px;font-weight:900;color:#fff;margin-bottom:20px}
-          #vflp .pricing-price span{font-size:18px;color:#94a3b8;font-weight:500}
+          #vflp .pricing-name{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#0f172a;margin-bottom:8px}
+          #vflp .pricing-desc{color:#475569;font-size:15px;margin-bottom:24px;line-height:1.6}
+          #vflp .pricing-price{font-family:'Fraunces',sans-serif;font-size:56px;font-weight:900;color:#0f172a;margin-bottom:20px}
+          #vflp .pricing-price span{font-size:18px;color:#475569;font-weight:500}
           #vflp .pricing-features{margin-bottom:32px}
-          #vflp .pricing-feature{display:flex;align-items:center;gap:12px;margin-bottom:14px;color:#cbd5e1;font-size:15px}
+          #vflp .pricing-feature{display:flex;align-items:center;gap:12px;margin-bottom:14px;color:#475569;font-size:15px}
           #vflp .pricing-feature svg{color:#34d399;flex-shrink:0}
           #vflp .pricing-btn{width:100%;padding:18px;border-radius:16px;background:#0071E3;color:#fff;font-size:16px;font-weight:700;border:none;cursor:pointer;transition:all .3s;font-family:'Inter Tight',sans-serif;text-decoration:none;display:block;text-align:center}
           #vflp .pricing-btn:hover{background:#0056b3;transform:translateY(-2px)}
-          #vflp .pricing-btn.secondary{background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.2)}
-          #vflp .pricing-btn.secondary:hover{background:rgba(255,255,255,.15)}
+          #vflp .pricing-btn.secondary{background:rgba(15,23,42,.05);color:#0f172a;border:2px solid rgba(15,23,42,.15)}
+          #vflp .pricing-btn.secondary:hover{background:rgba(15,23,42,.08)}
           #vflp .faq{max-width:800px;margin:0 auto}
-          #vflp .faq-item{border-bottom:1px solid rgba(255,255,255,.1);padding:24px 0}
-          #vflp .faq-question{font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
-          #vflp .faq-answer{color:#94a3b8;line-height:1.7;font-size:15px}
+          #vflp .faq-item{border-bottom:1px solid rgba(15,23,42,.08);padding:24px 0}
+          #vflp .faq-question{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:8px}
+          #vflp .faq-answer{color:#475569;line-height:1.7;font-size:15px}
           #vflp .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:32px;padding:80px 20px;text-align:center;margin:100px 20px 0}
           #vflp .cta h2{font-family:'Fraunces',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
           #vflp .cta p{color:rgba(255,255,255,.8);font-size:18px;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
-          #vflp .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
-          #vflp .nav{height:auto;background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+          #vflp .footer{background:#f8fafc;padding:60px 20px;border-top:1px solid rgba(15,23,42,.08);text-align:center;color:#64748b;font-size:13px}
+          #vflp .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
           #vflp .nav-content{display:flex;justify-content:space-between;align-items:center}
-          #vflp .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
+          #vflp .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#0f172a;display:flex;align-items:center;gap:10px}
           #vflp .logo span{color:#0071E3}
           #vflp .nav-links{display:flex;gap:32px}
-          #vflp .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
-          #vflp .nav-links a:hover{color:#fff}
+          #vflp .nav-links a{color:#475569;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
+          #vflp .nav-links a:hover{color:#0f172a}
           #vflp .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s}
           #vflp .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
         `}</style>
@@ -316,7 +316,7 @@ export default function Tarifs() {
               </div>
               <a href="/paiement?pack=essentiel" className="pricing-btn secondary">Choisir ce pack</a>
               <div style={{textAlign:'center',marginTop:'16px'}}>
-                <a href="/vitrine" style={{color:'#94a3b8',fontSize:'13px',textDecoration:'none'}}>Voir un exemple →</a>
+                <a href="/vitrine" style={{color:'#475569',fontSize:'13px',textDecoration:'none'}}>Voir un exemple →</a>
               </div>
             </div>
 
@@ -372,7 +372,7 @@ export default function Tarifs() {
               </div>
               <a href="/paiement?pack=premium" className="pricing-btn">Choisir ce pack</a>
               <div style={{textAlign:'center',marginTop:'16px'}}>
-                <a href="/vitrine" style={{color:'#94a3b8',fontSize:'13px',textDecoration:'none'}}>Voir une démo complète →</a>
+                <a href="/vitrine" style={{color:'#475569',fontSize:'13px',textDecoration:'none'}}>Voir une démo complète →</a>
               </div>
             </div>
           </div>
@@ -380,10 +380,10 @@ export default function Tarifs() {
       </section>
 
       {/* FAQ Section */}
-      <section className="section" style={{background:'rgba(255,255,255,.02)'}}>
+      <section className="section" style={{background:'rgba(15,23,42,.02)'}}>
         <div className="container">
-          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#fff',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Questions fréquentes</h2>
-          <p style={{color:'#94a3b8',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
+          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#0f172a',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Questions fréquentes</h2>
+          <p style={{color:'#475569',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
             Tout savoir sur nos tarifs et nos packs de création de site web pour restaurant.
           </p>
           <div className="faq">

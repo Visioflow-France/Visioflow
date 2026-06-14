@@ -145,44 +145,44 @@ export default function About() {
 
         <style>{`
           #vflp,#vflp *{box-sizing:border-box;margin:0;padding:0}
-          #vflp{min-height:100vh;font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
+          #vflp{min-height:100vh;font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
           #vflp .container{max-width:1200px;margin:0 auto;padding:0 20px}
-          #vflp .hero{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative;background:#0f172a}
-          #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);opacity:.3}
+          #vflp .hero{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative;background:#ffffff}
+          #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%);opacity:1}
           #vflp .hero-content{position:relative;z-index:1;max-width:900px}
-          #vflp .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
-          #vflp .hero-sub{font-size:18px;color:#94a3b8;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+          #vflp .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          #vflp .hero-sub{font-size:18px;color:#475569;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
           #vflp .section{padding:100px 20px}
-          #vflp .section.alt{background:rgba(255,255,255,.02)}
+          #vflp .section.alt{background:rgba(15,23,42,.025)}
           #vflp .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-top:60px}
           #vflp .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;margin:60px 0}
-          #vflp .stat-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px;text-align:center}
+          #vflp .stat-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:20px;padding:32px;text-align:center;box-shadow:0 2px 10px rgba(15,23,42,.04)}
           #vflp .stat-num{font-family:'Fraunces',sans-serif;font-size:56px;font-weight:900;color:#0071E3;margin-bottom:8px}
-          #vflp .stat-label{color:#94a3b8;font-size:15px}
+          #vflp .stat-label{color:#475569;font-size:15px}
           #vflp .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px}
-          #vflp .value-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px}
+          #vflp .value-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:20px;padding:32px;box-shadow:0 2px 10px rgba(15,23,42,.04)}
           #vflp .value-icon{width:48px;height:48px;background:rgba(0,113,227,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#0071E3;margin-bottom:20px}
-          #vflp .value-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:12px}
-          #vflp .value-desc{color:#94a3b8;font-size:14px;line-height:1.7}
+          #vflp .value-title{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:12px}
+          #vflp .value-desc{color:#475569;font-size:14px;line-height:1.7}
           #vflp .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;margin-top:60px}
-          #vflp .team-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px;text-align:center}
+          #vflp .team-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:20px;padding:32px;text-align:center;box-shadow:0 2px 10px rgba(15,23,42,.04)}
           #vflp .team-avatar{width:100px;height:100px;border-radius:50%;background:rgba(0,113,227,.15);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;color:#0071E3}
-          #vflp .team-name{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
-          #vflp .team-role{color:#94a3b8;font-size:14px;margin-bottom:12px}
+          #vflp .team-name{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:4px}
+          #vflp .team-role{color:#475569;font-size:14px;margin-bottom:12px}
           #vflp .team-bio{color:#64748b;font-size:13px;line-height:1.6}
           #vflp .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:32px;padding:80px 20px;text-align:center;margin:100px 20px 0}
           #vflp .cta h2{font-family:'Fraunces',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
           #vflp .cta p{color:rgba(255,255,255,.8);font-size:18px;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
           #vflp .cta-btn{display:inline-block;padding:16px 40px;border-radius:50px;background:#fff;color:#0071E3;font-size:16px;font-weight:700;text-decoration:none;transition:all .3s}
           #vflp .cta-btn:hover{transform:translateY(-2px)}
-          #vflp .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
-          #vflp .nav{height:auto;background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+          #vflp .footer{background:#f8fafc;padding:60px 20px;border-top:1px solid rgba(15,23,42,.08);text-align:center;color:#64748b;font-size:13px}
+          #vflp .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
           #vflp .nav-content{display:flex;justify-content:space-between;align-items:center}
-          #vflp .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
+          #vflp .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#0f172a;display:flex;align-items:center;gap:10px}
           #vflp .logo span{color:#0071E3}
           #vflp .nav-links{display:flex;gap:32px}
-          #vflp .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
-          #vflp .nav-links a:hover{color:#fff}
+          #vflp .nav-links a{color:#475569;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
+          #vflp .nav-links a:hover{color:#0f172a}
           #vflp .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s}
           #vflp .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
           @media(max-width:768px){#vflp .story-grid{grid-template-columns:1fr}#vflp .nav-links{display:none}}
@@ -224,17 +224,17 @@ export default function About() {
         <div className="container">
           <div className="story-grid">
             <div>
-              <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#fff',marginBottom:'16px',letterSpacing:'-1px'}}>Notre histoire</h2>
-              <p style={{color:'#94a3b8',fontSize:'16px',lineHeight:1.8,marginBottom:'20px'}}>
+              <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#0f172a',marginBottom:'16px',letterSpacing:'-1px'}}>Notre histoire</h2>
+              <p style={{color:'#475569',fontSize:'16px',lineHeight:1.8,marginBottom:'20px'}}>
                 VisioFlow a été fondée en 2025 par Yanis Boudadour, passionné de restauration et de technologie web.
                 Après avoir aidé plusieurs amis restaurateurs à créer leurs sites web, nous avons constaté un problème :
                 les solutions existantes étaient soit trop chères, soit trop complexes, soit obligeaient à des abonnements mensuels.
               </p>
-              <p style={{color:'#94a3b8',fontSize:'16px',lineHeight:1.8,marginBottom:'20px'}}>
+              <p style={{color:'#475569',fontSize:'16px',lineHeight:1.8,marginBottom:'20px'}}>
                 Nous avons décidé de créer une solution différente : des sites web professionnels pour restaurateurs,
                 livrés en 48 heures, à un prix abordable, et surtout sans abonnement. L'hébergement est inclus à vie.
               </p>
-              <p style={{color:'#94a3b8',fontSize:'16px',lineHeight:1.8}}>
+              <p style={{color:'#475569',fontSize:'16px',lineHeight:1.8}}>
                 Depuis notre lancement, nous avons aidé plus de 150 restaurateurs à travers la France à créer leur site web
                 et à augmenter leurs commandes en ligne. Notre ambition est de devenir la référence française de la création
                 de sites web pour restaurants.
@@ -255,8 +255,8 @@ export default function About() {
       {/* Stats Section */}
       <section className="section alt">
         <div className="container">
-          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#fff',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Notre approche</h2>
-          <p style={{color:'#94a3b8',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
+          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#0f172a',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Notre approche</h2>
+          <p style={{color:'#475569',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
             Une méthode simple et transparente, au service des restaurateurs français.
           </p>
           <div className="stats-grid">
@@ -283,8 +283,8 @@ export default function About() {
       {/* Values Section */}
       <section className="section">
         <div className="container">
-          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#fff',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Nos valeurs</h2>
-          <p style={{color:'#94a3b8',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
+          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#0f172a',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Nos valeurs</h2>
+          <p style={{color:'#475569',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
             Ce qui nous guide au quotidien dans notre mission.
           </p>
           <div className="values-grid">
@@ -335,8 +335,8 @@ export default function About() {
       {/* Team Section */}
       <section className="section alt">
         <div className="container">
-          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#fff',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Notre équipe</h2>
-          <p style={{color:'#94a3b8',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
+          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#0f172a',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Notre équipe</h2>
+          <p style={{color:'#475569',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
             Une équipe passionnée dédiée à votre succès.
           </p>
           <div className="team-grid">
