@@ -22,38 +22,38 @@ export default function PolitiqueConfidentialite() {
 
         <style>{`
           #vflp, #vflp *{box-sizing:border-box;margin:0;padding:0}
-          #vflp{min-height:100vh;font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#0f172a;color:#f1f5f9;line-height:1.6}
+          #vflp{min-height:100vh;font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
           #vflp .container{max-width:1000px;margin:0 auto;padding:0 20px}
-          #vflp .hero{min-height:50vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px 40px;position:relative;background:#0f172a;overflow:hidden}
-          #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);opacity:.3}
+          #vflp .hero{min-height:50vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px 40px;position:relative;background:#ffffff;overflow:hidden}
+          #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%);opacity:1}
           #vflp .hero-content{position:relative;z-index:1;max-width:800px}
-          #vflp .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(36px,6vw,56px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
-          #vflp .hero-sub{font-size:16px;color:#94a3b8;margin-bottom:30px;max-width:600px;margin-left:auto;margin-right:auto}
+          #vflp .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(36px,6vw,56px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          #vflp .hero-sub{font-size:16px;color:#475569;margin-bottom:30px;max-width:600px;margin-left:auto;margin-right:auto}
           #vflp .content{padding:60px 20px}
-          #vflp .section{background:rgba(255,255,255,.02);border-radius:20px;padding:40px;margin-bottom:24px;border:1px solid rgba(255,255,255,.05)}
-          #vflp .section-title{font-family:'Fraunces',sans-serif;font-size:24px;font-weight:700;color:#fff;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+          #vflp .section{background:rgba(15,23,42,.025);border-radius:20px;padding:40px;margin-bottom:24px;border:1px solid rgba(15,23,42,.08)}
+          #vflp .section-title{font-family:'Fraunces',sans-serif;font-size:24px;font-weight:700;color:#0f172a;margin-bottom:20px;display:flex;align-items:center;gap:12px}
           #vflp .section-icon{width:32px;height:32px;background:rgba(0,113,227,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#0071E3}
-          #vflp .section p{color:#94a3b8;margin-bottom:16px;line-height:1.8}
+          #vflp .section p{color:#475569;margin-bottom:16px;line-height:1.8}
           #vflp .section p:last-child{margin-bottom:0}
-          #vflp .section strong{color:#f1f5f9;font-weight:600}
+          #vflp .section strong{color:#0f172a;font-weight:600}
           #vflp .section ul{margin:16px 0;padding-left:24px}
-          #vflp .section li{color:#94a3b8;margin-bottom:10px;line-height:1.8}
+          #vflp .section li{color:#475569;margin-bottom:10px;line-height:1.8}
           #vflp .data-table{width:100%;border-collapse:collapse;margin:20px 0;background:rgba(0,113,227,.05);border-radius:12px;overflow:hidden}
-          #vflp .data-table th{background:rgba(0,113,227,.15);color:#f1f5f9;padding:16px;text-align:left;font-weight:600;border-bottom:1px solid rgba(0,113,227,.2)}
-          #vflp .data-table td{padding:16px;color:#94a3b8;border-bottom:1px solid rgba(255,255,255,.05)}
+          #vflp .data-table th{background:rgba(0,113,227,.1);color:#0f172a;padding:16px;text-align:left;font-weight:600;border-bottom:1px solid rgba(0,113,227,.2)}
+          #vflp .data-table td{padding:16px;color:#475569;border-bottom:1px solid rgba(15,23,42,.06)}
           #vflp .data-table tr:last-child td{border-bottom:none}
-          #vflp .nav{height:auto;background:rgba(15,23,42,.9);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+          #vflp .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
           #vflp .nav-content{display:flex;justify-content:space-between;align-items:center}
-          #vflp .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px;text-decoration:none}
+          #vflp .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#0f172a;display:flex;align-items:center;gap:10px;text-decoration:none}
           #vflp .logo span{color:#0071E3}
           #vflp .nav-links{display:flex;gap:32px}
-          #vflp .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
-          #vflp .nav-links a:hover{color:#fff}
+          #vflp .nav-links a{color:#475569;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
+          #vflp .nav-links a:hover{color:#0f172a}
           #vflp .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s}
           #vflp .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
-          #vflp .footer{background:#0f172a;padding:60px 20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;color:#64748b;font-size:13px}
+          #vflp .footer{background:#f8fafc;padding:60px 20px;border-top:1px solid rgba(15,23,42,.08);text-align:center;color:#64748b;font-size:13px}
           #vflp .legal-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
-          #vflp .legal-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:13px;transition:color .2s}
+          #vflp .legal-links a{color:#64748b;text-decoration:none;font-size:13px;transition:color .2s}
           #vflp .legal-links a:hover{color:#0071E3}
           @media(max-width:768px){#vflp .nav-links{display:none} #vflp .data-table{font-size:13px} #vflp .data-table th,#vflp .data-table td{padding:12px}}
         `}</style>
@@ -159,7 +159,7 @@ export default function PolitiqueConfidentialite() {
             de nos services et au bon fonctionnement de notre site web.
           </p>
 
-          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 16px'}}>1. Données collectées lors de la création de compte</h3>
+          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#0f172a',margin:'24px 0 16px'}}>1. Données collectées lors de la création de compte</h3>
           <p>
             Lorsque vous créez un compte sur notre site, nous collectons les données suivantes :
           </p>
@@ -172,7 +172,7 @@ export default function PolitiqueConfidentialite() {
             <li>Adresse de votre établissement</li>
           </ul>
 
-          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 16px'}}>2. Données collectées lors d'une commande de site</h3>
+          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#0f172a',margin:'24px 0 16px'}}>2. Données collectées lors d'une commande de site</h3>
           <p>
             Lorsque vous commandez la création d'un site web, nous collectons également :
           </p>
@@ -184,7 +184,7 @@ export default function PolitiqueConfidentialite() {
             <li>Historique des échanges et des commandes</li>
           </ul>
 
-          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 16px'}}>3. Données collectées automatiquement</h3>
+          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#0f172a',margin:'24px 0 16px'}}>3. Données collectées automatiquement</h3>
           <p>
             Lorsque vous naviguez sur notre site, certaines données sont collectées automatiquement :
           </p>
@@ -197,7 +197,7 @@ export default function PolitiqueConfidentialite() {
             <li>Données de localisation approximative</li>
           </ul>
 
-          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#f1f5f9',margin:'24px 0 16px'}}>4. Données collectées via les cookies</h3>
+          <h3 style={{fontFamily:'Outfit, sans-serif',fontSize:'18px',fontWeight:700,color:'#0f172a',margin:'24px 0 16px'}}>4. Données collectées via les cookies</h3>
           <p>
             Nous utilisons des cookies pour collecter des informations sur votre navigation.
             Pour plus de détails, consultez notre <a href="/politique-cookies" style={{color:'#0071E3'}}>Politique de cookies</a>.
@@ -504,10 +504,10 @@ export default function PolitiqueConfidentialite() {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p style={{fontFamily:'Outfit, sans-serif',fontSize:'22px',fontWeight:900,color:'#fff',marginBottom:'8px'}}>
+          <p style={{fontFamily:'Outfit, sans-serif',fontSize:'22px',fontWeight:900,color:'#0f172a',marginBottom:'8px'}}>
             Visio<span style={{color:'#0071E3'}}>flow</span>
           </p>
-          <p style={{color:'rgba(255,255,255,.6)',marginBottom:'24px'}}>
+          <p style={{color:'#475569',marginBottom:'24px'}}>
             Création de sites web pour restaurateurs avec commandes en ligne, livrés en 48 heures.
           </p>
           <div className="legal-links">
@@ -517,7 +517,7 @@ export default function PolitiqueConfidentialite() {
             <a href="/politique-cookies">Politique de cookies</a>
             <a href="/cgv">Conditions générales de vente</a>
           </div>
-          <p style={{color:'rgba(255,255,255,.3)'}}>© {new Date().getFullYear()} VisioFlow — Tous droits réservés.</p>
+          <p style={{color:'#94a3b8'}}>© {new Date().getFullYear()} VisioFlow — Tous droits réservés.</p>
         </div>
       </footer>
       </div>
