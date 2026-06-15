@@ -48,7 +48,7 @@ function applyConfigToHTML(html, config) {
   // Always inject responsive device mockups regardless of config
   const _screenInner = '<div class="lp-browser"><div class="lp-bar"><span class="lp-dot r"></span><span class="lp-dot y"></span><span class="lp-dot g"></span><div class="lp-url">lepetitbistrot.fr</div></div><div class="lp-content"><div class="lp-site-nav"><span>Le Petit Bistrot</span><span>Menu &bull; Horaires &bull; Nous contacter</span></div><div class="lp-site-hero"><div class="lp-hero-text"><div class="lp-hero-title">Cuisine fran&ccedil;aise</div><div class="lp-hero-sub">Paris 11e &bull; Ouvert tous les jours</div><div class="lp-hero-cta">Voir la carte &rarr;</div></div></div><div class="lp-cards"><div class="lp-card"><div class="lp-card-img lp-img1"></div><div class="lp-card-name">Boeuf Bourguignon</div><div class="lp-card-price">18&euro;</div></div><div class="lp-card"><div class="lp-card-img lp-img2"></div><div class="lp-card-name">Entrecote grill&eacute;e</div><div class="lp-card-price">24&euro;</div></div><div class="lp-card"><div class="lp-card-img lp-img3"></div><div class="lp-card-name">Tarte Tatin</div><div class="lp-card-price">9&euro;</div></div></div></div></div>';
   const _phoneWrap = `<div class="hero-phone-wrap"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen"><div class="lp-screen">${_screenInner}</div></div></div></div>`;
-  const _tabletWrap = `<div class="hero-tablet-wrap"><div class="ht-frame"><div class="ht-screen"><div class="lp-screen">${_screenInner}</div></div></div></div>`;
+  const _tabletWrap = `<div class="hero-tablet-wrap"><div class="ht-notif"><div class="ht-notif-ico">&#128276;</div><div><div class="ht-notif-title">Nouvelle commande !</div><div class="ht-notif-sub">Pizza &times;2 &mdash; 28&euro;</div></div><div class="ht-notif-dot"></div></div><div class="ht-photo"><img src="/hero-tablet.png" alt="Aperçu d'un site de restaurant sur tablette" width="1195" height="896" loading="eager" decoding="async" /></div><div class="ht-frame"><div class="ht-screen"><div class="lp-screen">${_screenInner}</div></div></div></div>`;
   let h = html.replace('<div class="hero-laptop-wrap">', _phoneWrap + _tabletWrap + '<div class="hero-laptop-wrap">');
 
   if (!config) return h + OPAQUE_CSS
@@ -166,7 +166,7 @@ export default function Home({ siteConfig }) {
       const phoneHTML = '<div class="hero-phone-wrap"><div class="hp-frame"><div class="hp-notch"></div><div class="hp-screen">' + laptopContent + '</div></div></div>';
 
       // Create tablet version
-      const tabletHTML = '<div class="hero-tablet-wrap"><div class="ht-frame"><div class="ht-screen">' + laptopContent + '</div></div></div>';
+      const tabletHTML = '<div class="hero-tablet-wrap"><div class="ht-notif"><div class="ht-notif-ico">&#128276;</div><div><div class="ht-notif-title">Nouvelle commande !</div><div class="ht-notif-sub">Pizza &times;2 &mdash; 28&euro;</div></div><div class="ht-notif-dot"></div></div><div class="ht-photo"><img src="/hero-tablet.png" alt="Aperçu d\'un site de restaurant sur tablette" width="1195" height="896" loading="eager" decoding="async" /></div><div class="ht-frame"><div class="ht-screen">' + laptopContent + '</div></div></div>';
 
       // Insert before the laptop wrap
       const laptopWrap = document.querySelector('.hero-laptop-wrap');

@@ -735,6 +735,21 @@ body{background:var(--bg);color:var(--text);min-height:100dvh;transition:backgro
   box-shadow:0 0 0 3px rgba(34,197,94,.2);
   animation:pulse 1.2s ease-in-out 3s infinite}
 
+/* ── PHOTO TABLET HERO (768–1023px) ─────────────────── */
+/* La photo de tablette remplace le mockup CSS .ht-frame sur la plage
+   tablette. .ht-frame reste dans le DOM (masqué) par sécurité ; la
+   notif .ht-notif se positionne sur le wrap relatif, comme le laptop. */
+.ht-photo{display:none}
+.ht-photo img{
+  display:block;width:100%;height:auto;
+  filter:drop-shadow(0 28px 50px rgba(0,0,0,.4))}
+@media(min-width:768px) and (max-width:1023px){
+  .ht-frame{display:none}
+  .ht-photo{
+    display:block;position:relative;z-index:1;
+    width:380px;max-width:100%}
+}
+
 @media(max-width:420px){
   .ht-frame{width:320px;height:440px}
   .ht-notif{right:-12px;min-width:200px}
