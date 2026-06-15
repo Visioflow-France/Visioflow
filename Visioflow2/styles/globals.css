@@ -684,11 +684,11 @@ body{background:var(--bg);color:var(--text);min-height:100dvh;transition:backgro
   .hp-frame{display:none}
   .hp-photo{
     display:block;position:relative;z-index:1;
-    width:min(250px,72vw)}
+    width:min(300px,80vw)}
 }
 /* Notif adaptée mobile (la photo téléphone s'affiche à <768px) */
 @media(max-width:767px){
-  .hp-notif{right:-6px;min-width:0;max-width:52vw;padding:9px 12px;gap:8px}
+  .hp-notif{right:-16px;min-width:0;max-width:52vw;padding:9px 12px;gap:8px}
   .hp-notif-ico{font-size:16px}
   .hp-notif-title{font-size:10px}
   .hp-notif-sub{font-size:9px}
