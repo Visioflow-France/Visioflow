@@ -842,6 +842,10 @@ function buildAIPrompt(group, cfg) {
   const slogan    = form?.slogan    || ''
   const remarks   = form?.remarks   || ''
 
+  // Informations légales du client (pour les mentions légales du site livré)
+  const L = form?.legalInfo || {}
+  const legalProvided = L.raisonSociale || L.siret || L.gerant || L.forme
+
   // Photos galerie restaurant
   const restaurantPhotos = form?.restaurantPhotos || []
 
@@ -1199,6 +1203,48 @@ function buildAIPrompt(group, cfg) {
 
   // ── INSTRUCTION FINALE ────────────────────────────────────────
   lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
+  // ── SECTION PAGES LÉGALES ────────────────────────────────────
+  lines.push(`## ${s++}. PAGES LÉGALES (OBLIGATOIRES — conformité LCEN / RGPD)`)
+  lines.push(`⚠️ La loi française EXIGE des mentions légales. Intègre un FOOTER contenant des liens cliquables vers : Mentions légales, CGV, Politique de confidentialité, Politique de cookies.`)
+  lines.push(`Crée une section "Mentions légales" complète et accessible (page séparée ou section révélée par un lien footer), qui DOIT contenir les informations de l'éditeur ci-dessous.`)
+  lines.push('')
+  lines.push(`### ÉDITEUR DU SITE (utilise EXACTEMENT ces vraies informations)`)
+  lines.push(`- Nom du site : ${restaurantName}`)
+  if (legalProvided) {
+    if (L.raisonSociale) lines.push(`- Raison sociale : ${L.raisonSociale}`)
+    if (L.forme)         lines.push(`- Forme juridique : ${L.forme}`)
+    if (L.gerant)        lines.push(`- Directeur de la publication : ${L.gerant}`)
+    if (L.siret)         lines.push(`- SIRET : ${L.siret}`)
+    if (L.rcsRm)         lines.push(`- RCS / RM : ${L.rcsRm}`)
+    if (L.capital)       lines.push(`- Capital social : ${L.capital}`)
+    if (L.tva)           lines.push(`- N° TVA intracommunautaire : ${L.tva}`)
+    if (address)         lines.push(`- Adresse du siège : ${address}`)
+    if (phone)           lines.push(`- Téléphone : ${phone}`)
+    if (email)           lines.push(`- Email : ${email}`)
+  } else {
+    lines.push(`- ⚠️ Informations légales NON fournies par le client. Laisse des champs clairement marqués [À COMPLÉTER PAR LE CLIENT] pour : raison sociale, forme juridique, SIRET, RCS/RM, directeur de la publication.`)
+    lines.push(`- Adresse du siège : ${address || '[À COMPLÉTER]'}`)
+    lines.push(`- Téléphone : ${phone || '[À COMPLÉTER]'}`)
+    lines.push(`- Email : ${email || '[À COMPLÉTER]'}`)
+    lines.push(`→ ATTIRE l'attention du restaurateur : il doit impérativement compléter ces informations (disponibles sur son Kbis).`)
+  }
+  lines.push('')
+  lines.push(`### HÉBERGEUR DU SITE (Vercel)`)
+  lines.push(`- Raison sociale : Vercel Inc.`)
+  lines.push(`- Forme : Société de droit américain (Inc.)`)
+  lines.push(`- Adresse : 340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis`)
+  lines.push(`- Contact : support@vercel.com — https://vercel.com`)
+  lines.push('')
+  lines.push(`### CONTENU EXIGÉ DES MENTIONS LÉGALES`)
+  lines.push(`1. Éditeur (ci-dessus) — 2. Hébergeur (Vercel, ci-dessus) — 3. Directeur de la publication — 4. Propriété intellectuelle — 5. Données personnelles (RGPD + droit d'accès/rectification + réclamation CNIL, www.cnil.fr) — 6. Cookies — 7. Liens hypertextes — 8. Litiges : médiation de la consommation (www.mediateurdesentreprises.fr) et plateforme européenne RLL (https://ec.europa.eu/consumers/odr), loi française applicable.`)
+  if (isPremium) {
+    lines.push(`Comme ce site vend en ligne, crée AUSSI des CGV conformes (prix, commande, paiement sécurisé, ${city.deliveryMode === 'delivery' ? 'livraison' : 'retrait'}, droit de rétractation avec exception denrées périssables L.221-28, garanties légales, médiation/RLL).`)
+  }
+  lines.push(`Crée une POLITIQUE DE CONFIDENTIALITÉ (RGPD : données collectées, finalités, base légale, conservation, droits, CNIL) et une POLITIQUE DE COOKIES.`)
+  lines.push('')
+  lines.push(`💡 Tu peux t'inspirer d'une structure conforme, mais le contenu doit être adapté aux VRAIES infos de ${restaurantName} ci-dessus.`)
+  lines.push('')
+
   lines.push(`INSTRUCTION FINALE`)
   lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
   lines.push(`Livre le code en UN SEUL BLOC HTML complet, prêt à enregistrer en index.html et ouvrir dans un navigateur.`)
