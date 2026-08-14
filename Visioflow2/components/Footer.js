@@ -10,7 +10,9 @@ export default function Footer() {
               Visio<span>flow</span>
             </div>
             <p className="footer-description">
-              Création de sites web pour restaurateurs avec commandes en ligne, livrés en 48 heures.
+              Agence web & communication digitale. Sites web, Google Business,
+              et gestion réseaux sociaux pour tous types d'activités.
+              Estimation gratuite sans engagement.
             </p>
             <div className="footer-social">
               <a href="https://instagram.com/visioflow" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
@@ -30,21 +32,20 @@ export default function Footer() {
             <h4 className="footer-title">Navigation</h4>
             <div className="footer-links">
               <a href="/">Accueil</a>
-              <a href="/landing">Comment ça marche</a>
-              <a href="/tarifs">Tarifs</a>
-              <a href="/temoignages">Témoignages</a>
-              <a href="/a-propos">À propos</a>
+              <a href="/services">Nos Services</a>
+              <a href="/nos-projets">Nos Projets</a>
+              <a href="/contact">Contact</a>
             </div>
           </div>
 
           {/* Colonne Solutions */}
           <div className="footer-col">
-            <h4 className="footer-title">Solutions</h4>
+            <h4 className="footer-title">Services</h4>
             <div className="footer-links">
-              <a href="/paiement?pack=essentiel">Pack Essentiel</a>
-              <a href="/paiement?pack=premium">Pack Premium</a>
-              <a href="/vitrine">Démo site vitrine</a>
-              <a href="/#faq">FAQ</a>
+              <a href="/services">Sites Web</a>
+              <a href="/services">Google Business</a>
+              <a href="/services">Réseaux Sociaux</a>
+              <a href="/contact">Devis gratuit</a>
             </div>
           </div>
 
@@ -53,8 +54,8 @@ export default function Footer() {
             <h4 className="footer-title">Contact</h4>
             <div className="footer-links">
               <a href="mailto:contact@visioflow.fr">contact@visioflow.fr</a>
-              <a href="tel:+33611045829">+33 6 11 04 58 29</a>
-              <a href="/paiement">Commencer un projet</a>
+              <a href="tel:+33611045829" className="footer-phone">📞 +33 6 11 04 58 29</a>
+              <a href="/contact">Estimation gratuite</a>
             </div>
           </div>
         </div>
@@ -194,6 +195,12 @@ export default function Footer() {
 
         .footer-links a:hover {
           color: #fff;
+        }
+
+        .footer-phone {
+          font-size: 18px !important;
+          font-weight: 700 !important;
+          color: #0071E3 !important;
         }
 
         .footer-divider {

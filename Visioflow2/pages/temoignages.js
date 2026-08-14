@@ -7,77 +7,77 @@ export default function Testimonials() {
   const testimonials = [
     {
       name: "Pierre Martin",
-      role: "Propriétaire, Le Bistro de Pierre (Paris 11e)",
+      role: "Fondateur, TechStartup (Paris)",
       rating: 5,
-      text: "VisioFlow a créé mon site web en 48 heures exactement comme promis. Le design est magnifique, les commandes en ligne fonctionnent parfaitement et mes clients adorent. Le panel admin est très simple à utiliser. Je recommande à 100%.",
+      text: "VisioFlow a créé notre site startup en temps record. Le design est moderne, parfaitement adapté à notre image tech. L'appel de découverte nous a permis de cibler exactement nos besoins. Livraison rapide et support réactif.",
       date: "Mai 2026",
-      pack: "Pack Premium"
+      type: "Startup"
     },
     {
       name: "Marie Dubois",
-      role: "Cheffe, La Table de Marie (Lyon 6e)",
+      role: "Avocate au barreau (Lyon)",
       rating: 5,
-      text: "Après avoir comparé plusieurs solutions, j'ai choisi VisioFlow pour le prix et la qualité. Le Pack Essentiel était parfait pour mon restaurant : site vitrine professionnel, menu digital et horaires. L'équipe est réactive et professionnelle.",
+      text: "En tant qu'avocate, j'avais besoin d'un site professionnel et épuré. VisioFlow a compris mes exigences : design minimaliste, mise en avant de mes domaines de compétence, formulaire de contact simple. Je recommande vivement.",
       date: "Avril 2026",
-      pack: "Pack Essentiel"
+      type: "Profession libérale"
     },
     {
       name: "Jean-Pierre Lefevre",
-      role: "Gérant, Brasserie du Coin (Bordeaux)",
+      role: "Gérant, Boutique Mode (Bordeaux)",
       rating: 5,
-      text: "Les commandes en ligne ont augmenté de 40% depuis que j'ai mon site VisioFlow. Le panier est fluide, le paiement Stripe est sécurisé et les clients peuvent commander facilement. Le support technique est excellent, toujours disponible.",
+      text: "Notre e-commerce a augmenté de 40% depuis que VisioFlow a créé notre site. Le panier est fluide, le paiement Stripe sécurisé, et les clients peuvent commander facilement. L'appel stratégique nous a fait gagner un temps précieux.",
       date: "Mars 2026",
-      pack: "Pack Premium"
+      type: "E-commerce"
     },
     {
       name: "Sophie Bernard",
-      role: "Propriétaire, Les Petits Plats (Marseille)",
+      role: "Architecte d'intérieur (Marseille)",
       rating: 5,
-      text: "J'avais peur que ça soit compliqué, mais VisioFlow a tout simplifié. Ils ont créé mon site en 48 heures, l'ont hébergé à vie et m'ont formé au panel admin. Aujourd'hui, je gère mon menu et mes commandes en toute autonomie.",
+      text: "Mon portfolio est magnifique, avec une galerie photos optimisée. VisioFlow a su mettre en valeur mes réalisations tout en gardant une navigation fluide. Les clients me complimentent régulièrement sur mon site.",
       date: "Février 2026",
-      pack: "Pack Premium"
+      type: "Portfolio"
     },
     {
       name: "Lucas Moreau",
-      role: "Chef, Le Petit Resto (Nice)",
+      role: "Directeur, Agence immobilière (Nice)",
       rating: 4,
-      text: "Le site web est superbe et fonctionne très bien. Le prix est imbattable pour la qualité reçue. J'ai juste eu quelques modifications mineures à faire le premier mois, mais le support a été rapide et efficace.",
+      text: "Le site est parfait pour présenter nos biens. Les fiches immobilières sont claires, les photos mises en valeur. L'appel de découverte nous a permis de définir exactement nos besoins. Support très réactif.",
       date: "Janvier 2026",
-      pack: "Pack Essentiel"
+      type: "Vitrine"
     },
     {
       name: "Claire Durand",
-      role: "Gérante, Café des Arts (Strasbourg)",
+      role: "Fondatrice, Blog Voyage (Strasbourg)",
       rating: 5,
-      text: "VisioFlow est la meilleure solution pour les restaurateurs. Le prix est transparent, pas d'abonnement mensuel, et le service est impeccable. Mon site web attire de nouveaux clients et facilite les réservations.",
+      text: "VisioFlow a créé mon blog voyage avec un design inspirant. La navigation est intuitive, les articles bien mis en valeur. Le SEO est optimisé et mes visiteurs ont augmenté de 60%. Très satisfait du résultat.",
       date: "Décembre 2025",
-      pack: "Pack Premium"
+      type: "Blog"
     },
     {
       name: "Antoine Roux",
-      role: "Propriétaire, Bistrot Gourmet (Toulouse)",
+      role: "Chef, Restaurant Bistrot Gourmet (Toulouse)",
       rating: 5,
-      text: "J'avais besoin d'un site web rapidement pour mon nouveau restaurant. VisioFlow a livré en 48 heures avec un design parfaitement adapté à mon style. Les commandes en ligne fonctionnent sans problème. Très satisfait.",
+      text: "J'avais besoin d'un site web rapidement pour mon restaurant. VisioFlow a livré en 48 heures avec un design parfaitement adapté. Les commandes en ligne fonctionnent sans problème. Service impeccable et réactif.",
       date: "Novembre 2025",
-      pack: "Pack Premium"
+      type: "Restaurant"
     },
     {
       name: "Isabelle Fontaine",
-      role: "Cheffe, Restaurant Le Garden (Nantes)",
+      role: "Coach sportif (Nantes)",
       rating: 5,
-      text: "Le Pack Essentiel était exactement ce dont j'avais besoin : un site vitrine professionnel avec menu digital et horaires. VisioFlow a été professionnel, rapide et abordable. Je recommande vivement.",
+      text: "Mon site professionnel présente parfaitement mes services de coaching. Les clients peuvent réserver des séances en ligne, voir mes programmes et me contacter facilement. L'appel de découverte a tout clarifié.",
       date: "Octobre 2025",
-      pack: "Pack Essentiel"
+      type: "Services"
     }
   ];
 
   return (
     <>
       <Head>
-        <title>Cas d'usage & exemples | VisioFlow — Création de sites restaurant</title>
+        <title>Témoignages clients | VisioFlow — Agence de création de sites web</title>
         <meta
           name="description"
-          content="Des exemples illustratifs de sites et de cas d'usage pour restaurateurs créés par VisioFlow : site vitrine, commandes en ligne, livraison en 48 heures, sans abonnement."
+          content="Découvrez les témoignages de nos clients satisfaits : restaurants, e-commerce, professions libérales, startups. Sites web professionnels livrés rapidement sans abonnement."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
