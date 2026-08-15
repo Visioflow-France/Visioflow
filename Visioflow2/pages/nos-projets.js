@@ -77,7 +77,7 @@ export default function ProjectsPage() {
           *{box-sizing:border-box;margin:0;padding:0}
           body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
           a{text-decoration:none;transition:all .2s}
-          .container{max-width:1200px;margin:0 auto;padding:0 20px}
+          .container{max-width:1400px;margin:0 auto;padding:0 20px}
 
           .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
           .nav-content{display:flex;justify-content:space-between;align-items:center}
@@ -89,10 +89,11 @@ export default function ProjectsPage() {
           .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px}
           .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
 
-          .hero{min-height:40vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;position:relative;background:#ffffff}
+          .hero{min-height:40vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px 20px 10px;position:relative;background:#ffffff;margin-top:73px}
           .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%)}
-          .hero-content{position:relative;z-index:1;max-width:800px}
-          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(42px,8vw,64px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          .hero-content{position:relative;z-index:1;text-align:center}
+          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(38px,6vw,54px);font-weight:900;color:#0f172a;line-height:1.2;margin-bottom:16px;letter-spacing:-0.5px;word-break:keep-word;text-align:center}
+          .hero-sub{font-size:16px;color:#475569;margin-bottom:24px;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.5;text-align:center}
           .hero-sub{font-size:18px;color:#475569;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
 
           .section{padding:60px 20px}
@@ -101,8 +102,8 @@ export default function ProjectsPage() {
           .project-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,113,227,.12)}
           .project-image{width:100%;height:200px;object-fit:cover;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%)}
           .project-content{padding:20px}
-          .project-title{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:10px;line-height:1.3}
-          .project-desc{color:#475569;font-size:14px;line-height:1.5;margin-bottom:12px;word-break:break-word}
+          .project-title{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:10px;line-height:1.3;word-break:keep-word;overflow-wrap:break-word}
+          .project-desc{color:#475569;font-size:14px;line-height:1.5;margin-bottom:12px;word-break:keep-word;overflow-wrap:break-word}
           .project-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
           .project-tag{background:rgba(0,113,227,.08);color:#0071E3;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;white-space:nowrap}
           .project-link{display:inline-flex;align-items:center;gap:6px;color:#0071E3;font-size:13px;font-weight:600}
@@ -116,7 +117,7 @@ export default function ProjectsPage() {
 
           @media(max-width:768px){
             .nav-links{display:none}
-            .hero-title{font-size:36px}
+            .hero-title{font-size:38px}
             .projects-grid{grid-template-columns:1fr}
           }
         `}</style>

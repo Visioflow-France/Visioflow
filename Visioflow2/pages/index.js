@@ -27,7 +27,7 @@ export default function HomePage() {
           *{box-sizing:border-box;margin:0;padding:0}
           body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
           a{text-decoration:none;transition:all .2s}
-          .container{max-width:1200px;margin:0 auto;padding:0 20px}
+          .container{max-width:1400px;margin:0 auto;padding:0 20px}
 
           .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
           .nav-content{display:flex;justify-content:space-between;align-items:center}
@@ -39,12 +39,12 @@ export default function HomePage() {
           .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px}
           .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
 
-          .hero{min-height:100dvh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;position:relative;background:#ffffff}
+          .hero{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 20px 20px;position:relative;background:#ffffff;margin-top:73px}
           .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%)}
-          .hero-content{position:relative;z-index:1;max-width:900px}
+          .hero-content{position:relative;z-index:1;text-align:center}
           .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,113,227,.15);border:1px solid rgba(0,113,227,.3);padding:8px 20px;border-radius:50px;color:#0071E3;font-size:13px;font-weight:600;margin-bottom:24px}
-          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
-          .hero-sub{font-size:18px;color:#475569;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(42px,7vw,62px);font-weight:900;color:#0f172a;line-height:1.2;margin-bottom:16px;letter-spacing:-1px;word-break:keep-word;text-align:center}
+          .hero-sub{font-size:16px;color:#475569;margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5}
           .hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
           .hero-btn{padding:16px 40px;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px;border:none;font-family:'Inter Tight',sans-serif}
           .hero-btn.primary{background:#0071E3;color:#fff;box-shadow:0 10px 40px rgba(0,113,227,.3)}
@@ -52,24 +52,24 @@ export default function HomePage() {
           .hero-btn.secondary{background:rgba(15,23,42,.05);color:#0f172a;border:2px solid rgba(15,23,42,.15)}
           .hero-btn.secondary:hover{background:rgba(15,23,42,.08)}
 
-          .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-          .feature-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:20px;padding:28px;transition:all .3s}
+          .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+          .feature-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:16px;padding:20px;transition:all .3s}
           .feature-card:hover{background:#fff;border-color:rgba(0,113,227,.3)}
-          .feature-icon{width:48px;height:48px;background:rgba(0,113,227,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#0071E3;margin-bottom:16px;font-size:20px}
-          .feature-title{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:8px}
-          .feature-desc{color:#475569;font-size:14px;line-height:1.6}
+          .feature-icon{width:44px;height:44px;background:rgba(0,113,227,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#0071E3;margin-bottom:12px;font-size:18px}
+          .feature-title{font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;line-height:1.3}
+          .feature-desc{color:#475569;font-size:13px;line-height:1.5}
 
           .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:32px;padding:80px 20px;text-align:center;margin:100px 20px 0}
           .cta h2{font-family:'Inter Tight',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
           .cta p{color:rgba(255,255,255,.8);font-size:18px;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
 
-          .section{padding:100px 20px}
-          .section-title{font-family:'Inter Tight',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#0f172a;text-align:center;margin-bottom:16px;letter-spacing:-1px}
-          .section-sub{color:#475569;text-align:center;max-width:700px;margin:0 auto 60px;font-size:18px}
+          .section{padding:60px 20px}
+          .section-title{font-family:'Inter Tight',sans-serif;font-size:clamp(28px,4vw,40px);font-weight:900;color:#0f172a;text-align:center;margin-bottom:12px;letter-spacing:-0.5px;word-break:keep-word}
+          .section-sub{color:#475569;text-align:center;max-width:600px;margin:0 auto 40px;font-size:16px;line-height:1.5}
 
           @media(max-width:768px){
             .nav-links{display:none}
-            .hero-title{font-size:36px}
+            .hero-title{font-size:42px}
           }
         `}</style>
       </Head>

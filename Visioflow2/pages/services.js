@@ -74,7 +74,7 @@ export default function ServicesPage() {
           *{box-sizing:border-box;margin:0;padding:0}
           body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
           a{text-decoration:none;transition:all .2s}
-          .container{max-width:1200px;margin:0 auto;padding:0 20px}
+          .container{max-width:1400px;margin:0 auto;padding:0 20px}
 
           .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
           .nav-content{display:flex;justify-content:space-between;align-items:center}
@@ -86,11 +86,11 @@ export default function ServicesPage() {
           .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px}
           .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
 
-          .hero{min-height:50vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative;background:#ffffff}
+          .hero{min-height:45vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 20px 20px;position:relative;background:#ffffff;margin-top:73px}
           .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%)}
-          .hero-content{position:relative;z-index:1;max-width:800px}
-          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(42px,8vw,64px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
-          .hero-sub{font-size:18px;color:#475569;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+          .hero-content{position:relative;z-index:1;text-align:center}
+          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(40px,7vw,58px);font-weight:900;color:#0f172a;line-height:1.2;margin-bottom:16px;letter-spacing:-0.5px;word-break:keep-word;text-align:center}
+          .hero-sub{font-size:16px;color:#475569;margin-bottom:24px;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.5;text-align:center}
 
           .section{padding:60px 20px}
           .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:32px;margin-top:40px}
@@ -116,7 +116,7 @@ export default function ServicesPage() {
 
           @media(max-width:768px){
             .nav-links{display:none}
-            .hero-title{font-size:36px}
+            .hero-title{font-size:40px}
             .services{grid-template-columns:1fr}
           }
         `}</style>

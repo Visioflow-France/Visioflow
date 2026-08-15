@@ -85,7 +85,7 @@ export default function ContactPage() {
           *{box-sizing:border-box;margin:0;padding:0}
           body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
           a{text-decoration:none;transition:all .2s}
-          .container{max-width:1200px;margin:0 auto;padding:0 20px}
+          .container{max-width:1400px;margin:0 auto;padding:0 20px}
 
           .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
           .nav-content{display:flex;justify-content:space-between;align-items:center}
@@ -97,18 +97,19 @@ export default function ContactPage() {
           .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px}
           .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
 
-          .hero{min-height:40vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;position:relative;background:#ffffff}
+          .hero{min-height:40vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px 20px 10px;position:relative;background:#ffffff;margin-top:73px}
           .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%)}
-          .hero-content{position:relative;z-index:1;max-width:800px}
-          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(42px,8vw,64px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
-          .hero-sub{font-size:18px;color:#475569;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+          .hero-content{position:relative;z-index:1;text-align:center}
+          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(38px,6vw,52px);font-weight:900;color:#0f172a;line-height:1.2;margin-bottom:16px;letter-spacing:-0.5px;word-break:keep-word;text-align:center}
+          .hero-sub{font-size:16px;color:#475569;margin-bottom:24px;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.5;text-align:center}
+          .hero-sub{font-size:16px;color:#475569;margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5}
 
           .form-section{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:24px;padding:40px 24px;margin:0 auto;max-width:800px}
           .form-title{font-family:'Inter Tight',sans-serif;font-size:clamp(24px,4vw,32px);font-weight:900;color:#fff;text-align:center;margin-bottom:12px;line-height:1.2}
           .form-sub{color:rgba(255,255,255,.85);text-align:center;font-size:15px;margin-bottom:24px;line-height:1.4}
           .contact-form{background:#fff;border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
           .form-group{margin-bottom:20px}
-          .form-label{display:block;font-weight:600;color:#0f172a;margin-bottom:6px;font-size:14px}
+          .form-label{display:block;font-weight:600;color:#0f172a;margin-bottom:6px;font-size:14px;word-break:keep-word}
           .form-input{width:100%;padding:12px 14px;border:2px solid rgba(15,23,42,.15);border-radius:10px;font-size:15px;font-family:'Inter',sans-serif;transition:all .2s}
           .form-input:focus{outline:none;border-color:#0071E3;box-shadow:0 0 0 3px rgba(0,113,227,.1)}
           .form-textarea{min-height:100px;resize:vertical}
@@ -124,7 +125,7 @@ export default function ContactPage() {
           .success-title{color:#059669;font-weight:700;font-size:16px;margin-bottom:6px}
           .success-text{color:#6b7280;font-size:14px;line-height:1.5}
 
-          .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:40px}
+          .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-top:30px}
           .info-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:16px;padding:24px;text-align:center}
           .info-icon{font-size:36px;margin-bottom:12px}
           .info-title{font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px}
@@ -132,7 +133,7 @@ export default function ContactPage() {
 
           @media(max-width:768px){
             .nav-links{display:none}
-            .hero-title{font-size:36px}
+            .hero-title{font-size:38px}
             .form-section{padding:40px 20px}
           }
         `}</style>
@@ -168,7 +169,7 @@ export default function ContactPage() {
         </section>
 
         {/* Formulaire de contact avec estimation */}
-        <div style={{padding: '40px 20px'}}>
+        <div style={{padding: '30px 20px 50px'}}>
           <div className="form-section">
             <h2 className="form-title">Votre projet en quelques secondes</h2>
             <p className="form-sub">
