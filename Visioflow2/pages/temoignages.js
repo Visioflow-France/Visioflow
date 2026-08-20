@@ -152,7 +152,7 @@ export default function TemoignagesPage() {
               Votre succès mérite une présence digitale qui donne envie.
               Contactez-nous pour discuter de votre projet.
             </p>
-            <Link href="/contact" className="vf2-btn-primary">
+            <Link href="#devis" className="vf2-btn-primary">
               <Users size={18} />
               Démarrer votre projet
             </Link>

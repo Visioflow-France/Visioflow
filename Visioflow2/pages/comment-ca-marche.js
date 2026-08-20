@@ -185,7 +185,7 @@ export default function CommentCaMarchePage() {
               Obtenez votre estimation gratuite en quelques secondes. Sans engagement,
               réponse rapide, livraison garantie.
             </p>
-            <Link href="/contact" className="vf2-btn-primary">
+            <Link href="#devis" className="vf2-btn-primary">
               <ArrowRight size={18} />
               Estimer mon projet
             </Link>

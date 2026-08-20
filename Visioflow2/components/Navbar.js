@@ -42,9 +42,9 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link href="/contact" className="vf2-nav-cta">
+            <a href="#devis" className="vf2-nav-cta">
               Démarrer un projet
-            </Link>
+            </a>
           </div>
 
           <button className="vf2-nav-burger" onClick={toggleMobile} aria-label="Menu">
@@ -88,14 +88,14 @@ export default function Navbar() {
           </Link>
         ))}
 
-        <Link
-          href="/contact"
+        <a
+          href="#devis"
           className="vf2-btn-primary"
           onClick={toggleMobile}
           style={{ marginTop: '16px' }}
         >
           Démarrer un projet
-        </Link>
+        </a>
       </div>
 
       <style jsx>{`

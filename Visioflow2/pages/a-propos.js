@@ -180,7 +180,7 @@ export default function About() {
               Contactez-nous pour discuter de votre projet. Devis gratuit, réponse rapide,
               livraison sans compromis sur la qualité.
             </p>
-            <Link href="/contact" className="vf2-btn-primary">
+            <Link href="#devis" className="vf2-btn-primary">
               <Zap size={18} />
               Démarrer votre projet
             </Link>

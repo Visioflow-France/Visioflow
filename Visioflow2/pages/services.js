@@ -135,7 +135,7 @@ export default function ServicesPage() {
                       ))}
                     </ul>
 
-                    <Link href="/contact" className="vf2-btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
+                    <Link href="#devis" className="vf2-btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
                       Demander un devis
                     </Link>
                   </div>
@@ -153,7 +153,7 @@ export default function ServicesPage() {
               Contactez-nous pour une estimation gratuite personnalisée selon vos besoins.
               Tous nos services sont adaptés à votre domaine d'activité.
             </p>
-            <Link href="/contact" className="vf2-btn-primary">
+            <Link href="#devis" className="vf2-btn-primary">
               <Star size={18} />
               Demander un devis
             </Link>

@@ -86,7 +86,7 @@ export default function ProjectsPage() {
                 réalisations seront publiées ici très prochainement.
               </p>
 
-              <Link href="/contact" className="vf2-btn-primary">
+              <Link href="#devis" className="vf2-btn-primary">
                 <Star size={18} />
                 Discutons de votre projet
               </Link>
@@ -102,7 +102,7 @@ export default function ProjectsPage() {
               Contactez-nous pour discuter de votre projet et rejoindre nos réalisations.
               Toutes nos créations sont adaptées à vos besoins spécifiques.
             </p>
-            <Link href="/contact" className="vf2-btn-primary">
+            <Link href="#devis" className="vf2-btn-primary">
               <TrendingUp size={18} />
               Démarrer votre projet
             </Link>
