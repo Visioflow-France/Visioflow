@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 import Link from 'next/link';
+import { Globe, MapPin, Smartphone, Check, Star } from 'lucide-react';
 
 export default function ServicesPage() {
   const canonicalUrl = "https://visioflow.fr/services";
@@ -8,10 +10,11 @@ export default function ServicesPage() {
   const services = [
     {
       id: 'site-web',
-      icon: '🌐',
+      icon: Globe,
       title: 'Sites Web 100% Adaptables',
       description: 'Sites vitrines élégants ou boutiques e-commerce complètes. Design responsive, performance optimale et référencement naturel inclus.',
       price: '200-800€',
+      pricePrefix: 'à partir de',
       features: [
         'Design moderne et professionnel',
         'Responsive mobile & tablette',
@@ -19,15 +22,15 @@ export default function ServicesPage() {
         'Performance rapide',
         'Hébergement inclus'
       ],
-      includes: ['Site vitrine', 'Pages illimitées', 'Formulaire contact', 'Analytics', 'Support'],
-      ecommerce: ['Panier fonctionnel', 'Paiement sécurisé', 'Gestion produits', 'Commandes', 'Admin panel']
+      popular: true,
     },
     {
       id: 'google-business',
-      icon: '📍',
+      icon: MapPin,
       title: 'Google Business',
       description: 'Optimisation de votre fiche Google My Business pour maximiser votre visibilité locale et attirer davantage de clients.',
       price: '50-100€',
+      pricePrefix: 'à partir de',
       features: [
         'Optimisation fiche Google',
         'Photos et vidéos',
@@ -35,14 +38,15 @@ export default function ServicesPage() {
         'Statistiques',
         'Publication de posts'
       ],
-      includes: ['Création fiche', 'Optimisation SEO', 'Photos professionnelles', 'Réponses avis', 'Rapports mensuels']
+      popular: false,
     },
     {
       id: 'reseaux-sociaux',
-      icon: '📱',
+      icon: Smartphone,
       title: 'Réseaux Sociaux',
       description: 'Gestion complète de vos réseaux sociaux : création de contenu, publications régulières, recherche de collaborations.',
       price: '100-200€',
+      pricePrefix: 'à partir de',
       features: [
         'Création de contenu',
         'Publications régulières',
@@ -50,7 +54,7 @@ export default function ServicesPage() {
         'Recherche collaborations',
         'Analyse et rapports'
       ],
-      includes: ['Stratégie contenu', 'Création visuels', 'Publications', 'Modération', 'Reporting']
+      popular: false,
     }
   ];
 
@@ -69,140 +73,92 @@ export default function ServicesPage() {
         <meta property="og:description" content="Sites web, Google Business, Réseaux sociaux. Découvrez nos tarifs transparents." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
-
-        <style>{`
-          *{box-sizing:border-box;margin:0;padding:0}
-          body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
-          a{text-decoration:none;transition:all .2s}
-          .container{max-width:1400px;margin:0 auto;padding:0 20px}
-
-          .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
-          .nav-content{display:flex;justify-content:space-between;align-items:center}
-          .logo{font-family:'Inter Tight',sans-serif;font-size:28px;font-weight:900;color:#0f172a;display:flex;align-items:center;gap:10px}
-          .logo span{color:#0071E3}
-          .nav-links{display:flex;gap:32px}
-          .nav-links a{color:#475569;font-size:14px;font-weight:500}
-          .nav-links a:hover{color:#0f172a}
-          .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px}
-          .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
-
-          .hero{min-height:25vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 20px 0px;position:relative;background:#ffffff;margin-top:20px;margin-bottom:0}
-          .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%)}
-          .hero-content{position:relative;z-index:1;text-align:center}
-          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(40px,7vw,58px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:8px;letter-spacing:-0.5px;word-break:keep-word;text-align:center}
-          .hero-sub{font-size:16px;color:#475569;margin-bottom:0px;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.1;text-align:center}
-
-          .section{padding:0px 20px 20px}
-          .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:0px;margin-top:0}
-          .service-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:20px;padding:16px;transition:all .3s;box-shadow:0 2px 10px rgba(15,23,42,.04);margin:0}
-          .service-card:hover{transform:translateY(-4px);border-color:rgba(0,113,227,.3);box-shadow:0 12px 40px rgba(0,113,227,.12)}
-          .service-icon{width:48px;height:48px;background:linear-gradient(135deg,#0071E3,#38bdf8);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;margin-bottom:8px;font-size:20px}
-          .service-title{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:6px;line-height:1.1}
-          .service-desc{color:#475569;font-size:14px;line-height:1.1;margin-bottom:8px}
-          .service-price{color:#0071E3;font-weight:700;font-size:16px;margin-bottom:8px}
-          .service-features{margin-bottom:8px}
-          .service-feature{display:flex;align-items:center;gap:8px;margin-bottom:4px;color:#475569;font-size:13px;line-height:1.2}
-          .service-feature svg{color:#34d399;flex-shrink:0}
-          .service-includes{background:rgba(0,113,227,.05);border-radius:14px;padding:8px;margin-top:8px}
-          .service-includes-title{font-weight:600;color:#0f172a;margin-bottom:4px;font-size:13px}
-          .service-include{display:flex;align-items:center;gap:6px;margin-bottom:3px;color:#475569;font-size:12px;line-height:1.2}
-          .service-include svg{color:#0071E3;flex-shrink:0}
-
-          .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:24px;padding:20px 20px;text-align:center;margin:30px 20px 0}
-          .cta h2{font-family:'Inter Tight',sans-serif;font-size:clamp(24px,4vw,32px);font-weight:900;color:#fff;margin-bottom:8px;line-height:1.1}
-          .cta p{color:rgba(255,255,255,.85);font-size:16px;margin-bottom:12px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.3}
-          .cta-btn{display:inline-block;padding:12px 32px;border-radius:50px;background:#fff,color:#0071E3;font-size:15px;font-weight:700;transition:all .3s;font-family:'Inter Tight',sans-serif}
-          .cta-btn:hover{background:rgba(255,255,255,.9);transform:translateY(-2px)}
-
-          @media(max-width:768px){
-            .nav-links{display:none}
-            .hero-title{font-size:40px}
-            .services{grid-template-columns:1fr}
-          }
-        `}</style>
       </Head>
 
-      <div>
-        {/* Navigation */}
-        <nav className="nav">
-          <div className="container nav-content">
-            <Link href="/" className="logo">
-              <span style={{fontSize: '32px', fontWeight: '900', color: '#0f172a'}}>Visio</span><span>flow</span>
-            </Link>
-            <div className="nav-links">
-              <Link href="/services">Services</Link>
-              <Link href="/nos-projets">Nos projets</Link>
-              <Link href="/contact">Contact</Link>
-            </div>
-            <Link href="/contact" className="nav-cta">Devis gratuit →</Link>
-          </div>
-        </nav>
+      <div className="vf2-page">
+        <Navbar />
 
         {/* Hero Section */}
-        <section className="hero">
-          <div className="hero-bg" />
-          <div className="hero-content">
-            <h1 className="hero-title">
-              Nos Services Complets
+        <section className="vf2-hero" style={{ minHeight: '55vh', padding: '100px 24px 60px' }}>
+          <div className="vf2-hero-bg" />
+          <div className="vf2-orb vf2-orb-1" />
+          <div className="vf2-orb vf2-orb-2" />
+
+          <div className="vf2-hero-content">
+            <div className="vf2-eyebrow">
+              <Star size={16} />
+              Nos Services
+            </div>
+            <h1 className="vf2-h1">
+              Des solutions <span className="vf2-serif-italic">complètes</span> pour votre présence digitale
             </h1>
-            <p className="hero-sub">
-              Des solutions web et digitales adaptées à tous types d'activités.
-              Découvrez nos tarifs transparents et notre approche sur-mesure.
+            <p className="vf2-text">
+              Sites web, Google Business, et réseaux sociaux — tous les services dont vous avez besoin
+              pour réussir en ligne, avec des tarifs transparents.
             </p>
           </div>
         </section>
 
         {/* Services Section */}
-        <section className="section">
-          <div className="container">
-            <div className="services">
-              {services.map(service => (
-                <div key={service.id} className="service-card">
-                  <div className="service-icon">{service.icon}</div>
-                  <h2 className="service-title">{service.title}</h2>
-                  <p className="service-desc">{service.description}</p>
-                  <div className="service-price">{service.price}</div>
+        <section className="vf2-section">
+          <div className="vf2-container">
+            <div className="vf2-grid-3">
+              {services.map((service) => {
+                const Icon = service.icon;
+                return (
+                  <div
+                    key={service.id}
+                    className={`vf2-card vf2-service-card ${service.popular ? 'popular' : ''}`}
+                  >
+                    {service.popular && <div className="vf2-service-badge">Populaire</div>}
 
-                  <div className="service-features">
-                    {service.features.map((feature, index) => (
-                      <div key={index} className="service-feature">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
+                    <div className="vf2-icon-tile">
+                      <Icon />
+                    </div>
 
-                  <div className="service-includes">
-                    <div className="service-includes-title">Ce service inclut :</div>
-                    {service.includes.map((item, index) => (
-                      <div key={index} className="service-include">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                        {item}
-                      </div>
-                    ))}
-                    {service.ecommerce && service.ecommerce.map((item, index) => (
-                      <div key={index} className="service-include">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                        {item}
-                      </div>
-                    ))}
+                    <h2 className="vf2-h3">{service.title}</h2>
+                    <p className="vf2-text" style={{ fontSize: '0.95rem', marginBottom: '20px' }}>
+                      {service.description}
+                    </p>
+
+                    <div className="vf2-service-price">
+                      <span className="vf2-service-price-prefix">{service.pricePrefix}</span>
+                      {' ' + service.price}
+                    </div>
+
+                    <ul className="vf2-service-features">
+                      {service.features.map((feature, index) => (
+                        <li key={index} className="vf2-service-feature">
+                          <Check size={18} strokeWidth={3} />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Link href="/contact" className="vf2-btn-ghost" style={{ width: '100%', justifyContent: 'center' }}>
+                      Demander un devis
+                    </Link>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <div className="cta">
-          <h2>Prêt à démarrer votre projet ?</h2>
-          <p>
-            Contactez-nous pour une estimation gratuite personnalisée selon vos besoins.
-          </p>
-          <Link href="/contact" className="cta-btn">
-            💫 Demander un devis
-          </Link>
-        </div>
+        {/* CTA Band */}
+        <section>
+          <div className="vf2-cta-band">
+            <h2>Prêt à démarrer votre projet ?</h2>
+            <p>
+              Contactez-nous pour une estimation gratuite personnalisée selon vos besoins.
+              Tous nos services sont adaptés à votre domaine d'activité.
+            </p>
+            <Link href="/contact" className="vf2-btn-primary">
+              <Star size={18} />
+              Demander un devis
+            </Link>
+          </div>
+        </section>
 
         <Footer />
       </div>

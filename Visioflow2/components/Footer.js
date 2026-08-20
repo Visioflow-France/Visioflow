@@ -84,10 +84,10 @@ export default function Footer() {
 
       <style jsx>{`
         .footer {
-          background: #0f172a;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 60px 20px 30px;
-          margin-top: 80px;
+          background: #0B1628;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          padding: 80px 20px 30px;
+          margin-top: 100px;
         }
 
         .footer-container {
@@ -135,7 +135,7 @@ export default function Footer() {
         }
 
         .footer-logo span {
-          color: #0071E3;
+          color: #38bdf8;
         }
 
         .footer-description {
@@ -164,10 +164,11 @@ export default function Footer() {
         }
 
         .footer-social a:hover {
-          background: rgba(0, 113, 227, 0.15);
-          border-color: rgba(0, 113, 227, 0.3);
-          color: #0071E3;
-          transform: translateY(-2px);
+          background: rgba(0, 113, 227, 0.2);
+          border-color: rgba(56, 189, 248, 0.4);
+          color: #38bdf8;
+          transform: translateY(-3px);
+          box-shadow: 0 8px 24px rgba(0, 113, 227, 0.2);
         }
 
         .footer-title {
@@ -200,7 +201,7 @@ export default function Footer() {
         .footer-phone {
           font-size: 18px !important;
           font-weight: 700 !important;
-          color: #0071E3 !important;
+          color: #38bdf8 !important;
         }
 
         .footer-divider {
@@ -244,7 +245,7 @@ export default function Footer() {
         }
 
         .footer-legal a:hover {
-          color: #0071E3;
+          color: #38bdf8;
         }
 
         .footer-separator {

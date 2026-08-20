@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import '../styles/globals.css'
+import '../styles/pages.css'
 import dynamic from 'next/dynamic'
 import { gsap } from 'gsap'
 import ThemeToggle from '@/components/ThemeToggle'
