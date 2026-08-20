@@ -89,27 +89,26 @@ export default function ProjectsPage() {
           .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px}
           .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
 
-          .hero{min-height:40vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px 20px 10px;position:relative;background:#ffffff;margin-top:73px}
+          .hero{min-height:20vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 20px 0px;position:relative;background:#ffffff;margin-top:20px;margin-bottom:0}
           .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%)}
           .hero-content{position:relative;z-index:1;text-align:center}
-          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(38px,6vw,54px);font-weight:900;color:#0f172a;line-height:1.2;margin-bottom:16px;letter-spacing:-0.5px;word-break:keep-word;text-align:center}
-          .hero-sub{font-size:16px;color:#475569;margin-bottom:24px;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.5;text-align:center}
-          .hero-sub{font-size:18px;color:#475569;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+          .hero-title{font-family:'Inter Tight',sans-serif;font-size:clamp(38px,6vw,54px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:8px;letter-spacing:-0.5px;word-break:keep-word;text-align:center}
+          .hero-sub{font-size:18px;color:#475569;margin-bottom:0px;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.1;text-align:center}
 
-          .section{padding:60px 20px}
-          .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:32px;margin-top:40px}
-          .project-card{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;overflow:hidden;transition:all .3s;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+          .section{padding:0px 20px 20px}
+          .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:0px;margin-top:0}
+          .project-card{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;overflow:hidden;transition:all .3s;box-shadow:0 2px 10px rgba(15,23,42,.04);margin:0}
           .project-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,113,227,.12)}
           .project-image{width:100%;height:200px;object-fit:cover;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%)}
-          .project-content{padding:20px}
-          .project-title{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:10px;line-height:1.3;word-break:keep-word;overflow-wrap:break-word}
-          .project-desc{color:#475569;font-size:14px;line-height:1.5;margin-bottom:12px;word-break:keep-word;overflow-wrap:break-word}
-          .project-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+          .project-content{padding:12px}
+          .project-title{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:6px;line-height:1.2;word-break:keep-word;overflow-wrap:break-word}
+          .project-desc{color:#475569;font-size:14px;line-height:1.3;margin-bottom:8px;word-break:keep-word;overflow-wrap:break-word}
+          .project-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
           .project-tag{background:rgba(0,113,227,.08);color:#0071E3;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;white-space:nowrap}
           .project-link{display:inline-flex;align-items:center;gap:6px;color:#0071E3;font-size:13px;font-weight:600}
           .project-link:hover{gap:8px}
 
-          .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:24px;padding:40px 20px;text-align:center;margin:60px 20px 0}
+          .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:24px;padding:20px 20px;text-align:center;margin:30px 20px 0}
           .cta h2{font-family:'Inter Tight',sans-serif;font-size:clamp(28px,4vw,36px);font-weight:900;color:#fff;margin-bottom:12px;line-height:1.2}
           .cta p{color:rgba(255,255,255,.8);font-size:16px;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5}
           .cta-btn{display:inline-block;padding:12px 32px;border-radius:50px;background:#fff;color:#0071E3;font-size:15px;font-weight:700;transition:all .3s;font-family:'Inter Tight',sans-serif}
