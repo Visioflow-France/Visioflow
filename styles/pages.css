@@ -121,9 +121,10 @@
   flex-shrink: 0;
 }
 
-.vf2-logo svg {
-  width: 34px;
-  height: 34px;
+.vf2-logo img {
+  display: block;
+  width: auto;
+  height: 40px;
   flex-shrink: 0;
 }
 
@@ -929,6 +930,10 @@
 }
 
 @media (max-width: 900px) {
+  .vf2-logo img {
+    height: 30px;
+  }
+
   .vf2-nav-links {
     display: none;
   }
