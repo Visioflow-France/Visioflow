@@ -106,38 +106,58 @@ export default async function handler(req, res) {
   const { formData } = req.body
   if (!formData) return res.status(400).json({ error: "formData manquant" })
 
-  const projectId = process.env.FIREBASE_PROJECT_ID || "visioflow-cb6eb-9d051"
-  const apiKey    = process.env.FIREBASE_API_KEY    || "AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY"
-  const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/form_submissions?key=${apiKey}`
+  const now = new Date()
+  const doc = {
+    ...formData,
+    paymentStatus: "paid",
+    paymentDate:   now.toLocaleDateString("fr-FR"),
+    status:        "new",
+    createdAt:     now.toISOString(),
+    timestamp:     now,
+  }
 
-  const now    = new Date()
-  const fields = {}
-  for (const [k, v] of Object.entries(formData)) fields[k] = toFirestore(v)
-  fields.paymentStatus = { stringValue: "paid" }
-  fields.paymentDate   = { stringValue: now.toLocaleDateString("fr-FR") }
-  fields.status        = { stringValue: "new" }
-  fields.createdAt     = { stringValue: now.toISOString() }
-  fields.timestamp     = { timestampValue: now.toISOString() }
-
+  // 1) SDK admin (nécessite FIREBASE_SERVICE_ACCOUNT sur Vercel) — le chemin fiable.
   try {
-    const resp = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fields }),
-    })
-
-    if (!resp.ok) {
-      const err = await resp.text()
-      return res.status(500).json({ error: err })
+    const { db } = await import("../../lib/firebase-admin")
+    const ref = await db.collection("form_submissions").add(doc)
+    sendNotificationEmail(formData, ref.id).catch(() => {})
+    return res.status(200).json({ success: true, docId: ref.id })
+  } catch (sdkErr) {
+    // 2) Repli REST — uniquement avec une clé API valide passée en variable d'env.
+    const apiKey = process.env.FIREBASE_API_KEY
+    if (!apiKey) {
+      console.error("save-form:", sdkErr.message)
+      return res.status(500).json({ error: sdkErr.message })
     }
 
-    const doc   = await resp.json()
-    const docId = doc.name && doc.name.split("/").pop() || ""
+    const projectId = process.env.FIREBASE_PROJECT_ID || "visioflow-cb6eb-9d051"
+    const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/form_submissions?key=${apiKey}`
+    const fields = {}
+    for (const [k, v] of Object.entries(doc)) {
+      if (k === "timestamp") fields[k] = { timestampValue: v.toISOString() }
+      else fields[k] = toFirestore(v)
+    }
 
-    sendNotificationEmail(formData, docId).catch(() => {})
+    try {
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fields }),
+      })
 
-    res.status(200).json({ success: true, docId })
-  } catch (err) {
-    res.status(500).json({ error: err.message })
+      if (!resp.ok) {
+        const err = await resp.text()
+        return res.status(500).json({ error: err })
+      }
+
+      const created = await resp.json()
+      const docId = created.name && created.name.split("/").pop() || ""
+
+      sendNotificationEmail(formData, docId).catch(() => {})
+
+      res.status(200).json({ success: true, docId })
+    } catch (err) {
+      res.status(500).json({ error: err.message })
+    }
   }
 }

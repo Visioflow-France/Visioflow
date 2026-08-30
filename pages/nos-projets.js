@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import { FolderOpen, Star, TrendingUp, ExternalLink } from 'lucide-react';
+import { FolderOpen, Star, TrendingUp, ExternalLink, Rocket } from 'lucide-react';
 import { db } from '../lib/firebase-admin';
 
 export async function getServerSideProps() {

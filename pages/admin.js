@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 
-function adminFetch(path, body) {
+async function adminFetch(path, body) {
   const opts = {
     headers: { 'content-type': 'application/json' },
     credentials: 'same-origin',
   }
   if (body) { opts.method = 'POST'; opts.body = JSON.stringify(body) }
   else opts.method = 'GET'
-  return fetch(path, opts).then(r => r.json())
+  const r = await fetch(path, opts)
+  let data = null
+  try { data = await r.json() } catch { /* réponse non JSON (erreur serveur) */ }
+  if (!r.ok || data?.error) throw new Error(data?.error || `Erreur ${r.status} sur ${path}`)
+  return data
 }
 
 export async function getServerSideProps({ req }) {
@@ -159,6 +163,8 @@ export default function Dashboard() {
   const [selectedForm, setSelectedForm] = useState(null)
   const [generatedPrompt, setGeneratedPrompt] = useState('')
   const [copied, setCopied] = useState(false)
+  const [loadError, setLoadError] = useState(null)
+  const [diag, setDiag] = useState(null)
 
   // États pour l'ajout de projet
   const [showAddProject, setShowAddProject] = useState(false)
@@ -174,13 +180,24 @@ export default function Dashboard() {
 
   async function loadData() {
     try {
+      setLoadError(null)
       const data = await adminFetch('/api/admin/data')
       setForms(data?.forms || [])
       setProjects(data?.projects || [])
     } catch (err) {
       console.error('Erreur chargement données:', err)
+      setLoadError(err.message)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const runDiagnostic = async () => {
+    setDiag('Diagnostic en cours...')
+    try {
+      setDiag(await adminFetch('/api/admin/diag'))
+    } catch (err) {
+      setDiag({ error: err.message })
     }
   }
 
@@ -208,6 +225,7 @@ export default function Dashboard() {
       }
     } catch (err) {
       console.error('Erreur suppression:', err)
+      alert('Erreur lors de la suppression : ' + (err?.message || 'erreur inconnue'))
     }
   }
 
@@ -245,7 +263,7 @@ export default function Dashboard() {
       alert('Lien ajouté avec succès !')
     } catch (err) {
       console.error('Erreur ajout projet:', err)
-      alert('Erreur lors de l\'ajout du lien')
+      alert('Erreur lors de l\'ajout : ' + (err?.message || 'erreur inconnue'))
     }
   }
 
@@ -256,6 +274,7 @@ export default function Dashboard() {
       setProjects(projects.filter(p => p.id !== projectId))
     } catch (err) {
       console.error('Erreur suppression projet:', err)
+      alert('Erreur lors de la suppression : ' + (err?.message || 'erreur inconnue'))
     }
   }
 
@@ -299,6 +318,32 @@ export default function Dashboard() {
         <div style={{ display: 'grid', gridTemplateColumns: selectedForm && activeTab === 'forms' ? '1fr 1fr' : '1fr', gap: 0, maxHeight: 'calc(100vh - 140px)' }}>
           {/* Contenu principal */}
           <div style={{ overflowY: 'auto', padding: '24px' }}>
+            {loadError && (
+              <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px', padding: '16px', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <span style={{ fontSize: '20px' }}>⚠️</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#b91c1c', marginBottom: '6px' }}>
+                      Impossible de charger ou d'enregistrer les données
+                    </div>
+                    <div style={{ fontSize: '13px', color: '#7f1d1d', lineHeight: 1.5, marginBottom: '12px', wordBreak: 'break-word' }}>
+                      {loadError}
+                    </div>
+                    <button
+                      onClick={runDiagnostic}
+                      style={{ padding: '6px 12px', background: '#b91c1c', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                    >
+                      🔧 Diagnostiquer
+                    </button>
+                    {diag && (
+                      <pre style={{ marginTop: '12px', padding: '10px', background: '#fff', border: '1px solid #fecaca', borderRadius: '6px', fontSize: '11px', color: '#7f1d1d', whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: 'Monaco, Consolas, monospace' }}>
+                        {typeof diag === 'string' ? diag : JSON.stringify(diag, null, 2)}
+                      </pre>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
             {loading ? (
               <div style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
                 Chargement...
