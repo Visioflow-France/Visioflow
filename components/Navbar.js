@@ -4,18 +4,35 @@ import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMobile = () => setMobileOpen(!mobileOpen);
+  // Referme le menu si on repasse en desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 900) setMenuOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Escape pour fermer le menu
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [menuOpen]);
 
   const navLinks = [
     { href: '/services', label: 'Services' },
@@ -38,67 +55,48 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+          </div>
+
+          <div className="vf2-nav-right">
             <a href="#devis" className="vf2-nav-cta">
               Démarrer un projet
             </a>
+            <button
+              className={`vf2-nav-burger ${menuOpen ? 'open' : ''}`}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Menu"
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? <X size={20} strokeWidth={2.2} /> : <Menu size={20} strokeWidth={2.2} />}
+            </button>
           </div>
-
-          <button className="vf2-nav-burger" onClick={toggleMobile} aria-label="Menu">
-            <Menu size={22} />
-          </button>
         </div>
       </nav>
 
-      {/* Mobile Panel */}
-      <div className={`vf2-mobile-panel ${mobileOpen ? 'open' : ''}`}>
-        <button
-          onClick={toggleMobile}
-          style={{
-            position: 'absolute',
-            top: '24px',
-            right: '24px',
-            width: '48px',
-            height: '48px',
-            borderRadius: '12px',
-            background: 'rgba(0, 113, 227, 0.1)',
-            border: '1px solid rgba(0, 113, 227, 0.2)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
-          }}
-          aria-label="Fermer"
-        >
-          <X size={24} color="var(--vf2-blue)" />
-        </button>
+      {/* Backdrop transparent : clic pour fermer */}
+      <div
+        className={`vf2-nav-backdrop ${menuOpen ? 'open' : ''}`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      />
 
+      {/* Menu déroulant en pilule (mobile / tablette) */}
+      <div className={`vf2-nav-dropdown ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
         {navLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            className="vf2-mobile-link"
-            onClick={toggleMobile}
+            className="vf2-dropdown-link"
+            onClick={() => setMenuOpen(false)}
           >
             {link.label}
           </Link>
         ))}
-
-        <a
-          href="#devis"
-          className="vf2-btn-primary"
-          onClick={toggleMobile}
-          style={{ marginTop: '16px' }}
-        >
+        <div className="vf2-dropdown-divider" />
+        <a href="#devis" className="vf2-nav-cta vf2-dropdown-cta" onClick={() => setMenuOpen(false)}>
           Démarrer un projet
         </a>
       </div>
-
-      <style jsx>{`
-        .vf2-mobile-panel button:hover {
-          background: rgba(0, 113, 227, 0.15);
-        }
-      `}</style>
     </>
   );
 }
