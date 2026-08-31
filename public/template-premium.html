@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bella Napoli — Pizzeria Napolitaine · Lyon</title>
+<meta name="description" content="Pizzeria napolitaine authentique au cœur de Lyon. Commandez en ligne, pâte maturée 48h, produits italiens.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand:#E63946; --brand-d:#c1121f; --brand-l:#fff0f1;
+  --text:#111827; --text2:#4b5563; --text3:#9ca3af;
+  --bg:#fff; --bg-alt:#fafafa; --bord:rgba(0,0,0,.08);
+  --sh:0 4px 20px rgba(0,0,0,.08); --r:16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--bord)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--text)}
+.nav-logo span{color:var(--brand)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:14px;font-weight:500;color:var(--text2);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--brand)}
+.btn-nav{padding:9px 22px;border-radius:980px;background:var(--brand);color:#fff;font-size:13.5px;font-weight:700;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}
+.btn-nav:hover{background:var(--brand-d)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px;position:relative;overflow:hidden;background:linear-gradient(135deg,#1a0a0a,#2d1212 50%,#1a0a0a)}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1400&q=60') center/cover;opacity:.15}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),rgba(0,0,0,.2) 60%,transparent)}
+.hero-content{position:relative;z-index:1;max-width:700px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;margin-bottom:24px;padding:6px 18px;border-radius:980px;background:rgba(230,57,70,.2);border:1px solid rgba(230,57,70,.35);color:#fca5a5;font-size:12px;font-weight:600;letter-spacing:.05em}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(52px,10vw,96px);font-weight:900;color:#fff;letter-spacing:-2px;line-height:.95;margin-bottom:18px}
+.hero p{font-size:18px;color:rgba(255,255,255,.7);margin-bottom:36px;line-height:1.6}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.cta-p{padding:14px 32px;border-radius:980px;background:var(--brand);color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 8px 30px rgba(230,57,70,.4);transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.cta-p:hover{background:var(--brand-d);transform:translateY(-2px)}
+.cta-s{padding:14px 32px;border-radius:980px;background:rgba(255,255,255,.1);color:#fff;font-size:15px;font-weight:700;border:1px solid rgba(255,255,255,.25);cursor:pointer;font-family:'Inter',sans-serif;backdrop-filter:blur(8px);transition:all .2s;text-decoration:none}
+.cta-s:hover{background:rgba(255,255,255,.18)}
+
+/* SECTIONS */
+.section{padding:96px 24px}
+.section.alt{background:var(--bg-alt)}
+.container{max-width:1100px;margin:0 auto}
+.s-header{text-align:center;margin-bottom:56px}
+.s-tag{display:inline-block;padding:5px 16px;border-radius:980px;background:var(--brand-l);color:var(--brand);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,46px);font-weight:900;color:var(--text);letter-spacing:-.8px;margin-bottom:10px}
+.s-sub{font-size:15px;color:var(--text2);max-width:500px;margin:0 auto;line-height:1.7}
+
+/* MENU */
+.menu-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.m-tab{padding:8px 22px;border-radius:980px;border:1.5px solid var(--bord);background:#fff;color:var(--text2);font-size:13.5px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+.m-tab.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.m-tab:hover:not(.on){border-color:var(--brand);color:var(--brand)}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.m-card{background:#fff;border-radius:var(--r);border:1px solid var(--bord);box-shadow:var(--sh);overflow:hidden;transition:transform .2s,box-shadow .2s}
+.m-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.12)}
+.m-photo{height:160px;display:flex;align-items:center;justify-content:center;background:var(--bg-alt);font-size:52px}
+.m-body{padding:16px 18px}
+.m-name{font-weight:700;font-size:15px;color:var(--text);margin-bottom:4px}
+.m-desc{font-size:12.5px;color:var(--text2);line-height:1.5;margin-bottom:12px}
+.m-foot{display:flex;align-items:center;justify-content:space-between}
+.m-price{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--brand)}
+.btn-add{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;border:none;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0}
+.btn-add:hover{background:var(--brand-d)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.about-img{height:460px;border-radius:24px;background:linear-gradient(135deg,#2d1212,#1a0a0a);display:flex;align-items:center;justify-content:center;font-size:80px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.about-lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);margin-bottom:12px}
+.about-title{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:var(--text);letter-spacing:-.5px;margin-bottom:16px}
+.about-text{font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:28px}
+.stats{display:flex;gap:32px}
+.stat-n{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:var(--brand)}
+.stat-l{font-size:12px;color:var(--text3);font-weight:500;margin-top:2px}
+
+/* CONTACT */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.ic{background:#fff;border-radius:20px;padding:32px;border:1px solid var(--bord);box-shadow:var(--sh)}
+.ic h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:20px;color:var(--text)}
+.ir{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bord);font-size:14px;color:var(--text2)}
+.ir:last-child{border-bottom:none}
+.ir-ico{width:32px;height:32px;border-radius:8px;background:var(--brand-l);color:var(--brand);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.ir a{color:var(--brand);text-decoration:none}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:11.5px;font-weight:700;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.fg input,.fg textarea,.fg select{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid var(--bord);background:#fff;color:var(--text);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;resize:vertical}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--brand)}
+.btn-sub{width:100%;padding:13px;border-radius:12px;background:var(--brand);color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s;margin-top:4px}
+.btn-sub:hover{background:var(--brand-d)}
+
+/* FOOTER */
+footer{background:#111;color:rgba(255,255,255,.55);padding:56px 24px 32px;text-align:center}
+.fl{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:#fff;margin-bottom:8px}
+.fl span{color:var(--brand)}
+.fsub{font-size:13px;margin-bottom:28px}
+.flinks{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.flinks a{font-size:13px;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}
+.flinks a:hover{color:#fff}
+.fcopy{font-size:12px;color:rgba(255,255,255,.22)}
+.btn-adm{background:none;border:none;color:rgba(255,255,255,.1);cursor:pointer;font-size:11px;margin-top:14px;font-family:'Inter',sans-serif;transition:color .3s}
+.btn-adm:hover{color:rgba(255,255,255,.35)}
+
+/* CART BUTTON */
+#cart-btn{position:fixed;bottom:28px;right:28px;z-index:500;width:58px;height:58px;border-radius:50%;background:var(--brand);color:#fff;border:none;cursor:pointer;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(230,57,70,.45);transition:transform .2s}
+#cart-btn:hover{transform:scale(1.08)}
+#cart-badge{position:absolute;top:-4px;right:-4px;background:#111;color:#fff;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:800;display:none;align-items:center;justify-content:center}
+
+/* MODALS */
+.ov{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px}
+.ov.open{display:flex}
+.modal{background:#fff;border-radius:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:32px;box-shadow:0 40px 80px rgba(0,0,0,.25);animation:mIn .3s cubic-bezier(.25,1,.5,1)}
+@keyframes mIn{from{opacity:0;transform:scale(.94) translateY(12px)}to{opacity:1;transform:none}}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.mt{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:var(--text)}
+.mx{width:32px;height:32px;border-radius:50%;border:none;background:var(--bg-alt);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--text2)}
+
+/* CART CONTENT */
+.c-empty{text-align:center;padding:40px 20px;color:var(--text3)}
+.c-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--bord)}
+.c-item:last-of-type{border-bottom:none}
+.c-name{flex:1;font-size:14px;font-weight:600}
+.c-price{font-size:14px;font-weight:700;color:var(--brand);min-width:54px;text-align:right}
+.c-qty{display:flex;align-items:center;gap:8px}
+.qb{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bord);background:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.qb:hover{border-color:var(--brand);color:var(--brand)}
+.c-total{display:flex;justify-content:space-between;align-items:center;padding:16px 0;font-weight:800;font-size:18px;border-top:2px solid var(--bord);margin-top:8px}
+.c-total-p{color:var(--brand);font-family:'Playfair Display',serif}
+.c-sec{font-size:12px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.06em;margin:20px 0 12px}
+
+/* TOAST */
+#toast{position:fixed;bottom:100px;right:28px;z-index:9999;background:#111;color:#fff;padding:12px 20px;border-radius:12px;font-size:13.5px;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,.2);transform:translateY(16px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.on{transform:none;opacity:1}
+
+/* ADMIN PANEL */
+#adm{display:none;position:fixed;inset:0;z-index:800;background:#0b0d14;overflow-y:auto}
+#adm.open{display:block}
+.adm-nav{background:#111827;padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06)}
+.adm-logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:800;color:#fff}
+.adm-logo span{color:var(--brand)}
+.adm-body{padding:28px;max-width:1000px;margin:0 auto}
+.adm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:24px}
+.as{background:#111827;border-radius:12px;padding:16px;border:.5px solid rgba(255,255,255,.06)}
+.as-v{font-size:28px;font-weight:800;color:#fff;font-family:'Playfair Display',serif}
+.as-l{font-size:11px;color:rgba(255,255,255,.35);margin-top:3px}
+.o-card{background:#111827;border-radius:14px;padding:20px 22px;border:.5px solid rgba(255,255,255,.07);margin-bottom:10px}
+.o-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px}
+.o-name{font-weight:700;color:#fff;font-size:15px}
+.o-time{font-size:11px;color:rgba(255,255,255,.3);margin-top:2px}
+.o-bdg{padding:3px 12px;border-radius:980px;font-size:11px;font-weight:700;flex-shrink:0}
+.s-nouv{background:rgba(230,57,70,.18);color:#fca5a5}
+.s-prep{background:rgba(251,191,36,.15);color:#fbbf24}
+.s-pret{background:rgba(52,211,153,.15);color:#34d399}
+.s-livr{background:rgba(107,114,128,.12);color:rgba(255,255,255,.35)}
+.s-ann{background:rgba(239,68,68,.1);color:#f87171}
+.o-items{font-size:13px;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:10px}
+.o-info{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:10px;line-height:1.7}
+.o-total{font-size:15px;font-weight:800;color:var(--brand);margin-bottom:12px}
+.o-acts{display:flex;gap:8px;flex-wrap:wrap}
+.o-btn{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .15s}
+.o-btn:hover{opacity:.75}
+.ob-p{background:rgba(251,191,36,.18);color:#fbbf24}
+.ob-r{background:rgba(52,211,153,.18);color:#34d399}
+.ob-l{background:rgba(107,114,128,.15);color:rgba(255,255,255,.45)}
+.ob-a{background:rgba(239,68,68,.12);color:#f87171}
+.adm-empty{text-align:center;padding:60px 20px;color:rgba(255,255,255,.25);font-size:14px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#34d399;animation:ldot 2s infinite;margin-right:5px}
+@keyframes ldot{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* LOGIN ADMIN */
+.adm-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0b0d14}
+.adm-lbox{background:#111827;border-radius:20px;padding:40px;width:100%;max-width:360px;box-shadow:0 32px 80px rgba(0,0,0,.5)}
+.adm-llogo{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:#fff;text-align:center;margin-bottom:6px}
+.adm-lsub{font-size:13px;color:rgba(255,255,255,.3);text-align:center;margin-bottom:28px}
+.adm-inp{width:100%;padding:11px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#fff;font-size:14px;font-family:'Inter',sans-serif;outline:none;margin-bottom:10px;transition:border-color .2s}
+.adm-inp:focus{border-color:var(--brand)}
+.adm-lbtn{width:100%;padding:12px;border-radius:10px;background:var(--brand);color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}
+.adm-lbtn:hover{background:var(--brand-d)}
+.adm-lerr{font-size:12px;color:#f87171;text-align:center;margin-top:10px;min-height:18px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:0 18px}
+  .nav-links{display:none}
+  .about-grid,.cg{grid-template-columns:1fr;gap:28px}
+  .about-img{height:240px}
+  .stats{gap:20px}
+  .section{padding:64px 16px}
+  #cart-btn{bottom:18px;right:18px}
+  .adm-body{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Bella<span>Napoli</span></div>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">Notre histoire</a></li>
+    <li><a href="#contact">Réserver</a></li>
+  </ul>
+  <button class="btn-nav" onclick="scrollTo('#menu')">Commander →</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🍕 Pizzeria Napolitaine · Lyon</div>
+    <h1>Bella<br>Napoli</h1>
+    <p>La vera pizza napoletana, au cœur de Lyon.<br>Pâte maturée 48h · Forno à bois · Produits italiens.</p>
+    <div class="hero-ctas">
+      <a href="#menu" class="cta-p">🛒 Commander en ligne</a>
+      <a href="#contact" class="cta-s">Réserver une table</a>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="section" id="menu">
+  <div class="container">
+    <div class="s-header">
+      <div class="s-tag">Notre Carte</div>
+      <h2 class="s-title">La vera pizza napoletana</h2>
+      <p class="s-sub">Tout est préparé à la minute avec des produits importés de Naples.</p>
+    </div>
+    <div class="menu-tabs" id="menu-tabs"></div>
+    <div class="menu-grid" id="menu-grid"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section alt" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img">🍕</div>
+      <div>
+        <div class="about-lbl">Notre Histoire</div>
+        <h2 class="about-title">Une passion venue de Naples</h2>
+        <p class="about-text">Marco Rossi a grandi à Naples, entouré du parfum des pizzas sorties du forno à bois. Arrivé à Lyon en 2015, il a apporté avec lui les secrets de famille : pâte maturée 48 heures, sauce San Marzano DOP, mozzarella di bufala commandée directement à Caserta.</p>
+        <div class="stats">
+          <div><div class="stat-n">48h</div><div class="stat-l">Maturation pâte</div></div>
+          <div><div class="stat-n">100%</div><div class="stat-l">Produits italiens</div></div>
+          <div><div class="stat-n">9 ans</div><div class="stat-l">À Lyon</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="s-header">
+      <div class="s-tag">Nous Trouver</div>
+      <h2 class="s-title">Horaires & Réservations</h2>
+    </div>
+    <div class="cg">
+      <div class="ic">
+        <h3>Informations pratiques</h3>
+        <div class="ir"><div class="ir-ico">📍</div><span>14 Rue Mercière, 69002 Lyon</span></div>
+        <div class="ir"><div class="ir-ico">📞</div><a href="tel:0478423110">04 78 42 31 10</a></div>
+        <div class="ir"><div class="ir-ico">✉️</div><a href="mailto:contact@bellanapoli-lyon.fr">contact@bellanapoli-lyon.fr</a></div>
+        <div class="ir"><div class="ir-ico">🕐</div><span>Mar–Sam 12h–14h30 · 19h–22h30</span></div>
+        <div class="ir"><div class="ir-ico">🕐</div><span>Dimanche 12h–15h · Lundi fermé</span></div>
+      </div>
+      <div class="ic">
+        <h3>Réserver une table</h3>
+        <div class="fg"><label>Nom complet</label><input type="text" placeholder="Jean Dupont"></div>
+        <div class="fg"><label>Email</label><input type="email" placeholder="jean@email.com"></div>
+        <div class="fg"><label>Téléphone</label><input type="tel" placeholder="06 12 34 56 78"></div>
+        <div class="fg"><label>Date</label><input type="date"></div>
+        <div class="fg"><label>Nombre de personnes</label>
+          <select><option>2 personnes</option><option>3 personnes</option><option>4 personnes</option><option>5-6 personnes</option><option>7+ personnes</option></select>
+        </div>
+        <div class="fg"><label>Message (optionnel)</label><textarea rows="2" placeholder="Allergie, occasion spéciale..."></textarea></div>
+        <button class="btn-sub" onclick="showToast('✅ Réservation envoyée ! Confirmation par email sous 30 min.')">Réserver ma table →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fl">Bella<span>Napoli</span></div>
+  <p class="fsub">La vera pizza napoletana, au cœur de Lyon.</p>
+  <div class="flinks">
+    <a href="#menu">Menu</a>
+    <a href="#about">Notre histoire</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p class="fcopy">© 2025 Bella Napoli — Tous droits réservés · Site créé par VisioFlow</p>
+  <br>
+  <button class="btn-adm" onclick="openAdmin()">⚙ Accès restaurant</button>
+</footer>
+
+<!-- CART BUTTON -->
+<button id="cart-btn" onclick="openCart()">
+  🛒
+  <span id="cart-badge">0</span>
+</button>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- CART MODAL -->
+<div class="ov" id="cart-ov">
+  <div class="modal">
+    <div class="mh">
+      <div class="mt">Votre commande</div>
+      <button class="mx" onclick="closeCart()">×</button>
+    </div>
+    <div id="cart-body"></div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adm">
+  <!-- Login -->
+  <div id="adm-login" class="adm-login">
+    <div class="adm-lbox">
+      <div class="adm-llogo">Bella<span style="color:var(--brand)">Napoli</span></div>
+      <p class="adm-lsub">Espace restaurant — commandes en temps réel</p>
+      <input class="adm-inp" type="password" id="adm-pw" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')checkPw()">
+      <button class="adm-lbtn" onclick="checkPw()">Accéder →</button>
+      <p class="adm-lerr" id="adm-err"></p>
+      <div style="text-align:center;margin-top:16px">
+        <button onclick="closeAdmin()" style="background:none;border:none;color:rgba(255,255,255,.25);cursor:pointer;font-size:12px;font-family:Inter,sans-serif">← Retour au site</button>
+      </div>
+    </div>
+  </div>
+  <!-- Dashboard -->
+  <div id="adm-dash" style="display:none">
+    <div class="adm-nav">
+      <div class="adm-logo">Bella<span>Napoli</span> <span style="font-size:12px;color:rgba(255,255,255,.3);font-family:Inter,sans-serif;font-weight:400">— Commandes</span></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="font-size:12px;color:rgba(255,255,255,.4)"><span class="live-dot"></span>Temps réel</span>
+        <button onclick="closeAdmin()" style="background:rgba(255,255,255,.06);border:none;color:rgba(255,255,255,.55);cursor:pointer;padding:7px 14px;border-radius:8px;font-size:12px;font-family:Inter,sans-serif">← Site</button>
+      </div>
+    </div>
+    <div class="adm-body">
+      <div class="adm-stats" id="adm-stats"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:14px;font-weight:700;color:#fff">Commandes</div>
+        <select id="filter" onchange="renderOrders()" style="background:#111827;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);padding:6px 12px;border-radius:8px;font-size:12px;font-family:Inter,sans-serif;outline:none">
+          <option value="all">Toutes</option>
+          <option value="nouvelle">Nouvelles</option>
+          <option value="preparation">En préparation</option>
+          <option value="prête">Prêtes</option>
+          <option value="livrée">Livrées</option>
+        </select>
+      </div>
+      <div id="adm-orders"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   CONFIGURATION — À MODIFIER PAR CLIENT
+   ══════════════════════════════════════════════════════════════ */
+const CFG = {
+  restaurantName: 'Bella Napoli',
+  restaurantSlug: 'bella-napoli',      // identifiant unique dans Firebase
+  adminPassword:  'admin2024',          // mot de passe panel restaurant
+
+  // EmailJS — créer compte sur emailjs.com (gratuit 200 emails/mois)
+  // 1. Connecter son Gmail/Outlook comme service
+  // 2. Créer un template avec les variables ci-dessous
+  // 3. Copier service_id, template_id, public_key
+  emailjs: {
+    enabled:    false,                  // passer à true après config
+    serviceId:  'YOUR_SERVICE_ID',
+    templateId: 'YOUR_TEMPLATE_ID',
+    publicKey:  'YOUR_PUBLIC_KEY',
+    toEmail:    'contact@bellanapoli-lyon.fr',
+  },
+
+  // Firebase (projet Visioflow — déjà configuré)
+  firebase: {
+    apiKey:            'AIzaSyD2R3SfaC6ifiA_juCfM_1q7SRaAm-G1gY',
+    authDomain:        'visioflow-cb6eb.firebaseapp.com',
+    projectId:         'visioflow-cb6eb',
+    storageBucket:     'visioflow-cb6eb.firebasestorage.app',
+    messagingSenderId: '208625257783',
+    appId:             '1:208625257783:web:903429389d81159833deb2',
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MENU DATA
+   ══════════════════════════════════════════════════════════════ */
+const MENU = {
+  'Entrées': [
+    { id:1, name:'Bruschetta al pomodoro', desc:'Tomates San Marzano, basilic frais, huile d\'olive EV', price:7,  emoji:'🍅' },
+    { id:2, name:'Burrata pugliese',       desc:'Burrata crémeuse, tomates cerises, pesto basilic',     price:12, emoji:'🧀' },
+    { id:3, name:'Antipasto misto',        desc:'Charcuteries italiennes, olives, pickles maison',      price:14, emoji:'🥗' },
+  ],
+  'Pizzas': [
+    { id:4, name:'Margherita',       desc:'San Marzano DOP, fior di latte, basilic frais',           price:13, emoji:'🍕' },
+    { id:5, name:'Diavola',          desc:'San Marzano, mozzarella, nduja calabrais, piment',        price:15, emoji:'🌶️' },
+    { id:6, name:'Quattro Stagioni', desc:'Artichauts, champignons, jambon cuit, olives noires',     price:16, emoji:'🍄' },
+    { id:7, name:'Tartufo e funghi', desc:'Crème de truffe, porcini, mozzarella di bufala',          price:18, emoji:'⚫' },
+  ],
+  'Desserts': [
+    { id:8,  name:'Tiramisu maison',    desc:'Mascarpone, café espresso, cacao, recette de nonna', price:7, emoji:'☕' },
+    { id:9,  name:'Panna cotta',        desc:'Coulis de fruits rouges frais de saison',             price:6, emoji:'🍮' },
+    { id:10, name:'Cannoli siciliani',  desc:'Ricotta, pistache de Bronte, zeste d\'orange',       price:8, emoji:'🥐' },
+  ],
+  'Boissons': [
+    { id:11, name:'Chianti Classico (verre)', desc:'Sélection maison, Toscane DOCG',         price:6, emoji:'🍷' },
+    { id:12, name:'Limoncello',               desc:'Limoncello artisanal, Sorrento',          price:4, emoji:'🍋' },
+    { id:13, name:'San Pellegrino 33cl',      desc:'Eau minérale gazeuse italienne',          price:3, emoji:'💧' },
+  ],
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CART
+   ══════════════════════════════════════════════════════════════ */
+let cart = []
+
+function addToCart(id) {
+  const item = Object.values(MENU).flat().find(i => i.id === id)
+  if (!item) return
+  const ex = cart.find(c => c.id === id)
+  if (ex) ex.qty++
+  else cart.push({ ...item, qty:1 })
+  updateBadge()
+  showToast(item.emoji + ' ' + item.name + ' ajouté !')
+}
+
+function changeQty(id, d) {
+  const item = cart.find(c => c.id === id)
+  if (!item) return
+  item.qty += d
+  if (item.qty <= 0) cart = cart.filter(c => c.id !== id)
+  updateBadge()
+  renderCartBody()
+}
+
+function cartTotal() { return cart.reduce((s,i) => s + i.price * i.qty, 0) }
+
+function updateBadge() {
+  const n = cart.reduce((s,i) => s + i.qty, 0)
+  const b = document.getElementById('cart-badge')
+  b.textContent = n
+  b.style.display = n > 0 ? 'flex' : 'none'
+}
+
+function renderCartBody() {
+  const el = document.getElementById('cart-body')
+  if (!cart.length) {
+    el.innerHTML = '<div class="c-empty" style="padding:40px 0"><div style="font-size:48px;margin-bottom:12px">🛒</div><p>Votre panier est vide.<br>Ajoutez des plats depuis le menu !</p></div>'
+    return
+  }
+  let h = cart.map(i => `
+    <div class="c-item">
+      <span style="font-size:20px">${i.emoji}</span>
+      <span class="c-name">${i.name}</span>
+      <div class="c-qty">
+        <button class="qb" onclick="changeQty(${i.id},-1)">−</button>
+        <span style="font-size:14px;font-weight:700;min-width:18px;text-align:center">${i.qty}</span>
+        <button class="qb" onclick="changeQty(${i.id},1)">+</button>
+      </div>
+      <span class="c-price">${(i.price*i.qty).toFixed(2)} €</span>
+    </div>`).join('')
+  h += `<div class="c-total"><span>Total</span><span class="c-total-p">${cartTotal().toFixed(2)} €</span></div>`
+  h += `<div class="c-sec">Informations de livraison</div>
+    <div class="fg"><label>Nom *</label><input type="text" id="o-name" placeholder="Jean Dupont"></div>
+    <div class="fg"><label>Téléphone *</label><input type="tel" id="o-phone" placeholder="06 12 34 56 78"></div>
+    <div class="fg"><label>Adresse de livraison *</label><input type="text" id="o-addr" placeholder="14 Rue de la Paix, Lyon"></div>
+    <div class="fg"><label>Notes (optionnel)</label><textarea id="o-notes" rows="2" placeholder="Sans oignons, bien cuit..."></textarea></div>
+    <button class="btn-sub" onclick="placeOrder()">Confirmer ma commande — ${cartTotal().toFixed(2)} € →</button>`
+  el.innerHTML = h
+}
+
+function openCart()  { renderCartBody(); document.getElementById('cart-ov').classList.add('open') }
+function closeCart() { document.getElementById('cart-ov').classList.remove('open') }
+
+/* ══════════════════════════════════════════════════════════════
+   ORDER SUBMISSION
+   ══════════════════════════════════════════════════════════════ */
+async function placeOrder() {
+  const name  = document.getElementById('o-name')?.value?.trim()
+  const phone = document.getElementById('o-phone')?.value?.trim()
+  const addr  = document.getElementById('o-addr')?.value?.trim()
+  const notes = document.getElementById('o-notes')?.value?.trim() || ''
+  if (!name || !phone || !addr) { showToast('⚠️ Veuillez remplir tous les champs obligatoires'); return }
+
+  const order = {
+    restaurantSlug: CFG.restaurantSlug,
+    customerName:   name,
+    customerPhone:  phone,
+    customerAddress: addr,
+    notes,
+    items: cart.map(i => ({ name:i.name, qty:i.qty, price:i.price })),
+    total: parseFloat(cartTotal().toFixed(2)),
+    status: 'nouvelle',
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+  }
+
+  try {
+    // 1. Sauvegarde Firebase
+    if (db) await db.collection('orders').add(order)
+
+    // 2. Email EmailJS (si activé)
+    if (CFG.emailjs.enabled) {
+      await emailjs.send(CFG.emailjs.serviceId, CFG.emailjs.templateId, {
+        to_email:         CFG.emailjs.toEmail,
+        restaurant_name:  CFG.restaurantName,
+        customer_name:    name,
+        customer_phone:   phone,
+        customer_address: addr,
+        items_list:       order.items.map(i => `${i.qty}× ${i.name} (${i.price}€)`).join('\n'),
+        total:            order.total + ' €',
+        notes:            notes || '—',
+      }, CFG.emailjs.publicKey)
+    }
+
+    // 3. Confirmation
+    cart = []
+    updateBadge()
+    document.getElementById('cart-body').innerHTML = `
+      <div class="c-empty" style="padding:48px 20px">
+        <div style="font-size:56px;margin-bottom:16px">✅</div>
+        <p style="font-size:16px;font-weight:700;color:#111;margin-bottom:8px">Commande confirmée !</p>
+        <p style="color:#6b7280;line-height:1.6">Nous vous rappelons au <strong>${phone}</strong><br>dans les 5 minutes pour confirmer.</p>
+        <button onclick="closeCart()" style="margin-top:24px;padding:10px 28px;border-radius:980px;background:#111;color:#fff;border:none;cursor:pointer;font-weight:700;font-family:Inter,sans-serif">Fermer</button>
+      </div>`
+  } catch(e) {
+    showToast('❌ Erreur. Appelez-nous : 04 78 42 31 10')
+    console.error(e)
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ADMIN PANEL
+   ══════════════════════════════════════════════════════════════ */
+let adminOk = false, allOrders = [], unsub = null
+
+function openAdmin() {
+  document.getElementById('adm').classList.add('open')
+  document.body.style.overflow = 'hidden'
+  if (adminOk) showDash()
+}
+
+function closeAdmin() {
+  document.getElementById('adm').classList.remove('open')
+  document.body.style.overflow = ''
+}
+
+function checkPw() {
+  if (document.getElementById('adm-pw').value === CFG.adminPassword) {
+    adminOk = true; showDash()
+  } else {
+    document.getElementById('adm-err').textContent = 'Mot de passe incorrect.'
+  }
+}
+
+function showDash() {
+  document.getElementById('adm-login').style.display = 'none'
+  document.getElementById('adm-dash').style.display = 'block'
+  startListener()
+}
+
+function startListener() {
+  if (!db || unsub) return
+  unsub = db.collection('orders')
+    .where('restaurantSlug','==',CFG.restaurantSlug)
+    .orderBy('timestamp','desc').limit(100)
+    .onSnapshot(snap => {
+      allOrders = snap.docs.map(d => ({ id:d.id, ...d.data() }))
+      renderStats()
+      renderOrders()
+    }, err => console.error(err))
+}
+
+function renderStats() {
+  const now = new Date()
+  const today = allOrders.filter(o => {
+    if (!o.timestamp?.seconds) return true
+    const d = new Date(o.timestamp.seconds * 1000)
+    return d.toDateString() === now.toDateString()
+  })
+  const revenue = today.reduce((s,o) => s + (o.total||0), 0)
+  document.getElementById('adm-stats').innerHTML = `
+    <div class="as"><div class="as-v" style="color:#fca5a5">${today.filter(o=>o.status==='nouvelle').length}</div><div class="as-l">Nouvelles</div></div>
+    <div class="as"><div class="as-v" style="color:#fbbf24">${today.filter(o=>o.status==='preparation').length}</div><div class="as-l">En préparation</div></div>
+    <div class="as"><div class="as-v">${today.length}</div><div class="as-l">Aujourd'hui</div></div>
+    <div class="as"><div class="as-v" style="color:#34d399">${revenue.toFixed(0)} €</div><div class="as-l">CA du jour</div></div>`
+}
+
+function renderOrders() {
+  const f = document.getElementById('filter')?.value || 'all'
+  const list = f === 'all' ? allOrders : allOrders.filter(o => o.status === f)
+  const el = document.getElementById('adm-orders')
+  if (!list.length) { el.innerHTML = '<div class="adm-empty">📭 Aucune commande.</div>'; return }
+  el.innerHTML = list.map(o => {
+    const t = o.timestamp?.seconds ? timeAgo(new Date(o.timestamp.seconds*1000)) : 'À l\'instant'
+    const items = (o.items||[]).map(i => `${i.qty}× ${i.name}`).join(' · ')
+    const cls = {nouvelle:'s-nouv',preparation:'s-prep','prête':'s-pret','livrée':'s-livr','annulée':'s-ann'}[o.status]||'s-nouv'
+    let acts = ''
+    if (o.status==='nouvelle')     acts += `<button class="o-btn ob-p" onclick="setStatus('${o.id}','preparation')">En préparation</button>`
+    if (o.status==='preparation')  acts += `<button class="o-btn ob-r" onclick="setStatus('${o.id}','prête')">Prête 🍕</button>`
+    if (o.status==='prête')        acts += `<button class="o-btn ob-l" onclick="setStatus('${o.id}','livrée')">Livrée ✓</button>`
+    if (!['livrée','annulée'].includes(o.status)) acts += `<button class="o-btn ob-a" onclick="setStatus('${o.id}','annulée')">Annuler</button>`
+    return `<div class="o-card">
+      <div class="o-head"><div><div class="o-name">${o.customerName} — ${o.customerPhone}</div><div class="o-time">${t}</div></div><span class="o-bdg ${cls}">${o.status}</span></div>
+      <div class="o-items">${items}</div>
+      <div class="o-info">📍 ${o.customerAddress}${o.notes?' · 📝 '+o.notes:''}</div>
+      <div class="o-total">Total : ${(o.total||0).toFixed(2)} €</div>
+      <div class="o-acts">${acts}</div>
+    </div>`
+  }).join('')
+}
+
+async function setStatus(id, status) {
+  if (db) await db.collection('orders').doc(id).update({ status }).catch(console.error)
+}
+
+function timeAgo(d) {
+  const s = Math.floor((Date.now()-d)/1000)
+  if (s<60) return 'À l\'instant'
+  if (s<3600) return Math.floor(s/60)+' min'
+  if (s<86400) return Math.floor(s/3600)+'h'
+  return d.toLocaleDateString('fr-FR')
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MENU RENDERING
+   ══════════════════════════════════════════════════════════════ */
+let activeTab = Object.keys(MENU)[0]
+
+function renderTabs() {
+  document.getElementById('menu-tabs').innerHTML = Object.keys(MENU).map(cat =>
+    `<button class="m-tab${cat===activeTab?' on':''}" onclick="setTab('${cat}')">${cat}</button>`).join('')
+}
+
+function setTab(cat) { activeTab = cat; renderTabs(); renderGrid() }
+
+function renderGrid() {
+  document.getElementById('menu-grid').innerHTML = (MENU[activeTab]||[]).map(i => `
+    <div class="m-card">
+      <div class="m-photo">${i.emoji}</div>
+      <div class="m-body">
+        <div class="m-name">${i.name}</div>
+        <div class="m-desc">${i.desc}</div>
+        <div class="m-foot">
+          <span class="m-price">${i.price.toFixed(2)} €</span>
+          <button class="btn-add" onclick="addToCart(${i.id})">+</button>
+        </div>
+      </div>
+    </div>`).join('')
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TOAST & HELPERS
+   ══════════════════════════════════════════════════════════════ */
+let _tt
+function showToast(msg) {
+  const el = document.getElementById('toast')
+  el.textContent = msg; el.classList.add('on')
+  clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('on'), 3000)
+}
+function scrollTo(sel) { document.querySelector(sel)?.scrollIntoView({behavior:'smooth'}) }
+
+/* ══════════════════════════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════════════════════════ */
+let db
+try {
+  if (!firebase.apps.length) firebase.initializeApp(CFG.firebase)
+  db = firebase.firestore()
+} catch(e) { console.warn('Firebase:', e.message) }
+
+if (CFG.emailjs.enabled) emailjs.init(CFG.emailjs.publicKey)
+
+renderTabs()
+renderGrid()
+
+document.getElementById('cart-ov').addEventListener('click', e => { if (e.target.id==='cart-ov') closeCart() })
+</script>
+</body>
+</html>

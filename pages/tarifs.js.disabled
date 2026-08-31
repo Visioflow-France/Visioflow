@@ -1,0 +1,495 @@
+import Head from 'next/head';
+import Footer from '../components/Footer';
+
+const canonicalUrl = "https://visioflow.fr/tarifs";
+
+export default function Tarifs() {
+  return (
+    <>
+      <Head>
+        <title>Réservez votre appel de découverte — Visioflow | Agence de création de sites web</title>
+        <meta
+          name="description"
+          content="Réservez votre appel de découverte avec Visioflow pour discuter de votre projet de site web professionnel. Appel gratuit 15-30min ou appel stratégique payant. Tous secteurs confondus."
+        />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="Réservez votre appel de découverte — Visioflow | Agence de création de sites web" />
+        <meta property="og:description" content="Réservez votre appel de découverte avec Visioflow pour discuter de votre projet de site web professionnel. Appel gratuit 15-30min ou appel stratégique payant." />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:site_name" content="VisioFlow" />
+
+        {/* FAQ Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Combien coûte un site web de restaurant chez Visioflow ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Chez Visioflow, un site web de restaurant coûte 150€ pour le Pack Essentiel (site vitrine professionnel) ou 490€ pour le Pack Premium (site avec commandes en ligne, panier et paiement intégré). Tous nos packs sont en paiement unique, sans abonnement, et incluent l'hébergement à vie."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Y a-t-il des frais mensuels ou d'abonnement ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Non, il n'y a aucun frais mensuel ni abonnement chez Visioflow. Tous nos packs sont en paiement unique. L'hébergement, le support technique et les mises à jour sont inclus à vie dans le prix initial de 150€ ou 490€."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Quelle est la différence entre le Pack Essentiel et le Pack Premium ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Le Pack Essentiel (150€) inclut un site vitrine professionnel avec menu digital, horaires et photos. Le Pack Premium (490€) ajoute les commandes en ligne, un panier fonctionnel, le paiement intégré via Stripe et un panel admin restaurant pour gérer vos commandes. Les deux packs sont livrés en 48 heures avec hébergement à vie inclus."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Combien de temps pour recevoir mon site web de restaurant ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Votre site web de restaurant est livré en 48 heures après confirmation de votre commande et réception de vos informations (menu, horaires, photos, etc.). Notre processus optimisé garantit une livraison rapide sans compromis sur la qualité."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "L'hébergement est-il inclus dans le prix ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Oui, l'hébergement web est inclus à vie dans tous nos packs Essentiel et Premium. Nous nous chargeons de la configuration, de la maintenance et des mises à jour techniques. Aucun frais d'hébergement mensuel n'est à prévoir."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Puis-je modifier mon site web après la livraison ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Oui, vous pouvez modifier votre site web après la livraison. Le Pack Premium inclut un panel admin restaurant pour modifier votre menu, vos horaires et vos photos en toute autonomie. Pour le Pack Essentiel, notre support technique effectue les modifications simples gratuitement dans un délai de 24 heures."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Les paiements en ligne sont-ils sécurisés ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Oui, les paiements en ligne sont entièrement sécurisés via Stripe, leader mondial des paiements en ligne. Stripe est conforme à la norme PCI DSS (Payment Card Industry Data Security Standard) et garantit la sécurité de toutes les transactions. Vos clients paient en toute confiance."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Visioflow travaille-t-elle avec des petits restaurants ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Oui, Visioflow travaille avec tous les types de restaurants, des petits bistrots aux grandes brasseries. Nos packs sont adaptés aux besoins des restaurateurs indépendants. Le Pack Essentiel (150€) est particulièrement adapté aux petits restaurants qui souhaitent un site vitrine professionnel, tandis que le Pack Premium (490€) convient aux restaurants qui veulent accepter des commandes en ligne."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Y a-t-il des frais supplémentaires cachés ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Non, il n'y a aucun frais supplémentaire caché chez Visioflow. Le prix indiqué (150€ ou 490€) est le prix final. L'hébergement, le support technique, les mises à jour et les modifications simples sont inclus. Les seuls frais supplémentaires éventuels sont pour des modifications majeures ou des ajouts de fonctionnalités personnalisées sur devis."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Puis-je changer de pack après la création de mon site ?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Oui, vous pouvez changer de pack à tout moment après la création de votre site. Si vous avez choisi le Pack Essentiel (150€) et souhaitez passer au Pack Premium (490€), nous vous proposons une évolution à prix réduit. Contactez notre support pour discuter de vos besoins et obtenir un devis personnalisé."
+                  }
+                }
+              ]
+            })
+          }}
+        />
+
+        {/* Offer Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Offer",
+                "name": "Pack Essentiel - Site Vitrine Restaurant",
+                "price": "150",
+                "priceCurrency": "EUR",
+                "description": "Site vitrine professionnel pour restaurant avec menu digital, horaires et photos. Livré en 48 heures. Hébergement à vie inclus.",
+                "availability": "https://schema.org/InStock",
+                "url": "https://visioflow.fr/tarifs",
+                "seller": {
+                  "@type": "Organization",
+                  "name": "VisioFlow",
+                  "url": "https://visioflow.fr"
+                }
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Offer",
+                "name": "Pack Premium - Site Restaurant avec Commandes en Ligne",
+                "price": "490",
+                "priceCurrency": "EUR",
+                "description": "Site complet avec commandes en ligne, panier, paiement intégré et panel admin restaurant. Livré en 48 heures. Hébergement à vie inclus.",
+                "availability": "https://schema.org/InStock",
+                "url": "https://visioflow.fr/tarifs",
+                "seller": {
+                  "@type": "Organization",
+                  "name": "VisioFlow",
+                  "url": "https://visioflow.fr"
+                }
+              }
+            ])
+          }}
+        />
+
+        <style>{`
+          #vflp,#vflp *{box-sizing:border-box;margin:0;padding:0}
+          #vflp{min-height:100vh;font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
+          #vflp .container{max-width:1200px;margin:0 auto;padding:0 20px}
+          #vflp .hero{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative;background:#ffffff}
+          #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%);opacity:1}
+          #vflp .hero-content{position:relative;z-index:1;max-width:900px}
+          #vflp .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,113,227,.15);border:1px solid rgba(0,113,227,.3);padding:8px 20px;border-radius:50px;color:#0071E3;font-size:13px;font-weight:600;margin-bottom:24px}
+          #vflp .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(40px,7vw,64px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+          #vflp .hero-sub{font-size:18px;color:#475569;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+          #vflp .section{padding:100px 20px}
+          #vflp .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;max-width:900px;margin:0 auto}
+          #vflp .pricing-card{background:#f8fafc;border:1px solid rgba(15,23,42,.08);border-radius:28px;padding:40px;position:relative;transition:all .3s;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+          #vflp .pricing-card.featured{border-color:#0071E3;box-shadow:0 20px 60px rgba(0,113,227,.2)}
+          #vflp .pricing-card:hover{transform:translateY(-8px)}
+          #vflp .pricing-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#0071E3;color:#fff;padding:6px 20px;border-radius:50px;font-size:12px;font-weight:700}
+          #vflp .pricing-name{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#0f172a;margin-bottom:8px}
+          #vflp .pricing-desc{color:#475569;font-size:15px;margin-bottom:24px;line-height:1.6}
+          #vflp .pricing-price{font-family:'Fraunces',sans-serif;font-size:56px;font-weight:900;color:#0f172a;margin-bottom:20px}
+          #vflp .pricing-price span{font-size:18px;color:#475569;font-weight:500}
+          #vflp .pricing-features{margin-bottom:32px}
+          #vflp .pricing-feature{display:flex;align-items:center;gap:12px;margin-bottom:14px;color:#475569;font-size:15px}
+          #vflp .pricing-feature svg{color:#34d399;flex-shrink:0}
+          #vflp .pricing-btn{width:100%;padding:18px;border-radius:16px;background:#0071E3;color:#fff;font-size:16px;font-weight:700;border:none;cursor:pointer;transition:all .3s;font-family:'Inter Tight',sans-serif;text-decoration:none;display:block;text-align:center}
+          #vflp .pricing-btn:hover{background:#0056b3;transform:translateY(-2px)}
+          #vflp .pricing-btn.secondary{background:rgba(15,23,42,.05);color:#0f172a;border:2px solid rgba(15,23,42,.15)}
+          #vflp .pricing-btn.secondary:hover{background:rgba(15,23,42,.08)}
+          #vflp .faq{max-width:800px;margin:0 auto}
+          #vflp .faq-item{border-bottom:1px solid rgba(15,23,42,.08);padding:24px 0}
+          #vflp .faq-question{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:8px}
+          #vflp .faq-answer{color:#475569;line-height:1.7;font-size:15px}
+          #vflp .cta{background:linear-gradient(135deg,#0071E3 0%,#38bdf8 100%);border-radius:32px;padding:80px 20px;text-align:center;margin:100px 20px 0}
+          #vflp .cta h2{font-family:'Fraunces',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;color:#fff;margin-bottom:16px}
+          #vflp .cta p{color:rgba(255,255,255,.8);font-size:18px;margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto}
+          #vflp .footer{background:#f8fafc;padding:60px 20px;border-top:1px solid rgba(15,23,42,.08);text-align:center;color:#64748b;font-size:13px}
+          #vflp .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
+          #vflp .nav-content{display:flex;justify-content:space-between;align-items:center}
+          #vflp .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#0f172a;display:flex;align-items:center;gap:10px}
+          #vflp .logo span{color:#0071E3}
+          #vflp .nav-links{display:flex;gap:32px}
+          #vflp .nav-links a{color:#475569;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
+          #vflp .nav-links a:hover{color:#0f172a}
+          #vflp .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s}
+          #vflp .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
+        `}</style>
+      </Head>
+
+
+      <div id="vflp">
+      {/* Navigation */}
+      <nav className="nav">
+        <div className="container nav-content">
+          <a href="/" className="logo"><img src="/logo.svg" alt="VisioFlow" width="32" height="32" />Visio<span>flow</span></a>
+          <div className="nav-links">
+            <a href="/landing">Comment ça marche</a>
+            <a href="/tarifs">Tarifs</a>
+            <a href="/temoignages">Témoignages</a>
+            <a href="/a-propos">À propos</a>
+          </div>
+          <a href="/paiement" className="nav-cta">Commencer →</a>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-bg" />
+        <div className="hero-content">
+          <div className="hero-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Appel de découverte gratuit
+          </div>
+          <h1 className="hero-title">
+            Réservez votre appel de découverte<br />
+            Discutons de votre projet ensemble
+          </h1>
+          <p className="hero-sub">
+            Agence de création de sites web professionnels pour tous secteurs.
+            Réservez un appel gratuit 15-30min ou un appel stratégique payant 45-60min.
+            Sans engagement, adapté à vos besoins.
+          </p>
+        </div>
+      </section>
+
+      {/* Info nom de domaine */}
+      <section style={{padding: '40px 20px'}}>
+        <div className="container" style={{maxWidth: '800px'}}>
+          <div style={{background: 'rgba(96,165,250,.08)', border: '1px solid rgba(96,165,250,.25)', borderRadius: 20, padding: '28px 32px'}}>
+            <div style={{display: 'flex', alignItems: 'flex-start', gap: 16}}>
+              <div style={{width: 48, height: 48, borderRadius: 12, background: 'rgba(96,165,250,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
+                </svg>
+              </div>
+              <div style={{flex: 1}}>
+                <h3 style={{fontFamily: 'Outfit, sans-serif', fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 8}}>
+                  Nom de domaine inclus la 1ère année
+                </h3>
+                <p style={{color: '#94a3b8', fontSize: 14, lineHeight: 1.7, marginBottom: 12}}>
+                  <strong>C'est quoi un nom de domaine ?</strong> C'est l'adresse de votre site sur internet,
+                  comme <code style={{background: 'rgba(0,0,0,.2)', padding: '2px 6px', borderRadius: 4, color: '#60a5fa', fontFamily: 'monospace'}}>votre-restaurant.fr</code> ou <code style={{background: 'rgba(0,0,0,.2)', padding: '2px 6px', borderRadius: 4, color: '#60a5fa', fontFamily: 'monospace'}}>monbistrot-paris.com</code>.
+                </p>
+                <p style={{color: '#94a3b8', fontSize: 14, lineHeight: 1.7}}>
+                  Le nom de domaine est <strong>offert la 1ère année</strong> (valeur ~15€/an).
+                  À partir de la <strong>2ème année</strong>, le renouvellement du nom de domaine est à votre charge
+                  (environ 15€/an selon l'extension choisie). L'hébergement reste gratuit à vie.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Appel Options Section */}
+      <section className="section">
+        <div className="container">
+          <div className="pricing">
+            <div className="pricing-card">
+              <div className="pricing-name">Appel Découverte Gratuit</div>
+              <div className="pricing-desc">
+                Idéal pour faire connaissance et découvrir nos services.
+                Comprend présentation de l'agence, analyse de vos besoins et
+                recommandations personnalisées.
+              </div>
+              <div className="pricing-price">Gratuit <span>/ 15-30 min</span></div>
+              <div className="pricing-features">
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Présentation de nos services
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Analyse de vos besoins
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Recommandations personnalisées
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Aucun engagement requis
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Tous secteurs confondus
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Créneau flexible
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Sans engagement
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Calendrier facile
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Confirmation immédiate
+                </div>
+              </div>
+              <a href="https://calendly.com/visioflow/decouverte" target="_blank" rel="noopener noreferrer" className="pricing-btn secondary">Réserver gratuit</a>
+              <div style={{textAlign:'center',marginTop:'16px'}}>
+                <a href="tel:+33611045829" style={{color:'#475569',fontSize:'13px',textDecoration:'none'}}>Appeler直接 →</a>
+              </div>
+            </div>
+
+            <div className="pricing-card featured">
+              <div className="pricing-badge">Recommandé</div>
+              <div className="pricing-name">Appel Stratégique</div>
+              <div className="pricing-desc">
+                Analyse approfondie de votre projet avec plan d'action détaillé.
+                Recommandé pour projets complexes, e-commerce ou refonte complète.
+              </div>
+              <div className="pricing-price">Sur devis <span>/ 45-60 min</span></div>
+              <div className="pricing-features">
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Analyse approfondie du projet
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Solutions techniques concrètes
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Plan d'action détaillé
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Devis personnalisé précis
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Recommandations technologies
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Analyse concurrentielle
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Roadmap projet
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Estimation budget et délais
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Questions/réponses illimitées
+                </div>
+                <div className="pricing-feature">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Suivi email personnalisé
+                </div>
+              </div>
+              <a href="https://calendly.com/visioflow/strategique" target="_blank" rel="noopener noreferrer" className="pricing-btn">Réserver appel stratégique</a>
+              <div style={{textAlign:'center',marginTop:'16px'}}>
+                <a href="tel:+33611045829" style={{color:'#475569',fontSize:'13px',textDecoration:'none'}}>Appeler directement →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="section" style={{background:'rgba(15,23,42,.02)'}}>
+        <div className="container">
+          <h2 style={{fontFamily:'Outfit, sans-serif',fontSize:'clamp(28px,5vw,44px)',fontWeight:800,color:'#0f172a',textAlign:'center',marginBottom:'16px',letterSpacing:'-1px'}}>Questions fréquentes</h2>
+          <p style={{color:'#475569',textAlign:'center',maxWidth:'700px',margin:'0 auto 60px',fontSize:'18px'}}>
+            Tout savoir sur nos tarifs et nos packs de création de site web pour restaurant.
+          </p>
+          <div className="faq">
+            <div className="faq-item">
+              <h3 className="faq-question">Combien coûte un site web de restaurant chez Visioflow ?</h3>
+              <p className="faq-answer">
+                Chez Visioflow, un site web de restaurant coûte 150€ pour le Pack Essentiel (site vitrine professionnel)
+                ou 490€ pour le Pack Premium (site avec commandes en ligne, panier et paiement intégré).
+                Tous nos packs sont en paiement unique, sans abonnement, et incluent l'hébergement à vie.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Y a-t-il des frais mensuels ou d'abonnement ?</h3>
+              <p className="faq-answer">
+                Non, il n'y a aucun frais mensuel ni abonnement chez Visioflow. Tous nos packs sont en paiement unique.
+                L'hébergement, le support technique et les mises à jour sont inclus à vie dans le prix initial de 150€ ou 490€.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Quelle est la différence entre le Pack Essentiel et le Pack Premium ?</h3>
+              <p className="faq-answer">
+                Le Pack Essentiel (150€) inclut un site vitrine professionnel avec menu digital, horaires et photos.
+                Le Pack Premium (490€) ajoute les commandes en ligne, un panier fonctionnel, le paiement intégré via Stripe
+                et un panel admin restaurant pour gérer vos commandes. Les deux packs sont livrés en 48 heures avec hébergement à vie inclus.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Combien de temps pour recevoir mon site web de restaurant ?</h3>
+              <p className="faq-answer">
+                Votre site web de restaurant est livré en 48 heures après confirmation de votre commande et réception de
+                vos informations (menu, horaires, photos, etc.). Notre processus optimisé garantit une livraison rapide
+                sans compromis sur la qualité.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">L'hébergement est-il inclus dans le prix ?</h3>
+              <p className="faq-answer">
+                Oui, l'hébergement web est inclus à vie dans tous nos packs Essentiel et Premium. Nous nous chargeons de la
+                configuration, de la maintenance et des mises à jour techniques. Aucun frais d'hébergement mensuel n'est à prévoir.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Puis-je modifier mon site web après la livraison ?</h3>
+              <p className="faq-answer">
+                Oui, vous pouvez modifier votre site web après la livraison. Le Pack Premium inclut un panel admin restaurant
+                pour modifier votre menu, vos horaires et vos photos en toute autonomie. Pour le Pack Essentiel, notre support
+                technique effectue les modifications simples gratuitement dans un délai de 24 heures.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Les paiements en ligne sont-ils sécurisés ?</h3>
+              <p className="faq-answer">
+                Oui, les paiements en ligne sont entièrement sécurisés via Stripe, leader mondial des paiements en ligne.
+                Stripe est conforme à la norme PCI DSS (Payment Card Industry Data Security Standard) et garantit la sécurité
+                de toutes les transactions. Vos clients paient en toute confiance.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Visioflow travaille-t-elle avec des petits restaurants ?</h3>
+              <p className="faq-answer">
+                Oui, Visioflow travaille avec tous les types de restaurants, des petits bistrots aux grandes brasseries.
+                Nos packs sont adaptés aux besoins des restaurateurs indépendants. Le Pack Essentiel (150€) est particulièrement
+                adapté aux petits restaurants qui souhaitent un site vitrine professionnel, tandis que le Pack Premium (490€)
+                convient aux restaurants qui veulent accepter des commandes en ligne.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Y a-t-il des frais supplémentaires cachés ?</h3>
+              <p className="faq-answer">
+                Non, il n'y a aucun frais supplémentaire caché chez Visioflow. Le prix indiqué (150€ ou 490€) est le prix final.
+                L'hébergement, le support technique, les mises à jour et les modifications simples sont inclus. Les seuls frais
+                supplémentaires éventuels sont pour des modifications majeures ou des ajouts de fonctionnalités personnalisées sur devis.
+              </p>
+            </div>
+            <div className="faq-item">
+              <h3 className="faq-question">Puis-je changer de pack après la création de mon site ?</h3>
+              <p className="faq-answer">
+                Oui, vous pouvez changer de pack à tout moment après la création de votre site. Si vous avez choisi le Pack
+                Essentiel (150€) et souhaitez passer au Pack Premium (490€), nous vous proposons une évolution à prix réduit.
+                Contactez notre support pour discuter de vos besoins et obtenir un devis personnalisé.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <div className="cta">
+        <h2>Prêt à discuter de votre projet web ?</h2>
+        <p>
+          Réservez votre appel de découverte gratuit et découvrons ensemble
+          comment créer le site web parfait pour votre activité.
+        </p>
+        <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>
+          <a href="https://calendly.com/visioflow/decouverte" target="_blank" rel="noopener noreferrer" style={{padding:'16px 40px',borderRadius:'50px',background:'#fff',color:'#0071E3',fontSize:'16px',fontWeight:700,textDecoration:'none',display:'inline-block',transition:'all .3s'}}>
+            Réserver appel gratuit
+          </a>
+          <a href="tel:+33611045829" style={{padding:'16px 40px',borderRadius:'50px',background:'rgba(255,255,255,.2)',color:'#fff',border:'2px solid rgba(255,255,255,.3)',fontSize:'16px',fontWeight:700,textDecoration:'none',display:'inline-block',transition:'all .3s'}}>
+            Appeler : +33 6 11 04 58 29
+          </a>
+        </div>
+      </div>
+
+      <Footer />
+      </div>
+    </>
+  );
+}

@@ -1,3 +1,13 @@
 node_modules
+<<<<<<< HEAD
 .tmp.driveupload
 .next
+=======
+.next
+.tmp.driveupload
+
+.env.local
+.env*.local
+
+.vercel
+>>>>>>> 1a549185b6583b4183aa7814f6c57c2199dbac18
