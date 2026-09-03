@@ -35,7 +35,7 @@
   /* Spacing */
   --vf2-section-padding: clamp(40px, 6vw, 80px) 24px;
   --vf2-container-max: 1180px;
-  --vf2-nav-height: 72px;
+  --vf2-nav-height: 64px;
 }
 
 /* Dark mode overrides */
@@ -77,11 +77,13 @@
 /* ── NAVBAR — pilule flottante blanche ─────────────────────────────────────────── */
 .vf2-navbar {
   position: fixed;
-  top: 14px;
+  top: 12px;
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: min(calc(100% - 40px), 1240px);
+  /* Pilule compacte : elle épouse son contenu au lieu de traverser l'écran */
+  width: fit-content;
+  max-width: calc(100% - 32px);
   height: var(--vf2-nav-height);
   background: #ffffff;
   border: 1px solid rgba(10, 10, 10, 0.07);
@@ -112,13 +114,14 @@
     0 22px 56px -12px rgba(0, 0, 0, 0.65);
 }
 
-/* Grille 1fr / auto / 1fr : logo à gauche, liens parfaitement centrés, CTA à droite */
+/* Grille auto / 1fr / auto : logo à gauche, liens au centre, CTA à droite — sans chevauchement possible */
 .vf2-nav-content {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
+  column-gap: clamp(20px, 3vw, 40px);
   height: 100%;
-  padding: 0 10px 0 26px;
+  padding: 0 11px 0 22px;
 }
 
 .vf2-logo {
@@ -131,7 +134,7 @@
 .vf2-logo img {
   display: block;
   width: auto;
-  height: 34px;
+  height: 30px;
   flex-shrink: 0;
 }
 
@@ -141,15 +144,15 @@
 
 .vf2-nav-links {
   display: flex;
-  gap: 36px;
+  gap: 28px;
   align-items: center;
   justify-content: center;
-  padding: 0 20px;
+  padding: 0 8px;
 }
 
 .vf2-nav-link {
   color: #4B5563;
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 500;
   transition: color 0.2s ease;
   position: relative;
@@ -180,7 +183,7 @@
   justify-self: end;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
 /* CTA — pilule outline : fond blanc, texte noir, bordure fine noire */
@@ -188,11 +191,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 26px;
+  padding: 10px 22px;
   border-radius: var(--vf2-radius-pill);
   background: #ffffff;
   color: #0a0a0a;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.01em;
   border: 1.5px solid rgba(10, 10, 10, 0.85);
@@ -211,8 +214,8 @@
 /* Burger — rond, effet pilule dans la pilule */
 .vf2-nav-burger {
   display: none;
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   padding: 0;
   border-radius: var(--vf2-radius-pill);
   background: #ffffff;
@@ -234,36 +237,41 @@
   border-color: #0a0a0a;
 }
 
-/* Backdrop transparent — clic n'importe où pour fermer le menu */
+/* Backdrop légèrement teinté + flouté — rend le menu déroulant intentionnel et ferme au clic */
 .vf2-nav-backdrop {
   position: fixed;
   inset: 0;
   z-index: 499;
-  background: transparent;
+  background: rgba(10, 10, 10, 0.3);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   opacity: 0;
   pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
 .vf2-nav-backdrop.open {
+  opacity: 1;
   pointer-events: auto;
 }
 
 /* Menu déroulant — pilule sous la navbar (mobile / tablette) */
 .vf2-nav-dropdown {
   position: fixed;
-  top: calc(var(--vf2-nav-height) + 20px);
+  /* top barre (10px) + hauteur + 12px d'air visuel */
+  top: calc(var(--vf2-nav-height) + 22px);
   left: 0;
   right: 0;
   margin: 0 auto;
   width: calc(100% - 24px);
-  max-width: 480px;
+  max-width: 420px;
   background: #ffffff;
   border: 1px solid rgba(10, 10, 10, 0.07);
-  border-radius: 26px;
+  border-radius: 24px;
   box-shadow:
     0 4px 8px rgba(10, 10, 10, 0.04),
     0 24px 56px -12px rgba(10, 10, 10, 0.22);
-  padding: 12px;
+  padding: 10px;
   z-index: 501;
   display: flex;
   flex-direction: column;
@@ -293,9 +301,9 @@
 .vf2-dropdown-link {
   display: flex;
   align-items: center;
-  padding: 15px 18px;
-  border-radius: 18px;
-  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #0a0a0a;
   transition: background 0.2s ease, color 0.2s ease;
@@ -309,13 +317,13 @@
 .vf2-dropdown-divider {
   height: 1px;
   background: rgba(10, 10, 10, 0.07);
-  margin: 10px 12px 12px;
+  margin: 8px 10px 10px;
 }
 
 .vf2-dropdown-cta {
   width: 100%;
-  padding: 15px 26px;
-  font-size: 15px;
+  padding: 13px 20px;
+  font-size: 14.5px;
 }
 
 /* ── BUTTONS ────────────────────────────────────────────────────────────────────── */
@@ -994,23 +1002,6 @@
 
 /* ── RESPONSIVE ────────────────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  :root {
-    --vf2-nav-height: 68px;
-  }
-
-  .vf2-navbar {
-    top: 12px;
-  }
-
-  .vf2-nav-links {
-    gap: 26px;
-    padding: 0 12px;
-  }
-
-  .vf2-logo img {
-    height: 32px;
-  }
-
   .vf2-grid-3 {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1025,23 +1016,24 @@
   }
 }
 
-@media (max-width: 900px) {
+/* Passage au burger dès 1080px : 4 liens + logo + CTA ne tiennent pas au-delà sans chevauchement */
+@media (max-width: 1080px) {
   :root {
-    --vf2-nav-height: 62px;
+    --vf2-nav-height: 58px;
   }
 
   .vf2-navbar {
     top: 10px;
-    width: calc(100% - 24px);
+    max-width: calc(100% - 24px);
   }
 
   .vf2-nav-content {
     grid-template-columns: 1fr auto;
-    padding: 0 9px 0 20px;
+    padding: 0 10px 0 20px;
   }
 
   .vf2-logo img {
-    height: 29px;
+    height: 27px;
   }
 
   .vf2-nav-links {
@@ -1055,7 +1047,9 @@
   .vf2-nav-burger {
     display: flex;
   }
+}
 
+@media (max-width: 900px) {
   .vf2-hero {
     padding: 120px 20px 60px;
     min-height: 75vh;
@@ -1123,22 +1117,51 @@
   }
 }
 
-@media (max-width: 480px) {
+/* Très petits écrans : le CTA vit dans le menu déroulant, la barre ne garde que logo + burger */
+@media (max-width: 640px) {
+  :root {
+    --vf2-nav-height: 54px;
+  }
+
+  .vf2-nav-cta {
+    display: none;
+  }
+
   .vf2-nav-content {
-    padding: 0 8px 0 18px;
+    padding: 0 9px 0 18px;
   }
 
   .vf2-logo img {
-    height: 26px;
+    height: 25px;
+  }
+
+  .vf2-nav-burger {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vf2-nav-content {
+    padding: 0 8px 0 16px;
+  }
+
+  .vf2-logo img {
+    height: 23px;
+  }
+
+  .vf2-nav-burger {
+    width: 38px;
+    height: 38px;
   }
 
   .vf2-nav-dropdown {
-    padding: 10px;
+    padding: 8px;
   }
 
   .vf2-dropdown-link {
-    padding: 14px 16px;
-    font-size: 15px;
+    padding: 11px 14px;
+    font-size: 14.5px;
   }
 
   .vf2-hero {

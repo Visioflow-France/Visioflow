@@ -18,7 +18,7 @@ export default function Navbar() {
   // Referme le menu si on repasse en desktop
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 900) setMenuOpen(false);
+      if (window.innerWidth > 1080) setMenuOpen(false);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
