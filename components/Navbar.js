@@ -58,9 +58,9 @@ export default function Navbar() {
           </div>
 
           <div className="vf2-nav-right">
-            <a href="#devis" className="vf2-nav-cta">
-              Démarrer un projet
-            </a>
+            <Link href="/estimer-ma-demande" className="vf2-nav-cta">
+              Estimer ma demande
+            </Link>
             <button
               className={`vf2-nav-burger ${menuOpen ? 'open' : ''}`}
               onClick={() => setMenuOpen(!menuOpen)}
@@ -93,9 +93,9 @@ export default function Navbar() {
           </Link>
         ))}
         <div className="vf2-dropdown-divider" />
-        <a href="#devis" className="vf2-nav-cta vf2-dropdown-cta" onClick={() => setMenuOpen(false)}>
-          Démarrer un projet
-        </a>
+        <Link href="/estimer-ma-demande" className="vf2-nav-cta vf2-dropdown-cta" onClick={() => setMenuOpen(false)}>
+          Estimer ma demande
+        </Link>
       </div>
     </>
   );

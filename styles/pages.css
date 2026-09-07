@@ -1847,3 +1847,173 @@
   .vf2-wiz-row { grid-template-columns: 1fr; gap: 0; }
   .vf2-choice { grid-template-columns: auto 1fr; grid-template-areas: 'radio label' 'radio desc' 'price price'; row-gap: 4px; }
 }
+
+/* ══ Page « Estimer ma demande » ══════════════════════════════════════════ */
+
+.vf2-est-card {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: var(--vf2-radius-lg);
+  padding: 34px 36px 28px;
+  box-shadow: var(--vf2-shadow-lg);
+  animation: vf2EstIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes vf2EstIn { from { transform: translateY(18px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+
+[data-theme="dark"] .vf2-est-card {
+  background: rgba(15, 23, 42, 0.72);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.vf2-est-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 26px 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 102, 255, 0.12);
+}
+
+.vf2-est-card > .vf2-est-section-title:first-child { margin-top: 0; }
+
+.vf2-est-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #0066FF, #00D4FF);
+  box-shadow: 0 6px 16px rgba(0, 102, 255, 0.35);
+  flex-shrink: 0;
+}
+
+.vf2-est-subpanel {
+  margin-top: 12px;
+  padding: 16px 16px 6px;
+  border-radius: var(--vf2-radius-sm);
+  background: rgba(0, 102, 255, 0.05);
+  border: 1px dashed rgba(0, 102, 255, 0.25);
+  animation: vf2EstIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .vf2-est-subpanel { background: rgba(56, 189, 248, 0.06); border-color: rgba(56, 189, 248, 0.25); }
+
+/* Badges « détecté automatiquement » */
+.vf2-est-detected {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: var(--vf2-radius-sm);
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  animation: vf2EstIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vf2-est-detected-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0d9668;
+  margin-bottom: 8px;
+}
+
+.vf2-est-detected-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.vf2-est-detected-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #065f46;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 999px;
+  padding: 4px 11px;
+}
+
+[data-theme="dark"] .vf2-est-detected { background: rgba(16, 185, 129, 0.08); }
+[data-theme="dark"] .vf2-est-detected-title { color: #34d399; }
+[data-theme="dark"] .vf2-est-detected-badge { color: #6ee7b7; background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); }
+
+/* Écran résultat */
+.vf2-est-success-icon {
+  width: 64px;
+  height: 64px;
+  margin: 4px auto 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0066FF, #00D4FF);
+  color: #fff;
+  box-shadow: 0 12px 34px rgba(0, 102, 255, 0.4);
+  animation: vf2SuccessPop 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vf2-est-monthly {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--vf2-blue);
+  margin-top: 4px;
+}
+
+.vf2-est-combo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: var(--vf2-radius-sm);
+  background: rgba(0, 102, 255, 0.06);
+  border: 1px solid rgba(0, 102, 255, 0.2);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+[data-theme="dark"] .vf2-est-combo { background: rgba(56, 189, 248, 0.07); color: #cbd5e1; }
+
+/* Rassurance sous le formulaire */
+.vf2-est-assurance {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-top: 22px;
+  padding: 16px 20px;
+  border-radius: var(--vf2-radius-md);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 102, 255, 0.12);
+}
+
+[data-theme="dark"] .vf2-est-assurance { background: rgba(15, 23, 42, 0.55); border-color: rgba(255, 255, 255, 0.08); }
+
+.vf2-est-assurance-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.vf2-est-assurance-item svg { color: var(--vf2-blue); flex-shrink: 0; }
+
+[data-theme="dark"] .vf2-est-assurance-item { color: #94a3b8; }
+
+@media (max-width: 600px) {
+  .vf2-est-card { padding: 24px 18px 20px; }
+  .vf2-est-assurance { gap: 10px 16px; }
+}
