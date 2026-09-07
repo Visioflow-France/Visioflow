@@ -93,7 +93,7 @@ export default function Navbar() {
           </Link>
         ))}
         <div className="vf2-dropdown-divider" />
-        <Link href="/estimer-ma-demande" className="vf2-nav-cta vf2-dropdown-cta" onClick={() => setMenuOpen(false)}>
+        <Link href="/estimer-ma-demande" className="vf2-dropdown-cta" onClick={() => setMenuOpen(false)}>
           Estimer ma demande
         </Link>
       </div>

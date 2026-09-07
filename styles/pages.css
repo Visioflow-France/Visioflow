@@ -320,10 +320,29 @@
   margin: 8px 10px 10px;
 }
 
+/* Classe autonome : ne pas fusionner avec .vf2-nav-cta, masqué en display:none
+   sous 640px — le CTA du menu déroulant doit rester visible sur mobile. */
 .vf2-dropdown-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 13px 20px;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #0a0a0a;
   font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  border: 1.5px solid rgba(10, 10, 10, 0.85);
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.vf2-dropdown-cta:hover {
+  background: #0a0a0a;
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
 /* ── BUTTONS ────────────────────────────────────────────────────────────────────── */
