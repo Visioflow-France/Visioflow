@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import { FolderOpen, Star, TrendingUp, ExternalLink, Rocket } from 'lucide-react';
+import { ExternalLink, Rocket } from 'lucide-react';
 import { db } from '../lib/firebase-admin';
 
 export async function getServerSideProps() {
@@ -109,116 +109,76 @@ export default function ProjectsPage({ projects = [] }) {
           </div>
         </section>
 
-        {/* Projects Grid ou Empty State */}
+        {/* Projects Grid */}
         <section className="vf2-section vf2-section-alt">
           <div className="vf2-container">
-            {projects.length === 0 ? (
-              <div className="vf2-empty-state">
-                <div className="vf2-empty-circles">
-                  <div className="vf2-empty-circle vf2-empty-circle-1" />
-                  <div className="vf2-empty-circle vf2-empty-circle-2" />
-                  <div className="vf2-empty-circle vf2-empty-circle-3" />
-                  <div className="vf2-empty-icon">
-                    <FolderOpen size={48} strokeWidth={1.5} />
-                  </div>
-                </div>
-
-                <h2 className="vf2-empty-title">Nos premiers projets arrivent bientôt</h2>
-                <p className="vf2-empty-text">
-                  Nous travaillons actuellement sur plusieurs projets passionnants. Nos premières
-                  réalisations seront publiées ici très prochainement.
-                </p>
-
-                <a href="mailto:contact@visioflow.fr" className="vf2-btn-primary">
-                  <Star size={18} />
-                  Discutons de votre projet
-                </a>
+            {available.length > 1 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', marginBottom: '40px' }}>
+                <button
+                  onClick={() => setFilter('all')}
+                  className="vf2-btn-primary"
+                  style={{
+                    padding: '10px 22px',
+                    borderRadius: '999px',
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    border: 'none',
+                    opacity: filter === 'all' ? 1 : 0.55,
+                  }}
+                >
+                  Tous ({projects.length})
+                </button>
+                {available.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setFilter(cat)}
+                    className="vf2-btn-primary"
+                    style={{
+                      padding: '10px 22px',
+                      borderRadius: '999px',
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      border: 'none',
+                      opacity: filter === cat ? 1 : 0.55,
+                    }}
+                  >
+                    {CATEGORIES[cat].emoji} {CATEGORIES[cat].label}
+                  </button>
+                ))}
               </div>
-            ) : (
-              <>
-                {available.length > 1 && (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', marginBottom: '40px' }}>
-                    <button
-                      onClick={() => setFilter('all')}
-                      className="vf2-btn-primary"
-                      style={{
-                        padding: '10px 22px',
-                        borderRadius: '999px',
-                        fontSize: '14px',
-                        cursor: 'pointer',
-                        border: 'none',
-                        opacity: filter === 'all' ? 1 : 0.55,
-                      }}
-                    >
-                      Tous ({projects.length})
-                    </button>
-                    {available.map(cat => (
-                      <button
-                        key={cat}
-                        onClick={() => setFilter(cat)}
-                        className="vf2-btn-primary"
-                        style={{
-                          padding: '10px 22px',
-                          borderRadius: '999px',
-                          fontSize: '14px',
-                          cursor: 'pointer',
-                          border: 'none',
-                          opacity: filter === cat ? 1 : 0.55,
-                        }}
-                      >
-                        {CATEGORIES[cat].emoji} {CATEGORIES[cat].label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
-                  {filtered.map((project) => (
-                    <a
-                      key={project.id}
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="vf2-card vf2-stat-card"
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        textAlign: 'center',
-                        gap: '12px',
-                        padding: '32px 24px',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      <span style={{ fontSize: '40px', lineHeight: 1 }}>
-                        {CATEGORIES[project.category]?.emoji || '🌐'}
-                      </span>
-                      <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>
-                        {project.title}
-                      </h3>
-                      <span style={{ fontSize: '13px', color: '#0071E3', display: 'flex', alignItems: 'center', gap: '6px', wordBreak: 'break-all' }}>
-                        <ExternalLink size={14} />
-                        Visiter le site
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </>
             )}
-          </div>
-        </section>
 
-        {/* CTA Band */}
-        <section>
-          <div className="vf2-cta-band">
-            <h2>Votre projet pourrait être ici</h2>
-            <p>
-              Rejoignez nos réalisations — chaque création est adaptée à vos besoins.
-            </p>
-            <a href="mailto:contact@visioflow.fr" className="vf2-btn-primary">
-              <TrendingUp size={18} />
-              Lancer mon projet
-            </a>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
+              {filtered.map((project) => (
+                <a
+                  key={project.id}
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="vf2-card vf2-stat-card"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    gap: '12px',
+                    padding: '32px 24px',
+                    textDecoration: 'none',
+                  }}
+                >
+                  <span style={{ fontSize: '40px', lineHeight: 1 }}>
+                    {CATEGORIES[project.category]?.emoji || '🌐'}
+                  </span>
+                  <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>
+                    {project.title}
+                  </h3>
+                  <span style={{ fontSize: '13px', color: '#0071E3', display: 'flex', alignItems: 'center', gap: '6px', wordBreak: 'break-all' }}>
+                    <ExternalLink size={14} />
+                    Visiter le site
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
         </section>
 
