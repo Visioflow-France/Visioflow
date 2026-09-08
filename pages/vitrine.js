@@ -202,7 +202,7 @@ export default function Vitrine() {
     <>
       <Head>
         <title>Exemple site web restaurant — Démo Visioflow | Menu &amp; commandes en ligne</title>
-        <meta name="description" content="Découvrez un exemple concret de site restaurant professionnel créé par Visioflow : menu en ligne, commandes et paiement intégré. Pack Essentiel 150€ ou Premium 490€, livré en 5 jours." />
+        <meta name="description" content="Découvrez un exemple concret de site restaurant professionnel créé par Visioflow : menu en ligne, commandes et paiement intégré. Pack Essentiel 400€ ou Premium 600€, livré en 5 jours." />
         <meta name="keywords" content="exemple site restaurant, démo site web restaurant, site restaurant avec commandes en ligne, modèle site restaurant, aperçu site vitrine restaurant" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -210,14 +210,14 @@ export default function Vitrine() {
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content="Exemple site web restaurant — Démo Visioflow" />
-        <meta property="og:description" content="Découvrez un exemple concret de site restaurant professionnel créé par Visioflow : menu en ligne, commandes et paiement intégré. À partir de 150€." />
+        <meta property="og:description" content="Découvrez un exemple concret de site restaurant professionnel créé par Visioflow : menu en ligne, commandes et paiement intégré. À partir de 400€." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
         <meta property="og:image" content="https://visioflow.fr/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Exemple site web restaurant — Démo Visioflow" />
-        <meta name="twitter:description" content="Découvrez un exemple concret de site restaurant créé par Visioflow. À partir de 150€, livré en 5 jours." />
+        <meta name="twitter:description" content="Découvrez un exemple concret de site restaurant créé par Visioflow. À partir de 400€, livré en 5 jours." />
         <meta name="twitter:image" content="https://visioflow.fr/og-image.png" />
         <script
           type="application/ld+json"

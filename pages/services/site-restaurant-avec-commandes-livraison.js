@@ -7,15 +7,15 @@ export default function ServiceCommandesLigne() {
   return (
     <>
       <Head>
-        <title>Site Restaurant avec Commandes en Ligne | Pack Premium 490€</title>
+        <title>Site Restaurant avec Commandes en Ligne | Pack Premium 600€</title>
         <meta
           name="description"
-          content="VisioFlow crée votre site restaurant avec commandes en ligne, panier et paiement intégré. Pack Premium 490€, livré en quelques semaines. Sans abonnement, hébergement à vie inclus."
+          content="VisioFlow crée votre site restaurant avec commandes en ligne, panier et paiement intégré. Pack Premium 600€, livré en quelques semaines. Sans abonnement, hébergement à vie inclus."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Site Restaurant avec Commandes en Ligne | Pack Premium 490€" />
-        <meta property="og:description" content="VisioFlow crée votre site restaurant avec commandes en ligne, panier et paiement intégré. Pack Premium 490€, livré en quelques semaines. Sans abonnement, hébergement à vie inclus." />
+        <meta property="og:title" content="Site Restaurant avec Commandes en Ligne | Pack Premium 600€" />
+        <meta property="og:description" content="VisioFlow crée votre site restaurant avec commandes en ligne, panier et paiement intégré. Pack Premium 600€, livré en quelques semaines. Sans abonnement, hébergement à vie inclus." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
@@ -149,7 +149,7 @@ export default function ServiceCommandesLigne() {
             Acceptez les commandes directement sur votre site web. Panier fonctionnel,
             paiement sécurisé, gestion des commandes via panel admin. Livré en quelques semaines.
           </p>
-          <div className="hero-price">490€ <span>/ unique</span></div>
+          <div className="hero-price">600€ <span>/ unique</span></div>
           <div className="platforms">
             <div className="platform-badge">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/></svg>
@@ -272,7 +272,7 @@ export default function ServiceCommandesLigne() {
               <div className="step-number">1</div>
               <h3 className="step-title">Choisissez le Pack Premium</h3>
               <p className="step-desc">
-                Sélectionnez le Pack Premium pour 490€. Paiement unique, sans abonnement.
+                Sélectionnez le Pack Premium pour 600€. Paiement unique, sans abonnement.
                 Inclut toutes les fonctionnalités de commandes en ligne.
               </p>
             </div>
@@ -308,7 +308,7 @@ export default function ServiceCommandesLigne() {
       <div className="cta">
         <h2>Prêt à accepter les commandes en ligne ?</h2>
         <p>
-          Pack Premium à 490€, livré en quelques semaines. Sans abonnement, hébergement à vie inclus.
+          Pack Premium à 600€, livré en quelques semaines. Sans abonnement, hébergement à vie inclus.
           Augmentez votre chiffre d'affaires avec les commandes en ligne.
         </p>
         <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>

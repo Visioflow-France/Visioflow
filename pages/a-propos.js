@@ -124,9 +124,10 @@ export default function About() {
               <div className="vf2-card" style={{ padding: '40px' }}>
                 <h3 className="vf2-h3" style={{ marginBottom: '20px' }}>Notre Mission</h3>
                 <p className="vf2-text">
-                  Rendre la création de sites web accessible à tous, avec des tarifs transparents,
-                  une livraison rapide et un accompagnement personnalisé. Pas de jargon, pas de
-                  surprises — juste des résultats concrets.
+                  Rendre la création de sites web accessible à tous, avec des tarifs transparents
+                  (sites dès 400€, référencement Google inclus), une livraison rapide et un
+                  accompagnement personnalisé. Pas de jargon, pas de surprises — juste des
+                  résultats concrets, et un site que nous ajustons jusqu&apos;à votre satisfaction totale.
                 </p>
 
                 <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(0, 113, 227, 0.1)' }}>

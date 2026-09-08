@@ -7,15 +7,15 @@ export default function ServiceSiteVitrine() {
   return (
     <>
       <Head>
-        <title>Création Site Vitrine Restaurant | VisioFlow 150€ - Sans Abonnement</title>
+        <title>Création Site Vitrine Restaurant | VisioFlow 400€ - Sans Abonnement</title>
         <meta
           name="description"
-          content="VisioFlow crée votre site vitrine restaurant professionnel en quelques semaines. Menu digital, horaires, photos, responsive mobile. Pack Essentiel 150€ sans abonnement, hébergement à vie inclus."
+          content="VisioFlow crée votre site vitrine restaurant professionnel en quelques semaines. Menu digital, horaires, photos, responsive mobile. Pack Essentiel 400€ sans abonnement, hébergement à vie inclus."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Création Site Vitrine Restaurant | VisioFlow 150€ - Sans Abonnement" />
-        <meta property="og:description" content="VisioFlow crée votre site vitrine restaurant professionnel en quelques semaines. Menu digital, horaires, photos, responsive mobile. Pack Essentiel 150€ sans abonnement, hébergement à vie inclus." />
+        <meta property="og:title" content="Création Site Vitrine Restaurant | VisioFlow 400€ - Sans Abonnement" />
+        <meta property="og:description" content="VisioFlow crée votre site vitrine restaurant professionnel en quelques semaines. Menu digital, horaires, photos, responsive mobile. Pack Essentiel 400€ sans abonnement, hébergement à vie inclus." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
@@ -171,7 +171,7 @@ export default function ServiceSiteVitrine() {
             Présentez votre restaurant avec un site web moderne, élégant et fonctionnel.
             Menu digital, horaires, photos et contact. Sans abonnement, hébergement à vie inclus.
           </p>
-          <div className="hero-price">150€ <span>/ unique</span></div>
+          <div className="hero-price">400€ <span>/ unique</span></div>
           <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap',marginTop:'32px'}}>
             <Link href="/paiement?pack=essentiel" style={{padding:'16px 40px',borderRadius:'50px',background:'#0071E3',color:'#fff',fontSize:'16px',fontWeight:700,textDecoration:'none',transition:'all .3s'}}>
               Créer mon site
@@ -280,7 +280,7 @@ export default function ServiceSiteVitrine() {
               <div className="step-number">1</div>
               <h3 className="step-title">Choisissez le Pack Essentiel</h3>
               <p className="step-desc">
-                Sélectionnez le Pack Essentiel pour 150€. Paiement unique, sans abonnement.
+                Sélectionnez le Pack Essentiel pour 400€. Paiement unique, sans abonnement.
                 Sécurisé via Stripe, acceptant toutes les cartes bancaires.
               </p>
             </div>
@@ -322,7 +322,7 @@ export default function ServiceSiteVitrine() {
               <div className="comparison-list">
                 <div className="comparison-item check">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  Prix unique 150€
+                  Prix unique 400€
                 </div>
                 <div className="comparison-item check">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -386,7 +386,7 @@ export default function ServiceSiteVitrine() {
       <div className="cta">
         <h2>Prêt à créer votre site vitrine restaurant ?</h2>
         <p>
-          Pack Essentiel à 150€, livré en quelques semaines. Sans abonnement, hébergement à vie inclus.
+          Pack Essentiel à 400€, livré en quelques semaines. Sans abonnement, hébergement à vie inclus.
           Rejoignez les 150+ restaurateurs qui nous font confiance.
         </p>
         <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>

@@ -7,15 +7,15 @@ export default function ServiceParis() {
   return (
     <>
       <Head>
-        <title>Création Site Web Restaurant Paris | VisioFlow 150€-490€ | Livré en quelques semaines</title>
+        <title>Création Site Web Restaurant Paris | VisioFlow 400€-600€ | Livré en quelques semaines</title>
         <meta
           name="description"
-          content="VisioFlow crée votre site web restaurant à Paris en quelques semaines. Pack Essentiel 150€ ou Premium 490€. Sans abonnement, hébergement à vie inclus. Spécialiste restauration parisienne."
+          content="VisioFlow crée votre site web restaurant à Paris en quelques semaines. Pack Essentiel 400€ ou Premium 600€. Sans abonnement, hébergement à vie inclus. Spécialiste restauration parisienne."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Création Site Web Restaurant Paris | VisioFlow 150€-490€ | Livré en quelques semaines" />
-        <meta property="og:description" content="VisioFlow crée votre site web restaurant à Paris en quelques semaines. Pack Essentiel 150€ ou Premium 490€. Sans abonnement, hébergement à vie inclus. Spécialiste restauration parisienne." />
+        <meta property="og:title" content="Création Site Web Restaurant Paris | VisioFlow 400€-600€ | Livré en quelques semaines" />
+        <meta property="og:description" content="VisioFlow crée votre site web restaurant à Paris en quelques semaines. Pack Essentiel 400€ ou Premium 600€. Sans abonnement, hébergement à vie inclus. Spécialiste restauration parisienne." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
@@ -295,7 +295,7 @@ export default function ServiceParis() {
         <h2>Restaurant à Paris ? Votre site en quelques semaines</h2>
         <p>
           Spécialiste de la restauration parisienne depuis 2025. 150+ restaurants accompagnés.
-          Pack Essentiel 150€ ou Premium 490€. Sans abonnement.
+          Pack Essentiel 400€ ou Premium 600€. Sans abonnement.
         </p>
         <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>
           <Link href="/paiement?pack=premium" className="cta-btn">

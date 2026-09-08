@@ -597,13 +597,13 @@ const VFA_CLIENTS=[
 ];
 
 const VFA_ORDERS=[
-  {id:'VF-2026-007',client:'Chez Marcel',pack:'premium',amount:'490€',payment:'Stripe',date:'03/04/2026'},
-  {id:'VF-2026-006',client:'Le Comptoir Libanais',pack:'premium',amount:'490€',payment:'Stripe',date:'02/04/2026'},
-  {id:'VF-2026-005',client:'Pizza Roma',pack:'premium',amount:'490€',payment:'PayPal',date:'01/04/2026'},
-  {id:'VF-2026-004',client:'Le Petit Bistrot',pack:'premium',amount:'490€',payment:'Stripe',date:'28/03/2026'},
-  {id:'VF-2026-003',client:'Sushi Zen',pack:'essentiel',amount:'150€',payment:'Stripe',date:'25/03/2026'},
-  {id:'VF-2026-002',client:'Burger Factory',pack:'premium',amount:'490€',payment:'Apple Pay',date:'15/03/2026'},
-  {id:'VF-2026-001',client:'Thai Garden',pack:'essentiel',amount:'150€',payment:'Stripe',date:'10/03/2026'},
+  {id:'VF-2026-007',client:'Chez Marcel',pack:'premium',amount:'600€',payment:'Stripe',date:'03/04/2026'},
+  {id:'VF-2026-006',client:'Le Comptoir Libanais',pack:'premium',amount:'600€',payment:'Stripe',date:'02/04/2026'},
+  {id:'VF-2026-005',client:'Pizza Roma',pack:'premium',amount:'600€',payment:'PayPal',date:'01/04/2026'},
+  {id:'VF-2026-004',client:'Le Petit Bistrot',pack:'premium',amount:'600€',payment:'Stripe',date:'28/03/2026'},
+  {id:'VF-2026-003',client:'Sushi Zen',pack:'essentiel',amount:'400€',payment:'Stripe',date:'25/03/2026'},
+  {id:'VF-2026-002',client:'Burger Factory',pack:'premium',amount:'600€',payment:'Apple Pay',date:'15/03/2026'},
+  {id:'VF-2026-001',client:'Thai Garden',pack:'essentiel',amount:'400€',payment:'Stripe',date:'10/03/2026'},
 ];
 
 const VFA_FORMS=[
@@ -684,8 +684,8 @@ window.setCity=function(i,field,val){
 function setFormPack(pack){
   formPack=pack;
   const info={
-    essentiel:{name:'Pack Essentiel',price:(PACKS.essentiel&&PACKS.essentiel.price)||'150€',col:'#6B7280'},
-    premium:  {name:'Pack Premium',  price:(PACKS.premium&&PACKS.premium.price)||'490€',    col:'#0071E3'}
+    essentiel:{name:'Pack Essentiel',price:(PACKS.essentiel&&PACKS.essentiel.price)||'400€',col:'#6B7280'},
+    premium:  {name:'Pack Premium',  price:(PACKS.premium&&PACKS.premium.price)||'600€',    col:'#0071E3'}
   };
   const p=info[pack];
   const dot=document.getElementById('form-pack-dot');
@@ -1703,8 +1703,8 @@ window.goToForm = function(pack){
   var nav=document.getElementById('mainNav');
   if(nav) nav.classList.remove('light-nav');
   var info={
-    essentiel:{name:'Pack Essentiel',price:(typeof PACKS!=='undefined'&&PACKS.essentiel&&PACKS.essentiel.price)||'150€',col:'#6B7280'},
-    premium:  {name:'Pack Premium',  price:(typeof PACKS!=='undefined'&&PACKS.premium&&PACKS.premium.price)||'490€',    col:'#0071E3'}
+    essentiel:{name:'Pack Essentiel',price:(typeof PACKS!=='undefined'&&PACKS.essentiel&&PACKS.essentiel.price)||'400€',col:'#6B7280'},
+    premium:  {name:'Pack Premium',  price:(typeof PACKS!=='undefined'&&PACKS.premium&&PACKS.premium.price)||'600€',    col:'#0071E3'}
   };
   var p=info[pack]||info.essentiel;
   var dot=document.getElementById('form-pack-dot');
@@ -5141,7 +5141,7 @@ window.goHomePack = function(pack){
                   "name": "VisioFlow",
                   "url": "https://visioflow.fr",
                   "logo": "https://visioflow.fr/logo.png",
-                  "description": "Agence web spécialisée dans la création de sites professionnels pour restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus, à partir de 150€.",
+                  "description": "Agence web spécialisée dans la création de sites professionnels pour restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus, à partir de 400€.",
                   "foundingDate": "2024",
                   "contactPoint": {
                     "@type": "ContactPoint",
@@ -5156,7 +5156,7 @@ window.goHomePack = function(pack){
                   "@id": "https://visioflow.fr/#website",
                   "url": "https://visioflow.fr",
                   "name": "VisioFlow",
-                  "description": "Création de sites web professionnels pour restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus. À partir de 150€, livré en 5 jours.",
+                  "description": "Création de sites web professionnels pour restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus. À partir de 400€, livré en 5 jours.",
                   "publisher": {
                     "@id": "https://visioflow.fr/#organization"
                   },

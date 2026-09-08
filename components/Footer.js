@@ -10,8 +10,9 @@ export default function Footer() {
               Visio<span>flow</span>
             </div>
             <p className="footer-description">
-              Agence web & communication digitale. Sites web, Google Business,
-              et gestion réseaux sociaux pour tous types d'activités.
+              Agence web & communication digitale. Sites web dès 400€ avec référencement
+              Google inclus, Google Business, et gestion réseaux sociaux pour tous types
+              d&apos;activités. Nous modifions votre site jusqu&apos;à votre satisfaction totale.
               Estimation gratuite sans engagement.
             </p>
             <div className="footer-social">

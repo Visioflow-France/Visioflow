@@ -10,6 +10,8 @@ const fmtMoney = (n) => `${Math.round(n).toLocaleString('fr-FR')} €`;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const digits = (s) => String(s || '').replace(/\D/g, '').length;
 
+const SITE_LABELS = { vitrine: 'Site vitrine', ecommerce: 'Boutique e-commerce', aucun: 'Autre' };
+
 function estimateText(estimate) {
   if (!estimate || estimate.custom) return 'Sur devis (besoin spécifique)';
   let txt = `${estimate.oneLow} — ${estimate.oneHigh} €`;
@@ -42,8 +44,9 @@ async function sendAdminEmail(data) {
         ${row('Client', esc(`${form.firstName} ${form.lastName}`.trim()))}
         ${row('Téléphone', esc(form.phone))}
         ${row('Email', esc(form.email))}
-        ${row('Type de site', esc(form.siteType))}
-        ${row('Options', esc((form.options || []).join(', ')) || '<em>aucune</em>')}
+        ${row('Type de site', esc(SITE_LABELS[form.siteType] || form.siteType))}
+        ${row('Options site', esc((form.options || []).join(', ')) || '<em>aucune</em>')}
+        ${row('Google Business', form.googleBusiness ? `Oui${(form.gbOptions || []).length ? ` — ${form.gbOptions.join(', ')}` : ''}` : 'Non')}
         ${row('Réseaux sociaux', form.networks ? `Oui — ${(form.platforms || []).join(', ') || 'plateforme à définir'}${form.videos ? ' + vidéos' : ''}` : 'Non')}
         ${row('Urgent', form.urgent ? 'Oui (+10%)' : 'Non')}
         ${row('Détecté auto', esc((detected || []).join(', ')) || '—')}

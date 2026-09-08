@@ -11,7 +11,7 @@ export default function CommentCaMarchePage() {
       number: '1',
       icon: Clock,
       title: 'Estimation en 30 secondes',
-      description: 'Remplissez notre formulaire et obtenez une estimation automatique gratuite de votre projet. Sans engagement.',
+      description: 'Remplissez le formulaire et voyez votre prix se calculer en direct, avant même d\u2019envoyer votre demande. Gratuit et sans engagement.',
       duration: '30 secondes',
     },
     {
@@ -25,14 +25,14 @@ export default function CommentCaMarchePage() {
       number: '3',
       icon: Rocket,
       title: 'Réalisation rapide',
-      description: 'Votre site entre en production. Design, développement, optimisation SEO — tout est pris en charge.',
+      description: 'Votre site entre en production. Design, développement, et référencement Google inclus — tout est pris en charge.',
       duration: 'quelques semaines',
     },
     {
       number: '4',
       icon: CheckCircle,
       title: 'Livraison & Support',
-      description: 'Votre site est en ligne. Formation incluse et support réactif pour vous accompagner dans votre succès digital.',
+      description: 'Votre site est en ligne. Tant que vous n\u2019êtes pas totalement satisfait du rendu final, nous continuons de le modifier. Formation incluse et support réactif.',
       duration: 'Suivi illimité',
     },
   ];
@@ -40,11 +40,19 @@ export default function CommentCaMarchePage() {
   const faqs = [
     {
       question: 'L\'estimation est-elle vraiment gratuite ?',
-      answer: 'Oui, 100% gratuit. Remplissez le formulaire et recevez une estimation immédiate sans aucun engagement de votre part.',
+      answer: 'Oui, 100% gratuit. Remplissez le formulaire et voyez votre prix indicatif s\'afficher en direct, avant même l\'envoi, sans aucun engagement de votre part.',
     },
     {
       question: 'Combien de temps pour avoir mon site ?',
       answer: 'En moyenne quelques semaines après validation du projet. Les délais varient selon la complexité de votre projet.',
+    },
+    {
+      question: 'Le référencement Google est-il inclus ?',
+      answer: 'Oui : le référencement Google est inclus avec chaque site internet que nous créons. Votre site est optimisé pour être visible sur Google dès la mise en ligne.',
+    },
+    {
+      question: 'Et si le rendu final ne me plaît pas ?',
+      answer: 'Tant que vous n\'êtes pas totalement satisfait du rendu final de votre site, nous continuons de le modifier — sans frais supplémentaires. Votre satisfaction est notre priorité.',
     },
     {
       question: 'Puis-je modifier mon site après la livraison ?',

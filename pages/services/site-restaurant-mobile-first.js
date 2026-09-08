@@ -10,12 +10,12 @@ export default function ServiceMobileFirst() {
         <title>Site Restaurant Mobile First | Responsive Design | VisioFlow</title>
         <meta
           name="description"
-          content="VisioFlow crée des sites web restaurants mobile-first, parfaitement optimisés pour smartphones et tablettes. 70% de vos clients recherchent sur mobile. Pack Essentiel 150€ ou Premium 490€."
+          content="VisioFlow crée des sites web restaurants mobile-first, parfaitement optimisés pour smartphones et tablettes. 70% de vos clients recherchent sur mobile. Pack Essentiel 400€ ou Premium 600€."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content="Site Restaurant Mobile First | Responsive Design | VisioFlow" />
-        <meta property="og:description" content="VisioFlow crée des sites web restaurants mobile-first, parfaitement optimisés pour smartphones et tablettes. 70% de vos clients recherchent sur mobile. Pack Essentiel 150€ ou Premium 490€." />
+        <meta property="og:description" content="VisioFlow crée des sites web restaurants mobile-first, parfaitement optimisés pour smartphones et tablettes. 70% de vos clients recherchent sur mobile. Pack Essentiel 400€ ou Premium 600€." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
@@ -225,7 +225,7 @@ export default function ServiceMobileFirst() {
       <div className="cta">
         <h2>Prêt pour le mobile-first ?</h2>
         <p>
-          Tous nos sites sont optimisés mobile par défaut. Pack Essentiel 150€ ou Premium 490€.
+          Tous nos sites sont optimisés mobile par défaut. Pack Essentiel 400€ ou Premium 600€.
           Livré en quelques semaines. Testez sur votre smartphone maintenant.
         </p>
         <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>

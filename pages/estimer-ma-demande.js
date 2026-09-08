@@ -4,24 +4,29 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import {
   Globe, Smartphone, MapPin, Check, Loader2, Rocket, Sparkles,
-  RefreshCw, Calculator, Clock, Zap,
+  RefreshCw, Calculator, Clock, Zap, SearchCheck, HeartHandshake, Send,
 } from 'lucide-react';
 
-/* ── Grille de prix (cohérente avec la page /services) ────────────────────── */
+/* ── Grille de prix (cohérente avec la page /services) ──────────────────────
+   Site vitrine : à partir de 400 € (strict minimum)
+   Boutique e-commerce : à partir de 600 €
+   Google Business : 50–100 €  ·  Réseaux sociaux : 100–200 €/mois          */
 const SITE_TYPES = [
-  { id: 'compact',   label: 'Site vitrine compact', desc: '1 à 3 pages — l\u2019essentiel pour être visible', price: 200 },
-  { id: 'complet',   label: 'Site vitrine complet', desc: '4 à 6 pages — votre référence en ligne',          price: 400 },
-  { id: 'ecommerce', label: 'Boutique e-commerce',  desc: 'Vente en ligne, panier & paiement',               price: 650 },
-  { id: 'aucun',     label: 'Pas de site',          desc: 'Un autre besoin (réseaux, Google Business…)',     price: 0 },
+  { id: 'vitrine',   label: 'Site vitrine',        desc: 'Votre présence de référence en ligne, à votre image', price: 400 },
+  { id: 'ecommerce', label: 'Boutique e-commerce', desc: 'Vente en ligne, panier & paiement',                    price: 600 },
+  { id: 'aucun',     label: 'Autre',               desc: 'Un autre besoin — décrivez-le à l\u2019étape suivante', price: 0 },
 ];
 
 const OPTIONS = [
-  { id: 'rdv',       label: 'Prise de rendez-vous en ligne', price: 80 },
-  { id: 'blog',      label: 'Blog / espace actualités',      price: 60 },
-  { id: 'multilingue', label: 'Site multilingue',            price: 100 },
-  { id: 'gb-fiche',  label: 'Google Business — optimisation', price: 50 },
-  { id: 'gb-avis',   label: 'Gestion & relance des avis',     price: 25 },
-  { id: 'gb-photos', label: 'Reportage photo (10 visuels)',   price: 25 },
+  { id: 'rdv',         label: 'Prise de rendez-vous en ligne', price: 80 },
+  { id: 'blog',        label: 'Blog / espace actualités',      price: 60 },
+  { id: 'multilingue', label: 'Site multilingue',              price: 100 },
+];
+
+const GB_BASE = 50; // optimisation complète de la fiche Google Business (€)
+const GB_OPTIONS = [
+  { id: 'avis',   label: 'Gestion & relance des avis clients', price: 25 },
+  { id: 'photos', label: 'Reportage photo (10 visuels pro)',    price: 25 },
 ];
 
 const PLATFORMS = [
@@ -39,13 +44,13 @@ const COMBO_MONTHLY = 200;  // abonnement réseaux de l'offre combinée (€/moi
 /* ── Détection automatique dans la description (l'« algorithme ») ─────────── */
 const DETECTION_RULES = [
   { re: /boutique|e-?commerce|vendre|vente en ligne|panier|paiement en ligne/i, kind: 'site', value: 'ecommerce', label: 'Boutique e-commerce' },
-  { re: /site (tr[eè]s )?(simple|basique)|une seule page|one page|petit site/i, kind: 'site', value: 'compact', label: 'Site compact' },
-  { re: /rendez[- ]vous|\brdv\b|r[eé]serv(ation|er)?\b|booking/i,               kind: 'option', value: 'rdv',       label: 'Prise de rendez-vous' },
-  { re: /blog|actualit[eé]s?|articles?/i,                                       kind: 'option', value: 'blog',      label: 'Blog / actualités' },
+  { re: /site (tr[eè]s )?(simple|basique)|site vitrine|one page|petit site|pr[eé]sence en ligne/i, kind: 'site', value: 'vitrine', label: 'Site vitrine' },
+  { re: /rendez[- ]vous|\brdv\b|r[eé]serv(ation|er)?\b|booking/i,               kind: 'option', value: 'rdv',         label: 'Prise de rendez-vous' },
+  { re: /blog|actualit[eé]s?|articles?/i,                                       kind: 'option', value: 'blog',        label: 'Blog / actualités' },
   { re: /multilingue|en anglais|traduction|plusieurs langues/i,                 kind: 'option', value: 'multilingue', label: 'Multilingue' },
-  { re: /google|my business|fiche/i,                                            kind: 'option', value: 'gb-fiche',  label: 'Google Business' },
-  { re: /\bavis\b|t[eé]moignages?/i,                                            kind: 'option', value: 'gb-avis',   label: 'Gestion des avis' },
-  { re: /photos? professionnelles?|photographe|reportage/i,                     kind: 'option', value: 'gb-photos', label: 'Reportage photo' },
+  { re: /google|my business|fiche google/i,                                     kind: 'gb',                         label: 'Google Business' },
+  { re: /\bavis\b|t[eé]moignages?/i,                                            kind: 'gb-option', value: 'avis',     label: 'Gestion des avis' },
+  { re: /photos? professionnelles?|photographe|reportage/i,                     kind: 'gb-option', value: 'photos',   label: 'Reportage photo' },
   { re: /r[eé]seaux|community|community management|abonnement mensuel|publications? r[eé]guli[eè]res/i, kind: 'networks', label: 'Réseaux sociaux' },
   { re: /instagram|insta\b|facebook|tiktok/i,                                   kind: 'networks', label: 'Réseaux sociaux' },
   { re: /vid[eé]os?|reels?/i,                                                   kind: 'video',  label: 'Vidéos courtes' },
@@ -66,8 +71,10 @@ const EMPTY_FORM = {
   lastName: '',
   phone: '',
   email: '',
-  siteType: 'complet',
+  siteType: 'vitrine',
   options: [],
+  googleBusiness: false,
+  gbOptions: [],
   networks: false,
   platforms: [],
   videos: false,
@@ -77,7 +84,7 @@ const EMPTY_FORM = {
 
 /* ── Estimation ────────────────────────────────────────────────────────────── */
 function computeEstimate(f) {
-  const site = SITE_TYPES.find((s) => s.id === f.siteType) || SITE_TYPES[1];
+  const site = SITE_TYPES.find((s) => s.id === f.siteType) || SITE_TYPES[0];
   const hasSite = f.siteType !== 'aucun';
   const combined = f.networks && hasSite;
 
@@ -85,6 +92,12 @@ function computeEstimate(f) {
   if (hasSite) lines.push({ label: site.label, price: site.price });
   OPTIONS.filter((o) => f.options.includes(o.id))
     .forEach((o) => lines.push({ label: o.label, price: o.price }));
+
+  if (f.googleBusiness) {
+    lines.push({ label: 'Google Business — optimisation complète de la fiche', price: GB_BASE });
+    GB_OPTIONS.filter((o) => f.gbOptions.includes(o.id))
+      .forEach((o) => lines.push({ label: o.label, price: o.price }));
+  }
 
   let oneLow = lines.reduce((s, l) => s + l.price, 0);
 
@@ -123,7 +136,7 @@ function computeEstimate(f) {
     monthly,
     monthlyHigh: round10(monthly),
     combined,
-    custom: !hasSite && !f.networks && f.options.length === 0,
+    custom: !hasSite && !f.googleBusiness && !f.networks,
   };
 }
 
@@ -161,6 +174,16 @@ export default function EstimerMaDemandePage() {
       } else if (rule.kind === 'option') {
         if (!next.options.includes(rule.value)) {
           next.options = [...next.options, rule.value];
+          added.push(rule.label);
+        }
+      } else if (rule.kind === 'gb') {
+        if (!next.googleBusiness) {
+          next.googleBusiness = true;
+          added.push(rule.label);
+        }
+      } else if (rule.kind === 'gb-option') {
+        if (!next.gbOptions.includes(rule.value)) {
+          next.gbOptions = [...next.gbOptions, rule.value];
           added.push(rule.label);
         }
       } else if (rule.kind === 'networks') {
@@ -238,19 +261,72 @@ export default function EstimerMaDemandePage() {
 
   const money = (n) => `${n.toLocaleString('fr-FR')} €`;
 
+  /* Bloc prix réutilisé : affiché en direct dans le formulaire PUIS après l'envoi */
+  const priceBlock = (
+    <>
+      <div className="vf2-estimate-box">
+        <div className="vf2-estimate-label">Prix indicatif de votre projet</div>
+        {estimate.custom ? (
+          <>
+            <div className="vf2-estimate-total">Sur devis</div>
+            <div className="vf2-estimate-sub">Votre besoin est spécifique — nous vous proposons un chiffrage précis lors de notre premier échange.</div>
+          </>
+        ) : (
+          <>
+            {estimate.oneLow > 0 && (
+              <div className="vf2-estimate-total">
+                {money(estimate.oneLow)} <span className="vf2-estimate-sep">—</span> {money(estimate.oneHigh)}
+              </div>
+            )}
+            {estimate.monthly > 0 && (
+              <div className={estimate.oneLow > 0 ? 'vf2-est-monthly' : 'vf2-estimate-total'}>
+                {estimate.oneLow > 0 && '+ '}{money(estimate.monthly)} / mois
+              </div>
+            )}
+            <div className="vf2-estimate-sub">Fourchette indicative, affinée ensemble par téléphone.</div>
+          </>
+        )}
+      </div>
+
+      {(estimate.lines.length > 0 || estimate.monthlyLines.length > 0) && (
+        <ul className="vf2-estimate-lines">
+          {estimate.lines.map((l, i) => (
+            <li key={`one-${i}`}>
+              <span className="vf2-estimate-line-label">{l.label}</span>
+              <span className="vf2-estimate-line-price">{l.price}€</span>
+            </li>
+          ))}
+          {estimate.monthlyLines.map((l, i) => (
+            <li key={`month-${i}`}>
+              <span className="vf2-estimate-line-label">{l.label}</span>
+              <span className="vf2-estimate-line-price">{l.price}€ /mois</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {estimate.combined && (
+        <div className="vf2-est-combo">
+          <Sparkles size={16} />
+          Offre combinée site + réseaux sociaux : à partir de {money(COMBO_ONE_TIME)} une fois + {money(COMBO_MONTHLY)} par mois.
+        </div>
+      )}
+    </>
+  );
+
   return (
     <>
       <Head>
-        <title>Estimer ma demande — Visioflow | Estimation gratuite de votre projet web</title>
+        <title>Estimer ma demande — Visioflow | Prix immédiat, sites dès 400€</title>
         <meta
           name="description"
-          content="Décrivez votre projet en 1 minute et recevez une estimation gratuite et personnalisée : site vitrine, e-commerce, Google Business, réseaux sociaux."
+          content="Décrivez votre projet en 1 minute et voyez votre prix se calculer en direct avant même l'envoi : site vitrine dès 400€, e-commerce dès 600€ (référencement Google inclus), Google Business, réseaux sociaux."
         />
         <meta name="keywords" content="estimation site web, devis site internet, prix création site, estimateur prix site web, devis réseaux sociaux" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content="Estimer ma demande — Visioflow" />
-        <meta property="og:description" content="Décrivez votre projet, recevez votre estimation en 1 minute. Gratuit et sans engagement." />
+        <meta property="og:description" content="Décrivez votre projet, voyez votre prix en direct avant l'envoi. Sites dès 400€, référencement Google inclus. Gratuit et sans engagement." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
@@ -275,12 +351,13 @@ export default function EstimerMaDemandePage() {
               Estimez votre projet <span className="vf2-serif-italic">en une minute</span>
             </h1>
             <p className="vf2-text">
-              Quelques informations, une petite description, et notre estimateur vous donne
-              un prix indicatif sur mesure. Sans engagement.
+              Quelques informations, une petite description, et notre estimateur calcule
+              votre prix en direct — vous le voyez <strong>avant même d&apos;envoyer</strong> votre
+              demande. Sans engagement.
             </p>
             <div className="vf2-trust-row">
               <div className="vf2-trust-item"><Clock size={20} />1 minute chrono</div>
-              <div className="vf2-trust-item"><Zap size={20} />Prix immédiat</div>
+              <div className="vf2-trust-item"><Zap size={20} />Prix affiché avant l&apos;envoi</div>
               <div className="vf2-trust-item"><Check size={20} />Sans engagement</div>
             </div>
           </div>
@@ -290,78 +367,33 @@ export default function EstimerMaDemandePage() {
         <section className="vf2-section" style={{ paddingTop: '10px' }}>
           <div className="vf2-container" style={{ maxWidth: '780px' }}>
 
-            {phase !== 'form' && phase !== 'sending' ? (
-              /* ── Résultat : le prix est révélé après l'envoi ── */
+            {phase === 'done' ? (
+              /* ── Confirmation : envoi réussi ── */
               <div className="vf2-est-card" ref={resultRef}>
                 <div className="vf2-est-success-icon"><Rocket size={30} /></div>
                 <h2 className="vf2-h3" style={{ marginBottom: '8px', textAlign: 'center' }}>
                   Merci {form.firstName || ''} ! Votre demande est partie.
                 </h2>
                 <p className="vf2-text" style={{ textAlign: 'center' }}>
-                  {phase === 'done' ? (
-                    <>Nous revenons vers vous <strong>sous 24h ouvrées</strong> pour affiner ensemble votre projet.</>
-                  ) : (
-                    <>L&apos;envoi a échoué — votre estimation s&apos;affiche ci-dessous, réessayez l&apos;envoi avec le bouton en bas.</>
-                  )}
+                  Nous revenons vers vous <strong>sous 24h ouvrées</strong> pour affiner ensemble votre
+                  projet — et nous ajusterons votre site <strong>jusqu&apos;à votre satisfaction totale</strong>.
                 </p>
 
-                <div className="vf2-estimate-box">
-                  <div className="vf2-estimate-label">Estimation indicative de votre projet</div>
-                  {estimate.custom ? (
-                    <>
-                      <div className="vf2-estimate-total">Sur devis</div>
-                      <div className="vf2-estimate-sub">Votre besoin est spécifique — nous vous proposons un chiffrage précis lors de notre premier échange.</div>
-                    </>
-                  ) : (
-                    <>
-                      {estimate.oneLow > 0 && (
-                        <div className="vf2-estimate-total">
-                          {money(estimate.oneLow)} <span className="vf2-estimate-sep">—</span> {money(estimate.oneHigh)}
-                        </div>
-                      )}
-                      {estimate.monthly > 0 && (
-                        <div className={estimate.oneLow > 0 ? 'vf2-est-monthly' : 'vf2-estimate-total'}>
-                          {estimate.oneLow > 0 && '+ '}{money(estimate.monthly)} / mois
-                        </div>
-                      )}
-                      <div className="vf2-estimate-sub">Fourchette indicative, affinée ensemble par téléphone.</div>
-                    </>
-                  )}
+                {priceBlock}
+
+                <div className="vf2-est-assurance" style={{ marginTop: '18px' }}>
+                  <div className="vf2-est-assurance-item"><SearchCheck size={18} />Référencement Google inclus avec votre site</div>
+                  <div className="vf2-est-assurance-item"><HeartHandshake size={18} />Modifications jusqu&apos;à satisfaction totale</div>
                 </div>
-
-                {(estimate.lines.length > 0 || estimate.monthlyLines.length > 0) && (
-                  <ul className="vf2-estimate-lines">
-                    {estimate.lines.map((l, i) => (
-                      <li key={`one-${i}`}>
-                        <span className="vf2-estimate-line-label">{l.label}</span>
-                        <span className="vf2-estimate-line-price">{l.price}€</span>
-                      </li>
-                    ))}
-                    {estimate.monthlyLines.map((l, i) => (
-                      <li key={`month-${i}`}>
-                        <span className="vf2-estimate-line-label">{l.label}</span>
-                        <span className="vf2-estimate-line-price">{l.price}€ /mois</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {estimate.combined && (
-                  <div className="vf2-est-combo">
-                    <Sparkles size={16} />
-                    Offre combinée site + réseaux sociaux : à partir de {money(COMBO_ONE_TIME)} une fois + {money(COMBO_MONTHLY)} par mois.
-                  </div>
-                )}
-
-                {phase === 'error' && (
-                  <button type="button" className="vf2-btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: '18px' }} onClick={submit}>
-                    <RefreshCw size={18} /> Renvoyer ma demande
-                  </button>
-                )}
               </div>
             ) : (
-              /* ── Formulaire court ── */
+              /* ── Formulaire + estimation en direct ── */
               <div className="vf2-est-card">
+                <p className="vf2-wiz-hint" style={{ marginTop: 0 }}>
+                  Les champs marqués <span className="vf2-req">*</span> sont <strong>obligatoires</strong>,
+                  les mentions <span className="vf2-opt">(facultatif)</span> sont à votre guise.
+                </p>
+
                 <div className="vf2-est-section-title">
                   <span className="vf2-est-step-num">1</span>
                   Vos coordonnées
@@ -369,7 +401,7 @@ export default function EstimerMaDemandePage() {
 
                 <div className="vf2-wiz-row">
                   <div className="vf2-form-group">
-                    <label className="vf2-form-label" htmlFor="em-firstname">Prénom <span className="vf2-req">*</span></label>
+                    <label className="vf2-form-label" htmlFor="em-firstname">Prénom <span className="vf2-req">*</span> <span className="vf2-opt">(obligatoire)</span></label>
                     <input
                       id="em-firstname" className="vf2-form-input" placeholder="Ex : Marie"
                       value={form.firstName} onChange={(e) => set('firstName', e.target.value)}
@@ -377,7 +409,7 @@ export default function EstimerMaDemandePage() {
                     {touched && form.firstName.trim().length < 2 && <div className="vf2-field-error">Prénom requis</div>}
                   </div>
                   <div className="vf2-form-group">
-                    <label className="vf2-form-label" htmlFor="em-lastname">Nom <span className="vf2-req">*</span></label>
+                    <label className="vf2-form-label" htmlFor="em-lastname">Nom <span className="vf2-req">*</span> <span className="vf2-opt">(obligatoire)</span></label>
                     <input
                       id="em-lastname" className="vf2-form-input" placeholder="Ex : Dupont"
                       value={form.lastName} onChange={(e) => set('lastName', e.target.value)}
@@ -388,21 +420,21 @@ export default function EstimerMaDemandePage() {
 
                 <div className="vf2-wiz-row">
                   <div className="vf2-form-group">
-                    <label className="vf2-form-label" htmlFor="em-phone">Téléphone</label>
+                    <label className="vf2-form-label" htmlFor="em-phone">Téléphone <span className="vf2-req">*</span> <span className="vf2-opt">(téléphone ou email, au moins un)</span></label>
                     <input
                       id="em-phone" type="tel" className="vf2-form-input" placeholder="06 12 34 56 78"
                       value={form.phone} onChange={(e) => set('phone', e.target.value)}
                     />
                   </div>
                   <div className="vf2-form-group">
-                    <label className="vf2-form-label" htmlFor="em-email">Email</label>
+                    <label className="vf2-form-label" htmlFor="em-email">Email <span className="vf2-req">*</span> <span className="vf2-opt">(téléphone ou email, au moins un)</span></label>
                     <input
                       id="em-email" type="email" className="vf2-form-input" placeholder="marie@entreprise.fr"
                       value={form.email} onChange={(e) => set('email', e.target.value)}
                     />
                   </div>
                 </div>
-                <p className="vf2-wiz-hint">Laissez au moins un téléphone <em>ou</em> un email pour qu&apos;on puisse vous joindre.</p>
+                <p className="vf2-wiz-hint">Obligatoire : laissez au moins un téléphone <em>ou</em> un email pour qu&apos;on puisse vous joindre.</p>
                 {touched && !contactOk && <div className="vf2-field-error">Renseignez un téléphone ou un email valide</div>}
 
                 <div className="vf2-est-section-title">
@@ -411,7 +443,7 @@ export default function EstimerMaDemandePage() {
                 </div>
 
                 <div className="vf2-form-group">
-                  <div className="vf2-form-label"><span className="vf2-req">*</span> Quel type de site souhaitez-vous ?</div>
+                  <div className="vf2-form-label"><span className="vf2-req">*</span> Quel type de site souhaitez-vous ? <span className="vf2-opt">(obligatoire)</span></div>
                   <div className="vf2-choice-grid">
                     {SITE_TYPES.map((t) => (
                       <button
@@ -422,14 +454,15 @@ export default function EstimerMaDemandePage() {
                         <span className="vf2-choice-radio" />
                         <span className="vf2-choice-label">{t.label}</span>
                         <span className="vf2-choice-desc">{t.desc}</span>
-                        <span className="vf2-choice-price">{t.price > 0 ? `${t.price}€` : '—'}</span>
+                        <span className="vf2-choice-price">{t.price > 0 ? `dès ${t.price}€` : '—'}</span>
                       </button>
                     ))}
                   </div>
+                  <p className="vf2-wiz-hint"><SearchCheck size={13} /> Le <strong>référencement Google est inclus</strong> avec le site internet que vous commandez.</p>
                 </div>
 
                 <div className="vf2-form-group">
-                  <div className="vf2-form-label">Options souhaitées <span className="vf2-opt">(facultatif)</span></div>
+                  <div className="vf2-form-label">Options pour votre site <span className="vf2-opt">(facultatif)</span></div>
                   <div className="vf2-chips">
                     {OPTIONS.map((o) => (
                       <button
@@ -446,7 +479,44 @@ export default function EstimerMaDemandePage() {
                 </div>
 
                 <div className="vf2-form-group">
-                  <div className="vf2-form-label">Réseaux sociaux <span className="vf2-opt">(abonnement mensuel)</span></div>
+                  <div className="vf2-form-label">Google Business <span className="vf2-opt">(facultatif)</span></div>
+                  <div className="vf2-chips">
+                    <button
+                      type="button"
+                      className={`vf2-chip ${form.googleBusiness ? 'on' : ''}`}
+                      onClick={() => set('googleBusiness', !form.googleBusiness)}
+                    >
+                      {form.googleBusiness && <Check size={14} strokeWidth={3} />}
+                      <MapPin size={14} style={{ verticalAlign: '-2px', marginRight: '2px' }} />
+                      Optimisation complète de ma fiche Google Business
+                      <span className="vf2-chip-price">dès {GB_BASE}€</span>
+                    </button>
+                  </div>
+
+                  {form.googleBusiness && (
+                    <div className="vf2-est-subpanel">
+                      <div className="vf2-form-label" style={{ marginBottom: '10px' }}>
+                        Compléments Google Business <span className="vf2-opt">(facultatif)</span>
+                      </div>
+                      <div className="vf2-chips">
+                        {GB_OPTIONS.map((o) => (
+                          <button
+                            key={o.id} type="button"
+                            className={`vf2-chip ${form.gbOptions.includes(o.id) ? 'on' : ''}`}
+                            onClick={() => toggleIn('gbOptions', o.id)}
+                          >
+                            {form.gbOptions.includes(o.id) && <Check size={14} strokeWidth={3} />}
+                            {o.label}
+                            <span className="vf2-chip-price">+{o.price}€</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="vf2-form-group">
+                  <div className="vf2-form-label">Réseaux sociaux <span className="vf2-opt">(facultatif — abonnement mensuel)</span></div>
                   <div className="vf2-chips">
                     <button
                       type="button"
@@ -458,21 +528,12 @@ export default function EstimerMaDemandePage() {
                       Gestion de mes réseaux sociaux
                       <span className="vf2-chip-price">dès {NETWORK_BASE}€/mois</span>
                     </button>
-                    <button
-                      type="button"
-                      className={`vf2-chip ${form.urgent ? 'on' : ''}`}
-                      onClick={() => set('urgent', !form.urgent)}
-                    >
-                      {form.urgent && <Check size={14} strokeWidth={3} />}
-                      C&apos;est urgent
-                      <span className="vf2-chip-price">+10%</span>
-                    </button>
                   </div>
 
                   {form.networks && (
                     <div className="vf2-est-subpanel">
                       <div className="vf2-form-label" style={{ marginBottom: '10px' }}>
-                        Plateformes à gérer <span className="vf2-opt">(la 1re incluse, puis +{NETWORK_EXTRA}€/mois chacune)</span>
+                        Plateformes à gérer <span className="vf2-opt">(facultatif — la 1re incluse, puis +{NETWORK_EXTRA}€/mois chacune)</span>
                       </div>
                       <div className="vf2-chips">
                         {PLATFORMS.map((p) => (
@@ -499,6 +560,21 @@ export default function EstimerMaDemandePage() {
                   )}
                 </div>
 
+                <div className="vf2-form-group">
+                  <div className="vf2-form-label">Délai <span className="vf2-opt">(facultatif)</span></div>
+                  <div className="vf2-chips">
+                    <button
+                      type="button"
+                      className={`vf2-chip ${form.urgent ? 'on' : ''}`}
+                      onClick={() => set('urgent', !form.urgent)}
+                    >
+                      {form.urgent && <Check size={14} strokeWidth={3} />}
+                      C&apos;est urgent
+                      <span className="vf2-chip-price">+10%</span>
+                    </button>
+                  </div>
+                </div>
+
                 <div className="vf2-est-section-title">
                   <span className="vf2-est-step-num">3</span>
                   Décrivez votre projet
@@ -506,7 +582,7 @@ export default function EstimerMaDemandePage() {
 
                 <div className="vf2-form-group">
                   <label className="vf2-form-label" htmlFor="em-desc">
-                    Une petite description du travail voulu <span className="vf2-req">*</span>
+                    Une petite description du travail voulu <span className="vf2-req">*</span> <span className="vf2-opt">(obligatoire)</span>
                   </label>
                   <textarea
                     id="em-desc" className="vf2-form-textarea" style={{ minHeight: '110px' }}
@@ -530,9 +606,23 @@ export default function EstimerMaDemandePage() {
                   )}
                 </div>
 
+                {/* ── Estimation en direct : le prix se calcule ici, AVANT l'envoi ── */}
+                <div className="vf2-est-section-title">
+                  <span className="vf2-est-step-num"><Calculator size={14} /></span>
+                  Votre estimation en direct
+                </div>
+
+                {priceBlock}
+
+                <p className="vf2-wiz-hint" style={{ marginTop: '14px' }}>
+                  <SearchCheck size={13} /> Référencement Google <strong>inclus</strong> avec votre site internet ·{' '}
+                  <HeartHandshake size={13} /> Tant que vous n&apos;êtes pas totalement satisfait du rendu final,
+                  nous <strong>continuons de modifier votre site</strong>.
+                </p>
+
                 {phase === 'sending' ? (
                   <button type="button" className="vf2-btn-primary vf2-launch-btn" disabled>
-                    <Loader2 size={18} className="vf2-spin" /> Calcul de votre estimation…
+                    <Loader2 size={18} className="vf2-spin" /> Envoi en cours…
                   </button>
                 ) : (
                   <button
@@ -540,20 +630,29 @@ export default function EstimerMaDemandePage() {
                     className="vf2-btn-primary vf2-launch-btn"
                     onClick={submit}
                   >
-                    <Calculator size={18} /> Recevoir mon estimation
+                    <Send size={18} /> Envoyer ma demande avec cette estimation
                   </button>
                 )}
+
+                {phase === 'error' && (
+                  <div className="vf2-field-error" style={{ textAlign: 'center', marginTop: '10px' }}>
+                    L&apos;envoi a échoué — réessayez dans un instant.
+                  </div>
+                )}
+
                 <p className="vf2-wiz-hint" style={{ textAlign: 'center' }}>
-                  Gratuit et sans engagement — réponse sous 24h ouvrées.
+                  Votre prix est déjà calculé ci-dessus. Envoi gratuit et sans engagement — réponse sous 24h ouvrées.
                 </p>
               </div>
             )}
 
             {/* Rassurance sous le formulaire */}
             <div className="vf2-est-assurance">
-              <div className="vf2-est-assurance-item"><Globe size={18} />Sites 100% adaptables</div>
-              <div className="vf2-est-assurance-item"><MapPin size={18} />Google Business inclus dès 50€</div>
+              <div className="vf2-est-assurance-item"><Globe size={18} />Sites 100% adaptables dès 400€</div>
+              <div className="vf2-est-assurance-item"><SearchCheck size={18} />Référencement Google inclus</div>
+              <div className="vf2-est-assurance-item"><MapPin size={18} />Google Business dès 50€</div>
               <div className="vf2-est-assurance-item"><Smartphone size={18} />Réseaux dès 100€/mois</div>
+              <div className="vf2-est-assurance-item"><HeartHandshake size={18} />Modifications jusqu&apos;à satisfaction totale</div>
             </div>
           </div>
         </section>

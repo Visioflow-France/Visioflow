@@ -10,12 +10,12 @@ export default function BlogComparatifWix() {
         <title>Comparatif VisioFlow vs Wix pour Restaurant | 2025</title>
         <meta
           name="description"
-          content="Comparatif complet VisioFlow vs Wix pour créer un site web restaurant. Prix, délai, fonctionnalités, avantages. VisioFlow 150€ vs Wix 20-40€/mois. Sans abonnement, livré en quelques semaines."
+          content="Comparatif complet VisioFlow vs Wix pour créer un site web restaurant. Prix, délai, fonctionnalités, avantages. VisioFlow 400€ vs Wix 20-40€/mois. Sans abonnement, livré en quelques semaines."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content="Comparatif VisioFlow vs Wix pour Restaurant | 2025" />
-        <meta property="og:description" content="Comparatif complet VisioFlow vs Wix pour créer un site web restaurant. Prix, délai, fonctionnalités, avantages. VisioFlow 150€ vs Wix 20-40€/mois. Sans abonnement, livré en quelques semaines." />
+        <meta property="og:description" content="Comparatif complet VisioFlow vs Wix pour créer un site web restaurant. Prix, délai, fonctionnalités, avantages. VisioFlow 400€ vs Wix 20-40€/mois. Sans abonnement, livré en quelques semaines." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="article" />
         <meta property="og:locale" content="fr_FR" />
@@ -106,7 +106,7 @@ export default function BlogComparatifWix() {
           <tbody>
             <tr>
               <td><strong>Prix initial</strong></td>
-              <td className="winner"><span className="price-highlight">150€</span> (Pack Essentiel)</td>
+              <td className="winner"><span className="price-highlight">400€</span> (Pack Essentiel)</td>
               <td>Gratuit (avec limitations)</td>
             </tr>
             <tr>
@@ -151,7 +151,7 @@ export default function BlogComparatifWix() {
             </tr>
             <tr>
               <td><strong>Coût sur 5 ans</strong></td>
-              <td className="winner"><span className="price-highlight">150-490€</span> unique</td>
+              <td className="winner"><span className="price-highlight">400-600€</span> unique</td>
               <td><span className="highlight">1,200-2,400€</span> (20-40€/mois)</td>
             </tr>
           </tbody>
@@ -163,12 +163,12 @@ export default function BlogComparatifWix() {
           <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:'24px'}}>
             <div>
               <h3 style={{color:'#94a3b8',fontSize:'14px',marginBottom:'8px'}}>VisioFlow Pack Essentiel</h3>
-              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'48px',fontWeight:900,color:'#34d399'}}>150€</div>
+              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'48px',fontWeight:900,color:'#34d399'}}>400€</div>
               <p style={{color:'#64748b',fontSize:'13px',marginTop:'8px'}}>Paiement unique, hébergement à vie inclus</p>
             </div>
             <div>
               <h3 style={{color:'#94a3b8',fontSize:'14px',marginBottom:'8px'}}>VisioFlow Pack Premium</h3>
-              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'48px',fontWeight:900,color:'#34d399'}}>490€</div>
+              <div style={{fontFamily:'Outfit, sans-serif',fontSize:'48px',fontWeight:900,color:'#34d399'}}>600€</div>
               <p style={{color:'#64748b',fontSize:'13px',marginTop:'8px'}}>Paiement unique, commandes en ligne incluses</p>
             </div>
             <div>
@@ -224,7 +224,7 @@ export default function BlogComparatifWix() {
           <h3>Choisissez VisioFlow pour votre restaurant</h3>
           <p>
             Sans abonnement, livré en quelques semaines, spécialiste restauration.
-            Pack Essentiel 150€ ou Premium 490€.
+            Pack Essentiel 400€ ou Premium 600€.
           </p>
           <Link href="/tarifs" className="cta-btn">
             Voir nos tarifs

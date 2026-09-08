@@ -10,12 +10,12 @@ export default function BlogGuideComplet() {
         <title>Guide Complet Création Site Web Restaurant | 10 Étapes 2025</title>
         <meta
           name="description"
-          content="Guide complet pour créer votre site web restaurant en 2025. 10 étapes détaillées, conseils d'experts, erreurs à éviter. Pack Essentiel 150€ ou Premium 490€ sans abonnement."
+          content="Guide complet pour créer votre site web restaurant en 2025. 10 étapes détaillées, conseils d'experts, erreurs à éviter. Pack Essentiel 400€ ou Premium 600€ sans abonnement."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content="Guide Complet Création Site Web Restaurant | 10 Étapes 2025" />
-        <meta property="og:description" content="Guide complet pour créer votre site web restaurant en 2025. 10 étapes détaillées, conseils d'experts, erreurs à éviter. Pack Essentiel 150€ ou Premium 490€ sans abonnement." />
+        <meta property="og:description" content="Guide complet pour créer votre site web restaurant en 2025. 10 étapes détaillées, conseils d'experts, erreurs à éviter. Pack Essentiel 400€ ou Premium 600€ sans abonnement." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="article" />
         <meta property="og:locale" content="fr_FR" />
@@ -73,7 +73,7 @@ export default function BlogGuideComplet() {
                   "name": "Combien coûte un site web pour restaurant ?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Un site web pour restaurant coûte généralement entre 150€ et 490€ chez VisioFlow. Pack Essentiel 150€ pour site vitrine, Pack Premium 490€ pour site avec commandes en ligne. Ces prix sont uniques, sans abonnement, et incluent l'hébergement à vie."
+                    "text": "Un site web pour restaurant coûte généralement entre 400€ et 600€ chez VisioFlow. Pack Essentiel 400€ pour site vitrine, Pack Premium 600€ pour site avec commandes en ligne. Ces prix sont uniques, sans abonnement, et incluent l'hébergement à vie."
                   }
                 },
                 {
@@ -105,7 +105,7 @@ export default function BlogGuideComplet() {
                   "name": "Dois-je payer des frais mensuels pour mon site web restaurant ?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Non, pas nécessairement. Chez VisioFlow, nos packs sont en paiement unique (150€ ou 490€). L'hébergement est inclus à vie, sans abonnement mensuel. Attention : certaines solutions comme Wix ou Squarespace exigent des abonnements mensuels (20-40€/mois) qui coûtent cher sur le long terme."
+                    "text": "Non, pas nécessairement. Chez VisioFlow, nos packs sont en paiement unique (400€ ou 600€). L'hébergement est inclus à vie, sans abonnement mensuel. Attention : certaines solutions comme Wix ou Squarespace exigent des abonnements mensuels (20-40€/mois) qui coûtent cher sur le long terme."
                   }
                 }
               ]
@@ -277,10 +277,10 @@ export default function BlogGuideComplet() {
           </p>
           <h3>Site vitrine vs Site avec commandes en ligne</h3>
           <p>
-            <strong>Site vitrine (Pack Essentiel - 150€)</strong> : Idéal pour présenter votre restaurant, votre menu et vos informations. Simple, rapide, économique. Convient aux restaurants qui reçoivent principalement des clients sur place.
+            <strong>Site vitrine (Pack Essentiel - 400€)</strong> : Idéal pour présenter votre restaurant, votre menu et vos informations. Simple, rapide, économique. Convient aux restaurants qui reçoivent principalement des clients sur place.
           </p>
           <p>
-            <strong>Site avec commandes en ligne (Pack Premium - 490€)</strong> : Ajoute la possibilité d'accepter des commandes directement sur votre site. Panier fonctionnel, paiement sécurisé via Stripe, panel admin pour gérer les commandes. Convient aux restaurants qui livrent ou acceptent les commandes à emporter.
+            <strong>Site avec commandes en ligne (Pack Premium - 600€)</strong> : Ajoute la possibilité d'accepter des commandes directement sur votre site. Panier fonctionnel, paiement sécurisé via Stripe, panel admin pour gérer les commandes. Convient aux restaurants qui livrent ou acceptent les commandes à emporter.
           </p>
 
           {/* Étape 3 */}
@@ -332,14 +332,14 @@ export default function BlogGuideComplet() {
           <ul>
             <li><strong>Faire soi-même (WordPress, Wix, Squarespace)</strong> : Économique (0-50€) mais demande du temps et des compétences techniques. Abonnements mensuels (20-40€).</li>
             <li><strong>Agence web traditionnelle</strong> : Sur mesure (2000-10,000€) mais délai de 2-4 semaines. Souvent des frais mensuels d'hébergement.</li>
-            <li><strong>Solution spécialisée restauration (VisioFlow)</strong> : Adapté à vos besoins (150-490€), livré en quelques semaines, sans abonnement. Hébergement à vie inclus.</li>
+            <li><strong>Solution spécialisée restauration (VisioFlow)</strong> : Adapté à vos besoins (400-600€), livré en quelques semaines, sans abonnement. Hébergement à vie inclus.</li>
           </ul>
 
           {/* CTA */}
           <div className="cta">
             <h3>Prêt à créer votre site web restaurant ?</h3>
             <p>
-              Choisissez entre le Pack Essentiel (150€) ou Premium (490€). Livré en quelques semaines,
+              Choisissez entre le Pack Essentiel (400€) ou Premium (600€). Livré en quelques semaines,
               sans abonnement. Hébergement à vie inclus.
             </p>
             <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>

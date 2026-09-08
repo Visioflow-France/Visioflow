@@ -153,12 +153,12 @@ export default function CGV() {
               <tr>
                 <td><strong>Pack Essentiel</strong></td>
                 <td>Site vitrine professionnel avec menu digital, horaires, photos. Livré en quelques semaines.</td>
-                <td className="price-highlight">150 € HT</td>
+                <td className="price-highlight">400 € HT</td>
               </tr>
               <tr>
                 <td><strong>Pack Premium</strong></td>
                 <td>Site complet avec commandes en ligne, panier, paiement intégré, panel admin. Livré en quelques semaines.</td>
-                <td className="price-highlight">490 € HT</td>
+                <td className="price-highlight">600 € HT</td>
               </tr>
               <tr>
                 <td><strong>Pack Personnalisé</strong></td>

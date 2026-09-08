@@ -7,15 +7,15 @@ export default function ServiceLyon() {
   return (
     <>
       <Head>
-        <title>Création Site Web Restaurant Lyon | VisioFlow 150€-490€ | Livré en quelques semaines</title>
+        <title>Création Site Web Restaurant Lyon | VisioFlow 400€-600€ | Livré en quelques semaines</title>
         <meta
           name="description"
-          content="VisioFlow crée votre site web restaurant à Lyon en quelques semaines. Pack Essentiel 150€ ou Premium 490€. Sans abonnement, hébergement à vie inclus. Spécialiste restauration lyonnaise."
+          content="VisioFlow crée votre site web restaurant à Lyon en quelques semaines. Pack Essentiel 400€ ou Premium 600€. Sans abonnement, hébergement à vie inclus. Spécialiste restauration lyonnaise."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Création Site Web Restaurant Lyon | VisioFlow 150€-490€ | Livré en quelques semaines" />
-        <meta property="og:description" content="VisioFlow crée votre site web restaurant à Lyon en quelques semaines. Pack Essentiel 150€ ou Premium 490€. Sans abonnement, hébergement à vie inclus. Spécialiste restauration lyonnaise." />
+        <meta property="og:title" content="Création Site Web Restaurant Lyon | VisioFlow 400€-600€ | Livré en quelques semaines" />
+        <meta property="og:description" content="VisioFlow crée votre site web restaurant à Lyon en quelques semaines. Pack Essentiel 400€ ou Premium 600€. Sans abonnement, hébergement à vie inclus. Spécialiste restauration lyonnaise." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
@@ -286,7 +286,7 @@ export default function ServiceLyon() {
         <h2>Restaurant à Lyon ? Votre site en quelques semaines</h2>
         <p>
           Spécialiste de la restauration lyonnaise depuis 2025. 60+ restaurants accompagnés.
-          Pack Essentiel 150€ ou Premium 490€. Sans abonnement.
+          Pack Essentiel 400€ ou Premium 600€. Sans abonnement.
         </p>
         <div style={{display:'flex',gap:'16px',justifyContent:'center',flexWrap:'wrap'}}>
           <Link href="/paiement?pack=premium" className="cta-btn">

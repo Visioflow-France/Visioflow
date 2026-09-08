@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import { ShieldCheck, Zap, Star, Globe, Smartphone } from 'lucide-react';
+import { ShieldCheck, Star, Globe, SearchCheck, HeartHandshake } from 'lucide-react';
 
 export default function HomePage() {
   const canonicalUrl = "https://visioflow.fr";
@@ -12,7 +12,7 @@ export default function HomePage() {
         <title>Visioflow — Agence web & communication digitale | Sites web, Google Business, Réseaux sociaux</title>
         <meta
           name="description"
-          content="Visioflow réalise vos projets web et digitaux : sites 100% adaptables (e-commerce, vitrine), gestion Google Business, et réseaux sociaux. Devis gratuit et estimation automatique."
+          content="Visioflow réalise vos projets web et digitaux : sites 100% adaptables dès 400€ (référencement Google inclus), gestion Google Business, et réseaux sociaux. Devis gratuit et estimation automatique."
         />
         <meta name="keywords" content="agence web, création site web, e-commerce, site vitrine, google business, réseaux sociaux, community management, seo local" />
         <link rel="canonical" href={canonicalUrl} />
@@ -45,8 +45,9 @@ export default function HomePage() {
             </h1>
 
             <p className="vf2-text">
-              Sites web 100% adaptables, gestion Google Business, et animation de vos réseaux sociaux.
-              Une approche moderne pour tous types d'activités.
+              Sites web 100% adaptables — référencement Google inclus —, gestion Google Business,
+              et animation de vos réseaux sociaux. Une approche moderne pour tous types d&apos;activités,
+              dès 400€.
             </p>
 
             <div className="vf2-trust-row">
@@ -55,18 +56,25 @@ export default function HomePage() {
                 Devis gratuit
               </div>
               <div className="vf2-trust-item">
-                <Zap size={20} />
-                Sans engagement
+                <SearchCheck size={20} />
+                Référencement Google inclus
+              </div>
+              <div className="vf2-trust-item">
+                <HeartHandshake size={20} />
+                Modifié jusqu&apos;à satisfaction totale
               </div>
               <div className="vf2-trust-item">
                 <Star size={20} />
                 Réponse rapide
               </div>
-              <div className="vf2-trust-item">
-                <Smartphone size={20} />
-                Tous secteurs
-              </div>
             </div>
+
+            <p className="vf2-text" style={{ fontSize: '0.95rem', opacity: 0.75, marginTop: '18px' }}>
+              <HeartHandshake size={15} style={{ verticalAlign: '-2px' }} />{' '}
+              <strong>Notre promesse :</strong> tant que vous n&apos;êtes pas totalement satisfait du rendu
+              final de votre site, nous continuons de le modifier — et le{' '}
+              <strong>référencement Google est inclus</strong> avec chaque site internet que nous créons.
+            </p>
           </div>
         </section>
 
