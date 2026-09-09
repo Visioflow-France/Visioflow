@@ -1,4 +1,64 @@
+import { useEffect, useState } from 'react';
+
+/* Valeurs par défaut — remplacées par la configuration du dashboard admin
+   (collection site_config/main → contact + social) dès qu'elle est chargée. */
+const DEFAULTS = {
+  contact: { email: 'contact@visioflow.fr', phone: '+33611045829' },
+  social: {
+    instagram: 'https://instagram.com/visioflow',
+    linkedin: 'https://linkedin.com/company/visioflow',
+    twitter: 'https://twitter.com/visioflow',
+    facebook: '',
+    tiktok: '',
+  },
+};
+
+function formatPhone(raw) {
+  const d = String(raw || '').replace(/[^\d+]/g, '');
+  const m = d.match(/^\+?(\d{2})(\d)(\d{2})(\d{2})(\d{2})(\d{2})$/);
+  if (!m) return raw;
+  return `+${m[1]} ${m[2]} ${m[3]} ${m[4]} ${m[5]} ${m[6]}`;
+}
+
+const ICONS = {
+  instagram: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+  ),
+  linkedin: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+  ),
+  twitter: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+  ),
+  facebook: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+  ),
+  tiktok: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+  ),
+};
+
 export default function Footer() {
+  const [cfg, setCfg] = useState(DEFAULTS);
+
+  useEffect(() => {
+    fetch('/api/public/config')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d?.contact || d?.social) {
+          setCfg({
+            contact: { ...DEFAULTS.contact, ...(d.contact || {}) },
+            social: { ...DEFAULTS.social, ...(d.social || {}) },
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const phoneDisplay = formatPhone(cfg.contact.phone);
+  const phoneHref = `tel:${String(cfg.contact.phone || '').replace(/\s/g, '')}`;
+  const socialEntries = Object.entries(cfg.social).filter(([, url]) => !!url);
+
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -16,15 +76,11 @@ export default function Footer() {
               Estimation gratuite sans engagement.
             </p>
             <div className="footer-social">
-              <a href="https://instagram.com/visioflow" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              </a>
-              <a href="https://linkedin.com/company/visioflow" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-              </a>
-              <a href="https://twitter.com/visioflow" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
-              </a>
+              {socialEntries.map(([key, url]) => (
+                <a key={key} href={url} target="_blank" rel="noopener noreferrer" aria-label={key}>
+                  {ICONS[key] || null}
+                </a>
+              ))}
             </div>
           </div>
 
@@ -46,7 +102,7 @@ export default function Footer() {
               <a href="/services">Sites Web</a>
               <a href="/services">Google Business</a>
               <a href="/services">Réseaux Sociaux</a>
-              <a href="/contact">Devis gratuit</a>
+              <a href="/estimer-ma-demande">Devis gratuit</a>
             </div>
           </div>
 
@@ -54,9 +110,9 @@ export default function Footer() {
           <div className="footer-col">
             <h4 className="footer-title">Contact</h4>
             <div className="footer-links">
-              <a href="mailto:contact@visioflow.fr">contact@visioflow.fr</a>
-              <a href="tel:+33611045829" className="footer-phone">📞 +33 6 11 04 58 29</a>
-              <a href="/contact">Estimation gratuite</a>
+              <a href={`mailto:${cfg.contact.email}`}>{cfg.contact.email}</a>
+              <a href={phoneHref} className="footer-phone">📞 {phoneDisplay}</a>
+              <a href="/estimer-ma-demande">Estimation gratuite</a>
             </div>
           </div>
         </div>
@@ -149,6 +205,7 @@ export default function Footer() {
         .footer-social {
           display: flex;
           gap: 12px;
+          flex-wrap: wrap;
         }
 
         .footer-social a {
@@ -193,6 +250,7 @@ export default function Footer() {
           font-size: 14px;
           text-decoration: none;
           transition: color 0.2s ease;
+          overflow-wrap: anywhere;
         }
 
         .footer-links a:hover {

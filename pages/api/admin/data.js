@@ -15,11 +15,12 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).end()
 
   try {
-    const [configSnap, subsSnap, formsSnap, projectsSnap] = await Promise.all([
+    const [configSnap, subsSnap, formsSnap, projectsSnap, estimatesSnap] = await Promise.all([
       db.collection('site_config').doc('main').get(),
       db.collection('submissions').orderBy('timestamp', 'desc').limit(200).get(),
       db.collection('form_submissions').orderBy('timestamp', 'desc').limit(200).get(),
       db.collection('projects').orderBy('createdAt', 'desc').limit(200).get(),
+      db.collection('estimate_requests').orderBy('createdAt', 'desc').limit(200).get().catch(() => null),
     ])
 
     const config = configSnap.exists ? configSnap.data() : null
@@ -29,8 +30,10 @@ export default async function handler(req, res) {
     formsSnap.forEach(d => forms.push({ id: d.id, ...d.data() }))
     const projects = []
     projectsSnap.forEach(d => projects.push({ id: d.id, ...d.data() }))
+    const estimates = []
+    if (estimatesSnap) estimatesSnap.forEach(d => estimates.push({ id: d.id, ...d.data() }))
 
-    res.status(200).json({ config, submissions, forms, projects })
+    res.status(200).json({ config, submissions, forms, projects, estimates })
   } catch (e) {
     console.error('admin/data:', e)
     res.status(500).json({ error: e.message })

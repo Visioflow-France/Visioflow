@@ -1600,6 +1600,17 @@
 
 .vf2-estimate-sep { opacity: 0.35; font-weight: 400; padding: 0 4px; }
 
+/* Préfixe « à partir de » du prix total */
+.vf2-estimate-from {
+  display: block;
+  font-size: 0.42em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--vf2-muted);
+  margin-bottom: 2px;
+}
+
 .vf2-estimate-sub { font-size: 13px; opacity: 0.6; margin-top: 6px; color: var(--vf2-ink); }
 
 .vf2-estimate-lines {
@@ -1927,4 +1938,64 @@
 @media (max-width: 600px) {
   .vf2-est-card { padding: 24px 18px 20px; }
   .vf2-est-assurance { gap: 10px 16px; }
+}
+
+/* ── ANTI-DÉBORDEMENT MOBILE ──────────────────────────────────────────────────────
+   Les textes longs ne doivent jamais sortir de leur carte, pilule ou bulle.      */
+.vf2-eyebrow {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+}
+
+.vf2-h1,
+.vf2-h2,
+.vf2-h3,
+.vf2-feature-title,
+.vf2-estimate-total,
+.vf2-estimate-line-label,
+.vf2-choice-label,
+.vf2-choice-desc,
+.vf2-form-label,
+.vf2-field-error,
+.vf2-est-combo,
+.vf2-est-assurance-item,
+.vf2-trust-item {
+  overflow-wrap: anywhere;
+}
+
+.vf2-choice-label,
+.vf2-choice-desc,
+.vf2-estimate-line-label {
+  min-width: 0;
+}
+
+.vf2-est-combo > svg { flex-shrink: 0; }
+
+.vf2-est-assurance-item { min-width: 0; max-width: 100%; }
+
+.vf2-estimate-total { line-height: 1.15; }
+
+@media (max-width: 480px) {
+  .vf2-eyebrow {
+    padding: 7px 14px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  .vf2-estimate-total { font-size: clamp(26px, 8.5vw, 32px); }
+
+  .vf2-est-monthly { font-size: 17px; }
+
+  .vf2-chip {
+    max-width: 100%;
+    padding: 9px 13px;
+    font-size: 12.5px;
+  }
+
+  .vf2-chip-price { white-space: nowrap; }
+
+  .vf2-estimate-line-price { white-space: nowrap; font-size: 13px; }
+
+  .vf2-est-assurance-item { font-size: 12.5px; }
 }

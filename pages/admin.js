@@ -36,6 +36,24 @@ function fmtDate(ts) {
   } catch { return '—' }
 }
 
+const SITE_LABELS = { vitrine: 'Site vitrine', ecommerce: 'Boutique e-commerce', aucun: 'Autre' }
+
+function estimateSummary(est) {
+  if (!est || est.custom) return 'Sur devis'
+  let txt = `à partir de ${est.oneLow} €`
+  if (est.monthly > 0) txt += ` + à partir de ${est.monthly} €/mois`
+  return txt
+}
+
+function estimateTags(f) {
+  const tags = []
+  if (f.siteType && f.siteType !== 'aucun') tags.push(`🌐 ${SITE_LABELS[f.siteType] || f.siteType}`)
+  if (f.googleBusiness) tags.push(`📍 Google Business${(f.gbOptions || []).length ? ` (${f.gbOptions.join(', ')})` : ''}`)
+  if (f.networks) tags.push(`📱 Réseaux${(f.platforms || []).length ? ` : ${(f.platforms || []).join(', ')}` : ''}`)
+  if (f.urgent) tags.push('⚡ Urgent')
+  return tags
+}
+
 function generateAIPrompt(formData) {
   const lines = []
   const timestamp = new Date().toLocaleDateString('fr-FR')
@@ -97,7 +115,6 @@ function generateAIPrompt(formData) {
   lines.push(`- **Responsive** : Mobile-first, parfait sur tous les appareils`)
   lines.push(`- **Accessibilité** : Contrastes, navigation clavier, ARIA`)
   lines.push('')
-
   lines.push(`## 4. STRUCTURE DU SITE`)
   lines.push(`**Pages obligatoires :**`)
   lines.push(`- Page d'accueil (hero, services, avantages, contact)`)
@@ -122,7 +139,6 @@ function generateAIPrompt(formData) {
   lines.push(`- **Animations** : Subtiles, pertinentes, performantes`)
   lines.push(`- **Images** : Optimisées (WebP), lazy loading, placeholders`)
   lines.push('')
-
   lines.push(`## 6. FONCTIONNALITÉS CLÉS`)
   lines.push(`- Navigation fixe avec smooth scroll`)
   lines.push(`- Formulaire contact avec validation`)
@@ -130,7 +146,6 @@ function generateAIPrompt(formData) {
   lines.push(`- Google Maps (si adresse renseignée)`)
   lines.push(`- Analytics (GA4 ou alternative)`)
   lines.push('')
-
   lines.push(`## 7. LIVRABLES ATTENDUS`)
   lines.push(`- Code complet et commenté`)
   lines.push(`- Structure de dossiers organisée`)
@@ -139,7 +154,6 @@ function generateAIPrompt(formData) {
   lines.push(`- Documentation README`)
   lines.push(`- Instructions de déploiement`)
   lines.push('')
-
   lines.push(`## 8. BONNES PRATIQUES`)
   lines.push(`- Code propre (linter, formatting)`)
   lines.push(`- Performance (Lighthouse 90+)`)
@@ -147,7 +161,6 @@ function generateAIPrompt(formData) {
   lines.push(`- Sécurité (sanitization inputs, HTTPS)`)
   lines.push(`- Accessibilité (WCAG 2.1 AA)`)
   lines.push('')
-
   lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
   lines.push(`FIN DU BRIEF — Crée maintenant le site Next.js parfait pour ce client !`)
   lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
@@ -155,16 +168,43 @@ function generateAIPrompt(formData) {
   return lines.join('\n')
 }
 
+/* Valeurs par défaut de la configuration publique (contact + réseaux) */
+const DEFAULT_CONFIG = {
+  contact: { email: 'contact@visioflow.fr', phone: '+33611045829' },
+  social: {
+    instagram: 'https://instagram.com/visioflow',
+    linkedin: 'https://linkedin.com/company/visioflow',
+    twitter: 'https://twitter.com/visioflow',
+    facebook: '',
+    tiktok: '',
+  },
+}
+
+const SOCIAL_FIELDS = [
+  { key: 'instagram', label: 'Instagram', placeholder: 'https://instagram.com/visioflow' },
+  { key: 'facebook', label: 'Facebook', placeholder: 'https://facebook.com/visioflow' },
+  { key: 'tiktok', label: 'TikTok', placeholder: 'https://tiktok.com/@visioflow' },
+  { key: 'linkedin', label: 'LinkedIn', placeholder: 'https://linkedin.com/company/visioflow' },
+  { key: 'twitter', label: 'Twitter / X', placeholder: 'https://x.com/visioflow' },
+]
+
 export default function Dashboard() {
   const [forms, setForms] = useState([])
   const [projects, setProjects] = useState([])
+  const [estimates, setEstimates] = useState([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState('forms')
+  const [activeTab, setActiveTab] = useState('estimates')
   const [selectedForm, setSelectedForm] = useState(null)
   const [generatedPrompt, setGeneratedPrompt] = useState('')
   const [copied, setCopied] = useState(false)
   const [loadError, setLoadError] = useState(null)
   const [diag, setDiag] = useState(null)
+
+  // Configuration publique (contact + réseaux sociaux)
+  const [siteConfig, setSiteConfig] = useState(DEFAULT_CONFIG)
+  const [configSaving, setConfigSaving] = useState(false)
+  const [configSaved, setConfigSaved] = useState(false)
+  const [configError, setConfigError] = useState(null)
 
   // États pour l'ajout de projet
   const [showAddProject, setShowAddProject] = useState(false)
@@ -184,6 +224,13 @@ export default function Dashboard() {
       const data = await adminFetch('/api/admin/data')
       setForms(data?.forms || [])
       setProjects(data?.projects || [])
+      setEstimates(data?.estimates || [])
+      if (data?.config) {
+        setSiteConfig({
+          contact: { ...DEFAULT_CONFIG.contact, ...(data.config.contact || {}) },
+          social: { ...DEFAULT_CONFIG.social, ...(data.config.social || {}) },
+        })
+      }
     } catch (err) {
       console.error('Erreur chargement données:', err)
       setLoadError(err.message)
@@ -226,6 +273,67 @@ export default function Dashboard() {
     } catch (err) {
       console.error('Erreur suppression:', err)
       alert('Erreur lors de la suppression : ' + (err?.message || 'erreur inconnue'))
+    }
+  }
+
+  /* ── Demandes d'estimation ── */
+  const toggleEstimateStatus = async (est) => {
+    const next = est.status === 'contacted' ? 'new' : 'contacted'
+    try {
+      await adminFetch('/api/admin/update', {
+        collection: 'estimate_requests',
+        id: est.id,
+        data: { status: next },
+      })
+      setEstimates(estimates.map(e => e.id === est.id ? { ...e, status: next } : e))
+    } catch (err) {
+      console.error('Erreur statut:', err)
+      alert('Erreur lors de la mise à jour : ' + (err?.message || 'erreur inconnue'))
+    }
+  }
+
+  const handleDeleteEstimate = async (estId) => {
+    if (!confirm('Supprimer cette demande d\'estimation ?')) return
+    try {
+      await adminFetch('/api/admin/delete', { id: estId, collection: 'estimate_requests' })
+      setEstimates(estimates.filter(e => e.id !== estId))
+    } catch (err) {
+      console.error('Erreur suppression estimation:', err)
+      alert('Erreur lors de la suppression : ' + (err?.message || 'erreur inconnue'))
+    }
+  }
+
+  /* ── Configuration publique ── */
+  const setCfg = (section, key, value) =>
+    setSiteConfig(c => ({ ...c, [section]: { ...c[section], [key]: value } }))
+
+  const saveConfig = async () => {
+    setConfigSaving(true)
+    setConfigError(null)
+    setConfigSaved(false)
+    try {
+      const cleanSocial = {}
+      for (const [k, v] of Object.entries(siteConfig.social)) {
+        let url = String(v || '').trim()
+        if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url
+        cleanSocial[k] = url
+      }
+      const cfg = {
+        contact: {
+          email: String(siteConfig.contact.email || '').trim(),
+          phone: String(siteConfig.contact.phone || '').trim(),
+        },
+        social: cleanSocial,
+      }
+      await adminFetch('/api/admin/config', { cfg })
+      setSiteConfig(c => ({ ...c, social: cleanSocial }))
+      setConfigSaved(true)
+      setTimeout(() => setConfigSaved(false), 2500)
+    } catch (err) {
+      console.error('Erreur configuration:', err)
+      setConfigError(err?.message || 'erreur inconnue')
+    } finally {
+      setConfigSaving(false)
     }
   }
 
@@ -278,6 +386,18 @@ export default function Dashboard() {
     }
   }
 
+  const TABS = [
+    { key: 'estimates', label: `📣 Estimations (${estimates.length})` },
+    { key: 'forms', label: `📝 Formulaires (${forms.length})` },
+    { key: 'projects', label: `🚀 Projets (${projects.length})` },
+    { key: 'config', label: '⚙️ Configuration' },
+  ]
+
+  const inputStyle = {
+    width: '100%', padding: '10px 12px', border: '1px solid #e2e8f0',
+    borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box',
+  }
+
   return (
     <>
       <Head>
@@ -290,7 +410,7 @@ export default function Dashboard() {
         <div style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a', margin: 0 }}>Dashboard Visioflow</h1>
-            <p style={{ fontSize: '13px', color: '#64748b', margin: '4px 0 0 0' }}>Formulaires clients & Projets</p>
+            <p style={{ fontSize: '13px', color: '#64748b', margin: '4px 0 0 0' }}>Estimations, formulaires clients, projets & configuration du site</p>
           </div>
           <a href="/" style={{ padding: '8px 16px', background: '#0071E3', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
             ← Retour site
@@ -298,20 +418,17 @@ export default function Dashboard() {
         </div>
 
         {/* Tabs */}
-        <div style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', padding: '0 24px' }}>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            <button
-              onClick={() => setActiveTab('forms')}
-              style={{ padding: '12px 0', background: 'none', border: 'none', borderBottom: activeTab === 'forms' ? '2px solid #0071E3' : '2px solid transparent', color: activeTab === 'forms' ? '#0071E3' : '#64748b', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}
-            >
-              📝 Formulaires ({forms.length})
-            </button>
-            <button
-              onClick={() => setActiveTab('projects')}
-              style={{ padding: '12px 0', background: 'none', border: 'none', borderBottom: activeTab === 'projects' ? '2px solid #0071E3' : '2px solid transparent', color: activeTab === 'projects' ? '#0071E3' : '#64748b', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}
-            >
-              🚀 Projets ({projects.length})
-            </button>
+        <div style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', padding: '0 24px', position: 'sticky', top: 0, zIndex: 20 }}>
+          <div style={{ display: 'flex', gap: '24px', overflowX: 'auto' }}>
+            {TABS.map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                style={{ padding: '12px 0', background: 'none', border: 'none', borderBottom: activeTab === tab.key ? '2px solid #0071E3' : '2px solid transparent', color: activeTab === tab.key ? '#0071E3' : '#64748b', fontSize: '14px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -347,6 +464,171 @@ export default function Dashboard() {
             {loading ? (
               <div style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
                 Chargement...
+              </div>
+            ) : activeTab === 'estimates' ? (
+              /* ── Onglet : demandes d'estimation ── */
+              estimates.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '60px 20px', background: '#fff', borderRadius: '12px', border: '2px dashed #e2e8f0' }}>
+                  <div style={{ fontSize: '48px', marginBottom: '16px' }}>📭</div>
+                  <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#0f172a', marginBottom: '8px' }}>Aucune demande d&apos;estimation</h3>
+                  <p style={{ fontSize: '14px', color: '#64748b' }}>
+                    Les demandes envoyées depuis la page « Estimer ma demande » apparaîtront ici,
+                    avec les coordonnées pour recontacter le client.
+                  </p>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  {estimates.map(est => {
+                    const f = est.form || {}
+                    const contacted = est.status === 'contacted'
+                    return (
+                      <div key={est.id} style={{
+                        background: '#fff',
+                        border: `1px solid ${contacted ? '#bbf7d0' : '#e2e8f0'}`,
+                        borderRadius: '12px',
+                        padding: '20px',
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', gap: '10px', flexWrap: 'wrap' }}>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontSize: '16px', fontWeight: 600, color: '#0f172a', marginBottom: '4px' }}>
+                              {`${f.firstName || ''} ${f.lastName || ''}`.trim() || 'Nom non renseigné'}
+                            </div>
+                            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                              <span style={{ fontSize: '11px', padding: '4px 8px', background: '#f1f5f9', borderRadius: '6px', color: '#64748b', whiteSpace: 'nowrap' }}>
+                                {fmtDate(est.createdAt || est.timestamp)}
+                              </span>
+                              <span style={{ fontSize: '11px', padding: '4px 8px', borderRadius: '6px', fontWeight: 700, whiteSpace: 'nowrap', background: contacted ? '#f0fdf4' : '#fef9c3', color: contacted ? '#15803d' : '#a16207' }}>
+                                {contacted ? '✓ Recontacté' : '● Nouveau'}
+                              </span>
+                            </div>
+                          </div>
+                          <div style={{ fontSize: '15px', fontWeight: 800, color: '#0071E3', whiteSpace: 'nowrap' }}>
+                            {estimateSummary(est.estimate)}
+                          </div>
+                        </div>
+
+                        {/* Coordonnées pour recontacter */}
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '12px' }}>
+                          {f.phone && (
+                            <a href={`tel:${String(f.phone).replace(/\s/g, '')}`} style={{ padding: '7px 14px', background: '#0071E3', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                              📞 {f.phone}
+                            </a>
+                          )}
+                          {f.email && (
+                            <a href={`mailto:${f.email}?subject=${encodeURIComponent('Votre estimation Visioflow')}`} style={{ padding: '7px 14px', background: '#f1f5f9', color: '#0f172a', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                              ✉️ {f.email}
+                            </a>
+                          )}
+                        </div>
+
+                        {/* Détail de la demande */}
+                        {estimateTags(f).length > 0 && (
+                          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '12px' }}>
+                            {estimateTags(f).map((t, i) => (
+                              <span key={i} style={{ fontSize: '11.5px', padding: '4px 10px', background: '#eff6ff', color: '#1e40af', borderRadius: '999px', fontWeight: 600 }}>
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {f.description && (
+                          <div style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.55, marginBottom: '12px', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                            {f.description}
+                          </div>
+                        )}
+
+                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                          <button
+                            onClick={() => toggleEstimateStatus(est)}
+                            style={{ padding: '6px 12px', background: contacted ? '#f1f5f9' : '#dcfce7', color: contacted ? '#64748b' : '#15803d', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                          >
+                            {contacted ? '↩ Marquer non traité' : '✓ Marquer recontacté'}
+                          </button>
+                          <button
+                            onClick={() => handleDeleteEstimate(est.id)}
+                            style={{ padding: '6px 12px', background: '#fee2e2', color: '#dc2626', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                          >
+                            🗑
+                          </button>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            ) : activeTab === 'config' ? (
+              /* ── Onglet : configuration du site (contact + réseaux) ── */
+              <div style={{ maxWidth: '640px' }}>
+                <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '24px', marginBottom: '20px' }}>
+                  <h2 style={{ fontSize: '17px', fontWeight: 700, color: '#0f172a', margin: '0 0 4px 0' }}>Informations de contact</h2>
+                  <p style={{ fontSize: '13px', color: '#64748b', margin: '0 0 18px 0' }}>
+                    Affichées sur la page Contact et dans le pied de page du site.
+                  </p>
+
+                  <div style={{ display: 'grid', gap: '16px' }}>
+                    <div>
+                      <label style={{ fontSize: '13px', fontWeight: 600, color: '#0f172a', marginBottom: '4px', display: 'block' }}>Email de contact</label>
+                      <input
+                        type="email"
+                        value={siteConfig.contact.email}
+                        onChange={(e) => setCfg('contact', 'email', e.target.value)}
+                        placeholder="contact@visioflow.fr"
+                        style={inputStyle}
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '13px', fontWeight: 600, color: '#0f172a', marginBottom: '4px', display: 'block' }}>Téléphone</label>
+                      <input
+                        type="tel"
+                        value={siteConfig.contact.phone}
+                        onChange={(e) => setCfg('contact', 'phone', e.target.value)}
+                        placeholder="+33 6 11 04 58 29"
+                        style={inputStyle}
+                      />
+                      <p style={{ fontSize: '12px', color: '#94a3b8', margin: '6px 0 0 0' }}>
+                        Format international recommandé (ex : +33611045829) pour que les liens d&apos;appel fonctionnent.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '24px', marginBottom: '20px' }}>
+                  <h2 style={{ fontSize: '17px', fontWeight: 700, color: '#0f172a', margin: '0 0 4px 0' }}>Réseaux sociaux</h2>
+                  <p style={{ fontSize: '13px', color: '#64748b', margin: '0 0 18px 0' }}>
+                    Laissez un champ vide pour masquer le réseau correspondant sur le site.
+                  </p>
+
+                  <div style={{ display: 'grid', gap: '14px' }}>
+                    {SOCIAL_FIELDS.map(field => (
+                      <div key={field.key}>
+                        <label style={{ fontSize: '13px', fontWeight: 600, color: '#0f172a', marginBottom: '4px', display: 'block' }}>{field.label}</label>
+                        <input
+                          type="url"
+                          value={siteConfig.social[field.key]}
+                          onChange={(e) => setCfg('social', field.key, e.target.value)}
+                          placeholder={field.placeholder}
+                          style={inputStyle}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {configError && (
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '12px 16px', marginBottom: '16px', fontSize: '13px', color: '#b91c1c' }}>
+                    {configError}
+                  </div>
+                )}
+
+                <button
+                  onClick={saveConfig}
+                  disabled={configSaving}
+                  style={{ padding: '11px 22px', background: configSaved ? '#10b981' : '#0071E3', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 700, cursor: configSaving ? 'wait' : 'pointer', opacity: configSaving ? 0.7 : 1 }}
+                >
+                  {configSaving ? 'Enregistrement…' : configSaved ? '✓ Enregistré !' : '💾 Enregistrer la configuration'}
+                </button>
               </div>
             ) : activeTab === 'forms' ? (
               forms.length === 0 ? (
@@ -429,7 +711,7 @@ export default function Dashboard() {
                           value={newProject.url}
                           onChange={(e) => setNewProject({...newProject, url: e.target.value})}
                           placeholder="https://monclient.fr"
-                          style={{ width: '100%', padding: '10px 12px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '14px' }}
+                          style={inputStyle}
                         />
                       </div>
 
@@ -440,7 +722,7 @@ export default function Dashboard() {
                           value={newProject.title}
                           onChange={(e) => setNewProject({...newProject, title: e.target.value})}
                           placeholder="Ex : Le Petit Bistrot"
-                          style={{ width: '100%', padding: '10px 12px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '14px' }}
+                          style={inputStyle}
                         />
                       </div>
 

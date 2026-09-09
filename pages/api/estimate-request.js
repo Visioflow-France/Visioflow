@@ -14,8 +14,8 @@ const SITE_LABELS = { vitrine: 'Site vitrine', ecommerce: 'Boutique e-commerce',
 
 function estimateText(estimate) {
   if (!estimate || estimate.custom) return 'Sur devis (besoin spécifique)';
-  let txt = `${estimate.oneLow} — ${estimate.oneHigh} €`;
-  if (estimate.monthly > 0) txt += ` + ${estimate.monthly} €/mois`;
+  let txt = `à partir de ${estimate.oneLow} €`;
+  if (estimate.monthly > 0) txt += ` + à partir de ${estimate.monthly} €/mois`;
   return txt;
 }
 
@@ -45,11 +45,9 @@ async function sendAdminEmail(data) {
         ${row('Téléphone', esc(form.phone))}
         ${row('Email', esc(form.email))}
         ${row('Type de site', esc(SITE_LABELS[form.siteType] || form.siteType))}
-        ${row('Options site', esc((form.options || []).join(', ')) || '<em>aucune</em>')}
         ${row('Google Business', form.googleBusiness ? `Oui${(form.gbOptions || []).length ? ` — ${form.gbOptions.join(', ')}` : ''}` : 'Non')}
-        ${row('Réseaux sociaux', form.networks ? `Oui — ${(form.platforms || []).join(', ') || 'plateforme à définir'}${form.videos ? ' + vidéos' : ''}` : 'Non')}
+        ${row('Réseaux sociaux', form.networks ? `Oui — ${(form.platforms || []).join(', ') || 'plateforme à définir'}` : 'Non')}
         ${row('Urgent', form.urgent ? 'Oui (+10%)' : 'Non')}
-        ${row('Détecté auto', esc((detected || []).join(', ')) || '—')}
         ${row('Description', esc(form.description))}
       </table>
       <div style="background:#f0f7ff;border-radius:10px;padding:14px 18px;margin-top:18px">
@@ -85,8 +83,8 @@ async function sendClientEmail(data) {
 
   const price = estimate?.custom
     ? 'Nous étudions votre demande et vous proposons un chiffrage précis lors de notre premier échange.'
-    : `Votre projet est estimé entre <strong>${estimate.oneLow} € et ${estimate.oneHigh} €</strong>` +
-      (estimate.monthly > 0 ? ` + <strong>${estimate.monthly} €/mois</strong> pour l'abonnement.` : '.');
+    : `Votre projet est estimé <strong>à partir de ${estimate.oneLow} €</strong>` +
+      (estimate.monthly > 0 ? ` + <strong>à partir de ${estimate.monthly} €/mois</strong> pour l'abonnement.` : '.');
 
   const html = `
     <div style="font-family:sans-serif;max-width:560px;margin:0 auto;background:#0f172a;color:#f1f5f9;padding:32px;border-radius:16px">

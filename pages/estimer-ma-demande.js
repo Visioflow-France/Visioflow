@@ -4,23 +4,17 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import {
   Globe, Smartphone, MapPin, Check, Loader2, Rocket, Sparkles,
-  RefreshCw, Calculator, Clock, Zap, SearchCheck, HeartHandshake, Send,
+  Calculator, Clock, Zap, SearchCheck, HeartHandshake, Send,
 } from 'lucide-react';
 
 /* ── Grille de prix (cohérente avec la page /services) ──────────────────────
    Site vitrine : à partir de 400 € (strict minimum)
    Boutique e-commerce : à partir de 600 €
-   Google Business : 50–100 €  ·  Réseaux sociaux : 100–200 €/mois          */
+   Google Business : à partir de 50 €  ·  Réseaux sociaux : à partir de 100 €/mois */
 const SITE_TYPES = [
   { id: 'vitrine',   label: 'Site vitrine',        desc: 'Votre présence de référence en ligne, à votre image', price: 400 },
   { id: 'ecommerce', label: 'Boutique e-commerce', desc: 'Vente en ligne, panier & paiement',                    price: 600 },
   { id: 'aucun',     label: 'Autre',               desc: 'Un autre besoin — décrivez-le à l\u2019étape suivante', price: 0 },
-];
-
-const OPTIONS = [
-  { id: 'rdv',         label: 'Prise de rendez-vous en ligne', price: 80 },
-  { id: 'blog',        label: 'Blog / espace actualités',      price: 60 },
-  { id: 'multilingue', label: 'Site multilingue',              price: 100 },
 ];
 
 const GB_BASE = 50; // optimisation complète de la fiche Google Business (€)
@@ -37,31 +31,8 @@ const PLATFORMS = [
 
 const NETWORK_BASE = 100;   // 1 plateforme incluse (€/mois)
 const NETWORK_EXTRA = 35;   // par plateforme supplémentaire (€/mois)
-const NETWORK_VIDEOS = 30;  // vidéos courtes (€/mois)
 const COMBO_ONE_TIME = 600; // forfait création site de l'offre combinée site + réseaux
 const COMBO_MONTHLY = 200;  // abonnement réseaux de l'offre combinée (€/mois)
-
-/* ── Détection automatique dans la description (l'« algorithme ») ─────────── */
-const DETECTION_RULES = [
-  { re: /boutique|e-?commerce|vendre|vente en ligne|panier|paiement en ligne/i, kind: 'site', value: 'ecommerce', label: 'Boutique e-commerce' },
-  { re: /site (tr[eè]s )?(simple|basique)|site vitrine|one page|petit site|pr[eé]sence en ligne/i, kind: 'site', value: 'vitrine', label: 'Site vitrine' },
-  { re: /rendez[- ]vous|\brdv\b|r[eé]serv(ation|er)?\b|booking/i,               kind: 'option', value: 'rdv',         label: 'Prise de rendez-vous' },
-  { re: /blog|actualit[eé]s?|articles?/i,                                       kind: 'option', value: 'blog',        label: 'Blog / actualités' },
-  { re: /multilingue|en anglais|traduction|plusieurs langues/i,                 kind: 'option', value: 'multilingue', label: 'Multilingue' },
-  { re: /google|my business|fiche google/i,                                     kind: 'gb',                         label: 'Google Business' },
-  { re: /\bavis\b|t[eé]moignages?/i,                                            kind: 'gb-option', value: 'avis',     label: 'Gestion des avis' },
-  { re: /photos? professionnelles?|photographe|reportage/i,                     kind: 'gb-option', value: 'photos',   label: 'Reportage photo' },
-  { re: /r[eé]seaux|community|community management|abonnement mensuel|publications? r[eé]guli[eè]res/i, kind: 'networks', label: 'Réseaux sociaux' },
-  { re: /instagram|insta\b|facebook|tiktok/i,                                   kind: 'networks', label: 'Réseaux sociaux' },
-  { re: /vid[eé]os?|reels?/i,                                                   kind: 'video',  label: 'Vidéos courtes' },
-  { re: /urgent|rapidement|au plus vite|d[eè]s que possible|tr[eè]s vite/i,     kind: 'urgent', label: 'Projet urgent' },
-];
-
-const PLATFORM_RULES = [
-  { re: /instagram|insta\b/i, id: 'insta' },
-  { re: /facebook|\bfb\b/i,   id: 'fb' },
-  { re: /tiktok/i,            id: 'tiktok' },
-];
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const digits = (s) => (s || '').replace(/\D/g, '').length;
@@ -72,29 +43,27 @@ const EMPTY_FORM = {
   phone: '',
   email: '',
   siteType: 'vitrine',
-  options: [],
   googleBusiness: false,
   gbOptions: [],
   networks: false,
   platforms: [],
-  videos: false,
   urgent: false,
   description: '',
 };
 
-/* ── Estimation ────────────────────────────────────────────────────────────── */
+/* ── Estimation ──────────────────────────────────────────────────────────────
+   La description du projet ne fait PAS partie du calcul : le prix dépend
+   uniquement des choix cochés dans le formulaire.                              */
 function computeEstimate(f) {
   const site = SITE_TYPES.find((s) => s.id === f.siteType) || SITE_TYPES[0];
   const hasSite = f.siteType !== 'aucun';
   const combined = f.networks && hasSite;
 
   const lines = [];
-  if (hasSite) lines.push({ label: site.label, price: site.price });
-  OPTIONS.filter((o) => f.options.includes(o.id))
-    .forEach((o) => lines.push({ label: o.label, price: o.price }));
+  if (hasSite) lines.push({ label: site.label, price: site.price, base: true });
 
   if (f.googleBusiness) {
-    lines.push({ label: 'Google Business — optimisation complète de la fiche', price: GB_BASE });
+    lines.push({ label: 'Google Business — optimisation complète de la fiche', price: GB_BASE, base: true });
     GB_OPTIONS.filter((o) => f.gbOptions.includes(o.id))
       .forEach((o) => lines.push({ label: o.label, price: o.price }));
   }
@@ -102,15 +71,16 @@ function computeEstimate(f) {
   let oneLow = lines.reduce((s, l) => s + l.price, 0);
 
   const platCount = Math.max(1, f.platforms.length);
-  const gridMonthly = NETWORK_BASE + NETWORK_EXTRA * (platCount - 1) + (f.videos ? NETWORK_VIDEOS : 0);
+  const gridMonthly = NETWORK_BASE + NETWORK_EXTRA * (platCount - 1);
 
   const monthlyLines = [];
   if (f.networks) {
     monthlyLines.push({
       label: combined
-        ? `Abonnement réseaux sociaux — offre combinée site + réseaux (${platCount} plateforme${platCount > 1 ? 's' : ''}${f.videos ? ' + vidéos' : ''})`
+        ? `Abonnement réseaux sociaux — offre combinée site + réseaux (${platCount} plateforme${platCount > 1 ? 's' : ''})`
         : `Gestion réseaux sociaux — ${platCount} plateforme${platCount > 1 ? 's' : ''}`,
       price: combined ? Math.max(COMBO_MONTHLY, gridMonthly) : gridMonthly,
+      base: true,
     });
   }
 
@@ -126,15 +96,12 @@ function computeEstimate(f) {
 
   oneLow = lines.reduce((s, l) => s + l.price, 0);
   const monthly = monthlyLines.reduce((s, l) => s + l.price, 0);
-  const round10 = (n) => Math.round((n * 1.15) / 10) * 10;
 
   return {
     lines,
     monthlyLines,
     oneLow,
-    oneHigh: round10(oneLow),
     monthly,
-    monthlyHigh: round10(monthly),
     combined,
     custom: !hasSite && !f.googleBusiness && !f.networks,
   };
@@ -145,10 +112,8 @@ export default function EstimerMaDemandePage() {
   const canonicalUrl = 'https://visioflow.fr/estimer-ma-demande';
 
   const [form, setForm] = useState(EMPTY_FORM);
-  const [detected, setDetected] = useState([]);
   const [phase, setPhase] = useState('form'); // form | sending | done | error
   const [touched, setTouched] = useState(false);
-  const manualSite = useRef(false);
   const resultRef = useRef(null);
 
   const estimate = computeEstimate(form);
@@ -160,68 +125,11 @@ export default function EstimerMaDemandePage() {
       [field]: f[field].includes(id) ? f[field].filter((v) => v !== id) : [...f[field], id],
     }));
 
-  const onDescriptionChange = (value) => {
-    const next = { ...form, description: value };
-    const added = [];
-
-    for (const rule of DETECTION_RULES) {
-      if (!rule.re.test(value)) continue;
-      if (rule.kind === 'site') {
-        if (!manualSite.current && next.siteType !== rule.value) {
-          next.siteType = rule.value;
-          added.push(rule.label);
-        }
-      } else if (rule.kind === 'option') {
-        if (!next.options.includes(rule.value)) {
-          next.options = [...next.options, rule.value];
-          added.push(rule.label);
-        }
-      } else if (rule.kind === 'gb') {
-        if (!next.googleBusiness) {
-          next.googleBusiness = true;
-          added.push(rule.label);
-        }
-      } else if (rule.kind === 'gb-option') {
-        if (!next.gbOptions.includes(rule.value)) {
-          next.gbOptions = [...next.gbOptions, rule.value];
-          added.push(rule.label);
-        }
-      } else if (rule.kind === 'networks') {
-        if (!next.networks) {
-          next.networks = true;
-          added.push(rule.label);
-        }
-      } else if (rule.kind === 'video') {
-        if (!next.videos) {
-          next.videos = true;
-          added.push(rule.label);
-        }
-      } else if (rule.kind === 'urgent') {
-        if (!next.urgent) {
-          next.urgent = true;
-          added.push(rule.label);
-        }
-      }
-    }
-
-    if (next.networks) {
-      for (const pr of PLATFORM_RULES) {
-        if (pr.re.test(value) && !next.platforms.includes(pr.id)) {
-          next.platforms = [...next.platforms, pr.id];
-        }
-      }
-    }
-
-    setForm(next);
-    if (added.length > 0) setDetected((d) => Array.from(new Set([...d, ...added])));
-  };
-
   const contactOk = digits(form.phone) >= 8 || EMAIL_RE.test(form.email);
   const formValid =
     form.firstName.trim().length >= 2 &&
     form.lastName.trim().length >= 2 &&
-    contactOk &&
-    form.description.trim().length >= 15;
+    contactOk;
 
   const submit = async () => {
     if (phase === 'sending') return;
@@ -240,13 +148,10 @@ export default function EstimerMaDemandePage() {
             lines: estimate.lines,
             monthlyLines: estimate.monthlyLines,
             oneLow: estimate.oneLow,
-            oneHigh: estimate.oneHigh,
             monthly: estimate.monthly,
-            monthlyHigh: estimate.monthlyHigh,
             combined: estimate.combined,
             custom: estimate.custom,
           },
-          detected,
         }),
       });
       if (!res.ok) throw new Error(await res.text());
@@ -275,15 +180,15 @@ export default function EstimerMaDemandePage() {
           <>
             {estimate.oneLow > 0 && (
               <div className="vf2-estimate-total">
-                {money(estimate.oneLow)} <span className="vf2-estimate-sep">—</span> {money(estimate.oneHigh)}
+                <span className="vf2-estimate-from">à partir de</span> {money(estimate.oneLow)}
               </div>
             )}
             {estimate.monthly > 0 && (
               <div className={estimate.oneLow > 0 ? 'vf2-est-monthly' : 'vf2-estimate-total'}>
-                {estimate.oneLow > 0 && '+ '}{money(estimate.monthly)} / mois
+                {estimate.oneLow > 0 && '+ '}à partir de {money(estimate.monthly)} / mois
               </div>
             )}
-            <div className="vf2-estimate-sub">Fourchette indicative, affinée ensemble par téléphone.</div>
+            <div className="vf2-estimate-sub">Prix de départ indicatif, affiné ensemble par téléphone.</div>
           </>
         )}
       </div>
@@ -293,13 +198,15 @@ export default function EstimerMaDemandePage() {
           {estimate.lines.map((l, i) => (
             <li key={`one-${i}`}>
               <span className="vf2-estimate-line-label">{l.label}</span>
-              <span className="vf2-estimate-line-price">{l.price}€</span>
+              <span className="vf2-estimate-line-price">
+                {l.base ? `à partir de ${l.price}€` : `+${l.price}€`}
+              </span>
             </li>
           ))}
           {estimate.monthlyLines.map((l, i) => (
             <li key={`month-${i}`}>
               <span className="vf2-estimate-line-label">{l.label}</span>
-              <span className="vf2-estimate-line-price">{l.price}€ /mois</span>
+              <span className="vf2-estimate-line-price">à partir de {l.price}€ /mois</span>
             </li>
           ))}
         </ul>
@@ -308,7 +215,7 @@ export default function EstimerMaDemandePage() {
       {estimate.combined && (
         <div className="vf2-est-combo">
           <Sparkles size={16} />
-          Offre combinée site + réseaux sociaux : à partir de {money(COMBO_ONE_TIME)} une fois + {money(COMBO_MONTHLY)} par mois.
+          Offre combinée site + réseaux sociaux : à partir de {money(COMBO_ONE_TIME)} une fois + à partir de {money(COMBO_MONTHLY)} par mois.
         </div>
       )}
     </>
@@ -351,7 +258,7 @@ export default function EstimerMaDemandePage() {
               Estimez votre projet <span className="vf2-serif-italic">en une minute</span>
             </h1>
             <p className="vf2-text">
-              Quelques informations, une petite description, et notre estimateur calcule
+              Quelques informations, et notre estimateur calcule
               votre prix en direct — vous le voyez <strong>avant même d&apos;envoyer</strong> votre
               demande. Sans engagement.
             </p>
@@ -449,33 +356,16 @@ export default function EstimerMaDemandePage() {
                       <button
                         key={t.id} type="button"
                         className={`vf2-choice ${form.siteType === t.id ? 'on' : ''}`}
-                        onClick={() => { manualSite.current = true; set('siteType', t.id); }}
+                        onClick={() => set('siteType', t.id)}
                       >
                         <span className="vf2-choice-radio" />
                         <span className="vf2-choice-label">{t.label}</span>
                         <span className="vf2-choice-desc">{t.desc}</span>
-                        <span className="vf2-choice-price">{t.price > 0 ? `dès ${t.price}€` : '—'}</span>
+                        <span className="vf2-choice-price">{t.price > 0 ? `à partir de ${t.price}€` : '—'}</span>
                       </button>
                     ))}
                   </div>
                   <p className="vf2-wiz-hint"><SearchCheck size={13} /> Le <strong>référencement Google est inclus</strong> avec le site internet que vous commandez.</p>
-                </div>
-
-                <div className="vf2-form-group">
-                  <div className="vf2-form-label">Options pour votre site <span className="vf2-opt">(facultatif)</span></div>
-                  <div className="vf2-chips">
-                    {OPTIONS.map((o) => (
-                      <button
-                        key={o.id} type="button"
-                        className={`vf2-chip ${form.options.includes(o.id) ? 'on' : ''}`}
-                        onClick={() => toggleIn('options', o.id)}
-                      >
-                        {form.options.includes(o.id) && <Check size={14} strokeWidth={3} />}
-                        {o.label}
-                        <span className="vf2-chip-price">+{o.price}€</span>
-                      </button>
-                    ))}
-                  </div>
                 </div>
 
                 <div className="vf2-form-group">
@@ -489,7 +379,7 @@ export default function EstimerMaDemandePage() {
                       {form.googleBusiness && <Check size={14} strokeWidth={3} />}
                       <MapPin size={14} style={{ verticalAlign: '-2px', marginRight: '2px' }} />
                       Optimisation complète de ma fiche Google Business
-                      <span className="vf2-chip-price">dès {GB_BASE}€</span>
+                      <span className="vf2-chip-price">à partir de {GB_BASE}€</span>
                     </button>
                   </div>
 
@@ -526,7 +416,7 @@ export default function EstimerMaDemandePage() {
                       {form.networks && <Check size={14} strokeWidth={3} />}
                       <Smartphone size={14} style={{ verticalAlign: '-2px', marginRight: '2px' }} />
                       Gestion de mes réseaux sociaux
-                      <span className="vf2-chip-price">dès {NETWORK_BASE}€/mois</span>
+                      <span className="vf2-chip-price">à partir de {NETWORK_BASE}€/mois</span>
                     </button>
                   </div>
 
@@ -546,15 +436,6 @@ export default function EstimerMaDemandePage() {
                             {p.label}
                           </button>
                         ))}
-                        <button
-                          type="button"
-                          className={`vf2-chip ${form.videos ? 'on' : ''}`}
-                          onClick={() => set('videos', !form.videos)}
-                        >
-                          {form.videos && <Check size={14} strokeWidth={3} />}
-                          Vidéos courtes (Reels / TikTok)
-                          <span className="vf2-chip-price">+{NETWORK_VIDEOS}€/mois</span>
-                        </button>
                       </div>
                     </div>
                   )}
@@ -582,28 +463,19 @@ export default function EstimerMaDemandePage() {
 
                 <div className="vf2-form-group">
                   <label className="vf2-form-label" htmlFor="em-desc">
-                    Une petite description du travail voulu <span className="vf2-req">*</span> <span className="vf2-opt">(obligatoire)</span>
+                    Une petite description du travail voulu <span className="vf2-opt">(facultatif)</span>
                   </label>
                   <textarea
                     id="em-desc" className="vf2-form-textarea" style={{ minHeight: '110px' }}
                     placeholder="Ex : Je suis restaurateur à Lyon, je veux un site avec ma carte, la réservation en ligne, et que vous gériez mon Instagram…"
                     value={form.description}
-                    onChange={(e) => onDescriptionChange(e.target.value)}
+                    onChange={(e) => set('description', e.target.value)}
                   />
-                  {touched && form.description.trim().length < 15 && (
-                    <div className="vf2-field-error">Décrivez votre projet en quelques mots (15 caractères minimum)</div>
-                  )}
-
-                  {detected.length > 0 && (
-                    <div className="vf2-est-detected">
-                      <div className="vf2-est-detected-title">
-                        <Sparkles size={13} /> Détecté dans votre description — décochez si besoin :
-                      </div>
-                      <div className="vf2-est-detected-badges">
-                        {detected.map((d) => <span key={d} className="vf2-est-detected-badge"><Check size={12} strokeWidth={3} /> {d}</span>)}
-                      </div>
-                    </div>
-                  )}
+                  <p className="vf2-wiz-hint">
+                    <Sparkles size={13} />
+                    La description est <strong>facultative</strong> et <strong>ne modifie pas le prix estimé</strong> :
+                    l&apos;estimation dépend uniquement de vos choix cochés ci-dessus.
+                  </p>
                 </div>
 
                 {/* ── Estimation en direct : le prix se calcule ici, AVANT l'envoi ── */}
@@ -648,10 +520,10 @@ export default function EstimerMaDemandePage() {
 
             {/* Rassurance sous le formulaire */}
             <div className="vf2-est-assurance">
-              <div className="vf2-est-assurance-item"><Globe size={18} />Sites 100% adaptables dès 400€</div>
+              <div className="vf2-est-assurance-item"><Globe size={18} />Sites 100% adaptables à partir de 400€</div>
               <div className="vf2-est-assurance-item"><SearchCheck size={18} />Référencement Google inclus</div>
-              <div className="vf2-est-assurance-item"><MapPin size={18} />Google Business dès 50€</div>
-              <div className="vf2-est-assurance-item"><Smartphone size={18} />Réseaux dès 100€/mois</div>
+              <div className="vf2-est-assurance-item"><MapPin size={18} />Google Business à partir de 50€</div>
+              <div className="vf2-est-assurance-item"><Smartphone size={18} />Réseaux à partir de 100€/mois</div>
               <div className="vf2-est-assurance-item"><HeartHandshake size={18} />Modifications jusqu&apos;à satisfaction totale</div>
             </div>
           </div>
