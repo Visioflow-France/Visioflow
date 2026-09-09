@@ -70,7 +70,7 @@ export default function ShowcaseIntro({ onComplete }) {
         .to(countWrap, { autoAlpha: 1, scale: 1, duration: 0.45 }, "<0.08")
         .to(countSub,  { autoAlpha: 1, y: 0, duration: 0.35 }, "<0.12")
         .to(fill,      { scaleX: 0.38, duration: 1.1, ease: "none" }, "<")
-        .to(countNum,  { innerHTML: 5, snap: { innerHTML: 1 }, duration: 1.1, ease: "power1.inOut" }, "<");
+        .to(countNum,  { innerHTML: 100, snap: { innerHTML: 1 }, duration: 1.1, ease: "power1.inOut" }, "<");
 
       /* ── Phase 2 : Masquer compteur, révéler marque  (1.6 → 3.0s) ── */
       tl.to(countWrap, { autoAlpha: 0, scale: 1.06, duration: 0.28, ease: "power2.inOut" })
@@ -186,19 +186,32 @@ export default function ShowcaseIntro({ onComplete }) {
             backgroundClip: "text",
             filter: "blur(20px)", transform: "translateY(8px)",
             userSelect: "none", pointerEvents: "none",
-          }}>5</div>
+          }}>100</div>
 
-          <div className="si-count-num" style={{
-            fontFamily: "'Fraunces', sans-serif",
-            fontSize: "clamp(108px, 23vw, 280px)",
-            fontWeight: 900, letterSpacing: "-0.06em", lineHeight: 0.88,
-            color: "transparent",
-            background: "linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)",
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            filter: "drop-shadow(0 0 38px rgba(0,113,227,0.40))",
-            userSelect: "none", position: "relative",
-          }}>0</div>
+          <div style={{ position: "relative", display: "flex", alignItems: "baseline", justifyContent: "center" }}>
+            <div className="si-count-num" style={{
+              fontFamily: "'Fraunces', sans-serif",
+              fontSize: "clamp(108px, 23vw, 280px)",
+              fontWeight: 900, letterSpacing: "-0.06em", lineHeight: 0.88,
+              color: "transparent",
+              background: "linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.55) 100%)",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              filter: "drop-shadow(0 0 38px rgba(0,113,227,0.40))",
+              userSelect: "none", position: "relative",
+            }}>0</div>
+            <span style={{
+              fontFamily: "'Fraunces', sans-serif",
+              fontSize: "clamp(38px, 8vw, 96px)",
+              fontWeight: 900, lineHeight: 1,
+              color: "transparent",
+              background: "linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.40) 100%)",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              marginLeft: "clamp(6px, 1.2vw, 14px)",
+              userSelect: "none",
+            }}>%</span>
+          </div>
 
           <div className="si-count-sub" style={{
             fontFamily: "'Inter Tight', sans-serif",
@@ -207,7 +220,7 @@ export default function ShowcaseIntro({ onComplete }) {
             textTransform: "uppercase",
             color: "rgba(255,255,255,0.32)",
             marginTop: "12px",
-          }}>Jours · Livraison garantie</div>
+          }}>Préparation · Expérience digitale</div>
         </div>
       </div>
 
@@ -280,8 +293,8 @@ export default function ShowcaseIntro({ onComplete }) {
           textAlign: "center",
           margin: 0, lineHeight: 1.5,
         }}>
-          Votre site de restaurant en seulement{" "}
-          <span style={{ color: "rgba(255,255,255,0.78)", fontWeight: 600 }}>5 jours.</span>
+          Votre présence digitale, conçue pour{" "}
+          <span style={{ color: "rgba(255,255,255,0.78)", fontWeight: 600 }}>donner envie.</span>
         </p>
 
         {/* Badge */}
@@ -304,7 +317,7 @@ export default function ShowcaseIntro({ onComplete }) {
             fontSize: "10.5px", fontWeight: 600,
             color: "rgba(255,255,255,0.48)",
             letterSpacing: "0.055em",
-          }}>Design · Développement · Livraison en 5 jours</span>
+          }}>Sites web · Google Business · Réseaux sociaux</span>
         </div>
       </div>
 

@@ -378,7 +378,7 @@ export default function EstimerMaDemandePage() {
                     >
                       {form.googleBusiness && <Check size={14} strokeWidth={3} />}
                       <MapPin size={14} style={{ verticalAlign: '-2px', marginRight: '2px' }} />
-                      Optimisation complète de ma fiche Google Business
+                      <span className="vf2-chip-label">Optimisation complète de ma fiche Google Business</span>
                       <span className="vf2-chip-price">à partir de {GB_BASE}€</span>
                     </button>
                   </div>
@@ -396,7 +396,7 @@ export default function EstimerMaDemandePage() {
                             onClick={() => toggleIn('gbOptions', o.id)}
                           >
                             {form.gbOptions.includes(o.id) && <Check size={14} strokeWidth={3} />}
-                            {o.label}
+                            <span className="vf2-chip-label">{o.label}</span>
                             <span className="vf2-chip-price">+{o.price}€</span>
                           </button>
                         ))}
@@ -415,7 +415,7 @@ export default function EstimerMaDemandePage() {
                     >
                       {form.networks && <Check size={14} strokeWidth={3} />}
                       <Smartphone size={14} style={{ verticalAlign: '-2px', marginRight: '2px' }} />
-                      Gestion de mes réseaux sociaux
+                      <span className="vf2-chip-label">Gestion de mes réseaux sociaux</span>
                       <span className="vf2-chip-price">à partir de {NETWORK_BASE}€/mois</span>
                     </button>
                   </div>

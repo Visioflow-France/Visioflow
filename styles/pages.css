@@ -1416,13 +1416,20 @@
 }
 
 .vf2-wiz-hint {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: block;
   font-size: 12.5px;
+  line-height: 1.6;
   color: var(--vf2-ink);
   opacity: 0.55;
   margin-top: 4px;
+  overflow-wrap: break-word;
+}
+
+/* Icônes intégrées au flux du texte : alignement propre, retour à la ligne naturel */
+.vf2-wiz-hint svg {
+  vertical-align: -2px;
+  margin-right: 3px;
+  flex-shrink: 0;
 }
 
 .vf2-req { color: #ef4444; }
@@ -1535,6 +1542,9 @@
 }
 
 .vf2-chip.on .vf2-chip-price { background: rgba(255, 255, 255, 0.2); color: #fff; }
+
+/* Libellé long : se replie sur plusieurs lignes au lieu de sortir de la bulle */
+.vf2-chip-label { min-width: 0; text-align: left; }
 
 /* Pastilles couleurs */
 .vf2-swatches {
