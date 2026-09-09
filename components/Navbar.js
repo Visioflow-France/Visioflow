@@ -46,7 +46,8 @@ export default function Navbar() {
       <nav className={`vf2-navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="vf2-nav-content">
           <Link href="/" className="vf2-logo" aria-label="VisioFlow">
-            <img src="/logo-navbar.png" alt="VisioFlow" width="334" height="40" />
+            <img src="/logo-navbar-icon.png" alt="" aria-hidden="true" width="686" height="684" className="vf2-logo-badge" />
+            <img src="/wordmark-navbar.svg" alt="VisioFlow" width="1448" height="280" className="vf2-logo-wordmark" />
           </Link>
 
           <div className="vf2-nav-links">

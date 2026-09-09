@@ -127,14 +127,24 @@
 .vf2-logo {
   display: flex;
   align-items: center;
+  gap: 10px;
   flex-shrink: 0;
   min-width: 0;
 }
 
-.vf2-logo img {
+/* Badge (extrait 686×684, coins arrondis vectoriels) : 20× suréchantillonné à 34px → netteté maximale */
+.vf2-logo-badge {
   display: block;
   width: auto;
-  height: 30px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+/* Wordmark vectoriel (SVG) : résolution infinie */
+.vf2-logo-wordmark {
+  display: block;
+  width: auto;
+  height: 24px;
   flex-shrink: 0;
 }
 
@@ -948,8 +958,12 @@
     padding: 0 10px 0 20px;
   }
 
-  .vf2-logo img {
-    height: 27px;
+  .vf2-logo-badge {
+    height: 31px;
+  }
+
+  .vf2-logo-wordmark {
+    height: 22px;
   }
 
   .vf2-nav-links {
@@ -1042,8 +1056,12 @@
     padding: 0 9px 0 18px;
   }
 
-  .vf2-logo img {
-    height: 25px;
+  .vf2-logo-badge {
+    height: 29px;
+  }
+
+  .vf2-logo-wordmark {
+    height: 21px;
   }
 
   .vf2-nav-burger {
@@ -1057,8 +1075,12 @@
     padding: 0 8px 0 16px;
   }
 
-  .vf2-logo img {
-    height: 23px;
+  .vf2-logo-badge {
+    height: 27px;
+  }
+
+  .vf2-logo-wordmark {
+    height: 19px;
   }
 
   .vf2-nav-burger {

@@ -70,7 +70,7 @@ export default function ShowcaseIntro({ onComplete }) {
         .to(countWrap, { autoAlpha: 1, scale: 1, duration: 0.45 }, "<0.08")
         .to(countSub,  { autoAlpha: 1, y: 0, duration: 0.35 }, "<0.12")
         .to(fill,      { scaleX: 0.38, duration: 1.1, ease: "none" }, "<")
-        .to(countNum,  { innerHTML: 100, snap: { innerHTML: 1 }, duration: 1.1, ease: "power1.inOut" }, "<");
+        .to(countNum,  { innerHTML: 5, snap: { innerHTML: 1 }, duration: 1.1, ease: "power1.inOut" }, "<");
 
       /* ── Phase 2 : Masquer compteur, révéler marque  (1.6 → 3.0s) ── */
       tl.to(countWrap, { autoAlpha: 0, scale: 1.06, duration: 0.28, ease: "power2.inOut" })
@@ -186,7 +186,7 @@ export default function ShowcaseIntro({ onComplete }) {
             backgroundClip: "text",
             filter: "blur(20px)", transform: "translateY(8px)",
             userSelect: "none", pointerEvents: "none",
-          }}>100</div>
+          }}>5</div>
 
           <div style={{ position: "relative", display: "flex", alignItems: "baseline", justifyContent: "center" }}>
             <div className="si-count-num" style={{
@@ -199,18 +199,7 @@ export default function ShowcaseIntro({ onComplete }) {
               backgroundClip: "text",
               filter: "drop-shadow(0 0 38px rgba(0,113,227,0.40))",
               userSelect: "none", position: "relative",
-            }}>0</div>
-            <span style={{
-              fontFamily: "'Fraunces', sans-serif",
-              fontSize: "clamp(38px, 8vw, 96px)",
-              fontWeight: 900, lineHeight: 1,
-              color: "transparent",
-              background: "linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.40) 100%)",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              marginLeft: "clamp(6px, 1.2vw, 14px)",
-              userSelect: "none",
-            }}>%</span>
+            }}>1</div>
           </div>
 
           <div className="si-count-sub" style={{
