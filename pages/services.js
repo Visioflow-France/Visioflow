@@ -1,24 +1,26 @@
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import { Globe, MapPin, Smartphone, Check, Star, SearchCheck, HeartHandshake } from 'lucide-react';
+import Link from 'next/link';
+import { Globe, MapPin, Smartphone, Check, Star, SearchCheck, HeartHandshake, Rocket } from 'lucide-react';
 
 export default function ServicesPage() {
   const canonicalUrl = "https://visioflow.fr/services";
 
+  /* Achat direct : site standard livré clé en main, sans suivi mensuel. */
   const services = [
     {
       id: 'site-web',
       icon: Globe,
-      title: 'Sites Web 100% Adaptables',
-      description: 'Sites vitrines élégants ou boutiques e-commerce complètes. Design responsive, performance optimale et référencement Google inclus.',
+      title: 'Site Web 100% Adaptable',
+      description: 'Achat direct de votre site, livré clé en main sans abonnement : paiement unique, site à vous.',
       price: '400€',
       pricePrefix: 'à partir de',
       features: [
+        'Paiement unique, sans suivi ni abonnement',
         'Référencement Google inclus',
         'Design moderne et professionnel',
         'Responsive mobile & tablette',
-        'Performance rapide',
         'Hébergement inclus'
       ],
       popular: true,
@@ -57,19 +59,51 @@ export default function ServicesPage() {
     }
   ];
 
+  /* Pack Gestion + Site : l'abonnement tout compris. */
+  const packs = [
+    {
+      id: 'pack-vitrine',
+      title: 'Site Vitrine + Gestion',
+      price: '200€',
+      suffix: '/mois',
+      summary: 'Votre site vitrine créé et géré de A à Z, pour une présence digitale sereine.',
+      features: [
+        'Création complète de votre site vitrine',
+        'Suivi garanti en continu',
+        'Croissance du référencement naturel (SEO Google)',
+        'Maintenance continue du site',
+        'Prise en charge de toutes vos demandes d\u2019évolution et de support'
+      ],
+    },
+    {
+      id: 'pack-ecommerce',
+      title: 'Site E-commerce + Gestion',
+      price: '300€',
+      suffix: '/mois',
+      summary: 'Votre boutique en ligne créée et pilotée au quotidien, ventes incluses.',
+      features: [
+        'Création complète de votre boutique en ligne',
+        'Suivi garanti en continu',
+        'Croissance du référencement naturel (SEO Google)',
+        'Maintenance continue du site',
+        'Prise en charge de toutes vos demandes d\u2019évolution et de support'
+      ],
+    },
+  ];
+
   return (
     <>
       <Head>
-        <title>Nos Services — Visioflow | Sites web dès 400€, Google Business, Réseaux sociaux</title>
+        <title>Nos Services — Visioflow | Pack Gestion + Site dès 200€/mois, achat direct dès 400€</title>
         <meta
           name="description"
-          content="Découvrez nos services : création de sites web dès 400€ (e-commerce dès 600€) avec référencement Google inclus, optimisation Google Business dès 50€, et gestion des réseaux sociaux dès 100€/mois."
+          content="Deux façons de travailler avec nous : le Pack Gestion + Site en abonnement (site vitrine 200€/mois, e-commerce 300€/mois, suivi garanti, SEO Google, maintenance et support inclus) ou l'achat direct de votre site dès 400€ sans suivi."
         />
-        <meta name="keywords" content="services agence web, création site internet, google my business, gestion réseaux sociaux, community management, référencement google inclus" />
+        <meta name="keywords" content="pack gestion site, abonnement site internet, création site web, gestion réseaux sociaux, maintenance site, seo google, achat site direct" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content="Nos Services — Visioflow" />
-        <meta property="og:description" content="Sites web dès 400€ (référencement Google inclus), Google Business, Réseaux sociaux. Tarifs transparents et modifications jusqu'à satisfaction totale." />
+        <meta property="og:description" content="Pack Gestion + Site dès 200€/mois (suivi garanti, SEO Google, maintenance, support) ou achat direct dès 400€. Modifications jusqu'à satisfaction totale." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
       </Head>
@@ -102,9 +136,69 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Services Section */}
-        <section className="vf2-section">
+        {/* Pack Gestion + Site — l'offre tout compris en abonnement */}
+        <section className="vf2-section" style={{ paddingTop: '20px' }}>
           <div className="vf2-container">
+            <div style={{ textAlign: 'center' }}>
+              <div className="vf2-eyebrow" style={{ marginBottom: '10px' }}>
+                <Rocket size={16} />
+                Nouveau · Pack Gestion + Site
+              </div>
+            </div>
+            <h2 className="vf2-h2" style={{ textAlign: 'center', marginBottom: '10px' }}>
+              Votre site <span className="vf2-serif-italic">créé et géré</span>, en abonnement
+            </h2>
+            <p className="vf2-text" style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 34px' }}>
+              Nous créons votre site et nous nous occupons de tout, chaque mois : suivi garanti,
+              croissance du référencement naturel sur Google, maintenance continue et prise en
+              charge de toutes vos demandes d&apos;évolution et de support.
+            </p>
+
+            <div className="vf2-grid-2">
+              {packs.map((pack) => (
+                <div key={pack.id} className="vf2-card vf2-service-card popular">
+                  <div className="vf2-service-badge">Abonnement tout compris</div>
+
+                  <h3 className="vf2-h3">{pack.title}</h3>
+                  <p className="vf2-text" style={{ fontSize: '0.95rem', marginBottom: '20px' }}>
+                    {pack.summary}
+                  </p>
+
+                  <div className="vf2-service-price">
+                    <span className="vf2-service-price-prefix">à partir de</span>
+                    {' ' + pack.price}
+                    <span style={{ fontSize: '0.55em', fontWeight: 600 }}>{pack.suffix}</span>
+                  </div>
+
+                  <ul className="vf2-service-features">
+                    {pack.features.map((feature, index) => (
+                      <li key={index} className="vf2-service-feature">
+                        <Check size={18} strokeWidth={3} />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link href="/estimer-ma-demande" className="vf2-btn-primary" style={{ marginTop: '22px', width: '100%', justifyContent: 'center', padding: '14px 24px', fontSize: '15px' }}>
+                    Estimer ma demande
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Achat direct — prestations à la carte */}
+        <section className="vf2-section vf2-section-alt">
+          <div className="vf2-container">
+            <h2 className="vf2-h2" style={{ textAlign: 'center', marginBottom: '10px' }}>
+              L&apos;achat <span className="vf2-serif-italic">direct</span>, sans suivi
+            </h2>
+            <p className="vf2-text" style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 34px' }}>
+              Vous préférez payer une fois et gérer ensuite votre site vous-même ?
+              Achetez votre site web standard aux tarifs actuels, sans abonnement ni suivi.
+            </p>
+
             <div className="vf2-grid-3">
               {services.map((service) => {
                 const Icon = service.icon;
@@ -119,7 +213,7 @@ export default function ServicesPage() {
                       <Icon />
                     </div>
 
-                    <h2 className="vf2-h3">{service.title}</h2>
+                    <h3 className="vf2-h3">{service.title}</h3>
                     <p className="vf2-text" style={{ fontSize: '0.95rem', marginBottom: '20px' }}>
                       {service.description}
                     </p>

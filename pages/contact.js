@@ -122,7 +122,7 @@ export default function ContactPage() {
             </h1>
             <p className="vf2-text">
               Une question, un projet, une envie de booster votre présence en ligne ?
-              Écrivez-nous ou appelez-nous directement — nous répondons
+              Écrivez-nous ou appelez-nous directement, nous répondons
               <strong> sous 24h ouvrées</strong>.
             </p>
           </div>

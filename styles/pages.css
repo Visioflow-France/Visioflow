@@ -55,6 +55,9 @@
   letter-spacing: 0.01em;
   color: var(--vf2-ink);
   background: var(--vf2-bg);
+  /* Contient la marge haute du hero : sans ça, elle s'échappe du bloc et
+     laisse apparaître le fond du body (bande bicolore en haut de page). */
+  display: flow-root;
 }
 
 .vf2-page * {
@@ -1118,6 +1121,16 @@
   .vf2-btn-ghost {
     padding: 14px 28px;
     font-size: 15px;
+  }
+
+  /* Le libellé long du bouton d'envoi doit pouvoir se replier sur deux lignes
+     et rester centré, sinon le nowrap le fait déborder du bouton (texte non centré). */
+  .vf2-launch-btn {
+    white-space: normal;
+    text-align: center;
+    font-size: 15px;
+    padding: 15px 18px;
+    line-height: 1.45;
   }
 }
 

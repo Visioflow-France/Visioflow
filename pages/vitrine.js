@@ -764,8 +764,8 @@ export default function Vitrine() {
               onMouseOver={e=>e.target.style.color='#fff'} onMouseOut={e=>e.target.style.color='rgba(255,255,255,.5)'}>TikTok</a>}
           </div>
         )}
-        <p className="vt-footer-copy">© {new Date().getFullYear()} {CONFIG.siteName} — Tous droits réservés.</p>
-        <p style={{fontSize:'11px',color:'rgba(255,255,255,.2)',marginTop:'8px'}}>Site créé par VisioFlow — Sites web pour restaurants</p>
+        <p className="vt-footer-copy">© {new Date().getFullYear()} {CONFIG.siteName}, tous droits réservés.</p>
+        <p style={{fontSize:'11px',color:'rgba(255,255,255,.2)',marginTop:'8px'}}>Site créé par VisioFlow, sites web pour restaurants</p>
       </footer>
 
       {/* ── ORDER MODAL (livraison interne, premium+) ── */}

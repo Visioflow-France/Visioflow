@@ -366,7 +366,7 @@ export default function BlogGuideComplet() {
               <Link href="/tarifs" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>Tarifs</Link>
               <Link href="/a-propos" style={{color:'rgba(255,255,255,.5)',textDecoration:'none',transition:'color .2s'}}>À propos</Link>
             </div>
-            <p style={{color:'rgba(255,255,255,.3)'}}>© {new Date().getFullYear()} VisioFlow — Tous droits réservés.</p>
+            <p style={{color:'rgba(255,255,255,.3)'}}>© {new Date().getFullYear()} VisioFlow, tous droits réservés.</p>
           </footer>
         </div>
       </div>

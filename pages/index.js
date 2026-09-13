@@ -45,7 +45,7 @@ export default function HomePage() {
             </h1>
 
             <p className="vf2-text">
-              Sites web 100% adaptables — référencement Google inclus —, gestion Google Business,
+              Sites web 100% adaptables, référencement Google inclus, gestion Google Business,
               et animation de vos réseaux sociaux. Une approche moderne pour tous types d&apos;activités,
               dès 400€.
             </p>
@@ -72,7 +72,7 @@ export default function HomePage() {
             <p className="vf2-text" style={{ fontSize: '0.95rem', opacity: 0.75, marginTop: '18px' }}>
               <HeartHandshake size={15} style={{ verticalAlign: '-2px' }} />{' '}
               <strong>Notre promesse :</strong> tant que vous n&apos;êtes pas totalement satisfait du rendu
-              final de votre site, nous continuons de le modifier — et le{' '}
+              final de votre site, nous continuons de le modifier, et le{' '}
               <strong>référencement Google est inclus</strong> avec chaque site internet que nous créons.
             </p>
           </div>

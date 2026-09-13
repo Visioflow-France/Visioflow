@@ -126,7 +126,7 @@ export default function About() {
                 <p className="vf2-text">
                   Rendre la création de sites web accessible à tous, avec des tarifs transparents
                   (sites dès 400€, référencement Google inclus), une livraison rapide et un
-                  accompagnement personnalisé. Pas de jargon, pas de surprises — juste des
+                  accompagnement personnalisé. Pas de jargon, pas de surprises, juste des
                   résultats concrets, et un site que nous ajustons jusqu&apos;à votre satisfaction totale.
                 </p>
 

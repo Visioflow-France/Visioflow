@@ -2,16 +2,73 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import { ExternalLink, Rocket } from 'lucide-react';
+import { ExternalLink, Rocket, BadgeCheck } from 'lucide-react';
 import { db } from '../lib/firebase-admin';
 
+/* Réalisations de l'agence intégrées d'office à la page. Les projets ajoutés
+   depuis le dashboard admin (collection Firestore « projects ») viennent
+   s'ajouter à cette base, sans doublon (comparaison par titre). */
+const CURATED_PROJECTS = [
+  {
+    id: 'curated-osnack',
+    title: "O'Snack",
+    category: 'ecommerce',
+    description: 'Snack & fast-food à Torcy (77200) : menu complet, commande et livraison en ligne.',
+    url: '',
+  },
+  {
+    id: 'curated-o77',
+    title: "O'77",
+    category: 'ecommerce',
+    description: 'Fast-food & pizzeria à Pontault-Combault (77340) : commandes en ligne, ouvert 7j/7.',
+    url: '',
+  },
+  {
+    id: 'curated-prestigeflow',
+    title: 'PrestigeFlow',
+    category: 'vitrine',
+    description: 'Restaurant gastronomique 3 étoiles à Paris : une expérience digitale haut de gamme.',
+    url: '',
+  },
+  {
+    id: 'curated-croustiflow',
+    title: 'CroustiFlow',
+    category: 'vitrine',
+    description: 'Spécialiste du riz croustillant : carte appétissante et image de marque soignée.',
+    url: '',
+  },
+  {
+    id: 'curated-matchaflow',
+    title: 'MatchaFlow',
+    category: 'vitrine',
+    description: "L'art du matcha, de la sélection à la dégustation : univers visuel immersif.",
+    url: '',
+  },
+  {
+    id: 'curated-fonseca',
+    title: 'Fonseca',
+    category: 'vitrine',
+    description: 'Peintre en bâtiment haut de gamme à Pontault-Combault : portfolio et devis en ligne.',
+    url: '',
+  },
+];
+
+const normalizeTitle = (t) =>
+  String(t || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]/g, '');
+
 export async function getServerSideProps() {
+  let projects = [];
+
   try {
     const snapshot = await db.collection('projects')
       .where('published', '==', true)
       .get();
 
-    const projects = snapshot.docs.map(doc => {
+    projects = snapshot.docs.map(doc => {
       const d = doc.data();
       const created = d.createdAt?.toDate ? d.createdAt.toDate() : (d.createdAt ? new Date(d.createdAt) : null);
       return {
@@ -19,17 +76,29 @@ export async function getServerSideProps() {
         title: d.title || '',
         url: d.url || d.link || '',
         category: d.category || 'vitrine',
+        description: d.description || '',
         createdAt: created ? created.toISOString() : null,
+        source: 'dashboard',
       };
     });
-
-    projects.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-
-    return { props: { projects } };
   } catch (e) {
+    // Firebase indisponible : la page affiche au minimum nos réalisations.
     console.error('nos-projets:', e);
-    return { props: { projects: [] } };
   }
+
+  // Base : nos réalisations, complétées par celles du dashboard sans doublon.
+  const existing = new Set(projects.map((p) => normalizeTitle(p.title)));
+  const curated = CURATED_PROJECTS.filter((p) => !existing.has(normalizeTitle(p.title)));
+  projects = [...projects, ...curated];
+
+  // Réalisations intégrées (sans date) d'abord, puis projets du dashboard, du plus récent au plus ancien.
+  projects.sort((a, b) => {
+    if (!a.createdAt && b.createdAt) return -1;
+    if (a.createdAt && !b.createdAt) return 1;
+    return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+  });
+
+  return { props: { projects } };
 }
 
 const CATEGORIES = {
@@ -50,7 +119,7 @@ export default function ProjectsPage({ projects = [] }) {
   const canonicalUrl = "https://visioflow.fr/nos-projets";
 
   const stats = [
-    { value: '12+', label: 'Projets en cours' },
+    { value: `${projects.length}+`, label: 'Réalisations & projets' },
     { value: 'Quelques semaines', label: 'Délai moyen' },
     { value: '100%', label: 'Satisfaction' },
   ];
@@ -61,13 +130,13 @@ export default function ProjectsPage({ projects = [] }) {
         <title>Nos Projets — Visioflow | Nos réalisations web et digitales</title>
         <meta
           name="description"
-          content="Découvrez nos projets web et digitaux. Chaque réalisation est unique et adaptée aux besoins spécifiques de nos clients."
+          content="Découvrez l'ensemble de nos réalisations : sites vitrines, boutiques en ligne avec commandes, pages Google et gestion de réseaux sociaux. Chaque projet est adapté aux besoins de nos clients."
         />
         <meta name="keywords" content="projets web, réalisations, portfolio, sites web créés, exemples" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
         <meta property="og:title" content="Nos Projets — Visioflow" />
-        <meta property="og:description" content="Découvrez nos réalisations web et digitales." />
+        <meta property="og:description" content="Découvrez l'ensemble de nos réalisations web et digitales." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
       </Head>
@@ -89,8 +158,8 @@ export default function ProjectsPage({ projects = [] }) {
               Des projets qui <span className="vf2-serif-italic">inspirent</span>
             </h1>
             <p className="vf2-text">
-              Chaque réalisation est unique et adaptée aux besoins spécifiques de nos clients.
-              Découvrez comment nous transformons les idées en réalité digitale.
+              Restaurants, snacks, artisans, marques premium : découvrez l&apos;ensemble de nos
+              réalisations, chacune pensée sur mesure pour son activité.
             </p>
           </div>
         </section>
@@ -149,35 +218,60 @@ export default function ProjectsPage({ projects = [] }) {
             )}
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
-              {filtered.map((project) => (
-                <a
-                  key={project.id}
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="vf2-card vf2-stat-card"
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                    gap: '12px',
-                    padding: '32px 24px',
-                    textDecoration: 'none',
-                  }}
-                >
-                  <span style={{ fontSize: '40px', lineHeight: 1 }}>
-                    {CATEGORIES[project.category]?.emoji || '🌐'}
-                  </span>
-                  <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>
-                    {project.title}
-                  </h3>
-                  <span style={{ fontSize: '13px', color: '#0071E3', display: 'flex', alignItems: 'center', gap: '6px', wordBreak: 'break-all' }}>
-                    <ExternalLink size={14} />
-                    Visiter le site
-                  </span>
-                </a>
-              ))}
+              {filtered.map((project) => {
+                const inner = (
+                  <>
+                    <span style={{ fontSize: '40px', lineHeight: 1 }}>
+                      {CATEGORIES[project.category]?.emoji || '🌐'}
+                    </span>
+                    <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>
+                      {project.title}
+                    </h3>
+                    {project.description && (
+                      <span style={{ fontSize: '13.5px', opacity: 0.75, lineHeight: 1.5 }}>
+                        {project.description}
+                      </span>
+                    )}
+                    {project.url ? (
+                      <span style={{ fontSize: '13px', color: '#0071E3', display: 'flex', alignItems: 'center', gap: '6px', wordBreak: 'break-all' }}>
+                        <ExternalLink size={14} />
+                        Visiter le site
+                      </span>
+                    ) : (
+                      <span style={{ fontSize: '12.5px', opacity: 0.6, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <BadgeCheck size={14} />
+                        Réalisation Visioflow
+                      </span>
+                    )}
+                  </>
+                );
+
+                const cardStyle = {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  gap: '12px',
+                  padding: '32px 24px',
+                };
+
+                return project.url ? (
+                  <a
+                    key={project.id}
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="vf2-card vf2-stat-card"
+                    style={{ ...cardStyle, textDecoration: 'none' }}
+                  >
+                    {inner}
+                  </a>
+                ) : (
+                  <div key={project.id} className="vf2-card vf2-stat-card" style={cardStyle}>
+                    {inner}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>

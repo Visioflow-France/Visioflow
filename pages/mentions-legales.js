@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Navbar from '../components/Navbar';
 
 const canonicalUrl = "https://visioflow.fr/mentions-legales";
 
@@ -19,7 +20,7 @@ const LEGAL_INFO = {
   siren: "101 079 366",  // Ex: "123 456 789"
 
   // Code APE / NAF (activité principale)
-  apeCode: "62 01 Z — Programmation informatique",
+  apeCode: "62 01 Z, Programmation informatique",
 
   // Numéro de gestion CMA / CCI (répertoire des métiers / greffe)
   rmNumber: "À compléter (RCS de Meaux)",
@@ -70,7 +71,7 @@ export default function MentionsLegales() {
           #vflp, #vflp *{box-sizing:border-box;margin:0;padding:0}
           #vflp{min-height:100vh;font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,sans-serif;background:#ffffff;color:#1e293b;line-height:1.6}
           #vflp .container{max-width:1000px;margin:0 auto;padding:0 20px}
-          #vflp .hero{min-height:50vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px 40px;position:relative;background:#ffffff;overflow:hidden}
+          #vflp .hero{min-height:50vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:130px 20px 50px;position:relative;background:#ffffff;overflow:hidden}
           #vflp .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#ffffff 0%,#dbeafe 50%,#ffffff 100%);opacity:1}
           #vflp .hero-content{position:relative;z-index:1;max-width:800px}
           #vflp .hero-title{font-family:'Fraunces',sans-serif;font-size:clamp(36px,6vw,56px);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
@@ -86,37 +87,19 @@ export default function MentionsLegales() {
           #vflp .info-item{background:rgba(0,113,227,.08);border-radius:12px;padding:20px;border:1px solid rgba(0,113,227,.2)}
           #vflp .info-label{color:#0071E3;font-size:13px;font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
           #vflp .info-value{color:#0f172a;font-size:15px}
-          #vflp .nav{height:auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;border-bottom:1px solid rgba(15,23,42,.08)}
-          #vflp .nav-content{display:flex;justify-content:space-between;align-items:center}
-          #vflp .logo{font-family:'Fraunces',sans-serif;font-size:28px;font-weight:900;color:#0f172a;display:flex;align-items:center;gap:10px;text-decoration:none}
-          #vflp .logo span{color:#0071E3}
-          #vflp .nav-links{display:flex;gap:32px}
-          #vflp .nav-links a{color:#475569;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
-          #vflp .nav-links a:hover{color:#0f172a}
-          #vflp .nav-cta{background:#0071E3;color:#fff;padding:10px 24px;border-radius:50px;font-weight:600;font-size:14px;text-decoration:none;transition:all .2s}
-          #vflp .nav-cta:hover{background:#0056b3;transform:translateY(-2px)}
           #vflp .footer{background:#f8fafc;padding:60px 20px;border-top:1px solid rgba(15,23,42,.08);text-align:center;color:#64748b;font-size:13px}
           #vflp .legal-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
           #vflp .legal-links a{color:#64748b;text-decoration:none;font-size:13px;transition:color .2s}
           #vflp .legal-links a:hover{color:#0071E3}
-          @media(max-width:768px){#vflp .nav-links{display:none} #vflp .info-list{grid-template-columns:1fr}}
+        
+          @media(max-width:768px){#vflp .info-list{grid-template-columns:1fr}}
         `}</style>
       </Head>
 
 
       <div id="vflp">
-      {/* Navigation */}
-      <nav className="nav">
-        <div className="container nav-content">
-          <a href="/" className="logo"><img src="/logo.svg" alt="VisioFlow" width="32" height="32" />Visio<span>flow</span></a>
-          <div className="nav-links">
-            <a href="/landing">Comment ça marche</a>
-            <a href="/tarifs">Tarifs</a>
-            <a href="/a-propos">À propos</a>
-          </div>
-          <a href="/paiement" className="nav-cta">Commencer →</a>
-        </div>
-      </nav>
+      {/* Navigation standard, identique au reste du site */}
+      <Navbar />
 
       {/* Hero Section */}
       <section className="hero">
@@ -288,7 +271,7 @@ export default function MentionsLegales() {
           </p>
           <p>
             Vous avez également la possibilité d'introduire une réclamation auprès de l'autorité française
-            de protection des données, la <strong>CNIL</strong> (3 place de Fontenoy — TSA 80715 —
+            de protection des données, la <strong>CNIL</strong> (3 place de Fontenoy, TSA 80715,
             75334 Paris Cedex 07 ; <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>www.cnil.fr</a>).
           </p>
           <p>
@@ -362,7 +345,7 @@ export default function MentionsLegales() {
           </p>
           <p>
             Le médiateur de la consommation compétent est :
-            <strong> Médiateur des entreprises</strong> — 12 square Desnouettes, 75015 Paris.
+            <strong> Médiateur des entreprises</strong>, 12 square Desnouettes, 75015 Paris.
             Site web : <a href="https://www.mediateurdesentreprises.fr" target="_blank" rel="noopener noreferrer" style={{color:'#0071E3'}}>www.mediateurdesentreprises.fr</a>.
             La saisine s'effectue en ligne, après une tentative de résolution préalable auprès de
             notre service client.
@@ -431,7 +414,7 @@ export default function MentionsLegales() {
             <a href="/politique-cookies">Politique de cookies</a>
             <a href="/cgv">Conditions générales de vente</a>
           </div>
-          <p style={{color:'#94a3b8'}}>© {new Date().getFullYear()} VisioFlow — Tous droits réservés.</p>
+          <p style={{color:'#94a3b8'}}>© {new Date().getFullYear()} VisioFlow, tous droits réservés.</p>
         </div>
       </footer>
       </div>

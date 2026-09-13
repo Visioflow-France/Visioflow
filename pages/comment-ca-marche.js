@@ -25,7 +25,7 @@ export default function CommentCaMarchePage() {
       number: '3',
       icon: Rocket,
       title: 'Réalisation rapide',
-      description: 'Votre site entre en production. Design, développement, et référencement Google inclus — tout est pris en charge.',
+      description: 'Votre site entre en production. Design, développement, et référencement Google inclus, tout est pris en charge.',
       duration: 'quelques semaines',
     },
     {
@@ -52,7 +52,7 @@ export default function CommentCaMarchePage() {
     },
     {
       question: 'Et si le rendu final ne me plaît pas ?',
-      answer: 'Tant que vous n\'êtes pas totalement satisfait du rendu final de votre site, nous continuons de le modifier — sans frais supplémentaires. Votre satisfaction est notre priorité.',
+      answer: 'Tant que vous n\'êtes pas totalement satisfait du rendu final de votre site, nous continuons de le modifier, sans frais supplémentaires. Votre satisfaction est notre priorité.',
     },
     {
       question: 'Puis-je modifier mon site après la livraison ?',
@@ -94,7 +94,7 @@ export default function CommentCaMarchePage() {
             </h1>
             <p className="vf2-text">
               De l'estimation gratuite à la livraison de votre site, tout est simplifié.
-              Pas de jargon, pas de surprises — juste des résultats.
+              Pas de jargon, pas de surprises, juste des résultats.
             </p>
           </div>
         </section>

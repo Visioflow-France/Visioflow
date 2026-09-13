@@ -45,13 +45,70 @@ function estimateSummary(est) {
   return txt
 }
 
-function estimateTags(f) {
-  const tags = []
-  if (f.siteType && f.siteType !== 'aucun') tags.push(`🌐 ${SITE_LABELS[f.siteType] || f.siteType}`)
-  if (f.googleBusiness) tags.push(`📍 Google Business${(f.gbOptions || []).length ? ` (${f.gbOptions.join(', ')})` : ''}`)
-  if (f.networks) tags.push(`📱 Réseaux${(f.platforms || []).length ? ` : ${(f.platforms || []).join(', ')}` : ''}`)
-  if (f.urgent) tags.push('⚡ Urgent')
-  return tags
+/* Case unique : la soumission du formulaire ET son estimation financière,
+   regroupées dans un seul bloc lisible. */
+function estimateBox(est) {
+  const f = est.form || {}
+  const e = est.estimate
+  const rows = []
+  rows.push(['Type de site', (f.siteType && f.siteType !== 'aucun') ? (SITE_LABELS[f.siteType] || f.siteType) : 'Autre besoin'])
+  rows.push(['Réseaux sociaux', f.networks ? `Gestion${(f.platforms || []).length ? ` (${f.platforms.join(', ')})` : ''}` : '—'])
+  rows.push(['Délai urgent (+10%)', f.urgent ? 'Oui' : 'Non'])
+  if (f.googleBusiness) rows.push(['Google Business', 'Oui'])
+
+  const lineRow = (l, i, monthly) => (
+    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', fontSize: '12.5px', padding: '3px 0' }}>
+      <span style={{ color: '#475569' }}>{l.label}</span>
+      <span style={{ color: '#0f172a', fontWeight: 600, whiteSpace: 'nowrap' }}>
+        {monthly ? `${l.price} €/mois` : `${l.price} €`}
+      </span>
+    </div>
+  )
+
+  return (
+    <div style={{ border: '1px solid #e2e8f0', borderRadius: '10px', background: '#f8fafc', marginBottom: '12px', overflow: 'hidden' }}>
+      <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#64748b', padding: '8px 14px', background: '#f1f5f9', borderBottom: '1px solid #e2e8f0' }}>
+        Demande &amp; estimation
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '0' }}>
+        {/* Soumission du formulaire */}
+        <div style={{ padding: '12px 14px', borderRight: '1px solid #e2e8f0' }}>
+          <div style={{ fontSize: '11px', fontWeight: 700, color: '#0071E3', marginBottom: '6px' }}>Soumission du formulaire</div>
+          {rows.map(([label, value], i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', fontSize: '12.5px', padding: '3px 0' }}>
+              <span style={{ color: '#64748b' }}>{label}</span>
+              <span style={{ color: '#0f172a', fontWeight: 600, textAlign: 'right' }}>{value}</span>
+            </div>
+          ))}
+          {f.description ? (
+            <div style={{ fontSize: '12px', color: '#475569', lineHeight: 1.5, marginTop: '8px', paddingTop: '8px', borderTop: '1px dashed #e2e8f0', whiteSpace: 'pre-wrap' }}>
+              « {f.description} »
+            </div>
+          ) : (
+            <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '8px', paddingTop: '8px', borderTop: '1px dashed #e2e8f0' }}>Pas de description</div>
+          )}
+        </div>
+        {/* Estimation financière */}
+        <div style={{ padding: '12px 14px' }}>
+          <div style={{ fontSize: '11px', fontWeight: 700, color: '#0071E3', marginBottom: '6px' }}>Estimation financière</div>
+          {(!e || e.custom) ? (
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a', padding: '6px 0' }}>Sur devis (besoin spécifique)</div>
+          ) : (
+            <>
+              {(e.lines || []).map((l, i) => lineRow(l, `one-${i}`, false))}
+              {(e.monthlyLines || []).map((l, i) => lineRow(l, `month-${i}`, true))}
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', fontSize: '13px', fontWeight: 800, color: '#0071E3', borderTop: '1px solid #e2e8f0', marginTop: '6px', paddingTop: '6px' }}>
+                <span>Total estimé</span>
+                <span style={{ whiteSpace: 'nowrap' }}>
+                  {estimateSummary(e)}
+                </span>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 function generateAIPrompt(formData) {
@@ -521,22 +578,8 @@ export default function Dashboard() {
                           )}
                         </div>
 
-                        {/* Détail de la demande */}
-                        {estimateTags(f).length > 0 && (
-                          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '12px' }}>
-                            {estimateTags(f).map((t, i) => (
-                              <span key={i} style={{ fontSize: '11.5px', padding: '4px 10px', background: '#eff6ff', color: '#1e40af', borderRadius: '999px', fontWeight: 600 }}>
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-
-                        {f.description && (
-                          <div style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.55, marginBottom: '12px', padding: '10px 12px', background: '#f8fafc', borderRadius: '8px', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                            {f.description}
-                          </div>
-                        )}
+                        {/* Case unique : soumission du formulaire + estimation financière */}
+                        {estimateBox(est)}
 
                         <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
                           <button

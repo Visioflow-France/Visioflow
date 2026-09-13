@@ -45,8 +45,7 @@ async function sendAdminEmail(data) {
         ${row('Téléphone', esc(form.phone))}
         ${row('Email', esc(form.email))}
         ${row('Type de site', esc(SITE_LABELS[form.siteType] || form.siteType))}
-        ${row('Google Business', form.googleBusiness ? `Oui${(form.gbOptions || []).length ? ` — ${form.gbOptions.join(', ')}` : ''}` : 'Non')}
-        ${row('Réseaux sociaux', form.networks ? `Oui — ${(form.platforms || []).join(', ') || 'plateforme à définir'}` : 'Non')}
+        ${row('Réseaux sociaux', form.networks ? `Oui, ${(form.platforms || []).join(', ') || 'plateforme à définir'}` : 'Non')}
         ${row('Urgent', form.urgent ? 'Oui (+10%)' : 'Non')}
         ${row('Description', esc(form.description))}
       </table>
