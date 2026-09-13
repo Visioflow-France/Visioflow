@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import {
   Globe, Smartphone, Check, Loader2, Rocket, Sparkles,
-  Calculator, Clock, Zap, SearchCheck, HeartHandshake, Send,
+  Calculator, Clock, Zap, SearchCheck, HeartHandshake, Send, MapPin,
 } from 'lucide-react';
 
 /* ── Grille de prix (cohérente avec la page /services) ──────────────────────
@@ -27,6 +27,7 @@ const NETWORK_BASE = 100;   // 1 plateforme incluse (€/mois)
 const NETWORK_EXTRA = 35;   // par plateforme supplémentaire (€/mois)
 const COMBO_ONE_TIME = 600; // forfait création site de l'offre combinée site + réseaux
 const COMBO_MONTHLY = 200;  // abonnement réseaux de l'offre combinée (€/mois)
+const GOOGLE_BUSINESS_PRICE = 50; // optimisation de la fiche Google Business (paiement unique, cohérent avec /services)
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const digits = (s) => (s || '').replace(/\D/g, '').length;
@@ -39,6 +40,7 @@ const EMPTY_FORM = {
   siteType: 'vitrine',
   networks: false,
   platforms: [],
+  googleBusiness: false,
   urgent: false,
   description: '',
 };
@@ -81,6 +83,12 @@ function computeEstimate(f) {
     lines.push({ label: 'Supplément urgence (+10 %)', price: Math.round(oneLow * 0.1) });
   }
 
+  // Fiche Google Business : prestation ponctuelle, sans options, ajoutée après
+  // la majoration urgence pour ne pas être concernée par le supplément site.
+  if (f.googleBusiness) {
+    lines.push({ label: 'Optimisation fiche Google Business', price: GOOGLE_BUSINESS_PRICE, base: true });
+  }
+
   oneLow = lines.reduce((s, l) => s + l.price, 0);
   const monthly = monthlyLines.reduce((s, l) => s + l.price, 0);
 
@@ -90,7 +98,7 @@ function computeEstimate(f) {
     oneLow,
     monthly,
     combined,
-    custom: !hasSite && !f.networks,
+    custom: !hasSite && !f.networks && !f.googleBusiness,
   };
 }
 
@@ -389,6 +397,22 @@ export default function EstimerMaDemandePage() {
                       </div>
                     </div>
                   )}
+                </div>
+
+                <div className="vf2-form-group">
+                  <div className="vf2-form-label">Google Business <span className="vf2-opt">(facultatif, paiement unique)</span></div>
+                  <div className="vf2-chips">
+                    <button
+                      type="button"
+                      className={`vf2-chip ${form.googleBusiness ? 'on' : ''}`}
+                      onClick={() => set('googleBusiness', !form.googleBusiness)}
+                    >
+                      {form.googleBusiness && <Check size={14} strokeWidth={3} />}
+                      <MapPin size={14} style={{ verticalAlign: '-2px', marginRight: '2px' }} />
+                      <span className="vf2-chip-label">Gestion de ma fiche Google Business</span>
+                      <span className="vf2-chip-price">à partir de {GOOGLE_BUSINESS_PRICE}€</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* La majoration urgence ne concerne que la création de site :

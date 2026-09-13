@@ -102,10 +102,6 @@ export default function Footer() {
         {/* Colonnes : marque / navigation / contact (pas de liste de services) */}
         <div className="footer-main">
           <div className="footer-brand">
-            <Link href="/" className="footer-logo" aria-label="VisioFlow">
-              <img src="/logo-navbar-icon.png" alt="" aria-hidden="true" width="686" height="684" />
-              <span>Visio<em>flow</em></span>
-            </Link>
             <p className="footer-description">
               Agence web &amp; communication digitale. Sites dès 400€ avec référencement
               Google inclus, ou pack gestion + site en abonnement dès 200€/mois.
@@ -242,31 +238,6 @@ export default function Footer() {
 
         .footer-brand {
           min-width: 0;
-        }
-
-        .footer-logo {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 16px;
-        }
-
-        .footer-logo img {
-          display: block;
-          width: 30px;
-          height: 30px;
-        }
-
-        .footer-logo span {
-          font-family: 'Fraunces', sans-serif;
-          font-size: 24px;
-          font-weight: 900;
-          color: #fff;
-        }
-
-        .footer-logo span em {
-          font-style: normal;
-          color: #38bdf8;
         }
 
         .footer-description {

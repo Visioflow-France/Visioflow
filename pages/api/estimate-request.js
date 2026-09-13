@@ -46,6 +46,7 @@ async function sendAdminEmail(data) {
         ${row('Email', esc(form.email))}
         ${row('Type de site', esc(SITE_LABELS[form.siteType] || form.siteType))}
         ${row('Réseaux sociaux', form.networks ? `Oui, ${(form.platforms || []).join(', ') || 'plateforme à définir'}` : 'Non')}
+        ${row('Google Business', form.googleBusiness ? 'Oui' : 'Non')}
         ${row('Urgent', form.urgent ? 'Oui (+10%)' : 'Non')}
         ${row('Description', esc(form.description))}
       </table>
