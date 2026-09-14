@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
-import { Globe, MapPin, Check, Star, SearchCheck, HeartHandshake, Rocket } from 'lucide-react';
+import { Globe, MapPin, Check, Star, SearchCheck, HeartHandshake, Rocket, ChevronDown } from 'lucide-react';
 
 export default function ServicesPage() {
   const canonicalUrl = "https://visioflow.fr/services";
@@ -119,11 +119,17 @@ export default function ServicesPage() {
               <div className="vf2-trust-item"><SearchCheck size={20} />Référencement Google inclus avec votre site</div>
               <div className="vf2-trust-item"><HeartHandshake size={20} />Modifications jusqu&apos;à satisfaction totale</div>
             </div>
+
+            {/* Indicateur de défilement : montre qu'il y a des offres plus bas */}
+            <a href="#packs" className="vf2-scroll-cue">
+              <span className="vf2-scroll-cue-label">Découvrez nos offres</span>
+              <span className="vf2-scroll-cue-icon"><ChevronDown size={26} strokeWidth={2.4} /></span>
+            </a>
           </div>
         </section>
 
         {/* Pack Site + Gestion Réseaux Sociaux — l'offre tout compris en abonnement */}
-        <section className="vf2-section" style={{ paddingTop: '20px' }}>
+        <section id="packs" className="vf2-section" style={{ paddingTop: '20px', scrollMarginTop: '90px' }}>
           <div className="vf2-container">
             <div style={{ textAlign: 'center' }}>
               <div className="vf2-eyebrow" style={{ marginBottom: '10px' }}>

@@ -632,6 +632,44 @@
   height: 20px;
 }
 
+/* ── INDICATEUR DE DÉFILEMENT ────────────────────────────────────────────────────── */
+.vf2-scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 38px auto 0;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.vf2-scroll-cue-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--vf2-muted);
+  transition: color 0.2s ease;
+}
+
+.vf2-scroll-cue-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vf2-blue);
+  animation: vf2CueBounce 1.6s ease-in-out infinite;
+}
+
+.vf2-scroll-cue:hover .vf2-scroll-cue-label,
+.vf2-scroll-cue:hover .vf2-scroll-cue-icon {
+  color: var(--vf2-blue);
+}
+
+@keyframes vf2CueBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.65; }
+  50%      { transform: translateY(7px); opacity: 1; }
+}
+
 /* ── FLOATING ORBS ───────────────────────────────────────────────────────────────── */
 .vf2-orb {
   position: absolute;
