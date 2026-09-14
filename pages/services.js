@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
-import { Globe, MapPin, Smartphone, Check, Star, SearchCheck, HeartHandshake, Rocket } from 'lucide-react';
+import { Globe, MapPin, Check, Star, SearchCheck, HeartHandshake, Rocket } from 'lucide-react';
 
 export default function ServicesPage() {
   const canonicalUrl = "https://visioflow.fr/services";
@@ -38,22 +38,6 @@ export default function ServicesPage() {
         'Avis clients',
         'Statistiques',
         'Publication de posts'
-      ],
-      popular: false,
-    },
-    {
-      id: 'reseaux-sociaux',
-      icon: Smartphone,
-      title: 'Réseaux Sociaux',
-      description: 'Gestion complète de vos réseaux sociaux : création de contenu, publications régulières, recherche de collaborations.',
-      price: '100-200€',
-      pricePrefix: 'à partir de',
-      features: [
-        'Création de contenu',
-        'Publications régulières',
-        'Community management',
-        'Recherche collaborations',
-        'Analyse et rapports'
       ],
       popular: false,
     }
@@ -182,6 +166,32 @@ export default function ServicesPage() {
                   </ul>
                 </div>
               ))}
+            </div>
+
+            {/* La gestion réseaux seule : un suivi mensuel, elle vit avec les abonnements
+                et non dans l'achat direct « sans suivi ». */}
+            <div style={{ maxWidth: '560px', margin: '28px auto 0' }}>
+              <div className="vf2-card vf2-service-card">
+                <h3 className="vf2-h3">Gestion Réseaux Sociaux seule</h3>
+                <p className="vf2-text" style={{ fontSize: '0.95rem', marginBottom: '20px' }}>
+                  Vous avez déjà un site ? Nous gérons vos réseaux au quotidien :
+                  création de contenu, publications régulières, recherche de collaborations.
+                </p>
+
+                <div className="vf2-service-price">
+                  <span className="vf2-service-price-prefix">à partir de</span>
+                  {' 100€'}
+                  <span style={{ fontSize: '0.55em', fontWeight: 600 }}>/mois</span>
+                </div>
+
+                <ul className="vf2-service-features">
+                  <li className="vf2-service-feature"><Check size={18} strokeWidth={3} />Création de contenu</li>
+                  <li className="vf2-service-feature"><Check size={18} strokeWidth={3} />Publications régulières</li>
+                  <li className="vf2-service-feature"><Check size={18} strokeWidth={3} />Community management</li>
+                  <li className="vf2-service-feature"><Check size={18} strokeWidth={3} />Recherche collaborations</li>
+                  <li className="vf2-service-feature"><Check size={18} strokeWidth={3} />Analyse et rapports</li>
+                </ul>
+              </div>
             </div>
           </div>
         </section>
