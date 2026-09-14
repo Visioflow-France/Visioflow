@@ -87,15 +87,15 @@ export default function ContactPage() {
   return (
     <>
       <Head>
-        <title>Contact — Visioflow | Parlons de votre projet</title>
+        <title>Contact — VisioFlow | Parlons de votre projet</title>
         <meta
           name="description"
-          content="Contactez Visioflow par email ou téléphone pour parler de votre projet : site web dès 400€, Google Business, gestion de vos réseaux sociaux. Réponse sous 24h ouvrées."
+          content="Contactez VisioFlow par email ou téléphone pour parler de votre projet : site web dès 400€, Google Business, gestion de vos réseaux sociaux. Réponse sous 24h ouvrées."
         />
         <meta name="keywords" content="contact visioflow, agence web contact, devis site internet, création site web" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Contact — Visioflow" />
+        <meta property="og:title" content="Contact — VisioFlow" />
         <meta property="og:description" content="Parlons de votre projet : sites web dès 400€, Google Business, réseaux sociaux. Réponse sous 24h ouvrées." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />

@@ -10,12 +10,17 @@ import {
 /* ── Grille de prix (cohérente avec la page /services) ──────────────────────
    Site vitrine : à partir de 400 € (strict minimum)
    Boutique e-commerce : à partir de 600 €
-   Réseaux sociaux : à partir de 100 €/mois */
+   Réseaux sociaux : à partir de 100 €/mois
+   Packs abonnement (site + gestion réseaux sociaux) : 200 €/mois et 300 €/mois */
 const SITE_TYPES = [
   { id: 'vitrine',   label: 'Site vitrine',        desc: 'Votre présence de référence en ligne, à votre image', price: 400 },
   { id: 'ecommerce', label: 'Boutique e-commerce', desc: 'Vente en ligne, panier & paiement',                    price: 600 },
+  { id: 'pack-vitrine',   label: 'Pack Site Vitrine + Gestion Réseaux Sociaux',  desc: 'Abonnement tout compris : site créé, géré et réseaux animés', monthly: 200 },
+  { id: 'pack-ecommerce', label: 'Pack E-commerce + Gestion Réseaux Sociaux',    desc: 'Abonnement tout compris : boutique créée, gérée et réseaux animés', monthly: 300 },
   { id: 'aucun',     label: 'Autre',               desc: 'Un autre besoin, décrivez-le à l\u2019étape suivante', price: 0 },
 ];
+
+const isPack = (id) => id === 'pack-vitrine' || id === 'pack-ecommerce';
 
 const PLATFORMS = [
   { id: 'insta',  label: 'Instagram' },
@@ -51,10 +56,11 @@ const EMPTY_FORM = {
 function computeEstimate(f) {
   const site = SITE_TYPES.find((s) => s.id === f.siteType) || SITE_TYPES[0];
   const hasSite = f.siteType !== 'aucun';
-  const combined = f.networks && hasSite;
+  const pack = isPack(f.siteType);
+  const combined = f.networks && hasSite && !pack;
 
   const lines = [];
-  if (hasSite) lines.push({ label: site.label, price: site.price, base: true });
+  if (hasSite && !pack) lines.push({ label: site.label, price: site.price, base: true });
 
   let oneLow = lines.reduce((s, l) => s + l.price, 0);
 
@@ -62,7 +68,9 @@ function computeEstimate(f) {
   const gridMonthly = NETWORK_BASE + NETWORK_EXTRA * (platCount - 1);
 
   const monthlyLines = [];
-  if (f.networks) {
+  if (pack) {
+    monthlyLines.push({ label: `${site.label} (abonnement tout compris)`, price: site.monthly, base: true });
+  } else if (f.networks) {
     monthlyLines.push({
       label: combined
         ? `Abonnement réseaux sociaux, offre combinée site + réseaux (${platCount} plateforme${platCount > 1 ? 's' : ''})`
@@ -219,7 +227,7 @@ export default function EstimerMaDemandePage() {
   return (
     <>
       <Head>
-        <title>Estimer ma demande — Visioflow | Prix immédiat, sites dès 400€</title>
+        <title>Estimer ma demande — VisioFlow | Prix immédiat, sites dès 400€</title>
         <meta
           name="description"
           content="Décrivez votre projet en 1 minute et voyez votre prix se calculer en direct avant même l'envoi : site vitrine dès 400€, e-commerce dès 600€ (référencement Google inclus) et gestion des réseaux sociaux."
@@ -227,7 +235,7 @@ export default function EstimerMaDemandePage() {
         <meta name="keywords" content="estimation site web, devis site internet, prix création site, estimateur prix site web, devis réseaux sociaux" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Estimer ma demande — Visioflow" />
+        <meta property="og:title" content="Estimer ma demande — VisioFlow" />
         <meta property="og:description" content="Décrivez votre projet, voyez votre prix en direct avant l'envoi. Sites dès 400€, référencement Google inclus. Gratuit et sans engagement." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
@@ -356,13 +364,18 @@ export default function EstimerMaDemandePage() {
                         <span className="vf2-choice-radio" />
                         <span className="vf2-choice-label">{t.label}</span>
                         <span className="vf2-choice-desc">{t.desc}</span>
-                        <span className="vf2-choice-price">{t.price > 0 ? `à partir de ${t.price}€` : 'sur devis'}</span>
+                        <span className="vf2-choice-price">
+                          {t.monthly ? `${t.monthly}€/mois, tout compris` : t.price > 0 ? `à partir de ${t.price}€` : 'sur devis'}
+                        </span>
                       </button>
                     ))}
                   </div>
                   <p className="vf2-wiz-hint"><SearchCheck size={13} /> Le <strong>référencement Google est inclus</strong> avec le site internet que vous commandez.</p>
                 </div>
 
+                {/* Les packs abonnement incluent déjà la gestion réseaux sociaux :
+                    l'option séparée n'est proposée que pour les autres formules. */}
+                {!isPack(form.siteType) && (
                 <div className="vf2-form-group">
                   <div className="vf2-form-label">Réseaux sociaux <span className="vf2-opt">(facultatif, abonnement mensuel)</span></div>
                   <div className="vf2-chips">
@@ -398,6 +411,7 @@ export default function EstimerMaDemandePage() {
                     </div>
                   )}
                 </div>
+                )}
 
                 <div className="vf2-form-group">
                   <div className="vf2-form-label">Google Business <span className="vf2-opt">(facultatif, paiement unique)</span></div>
@@ -417,7 +431,7 @@ export default function EstimerMaDemandePage() {
 
                 {/* La majoration urgence ne concerne que la création de site :
                     elle n'est proposée (ni appliquée) que si un site est choisi. */}
-                {form.siteType !== 'aucun' && (
+                {form.siteType !== 'aucun' && !isPack(form.siteType) && (
                   <div className="vf2-form-group">
                     <div className="vf2-form-label">Délai <span className="vf2-opt">(facultatif, création du site uniquement)</span></div>
                     <div className="vf2-chips">

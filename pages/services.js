@@ -59,16 +59,17 @@ export default function ServicesPage() {
     }
   ];
 
-  /* Pack Gestion + Site : l'abonnement tout compris. */
+  /* Pack Site + Gestion Réseaux Sociaux : l'abonnement tout compris. */
   const packs = [
     {
       id: 'pack-vitrine',
-      title: 'Site Vitrine + Gestion',
+      title: 'Site Vitrine + Gestion Réseaux Sociaux',
       price: '200€',
       suffix: '/mois',
-      summary: 'Votre site vitrine créé et géré de A à Z, pour une présence digitale sereine.',
+      summary: 'Votre site vitrine créé et géré de A à Z, avec vos réseaux sociaux animés au quotidien.',
       features: [
         'Création complète de votre site vitrine',
+        'Gestion complète de vos réseaux sociaux',
         'Suivi garanti en continu',
         'Croissance du référencement naturel (SEO Google)',
         'Maintenance continue du site',
@@ -77,12 +78,13 @@ export default function ServicesPage() {
     },
     {
       id: 'pack-ecommerce',
-      title: 'Site E-commerce + Gestion',
+      title: 'Site E-commerce + Gestion Réseaux Sociaux',
       price: '300€',
       suffix: '/mois',
-      summary: 'Votre boutique en ligne créée et pilotée au quotidien, ventes incluses.',
+      summary: 'Votre boutique en ligne créée et pilotée au quotidien, avec vos réseaux sociaux gérés, ventes incluses.',
       features: [
         'Création complète de votre boutique en ligne',
+        'Gestion complète de vos réseaux sociaux',
         'Suivi garanti en continu',
         'Croissance du référencement naturel (SEO Google)',
         'Maintenance continue du site',
@@ -94,16 +96,16 @@ export default function ServicesPage() {
   return (
     <>
       <Head>
-        <title>Nos Services — Visioflow | Pack Gestion + Site dès 200€/mois, achat direct dès 400€</title>
+        <title>Nos Services — VisioFlow | Pack Site + Gestion Réseaux Sociaux dès 200€/mois, achat direct dès 400€</title>
         <meta
           name="description"
-          content="Deux façons de travailler avec nous : le Pack Gestion + Site en abonnement (site vitrine 200€/mois, e-commerce 300€/mois, suivi garanti, SEO Google, maintenance et support inclus) ou l'achat direct de votre site dès 400€ sans suivi."
+          content="Deux façons de travailler avec nous : le Pack Site + Gestion Réseaux Sociaux en abonnement (site vitrine 200€/mois, e-commerce 300€/mois, suivi garanti, SEO Google, maintenance et support inclus) ou l'achat direct de votre site dès 400€ sans suivi."
         />
         <meta name="keywords" content="pack gestion site, abonnement site internet, création site web, gestion réseaux sociaux, maintenance site, seo google, achat site direct" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Nos Services — Visioflow" />
-        <meta property="og:description" content="Pack Gestion + Site dès 200€/mois (suivi garanti, SEO Google, maintenance, support) ou achat direct dès 400€. Modifications jusqu'à satisfaction totale." />
+        <meta property="og:title" content="Nos Services — VisioFlow" />
+        <meta property="og:description" content="Pack Site + Gestion Réseaux Sociaux dès 200€/mois (suivi garanti, SEO Google, maintenance, support) ou achat direct dès 400€. Modifications jusqu'à satisfaction totale." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
       </Head>
@@ -136,13 +138,13 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Pack Gestion + Site — l'offre tout compris en abonnement */}
+        {/* Pack Site + Gestion Réseaux Sociaux — l'offre tout compris en abonnement */}
         <section className="vf2-section" style={{ paddingTop: '20px' }}>
           <div className="vf2-container">
             <div style={{ textAlign: 'center' }}>
               <div className="vf2-eyebrow" style={{ marginBottom: '10px' }}>
                 <Rocket size={16} />
-                Nouveau · Pack Gestion + Site
+                Nouveau · Pack Site + Gestion Réseaux Sociaux
               </div>
             </div>
             <h2 className="vf2-h2" style={{ textAlign: 'center', marginBottom: '10px' }}>
@@ -178,10 +180,6 @@ export default function ServicesPage() {
                       </li>
                     ))}
                   </ul>
-
-                  <Link href="/estimer-ma-demande" className="vf2-btn-primary" style={{ marginTop: '22px', width: '100%', justifyContent: 'center', padding: '14px 24px', fontSize: '15px' }}>
-                    Estimer ma demande
-                  </Link>
                 </div>
               ))}
             </div>

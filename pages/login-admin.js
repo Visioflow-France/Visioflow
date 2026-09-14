@@ -31,7 +31,7 @@ export default function LoginAdmin() {
   return (
     <>
       <Head>
-        <title>Accès admin — Visioflow</title>
+        <title>Accès admin — VisioFlow</title>
         <meta name="robots" content="noindex,nofollow" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </Head>

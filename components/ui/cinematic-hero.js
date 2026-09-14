@@ -166,13 +166,13 @@ const INJECTED_STYLES = `
 `;
 
 export function CinematicHero({
-  brandName = "Visioflow",
+  brandName = "VisioFlow",
   tagline1 = "Votre site de restaurant,",
   tagline2 = "en 5 jours maximum.",
   cardHeading = "Le digital, réinventé.",
   cardDescription = (
     <>
-      <span className="text-white font-semibold">Visioflow</span> crée des sites
+      <span className="text-white font-semibold">VisioFlow</span> crée des sites
       web professionnels pour restaurateurs avec commande en ligne, tableau de
       bord admin et paiements intégrés — le tout livré en 5 jours.
     </>

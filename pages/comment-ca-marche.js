@@ -63,14 +63,14 @@ export default function CommentCaMarchePage() {
   return (
     <>
       <Head>
-        <title>Comment ça marche — Visioflow | Estimation gratuite et accompagnement personnalisé</title>
+        <title>Comment ça marche — VisioFlow | Estimation gratuite et accompagnement personnalisé</title>
         <meta
           name="description"
-          content="Découvrez comment Visioflow fonctionne : estimation gratuite en quelques secondes, contact personnalisé, et réalisation de vos projets web et digitaux."
+          content="Découvrez comment VisioFlow fonctionne : estimation gratuite en quelques secondes, contact personnalisé, et réalisation de vos projets web et digitaux."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Comment ça marche — Visioflow" />
+        <meta property="og:title" content="Comment ça marche — VisioFlow" />
         <meta property="og:description" content="Estimation gratuite en quelques secondes, contact personnalisé, et réalisation de vos projets." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />

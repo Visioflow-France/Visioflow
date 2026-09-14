@@ -9,15 +9,15 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title>Visioflow — Agence web & communication digitale | Sites web, Google Business, Réseaux sociaux</title>
+        <title>VisioFlow — Agence web & communication digitale | Sites web, Google Business, Réseaux sociaux</title>
         <meta
           name="description"
-          content="Visioflow réalise vos projets web et digitaux : sites 100% adaptables dès 400€ (référencement Google inclus), gestion Google Business, et réseaux sociaux. Devis gratuit et estimation automatique."
+          content="VisioFlow réalise vos projets web et digitaux : sites 100% adaptables dès 400€ (référencement Google inclus), gestion Google Business, et réseaux sociaux. Devis gratuit et estimation automatique."
         />
         <meta name="keywords" content="agence web, création site web, e-commerce, site vitrine, google business, réseaux sociaux, community management, seo local" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Visioflow — Agence web & communication digitale" />
+        <meta property="og:title" content="VisioFlow — Agence web & communication digitale" />
         <meta property="og:description" content="Sites web, Google Business, Réseaux sociaux. Devis gratuit et estimation automatique de votre projet." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
@@ -78,7 +78,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Mockup Composition — écrans Visioflow en HTML/CSS */}
+        {/* Mockup Composition — écrans VisioFlow en HTML/CSS */}
         <section className="vf2-section" style={{ textAlign: 'center', position: 'relative' }}>
           <div className="vf2-container">
             <div style={{
@@ -113,7 +113,7 @@ export default function HomePage() {
                           </linearGradient>
                         </defs>
                       </svg>
-                      Visioflow
+                      VisioFlow
                     </div>
                     <div style={{ display: 'flex', gap: '12px' }}>
                       <div className="vf2-screen-navlink" />

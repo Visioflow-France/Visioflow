@@ -28,7 +28,7 @@ export default function LandingPage() {
   return (
     <>
       <Head>
-        <title>Créer un site web pour votre restaurant — Visioflow | Site vitrine &amp; commandes en ligne</title>
+        <title>Créer un site web pour votre restaurant — VisioFlow | Site vitrine &amp; commandes en ligne</title>
         <meta
           name="description"
           content="Votre site restaurant professionnel avec menu en ligne, commandes et paiement intégré. Pack Essentiel 150€ ou Premium 490€ — livré en 5 jours, hébergement à vie inclus."
@@ -36,7 +36,7 @@ export default function LandingPage() {
         <meta name="keywords" content="créer site restaurant, site restaurant commandes en ligne, site vitrine restaurant pas cher, site web restaurant rapide, faire site internet restaurant, site restaurant menu en ligne, prise de commande en ligne restaurant" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="noindex, nofollow" />
-        <meta property="og:title" content="Créer un site web pour votre restaurant — Visioflow" />
+        <meta property="og:title" content="Créer un site web pour votre restaurant — VisioFlow" />
         <meta property="og:description" content="Votre site restaurant professionnel avec menu en ligne, commandes et paiement intégré. Pack Essentiel 150€ ou Premium 490€ — livré en 5 jours, hébergement à vie inclus." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
@@ -44,9 +44,9 @@ export default function LandingPage() {
         <meta property="og:image" content="https://visioflow.fr/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Visioflow — Créer un site web pour votre restaurant" />
+        <meta property="og:image:alt" content="VisioFlow — Créer un site web pour votre restaurant" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Créer un site web pour votre restaurant — Visioflow" />
+        <meta name="twitter:title" content="Créer un site web pour votre restaurant — VisioFlow" />
         <meta name="twitter:description" content="Votre site restaurant professionnel avec menu en ligne, commandes et paiement intégré. Pack Essentiel 150€ ou Premium 490€ — livré en 5 jours, hébergement à vie inclus." />
         <meta name="twitter:image" content="https://visioflow.fr/og-image.png" />
         <script
@@ -55,11 +55,11 @@ export default function LandingPage() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Service",
-              "name": "Visioflow — Création site web restaurant professionnel",
+              "name": "VisioFlow — Création site web restaurant professionnel",
               "description": "Service de création de sites web professionnels pour restaurants : site vitrine ou commandes en ligne, design sur mesure, hébergement inclus, livré en 5 jours maximum.",
               "provider": {
                 "@type": "Organization",
-                "name": "Visioflow",
+                "name": "VisioFlow",
                 "url": "https://visioflow.fr"
               },
               "offers": [
@@ -107,7 +107,7 @@ export default function LandingPage() {
                   "name": "Quel est le prix pour créer un site web de restaurant ?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Visioflow propose deux packs : le Pack Essentiel à 150€ (site vitrine professionnel) et le Pack Premium à 490€ (site avec commandes en ligne, panier et paiement intégré). Paiement unique, sans abonnement."
+                    "text": "VisioFlow propose deux packs : le Pack Essentiel à 150€ (site vitrine professionnel) et le Pack Premium à 490€ (site avec commandes en ligne, panier et paiement intégré). Paiement unique, sans abonnement."
                   }
                 },
                 {
@@ -251,7 +251,7 @@ export default function LandingPage() {
             avec commandes en ligne
           </h1>
           <p className="hero-sub">
-            Visioflow crée des sites web modernes et performants pour restaurants.
+            VisioFlow crée des sites web modernes et performants pour restaurants.
             Développez votre activité avec un <a href="/paiement" style={{color:'#0071E3',fontWeight:600}}>site avec commandes en ligne</a>,
             optimisé pour mobile et livré en 5 jours maximum.
           </p>
@@ -317,7 +317,7 @@ export default function LandingPage() {
       {/* Avantages */}
       <section id="avantages" style={{background:'rgba(15,23,42,.02)'}}>
         <div className="container">
-          <h2 className="section-title">Pourquoi choisir Visioflow ?</h2>
+          <h2 className="section-title">Pourquoi choisir VisioFlow ?</h2>
           <p className="section-sub">
             Notre service de création de sites web offre
             de nombreux avantages pour développer votre activité en ligne.

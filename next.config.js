@@ -56,3 +56,7 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+// Workaround : des sous-dossiers contiennent leur propre package.json,
+// Turbopack infère mal la racine du projet.
+const path = require('path');
+nextConfig.turbopack = { root: path.join(__dirname) };

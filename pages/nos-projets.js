@@ -5,53 +5,9 @@ import Navbar from '../components/Navbar';
 import { ExternalLink, Rocket, BadgeCheck } from 'lucide-react';
 import { db } from '../lib/firebase-admin';
 
-/* Réalisations de l'agence intégrées d'office à la page. Les projets ajoutés
-   depuis le dashboard admin (collection Firestore « projects ») viennent
-   s'ajouter à cette base, sans doublon (comparaison par titre). */
-const CURATED_PROJECTS = [
-  {
-    id: 'curated-osnack',
-    title: "O'Snack",
-    category: 'ecommerce',
-    description: 'Snack & fast-food à Torcy (77200) : menu complet, commande et livraison en ligne.',
-    url: '',
-  },
-  {
-    id: 'curated-o77',
-    title: "O'77",
-    category: 'ecommerce',
-    description: 'Fast-food & pizzeria à Pontault-Combault (77340) : commandes en ligne, ouvert 7j/7.',
-    url: '',
-  },
-  {
-    id: 'curated-prestigeflow',
-    title: 'PrestigeFlow',
-    category: 'vitrine',
-    description: 'Restaurant gastronomique 3 étoiles à Paris : une expérience digitale haut de gamme.',
-    url: '',
-  },
-  {
-    id: 'curated-croustiflow',
-    title: 'CroustiFlow',
-    category: 'vitrine',
-    description: 'Spécialiste du riz croustillant : carte appétissante et image de marque soignée.',
-    url: '',
-  },
-  {
-    id: 'curated-matchaflow',
-    title: 'MatchaFlow',
-    category: 'vitrine',
-    description: "L'art du matcha, de la sélection à la dégustation : univers visuel immersif.",
-    url: '',
-  },
-  {
-    id: 'curated-fonseca',
-    title: 'Fonseca',
-    category: 'vitrine',
-    description: 'Peintre en bâtiment haut de gamme à Pontault-Combault : portfolio et devis en ligne.',
-    url: '',
-  },
-];
+/* Les réalisations affichées proviennent uniquement du dashboard admin
+   (collection Firestore « projects », publiées via /admin). */
+const CURATED_PROJECTS = [];
 
 const normalizeTitle = (t) =>
   String(t || '')
@@ -119,7 +75,6 @@ export default function ProjectsPage({ projects = [] }) {
   const canonicalUrl = "https://visioflow.fr/nos-projets";
 
   const stats = [
-    { value: `${projects.length}+`, label: 'Réalisations & projets' },
     { value: 'Quelques semaines', label: 'Délai moyen' },
     { value: '100%', label: 'Satisfaction' },
   ];
@@ -127,16 +82,16 @@ export default function ProjectsPage({ projects = [] }) {
   return (
     <>
       <Head>
-        <title>Nos Projets — Visioflow | Nos réalisations web et digitales</title>
+        <title>Nos Projets — VisioFlow | Nos réalisations web et digitales</title>
         <meta
           name="description"
-          content="Découvrez l'ensemble de nos réalisations : sites vitrines, boutiques en ligne avec commandes, pages Google et gestion de réseaux sociaux. Chaque projet est adapté aux besoins de nos clients."
+          content="Découvrez quelques exemples de nos réalisations : sites vitrines, boutiques en ligne avec commandes, pages Google et gestion de réseaux sociaux. Chaque projet est adapté aux besoins de nos clients."
         />
         <meta name="keywords" content="projets web, réalisations, portfolio, sites web créés, exemples" />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Nos Projets — Visioflow" />
-        <meta property="og:description" content="Découvrez l'ensemble de nos réalisations web et digitales." />
+        <meta property="og:title" content="Nos Projets — VisioFlow" />
+        <meta property="og:description" content="Découvrez quelques exemples de nos réalisations web et digitales." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
       </Head>
@@ -158,8 +113,9 @@ export default function ProjectsPage({ projects = [] }) {
               Des projets qui <span className="vf2-serif-italic">inspirent</span>
             </h1>
             <p className="vf2-text">
-              Restaurants, snacks, artisans, marques premium : découvrez l&apos;ensemble de nos
-              réalisations, chacune pensée sur mesure pour son activité.
+              Restaurants, snacks, artisans, marques premium : voici <strong>quelques
+              exemples</strong> de nos réalisations, chacune pensée sur mesure pour
+              son activité.
             </p>
           </div>
         </section>
@@ -195,7 +151,7 @@ export default function ProjectsPage({ projects = [] }) {
                     opacity: filter === 'all' ? 1 : 0.55,
                   }}
                 >
-                  Tous ({projects.length})
+                  Tous
                 </button>
                 {available.map(cat => (
                   <button
@@ -240,7 +196,7 @@ export default function ProjectsPage({ projects = [] }) {
                     ) : (
                       <span style={{ fontSize: '12.5px', opacity: 0.6, display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <BadgeCheck size={14} />
-                        Réalisation Visioflow
+                        Réalisation VisioFlow
                       </span>
                     )}
                   </>

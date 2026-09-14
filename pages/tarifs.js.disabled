@@ -7,15 +7,15 @@ export default function Tarifs() {
   return (
     <>
       <Head>
-        <title>Réservez votre appel de découverte — Visioflow | Agence de création de sites web</title>
+        <title>Réservez votre appel de découverte — VisioFlow | Agence de création de sites web</title>
         <meta
           name="description"
-          content="Réservez votre appel de découverte avec Visioflow pour discuter de votre projet de site web professionnel. Appel gratuit 15-30min ou appel stratégique payant. Tous secteurs confondus."
+          content="Réservez votre appel de découverte avec VisioFlow pour discuter de votre projet de site web professionnel. Appel gratuit 15-30min ou appel stratégique payant. Tous secteurs confondus."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Réservez votre appel de découverte — Visioflow | Agence de création de sites web" />
-        <meta property="og:description" content="Réservez votre appel de découverte avec Visioflow pour discuter de votre projet de site web professionnel. Appel gratuit 15-30min ou appel stratégique payant." />
+        <meta property="og:title" content="Réservez votre appel de découverte — VisioFlow | Agence de création de sites web" />
+        <meta property="og:description" content="Réservez votre appel de découverte avec VisioFlow pour discuter de votre projet de site web professionnel. Appel gratuit 15-30min ou appel stratégique payant." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
@@ -31,10 +31,10 @@ export default function Tarifs() {
               "mainEntity": [
                 {
                   "@type": "Question",
-                  "name": "Combien coûte un site web de restaurant chez Visioflow ?",
+                  "name": "Combien coûte un site web de restaurant chez VisioFlow ?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Chez Visioflow, un site web de restaurant coûte 150€ pour le Pack Essentiel (site vitrine professionnel) ou 490€ pour le Pack Premium (site avec commandes en ligne, panier et paiement intégré). Tous nos packs sont en paiement unique, sans abonnement, et incluent l'hébergement à vie."
+                    "text": "Chez VisioFlow, un site web de restaurant coûte 150€ pour le Pack Essentiel (site vitrine professionnel) ou 490€ pour le Pack Premium (site avec commandes en ligne, panier et paiement intégré). Tous nos packs sont en paiement unique, sans abonnement, et incluent l'hébergement à vie."
                   }
                 },
                 {
@@ -42,7 +42,7 @@ export default function Tarifs() {
                   "name": "Y a-t-il des frais mensuels ou d'abonnement ?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Non, il n'y a aucun frais mensuel ni abonnement chez Visioflow. Tous nos packs sont en paiement unique. L'hébergement, le support technique et les mises à jour sont inclus à vie dans le prix initial de 150€ ou 490€."
+                    "text": "Non, il n'y a aucun frais mensuel ni abonnement chez VisioFlow. Tous nos packs sont en paiement unique. L'hébergement, le support technique et les mises à jour sont inclus à vie dans le prix initial de 150€ ou 490€."
                   }
                 },
                 {
@@ -87,10 +87,10 @@ export default function Tarifs() {
                 },
                 {
                   "@type": "Question",
-                  "name": "Visioflow travaille-t-elle avec des petits restaurants ?",
+                  "name": "VisioFlow travaille-t-elle avec des petits restaurants ?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Oui, Visioflow travaille avec tous les types de restaurants, des petits bistrots aux grandes brasseries. Nos packs sont adaptés aux besoins des restaurateurs indépendants. Le Pack Essentiel (150€) est particulièrement adapté aux petits restaurants qui souhaitent un site vitrine professionnel, tandis que le Pack Premium (490€) convient aux restaurants qui veulent accepter des commandes en ligne."
+                    "text": "Oui, VisioFlow travaille avec tous les types de restaurants, des petits bistrots aux grandes brasseries. Nos packs sont adaptés aux besoins des restaurateurs indépendants. Le Pack Essentiel (150€) est particulièrement adapté aux petits restaurants qui souhaitent un site vitrine professionnel, tandis que le Pack Premium (490€) convient aux restaurants qui veulent accepter des commandes en ligne."
                   }
                 },
                 {
@@ -98,7 +98,7 @@ export default function Tarifs() {
                   "name": "Y a-t-il des frais supplémentaires cachés ?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Non, il n'y a aucun frais supplémentaire caché chez Visioflow. Le prix indiqué (150€ ou 490€) est le prix final. L'hébergement, le support technique, les mises à jour et les modifications simples sont inclus. Les seuls frais supplémentaires éventuels sont pour des modifications majeures ou des ajouts de fonctionnalités personnalisées sur devis."
+                    "text": "Non, il n'y a aucun frais supplémentaire caché chez VisioFlow. Le prix indiqué (150€ ou 490€) est le prix final. L'hébergement, le support technique, les mises à jour et les modifications simples sont inclus. Les seuls frais supplémentaires éventuels sont pour des modifications majeures ou des ajouts de fonctionnalités personnalisées sur devis."
                   }
                 },
                 {
@@ -389,9 +389,9 @@ export default function Tarifs() {
           </p>
           <div className="faq">
             <div className="faq-item">
-              <h3 className="faq-question">Combien coûte un site web de restaurant chez Visioflow ?</h3>
+              <h3 className="faq-question">Combien coûte un site web de restaurant chez VisioFlow ?</h3>
               <p className="faq-answer">
-                Chez Visioflow, un site web de restaurant coûte 150€ pour le Pack Essentiel (site vitrine professionnel)
+                Chez VisioFlow, un site web de restaurant coûte 150€ pour le Pack Essentiel (site vitrine professionnel)
                 ou 490€ pour le Pack Premium (site avec commandes en ligne, panier et paiement intégré).
                 Tous nos packs sont en paiement unique, sans abonnement, et incluent l'hébergement à vie.
               </p>
@@ -399,7 +399,7 @@ export default function Tarifs() {
             <div className="faq-item">
               <h3 className="faq-question">Y a-t-il des frais mensuels ou d'abonnement ?</h3>
               <p className="faq-answer">
-                Non, il n'y a aucun frais mensuel ni abonnement chez Visioflow. Tous nos packs sont en paiement unique.
+                Non, il n'y a aucun frais mensuel ni abonnement chez VisioFlow. Tous nos packs sont en paiement unique.
                 L'hébergement, le support technique et les mises à jour sont inclus à vie dans le prix initial de 150€ ou 490€.
               </p>
             </div>
@@ -443,9 +443,9 @@ export default function Tarifs() {
               </p>
             </div>
             <div className="faq-item">
-              <h3 className="faq-question">Visioflow travaille-t-elle avec des petits restaurants ?</h3>
+              <h3 className="faq-question">VisioFlow travaille-t-elle avec des petits restaurants ?</h3>
               <p className="faq-answer">
-                Oui, Visioflow travaille avec tous les types de restaurants, des petits bistrots aux grandes brasseries.
+                Oui, VisioFlow travaille avec tous les types de restaurants, des petits bistrots aux grandes brasseries.
                 Nos packs sont adaptés aux besoins des restaurateurs indépendants. Le Pack Essentiel (150€) est particulièrement
                 adapté aux petits restaurants qui souhaitent un site vitrine professionnel, tandis que le Pack Premium (490€)
                 convient aux restaurants qui veulent accepter des commandes en ligne.
@@ -454,7 +454,7 @@ export default function Tarifs() {
             <div className="faq-item">
               <h3 className="faq-question">Y a-t-il des frais supplémentaires cachés ?</h3>
               <p className="faq-answer">
-                Non, il n'y a aucun frais supplémentaire caché chez Visioflow. Le prix indiqué (150€ ou 490€) est le prix final.
+                Non, il n'y a aucun frais supplémentaire caché chez VisioFlow. Le prix indiqué (150€ ou 490€) est le prix final.
                 L'hébergement, le support technique, les mises à jour et les modifications simples sont inclus. Les seuls frais
                 supplémentaires éventuels sont pour des modifications majeures ou des ajouts de fonctionnalités personnalisées sur devis.
               </p>

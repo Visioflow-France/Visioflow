@@ -5110,13 +5110,13 @@ window.goHomePack = function(pack){
   return (
     <>
       <Head>
-        <title>Visioflow — Agence de création de sites web professionnels | Réservez votre appel</title>
+        <title>VisioFlow — Agence de création de sites web professionnels | Réservez votre appel</title>
         <meta name="description" content="Agence de création de sites web professionnels pour tous secteurs : sites vitrines, e-commerce, design sur mesure. Réservez un appel de découverte pour discuter de votre projet." />
         <meta name="keywords" content="création site web, agence web, site internet professionnel, site vitrine, site e-commerce, designer web, développement site web, agence web France" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="canonical" href="https://visioflow.fr/" />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="Visioflow — Agence de création de sites web professionnels | Réservez votre appel" />
+        <meta property="og:title" content="VisioFlow — Agence de création de sites web professionnels | Réservez votre appel" />
         <meta property="og:description" content="Agence de création de sites web professionnels pour tous secteurs. Réservez un appel de découverte pour discuter de votre projet." />
         <meta property="og:url" content="https://visioflow.fr/" />
         <meta property="og:type" content="website" />
@@ -5124,9 +5124,9 @@ window.goHomePack = function(pack){
         <meta property="og:image" content="https://visioflow.fr/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Visioflow — Agence de création de sites web professionnels" />
+        <meta property="og:image:alt" content="VisioFlow — Agence de création de sites web professionnels" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Visioflow — Agence de création de sites web professionnels | Réservez votre appel" />
+        <meta name="twitter:title" content="VisioFlow — Agence de création de sites web professionnels | Réservez votre appel" />
         <meta name="twitter:description" content="Agence de création de sites web professionnels pour tous secteurs. Réservez un appel de découverte pour discuter de votre projet." />
         <meta name="twitter:image" content="https://visioflow.fr/og-image.png" />
         <script

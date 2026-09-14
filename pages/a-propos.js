@@ -32,14 +32,14 @@ export default function About() {
   return (
     <>
       <Head>
-        <title>À Propos — Visioflow | Agence web & communication digitale</title>
+        <title>À Propos — VisioFlow | Agence web & communication digitale</title>
         <meta
           name="description"
-          content="Visioflow est une agence web spécialisée dans la création de sites vitrines et e-commerce, l'optimisation Google Business et la gestion des réseaux sociaux pour artisans, commerçants et entreprises."
+          content="VisioFlow est une agence web spécialisée dans la création de sites vitrines et e-commerce, l'optimisation Google Business et la gestion des réseaux sociaux pour artisans, commerçants et entreprises."
         />
         <link rel="canonical" href={canonicalUrl} />
         <meta name="robots" content="index, follow" />
-        <meta property="og:title" content="À Propos — Visioflow" />
+        <meta property="og:title" content="À Propos — VisioFlow" />
         <meta property="og:description" content="Agence web & communication digitale. Sites web, Google Business, Réseaux sociaux." />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
@@ -98,7 +98,7 @@ export default function About() {
               Une agence web <span className="vf2-serif-italic">passionnée</span> par votre succès
             </h1>
             <p className="vf2-text">
-              Visioflow réalise vos projets web et digitaux avec passion et expertise,
+              VisioFlow réalise vos projets web et digitaux avec passion et expertise,
               de la première idée à la mise en ligne.
             </p>
           </div>
@@ -111,7 +111,7 @@ export default function About() {
               <div>
                 <h2 className="vf2-h2">Notre Histoire</h2>
                 <p className="vf2-text" style={{ marginBottom: '16px' }}>
-                  Fondée en 2025, Visioflow est née d'une conviction : chaque activité mérite une présence
+                  Fondée en 2025, VisioFlow est née d'une conviction : chaque activité mérite une présence
                   digitale à son image. Pas de templates génériques, mais des créations uniques
                   qui reflètent votre identité.
                 </p>

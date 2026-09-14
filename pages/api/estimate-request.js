@@ -98,7 +98,7 @@ async function sendClientEmail(data) {
       </div>
       <div style="background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:12px;padding:16px 20px;margin-bottom:24px">
         <p style="margin:0;font-size:13px;color:#34d399;line-height:1.7">
-          ✓ Un membre de l'équipe Visioflow vous recontacte <strong>sous 24h ouvrées</strong>.<br/>
+          ✓ Un membre de l'équipe VisioFlow vous recontacte <strong>sous 24h ouvrées</strong>.<br/>
           ✓ Cette estimation est indicative : nous l'affinons ensemble, gratuitement.<br/>
           ✓ Sans engagement de votre part.
         </p>
@@ -118,7 +118,7 @@ async function sendClientEmail(data) {
     body: JSON.stringify({
       from: process.env.RESEND_FROM || 'VisioFlow <noreply@visioflow.fr>',
       to: form.email,
-      subject: `✅ Votre estimation Visioflow — ${form.firstName}`.trim(),
+      subject: `✅ Votre estimation VisioFlow — ${form.firstName}`.trim(),
       html,
     }),
   }).catch(() => {});

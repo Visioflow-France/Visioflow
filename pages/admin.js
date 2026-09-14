@@ -458,7 +458,7 @@ export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>Admin — Visioflow</title>
+        <title>Admin — VisioFlow</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
 
@@ -466,7 +466,7 @@ export default function Dashboard() {
         {/* Header */}
         <div style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a', margin: 0 }}>Dashboard Visioflow</h1>
+            <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a', margin: 0 }}>Dashboard VisioFlow</h1>
             <p style={{ fontSize: '13px', color: '#64748b', margin: '4px 0 0 0' }}>Estimations, formulaires clients, projets & configuration du site</p>
           </div>
           <a href="/" style={{ padding: '8px 16px', background: '#0071E3', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
@@ -572,7 +572,7 @@ export default function Dashboard() {
                             </a>
                           )}
                           {f.email && (
-                            <a href={`mailto:${f.email}?subject=${encodeURIComponent('Votre estimation Visioflow')}`} style={{ padding: '7px 14px', background: '#f1f5f9', color: '#0f172a', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                            <a href={`mailto:${f.email}?subject=${encodeURIComponent('Votre estimation VisioFlow')}`} style={{ padding: '7px 14px', background: '#f1f5f9', color: '#0f172a', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                               ✉️ {f.email}
                             </a>
                           )}

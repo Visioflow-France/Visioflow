@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 
 /* Valeurs par défaut — remplacées par la configuration du dashboard admin
    (collection site_config/main → contact + social) dès qu'elle est chargée. */
@@ -84,27 +83,12 @@ export default function Footer() {
       <div className="footer-glow" aria-hidden="true" />
 
       <div className="footer-container">
-        {/* Bande CTA */}
-        <div className="footer-cta">
-          <h2 className="footer-cta-title">
-            Un projet <em>en tête</em> ?
-          </h2>
-          <p className="footer-cta-sub">
-            Décrivez votre besoin en une minute, votre prix s&apos;affiche en direct.
-            Gratuit et sans engagement.
-          </p>
-          <Link href="/estimer-ma-demande" className="footer-cta-btn">
-            Estimer ma demande gratuitement
-            <ArrowRight size={18} />
-          </Link>
-        </div>
-
         {/* Colonnes : marque / navigation / contact (pas de liste de services) */}
         <div className="footer-main">
           <div className="footer-brand">
             <p className="footer-description">
               Agence web &amp; communication digitale. Sites dès 400€ avec référencement
-              Google inclus, ou pack gestion + site en abonnement dès 200€/mois.
+              Google inclus, ou pack site + gestion réseaux sociaux en abonnement dès 200€/mois.
             </p>
             <div className="footer-social">
               {socialEntries.map(([key, url]) => (
@@ -152,6 +136,12 @@ export default function Footer() {
       </div>
 
       <style jsx>{`
+        /* Filet de sécurité : tous les liens du footer restent blancs,
+           quoi que décident les feuilles globales ou le cache. */
+        .footer-container a {
+          color: #fff !important;
+        }
+
         .footer {
           position: relative;
           background: #0B1628;
@@ -177,55 +167,6 @@ export default function Footer() {
           max-width: 1080px;
           margin: 0 auto;
           position: relative;
-        }
-
-        /* ── Bande CTA ── */
-        .footer-cta {
-          text-align: center;
-          padding: 64px 0 56px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .footer-cta-title {
-          font-family: 'Fraunces', sans-serif;
-          font-size: clamp(30px, 5vw, 46px);
-          font-weight: 900;
-          color: #fff;
-          letter-spacing: -0.02em;
-          margin: 0 0 12px;
-        }
-
-        .footer-cta-title em {
-          font-style: italic;
-          color: #38bdf8;
-        }
-
-        .footer-cta-sub {
-          color: rgba(255, 255, 255, 0.6);
-          font-size: 15px;
-          line-height: 1.6;
-          max-width: 460px;
-          margin: 0 auto 26px;
-        }
-
-        .footer-cta-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          padding: 15px 30px;
-          border-radius: 999px;
-          background: linear-gradient(135deg, #0066FF, #00D4FF);
-          color: #fff;
-          font-size: 15px;
-          font-weight: 700;
-          text-decoration: none;
-          box-shadow: 0 8px 28px rgba(0, 102, 255, 0.35);
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .footer-cta-btn:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 14px 36px rgba(0, 102, 255, 0.45);
         }
 
         /* ── Colonnes ── */
@@ -278,7 +219,7 @@ export default function Footer() {
           font-family: 'Inter Tight', sans-serif;
           font-size: 12px;
           font-weight: 700;
-          color: rgba(255, 255, 255, 0.85);
+          color: #fff;
           margin-bottom: 18px;
           text-transform: uppercase;
           letter-spacing: 0.14em;
@@ -291,7 +232,7 @@ export default function Footer() {
         }
 
         .footer-links a {
-          color: rgba(255, 255, 255, 0.55);
+          color: #fff;
           font-size: 14px;
           text-decoration: none;
           transition: color 0.2s ease;
@@ -306,7 +247,7 @@ export default function Footer() {
         .footer-phone {
           font-size: 17px !important;
           font-weight: 700 !important;
-          color: #38bdf8 !important;
+          color: #fff !important;
         }
 
         /* ── Bas de page ── */
@@ -325,32 +266,32 @@ export default function Footer() {
         }
 
         .footer-copyright {
-          color: rgba(255, 255, 255, 0.45);
+          color: #fff;
           font-size: 13px;
         }
 
         .footer-legal {
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
           flex-wrap: wrap;
         }
 
         .footer-legal-item a {
-          color: rgba(255, 255, 255, 0.4);
-          font-size: 12.5px;
+          color: #fff;
+          font-size: 13px;
           text-decoration: none;
           transition: color 0.2s ease;
         }
 
         .footer-legal-item a:hover {
-          color: #38bdf8;
+          color: #fff;
         }
 
         .footer-separator {
-          color: rgba(255, 255, 255, 0.18);
+          color: rgba(255, 255, 255, 0.6);
           font-size: 12px;
-          margin-right: 8px;
+          margin: 0 2px;
         }
 
         /* ── Responsive ── */
@@ -369,10 +310,6 @@ export default function Footer() {
           .footer {
             padding: 0 16px 20px;
             margin-top: 60px;
-          }
-
-          .footer-cta {
-            padding: 48px 0 40px;
           }
 
           .footer-main {
