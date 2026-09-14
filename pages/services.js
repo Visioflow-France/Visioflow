@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
@@ -6,6 +7,25 @@ import { Globe, MapPin, Check, Star, SearchCheck, HeartHandshake, Rocket, Chevro
 
 export default function ServicesPage() {
   const canonicalUrl = "https://visioflow.fr/services";
+
+  /* Indicateur de défilement flottant : visible tout au long de la page,
+     masqué quand on approche du bas (plus rien à découvrir dessous). */
+  const [cueVisible, setCueVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      const pageH = document.documentElement.scrollHeight;
+      const nearBottom = y + window.innerHeight >= pageH - 700;
+      setCueVisible(y > 120 && !nearBottom);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const scrollDown = () =>
+    window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' });
 
   /* Achat direct : site standard livré clé en main, sans suivi mensuel. */
   const services = [
@@ -264,6 +284,17 @@ export default function ServicesPage() {
             </div>
           </div>
         </section>
+
+        {/* Indicateur de défilement flottant — présent tout au long de la page */}
+        <button
+          type="button"
+          onClick={scrollDown}
+          className={`vf2-scroll-cue-fixed ${cueVisible ? 'show' : ''}`}
+          aria-label="Faire défiler vers le contenu suivant"
+        >
+          <span className="vf2-scroll-cue-fixed-label">Découvrez nos offres</span>
+          <span className="vf2-scroll-cue-fixed-icon"><ChevronDown size={22} strokeWidth={2.6} /></span>
+        </button>
 
         <Footer />
       </div>
