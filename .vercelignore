@@ -1,0 +1,12 @@
+node_modules
+.next
+.env.local
+Visioflow2
+visioflow-projet
+sites
+*.png
+*.jpg
+*.docx
+*.txt
+*.bak
+conversation.md

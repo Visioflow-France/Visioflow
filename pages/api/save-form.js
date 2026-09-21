@@ -130,7 +130,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: sdkErr.message })
     }
 
-    const projectId = process.env.FIREBASE_PROJECT_ID || "visioflow-cb6eb-9d051"
+    const projectId = process.env.FIREBASE_PROJECT_ID || "visioflow-5d7db"
     const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/form_submissions?key=${apiKey}`
     const fields = {}
     for (const [k, v] of Object.entries(doc)) {
