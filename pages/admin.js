@@ -445,7 +445,6 @@ export default function Dashboard() {
 
   const TABS = [
     { key: 'estimates', label: `📣 Estimations (${estimates.length})` },
-    { key: 'forms', label: `📝 Formulaires (${forms.length})` },
     { key: 'projects', label: `🚀 Projets (${projects.length})` },
     { key: 'config', label: '⚙️ Configuration' },
   ]
@@ -489,7 +488,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: selectedForm && activeTab === 'forms' ? '1fr 1fr' : '1fr', gap: 0, maxHeight: 'calc(100vh - 140px)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 0, maxHeight: 'calc(100vh - 140px)' }}>
           {/* Contenu principal */}
           <div style={{ overflowY: 'auto', padding: '24px' }}>
             {loadError && (
@@ -673,63 +672,6 @@ export default function Dashboard() {
                   {configSaving ? 'Enregistrement…' : configSaved ? '✓ Enregistré !' : '💾 Enregistrer la configuration'}
                 </button>
               </div>
-            ) : activeTab === 'forms' ? (
-              forms.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '60px 20px', background: '#fff', borderRadius: '12px', border: '2px dashed #e2e8f0' }}>
-                  <div style={{ fontSize: '48px', marginBottom: '16px' }}>📭</div>
-                  <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#0f172a', marginBottom: '8px' }}>Aucun formulaire</h3>
-                  <p style={{ fontSize: '14px', color: '#64748b' }}>Les formulaires clients apparaîtront ici</p>
-                </div>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  {forms.map(form => (
-                    <div key={form.id} style={{
-                      background: '#fff',
-                      border: '1px solid #e2e8f0',
-                      borderRadius: '12px',
-                      padding: '20px',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
-                      ...(selectedForm?.id === form.id ? { borderColor: '#0071E3', boxShadow: '0 4px 12px rgba(0,113,227,0.1)' } : {})
-                    }}
-                    onClick={() => handleGeneratePrompt(form)}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-                        <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: '16px', fontWeight: 600, color: '#0f172a', marginBottom: '4px' }}>
-                            {form.name || 'Nom non renseigné'}
-                          </div>
-                          <div style={{ fontSize: '13px', color: '#64748b' }}>
-                            {form.email || 'Email non renseigné'}
-                          </div>
-                        </div>
-                        <div style={{ fontSize: '11px', padding: '4px 8px', background: '#f1f5f9', borderRadius: '6px', color: '#64748b', whiteSpace: 'nowrap' }}>
-                          {fmtDate(form.timestamp)}
-                        </div>
-                      </div>
-
-                      <div style={{ fontSize: '14px', color: '#475569', lineHeight: '1.5', marginBottom: '12px', maxHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {form.project || 'Pas de description'}
-                      </div>
-
-                      <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); handleGeneratePrompt(form) }}
-                          style={{ padding: '6px 12px', background: '#0071E3', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
-                        >
-                          ⚡ Générer prompt
-                        </button>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); handleDeleteForm(form.id) }}
-                          style={{ padding: '6px 12px', background: '#fee2e2', color: '#dc2626', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
-                        >
-                          🗑
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )
             ) : (
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
@@ -847,50 +789,6 @@ export default function Dashboard() {
               </div>
             )}
           </div>
-
-          {/* Panneau Prompt IA (forms only) */}
-          {selectedForm && activeTab === 'forms' && (
-            <div style={{ overflowY: 'auto', padding: '24px', borderLeft: '1px solid #e2e8f0', background: '#fff' }}>
-              <div style={{ marginBottom: '20px' }}>
-                <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>
-                  Prompt IA pour {selectedForm.name}
-                </h2>
-                <p style={{ fontSize: '13px', color: '#64748b', marginBottom: '16px' }}>
-                  Ce prompt génère un site Next.js complet adapté aux besoins du client
-                </p>
-                <button
-                  onClick={handleCopyPrompt}
-                  style={{ padding: '8px 16px', background: copied ? '#10b981' : '#0071E3', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
-                >
-                  {copied ? '✅ Copié !' : '📋 Copier le prompt'}
-                </button>
-              </div>
-
-              <div style={{
-                background: '#1e293b',
-                color: '#e2e8f0',
-                padding: '20px',
-                borderRadius: '12px',
-                fontFamily: 'Monaco, Consolas, monospace',
-                fontSize: '12px',
-                lineHeight: '1.6',
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-word',
-                border: '1px solid #334155',
-                maxHeight: 'calc(100vh - 260px)',
-                overflowY: 'auto'
-              }}>
-                {generatedPrompt}
-              </div>
-
-              <div style={{ marginTop: '16px', padding: '12px', background: '#dbeafe', borderRadius: '8px', border: '1px solid #93c5fd' }}>
-                <div style={{ fontSize: '12px', color: '#1e40af', fontWeight: 600, marginBottom: '4px' }}>💡 Instructions</div>
-                <div style={{ fontSize: '11px', color: '#1e40af', lineHeight: '1.5' }}>
-                  Copiez ce prompt et collez-le dans votre IA préférée (ChatGPT, Claude, etc.) pour générer un site Next.js complet et personnalisé pour ce client.
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
