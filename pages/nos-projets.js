@@ -123,7 +123,10 @@ export default function ProjectsPage({ projects = [] }) {
         {/* Stats Section */}
         <section className="vf2-section" style={{ paddingTop: '60px' }}>
           <div className="vf2-container">
-            <div className="vf2-stats-strip">
+            <div
+              className="vf2-stats-strip"
+              style={{ gridTemplateColumns: 'repeat(2, minmax(0, 380px))', justifyContent: 'center' }}
+            >
               {stats.map((stat, index) => (
                 <div key={index} className="vf2-card vf2-stat-card">
                   <div className="vf2-stat-value">{stat.value}</div>
