@@ -2047,6 +2047,28 @@
 
 [data-theme="dark"] .vf2-est-combo { background: rgba(56, 189, 248, 0.07); color: #cbd5e1; }
 
+/* Suggestion de pack abonnement quand site + réseaux sont cochés séparément */
+.vf2-est-pack-suggest {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vf2-est-pack-suggest-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.vf2-est-pack-suggest-text .vf2-btn-primary {
+  align-self: flex-start;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
 /* Rassurance sous le formulaire */
 .vf2-est-assurance {
   display: flex;

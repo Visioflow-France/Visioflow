@@ -121,6 +121,16 @@ export default function EstimerMaDemandePage() {
 
   const estimate = computeEstimate(form);
 
+  /* Détection : site (vitrine ou e-commerce) coché SÉPARÉMENT + gestion réseaux
+     = exactement le contenu d'un pack abonnement. On le signale au client avec
+     la possibilité de basculer dessus en un clic. */
+  const packSuggestion = form.networks && !isPack(form.siteType) &&
+    (form.siteType === 'vitrine' || form.siteType === 'ecommerce')
+    ? SITE_TYPES.find((s) => s.id === `pack-${form.siteType}`)
+    : null;
+  const switchToPack = () =>
+    setForm((f) => ({ ...f, siteType: `pack-${f.siteType}` }));
+
   const set = (field, value) => setForm((f) => ({ ...f, [field]: value }));
   const toggleIn = (field, id) =>
     setForm((f) => ({
@@ -411,6 +421,24 @@ export default function EstimerMaDemandePage() {
                     </div>
                   )}
                 </div>
+                )}
+
+                {/* Site + réseaux cochés séparément : propose le pack abonnement
+                    équivalent (200€/mois vitrine, 300€/mois e-commerce, tout compris). */}
+                {packSuggestion && (
+                  <div className="vf2-est-combo vf2-est-pack-suggest">
+                    <Sparkles size={16} />
+                    <div className="vf2-est-pack-suggest-text">
+                      Bon plan : un <strong>{packSuggestion.label.replace(' + Gestion Réseaux Sociaux', '')}</strong> +
+                      la gestion de vos réseaux, c&apos;est exactement le{' '}
+                      <strong>{packSuggestion.label}</strong> à partir de{' '}
+                      <strong>{packSuggestion.monthly}€/mois tout compris</strong> (site créé, géré et réseaux
+                      animés, sans achat initial du site).
+                      <button type="button" className="vf2-btn-primary" onClick={switchToPack}>
+                        Oui, passer à l&apos;abonnement de {packSuggestion.monthly}€/mois
+                      </button>
+                    </div>
+                  </div>
                 )}
 
                 <div className="vf2-form-group">
