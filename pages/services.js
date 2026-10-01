@@ -233,7 +233,7 @@ export default function ServicesPage() {
               Achetez votre site web standard aux tarifs actuels, sans abonnement ni suivi.
             </p>
 
-            <div className="vf2-grid-3">
+            <div className="vf2-grid-3 vf2-grid-2-centered">
               {services.map((service) => {
                 const Icon = service.icon;
                 return (
