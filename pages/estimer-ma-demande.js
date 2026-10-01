@@ -70,6 +70,14 @@ function computeEstimate(f) {
   const monthlyLines = [];
   if (pack) {
     monthlyLines.push({ label: `${site.label} (abonnement tout compris)`, price: site.monthly, base: true });
+    // Le pack inclut 1 plateforme ; chaque plateforme supplémentaire coûte NETWORK_EXTRA €/mois.
+    const packExtras = Math.max(0, f.platforms.length - 1);
+    if (packExtras > 0) {
+      monthlyLines.push({
+        label: `Plateforme${packExtras > 1 ? 's' : ''} supplémentaire${packExtras > 1 ? 's' : ''} (${packExtras + 1}e réseau et suivants, +${NETWORK_EXTRA}€/mois chacune)`,
+        price: NETWORK_EXTRA * packExtras,
+      });
+    }
   } else if (f.networks) {
     monthlyLines.push({
       label: combined
@@ -420,6 +428,30 @@ export default function EstimerMaDemandePage() {
                       </div>
                     </div>
                   )}
+                </div>
+                )}
+
+                {/* Packs abonnement : la gestion réseaux est incluse (1re plateforme),
+                    mais chaque plateforme supplémentaire majore l'abonnement. */}
+                {isPack(form.siteType) && (
+                <div className="vf2-form-group">
+                  <div className="vf2-form-label">
+                    Réseaux sociaux inclus <span className="vf2-opt">(la 1re plateforme est incluse, puis +{NETWORK_EXTRA}€/mois chacune)</span>
+                  </div>
+                  <div className="vf2-est-subpanel">
+                    <div className="vf2-chips">
+                      {PLATFORMS.map((p) => (
+                        <button
+                          key={p.id} type="button"
+                          className={`vf2-chip ${form.platforms.includes(p.id) ? 'on' : ''}`}
+                          onClick={() => toggleIn('platforms', p.id)}
+                        >
+                          {form.platforms.includes(p.id) && <Check size={14} strokeWidth={3} />}
+                          {p.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 )}
 
