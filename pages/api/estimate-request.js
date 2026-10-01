@@ -70,7 +70,9 @@ async function sendAdminEmail(data) {
       subject: `📣 Estimation — ${form.firstName} ${form.lastName}`.trim(),
       html,
     }),
-  }).catch(() => {});
+  }).then(async (r) => {
+    if (!r.ok) console.error('Resend admin email KO:', r.status, await r.text());
+  }).catch((e) => console.error('Resend admin email erreur:', e.message));
 }
 
 /* ── Email de confirmation client ──────────────────────────────────────────── */
@@ -121,7 +123,9 @@ async function sendClientEmail(data) {
       subject: `✅ Votre estimation VisioFlow — ${form.firstName}`.trim(),
       html,
     }),
-  }).catch(() => {});
+  }).then(async (r) => {
+    if (!r.ok) console.error('Resend client email KO:', r.status, await r.text());
+  }).catch((e) => console.error('Resend client email erreur:', e.message));
 }
 
 /* ── Handler ───────────────────────────────────────────────────────────────── */
@@ -163,16 +167,20 @@ export default async function handler(req, res) {
   try {
     const { db } = await import('../../lib/firebase-admin');
     const ref = await db.collection('estimate_requests').add(doc);
-    sendAdminEmail({ form, estimate, detected }).catch(() => {});
-    sendClientEmail({ form, estimate }).catch(() => {});
+    await Promise.allSettled([
+      sendAdminEmail({ form, estimate, detected }),
+      sendClientEmail({ form, estimate }),
+    ]);
     return res.status(200).json({ success: true, docId: ref.id });
   } catch (sdkErr) {
     // 2) Repli REST avec clé API.
     const apiKey = process.env.FIREBASE_API_KEY;
     if (!apiKey) {
       console.error('estimate-request:', sdkErr.message);
-      sendAdminEmail({ form, estimate, detected }).catch(() => {});
-      sendClientEmail({ form, estimate }).catch(() => {});
+      await Promise.allSettled([
+        sendAdminEmail({ form, estimate, detected }),
+        sendClientEmail({ form, estimate }),
+      ]);
       return res.status(200).json({ success: true, saved: false });
     }
 
@@ -194,13 +202,17 @@ export default async function handler(req, res) {
 
       const created = await resp.json();
       const docId = (created.name && created.name.split('/').pop()) || '';
-      sendAdminEmail({ form, estimate, detected }).catch(() => {});
-      sendClientEmail({ form, estimate }).catch(() => {});
+      await Promise.allSettled([
+        sendAdminEmail({ form, estimate, detected }),
+        sendClientEmail({ form, estimate }),
+      ]);
       res.status(200).json({ success: true, docId });
     } catch (err) {
       console.error('estimate-request REST:', err.message);
-      sendAdminEmail({ form, estimate, detected }).catch(() => {});
-      sendClientEmail({ form, estimate }).catch(() => {});
+      await Promise.allSettled([
+        sendAdminEmail({ form, estimate, detected }),
+        sendClientEmail({ form, estimate }),
+      ]);
       res.status(200).json({ success: true, saved: false });
     }
   }
