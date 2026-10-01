@@ -4,8 +4,8 @@ node_modules
 Visioflow2
 visioflow-projet
 sites
-*.png
-*.jpg
+/*.png
+/*.jpg
 *.docx
 *.txt
 *.bak
