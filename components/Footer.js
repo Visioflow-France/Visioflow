@@ -7,10 +7,7 @@ const DEFAULTS = {
   contact: { email: 'contact@visioflow.fr', phone: '+33611045829' },
   social: {
     instagram: 'https://instagram.com/visioflow',
-    linkedin: 'https://linkedin.com/company/visioflow',
-    twitter: 'https://twitter.com/visioflow',
-    facebook: '',
-    tiktok: '',
+    tiktok: 'https://tiktok.com/@visioflow',
   },
 };
 
@@ -24,15 +21,6 @@ function formatPhone(raw) {
 const ICONS = {
   instagram: (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-  ),
-  linkedin: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-  ),
-  twitter: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
-  ),
-  facebook: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
   ),
   tiktok: (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
@@ -75,7 +63,9 @@ export default function Footer() {
 
   const phoneDisplay = formatPhone(cfg.contact.phone);
   const phoneHref = `tel:${String(cfg.contact.phone || '').replace(/\s/g, '')}`;
-  const socialEntries = Object.entries(cfg.social).filter(([, url]) => !!url);
+  const socialEntries = Object.entries(cfg.social).filter(
+    ([key, url]) => (key === 'instagram' || key === 'tiktok') && !!url
+  );
 
   return (
     <footer className="footer">
