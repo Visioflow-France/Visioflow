@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
+import AdminPWA from '@/components/AdminPWA'
+
+/* Dernière copie des données admin, pour consultation hors ligne (PWA) */
+const SNAPSHOT_KEY = 'vf-admin-snapshot'
 
 async function adminFetch(path, body) {
   const opts = {
@@ -256,6 +260,7 @@ export default function Dashboard() {
   const [copied, setCopied] = useState(false)
   const [loadError, setLoadError] = useState(null)
   const [diag, setDiag] = useState(null)
+  const [snapshotAt, setSnapshotAt] = useState(null)
 
   // Configuration publique (contact + réseaux sociaux)
   const [siteConfig, setSiteConfig] = useState(DEFAULT_CONFIG)
@@ -288,9 +293,38 @@ export default function Dashboard() {
           social: { ...DEFAULT_CONFIG.social, ...(data.config.social || {}) },
         })
       }
+      setSnapshotAt(null)
+      /* Copie locale pour l'usage hors ligne de la PWA */
+      try {
+        localStorage.setItem(SNAPSHOT_KEY, JSON.stringify({
+          savedAt: Date.now(),
+          estimates: data?.estimates || [],
+          projects: data?.projects || [],
+          config: data?.config || null,
+        }))
+      } catch { /* stockage indisponible */ }
     } catch (err) {
       console.error('Erreur chargement données:', err)
-      setLoadError(err.message)
+      /* Hors ligne : on restaure la dernière copie locale plutôt que d'afficher une erreur */
+      let restored = false
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        try {
+          const snap = JSON.parse(localStorage.getItem(SNAPSHOT_KEY) || 'null')
+          if (snap) {
+            setEstimates(snap.estimates || [])
+            setProjects(snap.projects || [])
+            if (snap.config) {
+              setSiteConfig({
+                contact: { ...DEFAULT_CONFIG.contact, ...(snap.config.contact || {}) },
+                social: { ...DEFAULT_CONFIG.social, ...(snap.config.social || {}) },
+              })
+            }
+            setSnapshotAt(snap.savedAt)
+            restored = true
+          }
+        } catch { /* copie illisible */ }
+      }
+      if (!restored) setLoadError(err.message)
     } finally {
       setLoading(false)
     }
@@ -459,7 +493,15 @@ export default function Dashboard() {
       <Head>
         <title>Admin — VisioFlow</title>
         <meta name="robots" content="noindex, nofollow" />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="manifest" href="/manifest-admin.json" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon-admin-apple.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="VF Admin" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </Head>
+
+      <AdminPWA />
 
       <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: 'Inter, -apple-system, sans-serif' }}>
         {/* Header */}
@@ -491,6 +533,24 @@ export default function Dashboard() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 0, maxHeight: 'calc(100vh - 140px)' }}>
           {/* Contenu principal */}
           <div style={{ overflowY: 'auto', padding: '24px' }}>
+            {snapshotAt && (
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                gap: '12px', flexWrap: 'wrap',
+                background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '12px',
+                padding: '12px 16px', marginBottom: '24px',
+              }}>
+                <div style={{ fontSize: '13.5px', color: '#92400e' }}>
+                  📡 <strong>Hors ligne</strong> — données locales du {fmtDate(snapshotAt)}
+                </div>
+                <button
+                  onClick={loadData}
+                  style={{ padding: '6px 12px', background: '#f59e0b', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  ↻ Réessayer
+                </button>
+              </div>
+            )}
             {loadError && (
               <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px', padding: '16px', marginBottom: '24px' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>

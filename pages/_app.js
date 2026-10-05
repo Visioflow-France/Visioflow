@@ -85,9 +85,14 @@ const ClientExtrasNoSSR = dynamic(() => Promise.resolve(ClientExtras), { ssr: fa
 /* ── App ── */
 const SKIP_PAGES = ['/dashboard', '/preview', '/paiement', '/vitrine', '/landing', '/stripe-connect-link', '/stripe-express-link']
 
+/* PWA admin : pages rendues nues — ni intro, ni fond animé, ni cookies, ni thème */
+const ADMIN_PAGES = ['/admin', '/login-admin']
+
 export default function App({ Component, pageProps }) {
   const router   = useRouter()
   const skipWrap = SKIP_PAGES.includes(router.pathname)
+
+  if (ADMIN_PAGES.includes(router.pathname)) return <Component {...pageProps} />
 
   if (skipWrap) return (
     <>

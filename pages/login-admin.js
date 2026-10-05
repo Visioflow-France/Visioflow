@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import AdminPWA from '@/components/AdminPWA'
 
 export default function LoginAdmin() {
   const router  = useRouter()
@@ -33,8 +34,16 @@ export default function LoginAdmin() {
       <Head>
         <title>Accès admin — VisioFlow</title>
         <meta name="robots" content="noindex,nofollow" />
+        <meta name="theme-color" content="#0f172a" />
+        <link rel="manifest" href="/manifest-admin.json" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon-admin-apple.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="VF Admin" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </Head>
+
+      <AdminPWA />
 
       <div style={{
         minHeight: '100dvh',
