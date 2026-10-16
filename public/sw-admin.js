@@ -6,7 +6,7 @@
    • Les appels /api/* passent TOUJOURS par le réseau : les données admin
      ne sont jamais servies depuis le cache SW (fraîcheur + confidentialité). */
 
-const CACHE_NAME = 'vf-admin-v1'
+const CACHE_NAME = 'vf-admin-v3'
 const PRECACHE_URLS = [
   '/admin',
   '/manifest-admin.json',
@@ -46,8 +46,19 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) =>
       /* Tolérant : sans session valide, /admin redirige vers le login —
-         on n'échoue pas toute l'installation pour ça. */
-      Promise.all(PRECACHE_URLS.map((url) => cache.add(url).catch(() => {})))
+         on n'échoue pas l'installation. Surtout, on ne met JAMAIS en cache
+         une réponse "redirected" : resservie pour une navigation, elle
+         déclenche l'erreur Chrome "served by service worker has
+         redirections". */
+      Promise.all(
+        PRECACHE_URLS.map((url) =>
+          fetch(url, { redirect: 'follow' })
+            .then((res) => {
+              if (res.ok && !res.redirected) return cache.put(url, res)
+            })
+            .catch(() => {})
+        )
+      )
     )
   )
 })
@@ -92,6 +103,12 @@ async function networkFirstPage(req, url) {
     /* redirect:'follow' — une navigation redirigée (session expirée →
        /login-admin) doit aboutir au lieu de renvoyer une réponse opaque. */
     const fresh = await fetch(req, { redirect: 'follow' })
+    if (fresh.redirected) {
+      /* Une réponse "redirected" ne peut pas être renvoyée au navigateur
+         pour une navigation (erreur Chrome "served by service worker has
+         redirections") : on refetche l'URL finale pour une réponse propre. */
+      return fetch(fresh.url)
+    }
     if (!fresh.redirected && (url.pathname === '/admin' || url.pathname.startsWith('/admin/'))) {
       const cache = await caches.open(CACHE_NAME)
       cache.put('/admin', fresh.clone())
@@ -99,7 +116,9 @@ async function networkFirstPage(req, url) {
     return fresh
   } catch {
     const cached = await caches.match('/admin', { cacheName: CACHE_NAME })
-    if (cached) return cached
+    /* Une réponse mise en cache après redirection (ancien bug) ne peut pas
+       être renvoyée pour une navigation : on la jette et on passe au fallback. */
+    if (cached && !cached.redirected) return cached
     return new Response(OFFLINE_HTML, {
       status: 503,
       headers: { 'content-type': 'text/html; charset=utf-8' },

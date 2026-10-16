@@ -28,6 +28,15 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Les service workers doivent toujours être revalidés pour que
+        // les mises à jour soient prises en compte immédiatement.
+        source: '/sw-:file*.js',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, must-revalidate' },
+          { key: 'Service-Worker-Allowed', value: '/' },
+        ]
+      },
+      {
         source: '/api/:path*',
         headers: [
           { key: 'Cache-Control', value: 'no-store, no-cache, must-revalidate' },
