@@ -2060,6 +2060,12 @@
   gap: 12px;
   font-weight: 500;
   line-height: 1.6;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.vf2-est-pack-suggest-text p {
+  margin: 0;
 }
 
 .vf2-est-pack-suggest-text .vf2-btn-primary {

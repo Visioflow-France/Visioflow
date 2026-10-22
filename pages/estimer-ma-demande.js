@@ -30,8 +30,6 @@ const PLATFORMS = [
 
 const NETWORK_BASE = 100;   // 1 plateforme incluse (€/mois)
 const NETWORK_EXTRA = 35;   // par plateforme supplémentaire (€/mois)
-const COMBO_ONE_TIME = 600; // forfait création site de l'offre combinée site + réseaux
-const COMBO_MONTHLY = 200;  // abonnement réseaux de l'offre combinée (€/mois)
 const GOOGLE_BUSINESS_PRICE = 50; // optimisation de la fiche Google Business (paiement unique, cohérent avec /services)
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,7 +55,6 @@ function computeEstimate(f) {
   const site = SITE_TYPES.find((s) => s.id === f.siteType) || SITE_TYPES[0];
   const hasSite = f.siteType !== 'aucun';
   const pack = isPack(f.siteType);
-  const combined = f.networks && hasSite && !pack;
 
   const lines = [];
   if (hasSite && !pack) lines.push({ label: site.label, price: site.price, base: true });
@@ -80,18 +77,10 @@ function computeEstimate(f) {
     }
   } else if (f.networks) {
     monthlyLines.push({
-      label: combined
-        ? `Abonnement réseaux sociaux, offre combinée site + réseaux (${platCount} plateforme${platCount > 1 ? 's' : ''})`
-        : `Gestion réseaux sociaux, ${platCount} plateforme${platCount > 1 ? 's' : ''}`,
-      price: combined ? Math.max(COMBO_MONTHLY, gridMonthly) : gridMonthly,
+      label: `Gestion réseaux sociaux (${platCount} plateforme${platCount > 1 ? 's' : ''})`,
+      price: gridMonthly,
       base: true,
     });
-  }
-
-  // Offre combinée : un site + l'abonnement réseaux démarre à 600 € + 200 €/mois.
-  if (combined && oneLow < COMBO_ONE_TIME) {
-    lines.push({ label: 'Forfait offre combinée site + réseaux', price: COMBO_ONE_TIME - oneLow });
-    oneLow = COMBO_ONE_TIME;
   }
 
   // Majoration urgence : uniquement pour la création de site.
@@ -113,7 +102,6 @@ function computeEstimate(f) {
     monthlyLines,
     oneLow,
     monthly,
-    combined,
     custom: !hasSite && !f.networks && !f.googleBusiness,
   };
 }
@@ -134,7 +122,10 @@ export default function EstimerMaDemandePage() {
      la possibilité de basculer dessus en un clic. */
   const packSuggestion = form.networks && !isPack(form.siteType) &&
     (form.siteType === 'vitrine' || form.siteType === 'ecommerce')
-    ? SITE_TYPES.find((s) => s.id === `pack-${form.siteType}`)
+    ? (() => {
+        const pack = SITE_TYPES.find((s) => s.id === `pack-${form.siteType}`);
+        return pack ? { ...pack, shortLabel: pack.label.replace(' + Gestion Réseaux Sociaux', '') } : null;
+      })()
     : null;
   const switchToPack = () =>
     setForm((f) => ({ ...f, siteType: `pack-${f.siteType}` }));
@@ -170,7 +161,6 @@ export default function EstimerMaDemandePage() {
             monthlyLines: estimate.monthlyLines,
             oneLow: estimate.oneLow,
             monthly: estimate.monthly,
-            combined: estimate.combined,
             custom: estimate.custom,
           },
         }),
@@ -231,13 +221,6 @@ export default function EstimerMaDemandePage() {
             </li>
           ))}
         </ul>
-      )}
-
-      {estimate.combined && (
-        <div className="vf2-est-combo">
-          <Sparkles size={16} />
-          Offre combinée site + réseaux sociaux : à partir de {money(COMBO_ONE_TIME)} une fois + à partir de {money(COMBO_MONTHLY)} par mois.
-        </div>
       )}
     </>
   );
@@ -459,15 +442,16 @@ export default function EstimerMaDemandePage() {
                     équivalent (200€/mois vitrine, 300€/mois e-commerce, tout compris). */}
                 {packSuggestion && (
                   <div className="vf2-est-combo vf2-est-pack-suggest">
-                    <Sparkles size={16} />
                     <div className="vf2-est-pack-suggest-text">
-                      Bon plan : un <strong>{packSuggestion.label.replace(' + Gestion Réseaux Sociaux', '')}</strong> +
-                      la gestion de vos réseaux, c&apos;est exactement le{' '}
-                      <strong>{packSuggestion.label}</strong> à partir de{' '}
-                      <strong>{packSuggestion.monthly}€/mois tout compris</strong> (site créé, géré et réseaux
-                      animés, sans achat initial du site).
+                      <p>
+                        <Sparkles size={15} style={{ verticalAlign: '-2px', marginRight: '4px', flexShrink: 0 }} />
+                        <strong>Bon plan :</strong> un {packSuggestion.shortLabel} + la gestion de vos
+                        réseaux, c&apos;est exactement le <strong>{packSuggestion.label}</strong> à partir
+                        de <strong>{packSuggestion.monthly} €/mois tout compris</strong> (site créé, géré
+                        et réseaux animés, sans achat initial du site).
+                      </p>
                       <button type="button" className="vf2-btn-primary" onClick={switchToPack}>
-                        Oui, passer à l&apos;abonnement de {packSuggestion.monthly}€/mois
+                        Oui, passer à l&apos;abonnement de {packSuggestion.monthly} €/mois
                       </button>
                     </div>
                   </div>
