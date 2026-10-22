@@ -2052,6 +2052,7 @@
   align-items: flex-start;
   flex-direction: column;
   gap: 12px;
+  max-width: 100%;
 }
 
 .vf2-est-pack-suggest-text {
@@ -2060,6 +2061,7 @@
   gap: 12px;
   font-weight: 500;
   line-height: 1.6;
+  width: 100%;
   min-width: 0;
   overflow-wrap: break-word;
 }
@@ -2070,8 +2072,11 @@
 
 .vf2-est-pack-suggest-text .vf2-btn-primary {
   align-self: flex-start;
+  max-width: 100%;
   padding: 10px 20px;
   font-size: 13.5px;
+  white-space: normal;
+  text-align: center;
   cursor: pointer;
 }
 
